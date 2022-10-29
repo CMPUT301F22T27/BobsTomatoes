@@ -5,18 +5,18 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 
 public class IngredientDB {
-    private ArrayList<String> ingredientList;
+    private ArrayList<Ingredient> ingredientList;
 
     private FirebaseFirestore ingredientDatabase = FirebaseFirestore.getInstance();
 
     private final CollectionReference ingredientReference = ingredientDatabase.collection("Ingredients");
 
-    public ArrayList<String> getIngredientList() {
+    public ArrayList<Ingredient> getIngredientList() {
         return ingredientList;
     }
 
     private IngredientDB() {
-        ingredientList = new ArrayList<String>(); // Change String to Ingredient
+        ingredientList = new ArrayList<Ingredient>(); // Change String to Ingredient
         //Populate
     }
 
