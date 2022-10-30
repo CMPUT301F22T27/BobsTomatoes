@@ -1,6 +1,8 @@
 package com.example.bobstomatoes;
 
-public class Ingredient {
+import java.io.Serializable;
+
+public class Ingredient implements Serializable {
     private String ingredientDesc;
     private String ingredientDate;
     private String ingredientLocation;
@@ -15,5 +17,29 @@ public class Ingredient {
         this.ingredientAmount = ingredientAmount;
         this.ingredientUnit = ingredientUnit;
         this.ingredientCategory = ingredientCategory;
+    }
+
+    public String getIngredientDesc() {
+        return ingredientDesc;
+    }
+
+    public String getIngredientDate() {
+        return ingredientDate;
+    }
+
+    public String getIngredientLocation() {
+        return ingredientLocation;
+    }
+
+    public int getIngredientAmount() {
+        return ingredientAmount;
+    }
+
+    public int getIngredientUnit() {
+        return ingredientUnit;
+    }
+
+    public String getIngredientCategory() {
+        return ingredientCategory;
     }
 }
