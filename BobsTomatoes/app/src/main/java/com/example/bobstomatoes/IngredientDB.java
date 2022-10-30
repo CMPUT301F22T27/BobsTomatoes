@@ -22,10 +22,7 @@ public class IngredientDB {
         return ingredientList;
     }
 
-    public CollectionReference getIngredientReference(){
-        return ingredientReference;
-    }
-
+    
     public IngredientDB() {
         ingredientList = new ArrayList<Ingredient>(); // Change String to Ingredient
         //Populate
