@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "707146685000",
+    "project_id": "bobstomatoes-de0f8",
+    "storage_bucket": "bobstomatoes-de0f8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707146685000:android:ae927ac8d78e0f3cc9167d",
+        "android_client_info": {
+          "package_name": "com.example.bobstomatoes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "707146685000-offtleg5lu4dbffnv4mo3qmkid3cpim0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrkG0NFT82OL6CDaki1w22Py4BiXxSyiI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "707146685000-offtleg5lu4dbffnv4mo3qmkid3cpim0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
