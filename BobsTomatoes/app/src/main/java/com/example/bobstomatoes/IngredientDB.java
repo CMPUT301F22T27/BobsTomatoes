@@ -22,7 +22,6 @@ public class IngredientDB {
         return ingredientList;
     }
 
-    
     public IngredientDB() {
         ingredientList = new ArrayList<Ingredient>(); // Change String to Ingredient
         //Populate
@@ -46,7 +45,7 @@ public class IngredientDB {
                         Log.d("", "Data could not be added");
                     }
                 });
-        //add to both arrayList and DB
+        ingredientList.add(ingredient);
     }
 
     //public void removeIngredient(ingredient) {
