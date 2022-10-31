@@ -13,27 +13,27 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class MealPlanDB {
-    private ArrayList<MealPlan> mealPlanList;
+public class ShoppingListDB {
+    private ArrayList<ShoppingList> shoppingList;
 
-    private FirebaseFirestore mealPlanDatabase = FirebaseFirestore.getInstance();
+    private FirebaseFirestore shoppingListDatabase = FirebaseFirestore.getInstance();
 
-    private final CollectionReference mealPlanReference = mealPlanDatabase.collection("Meal Plan");
+    private final CollectionReference shoppingListReference = shoppingListDatabase.collection("Shopping List");
 
-    public ArrayList<MealPlan> getMealPlanList() {
-        return mealPlanList;
+    public ArrayList<ShoppingList> getShoppingList() {
+        return shoppingList;
     }
 
-    public MealPlanDB() {
-        mealPlanList = new ArrayList<MealPlan>(); // Change String to Ingredient
+    public ShoppingListDB() {
+        shoppingList = new ArrayList<ShoppingList>(); // Change String to Ingredient
         //Populate
     }
 
-    public void addMealPlan(MealPlan mealPlan){
-        HashMap<String,MealPlan> data = new HashMap<>();
-        String mealPlanDate = mealPlan.getDate().toString();
-        data.put("Attributes", mealPlan);
-        mealPlanReference.document(mealPlanDate)
+    public void addShoppingList(ShoppingList shoppingList){
+        HashMap<String,ShoppingList> data = new HashMap<>();
+
+        data.put("Attributes", shoppingList);
+        shoppingListReference.document("Shopping List")
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -47,7 +47,7 @@ public class MealPlanDB {
                         Log.d("", "Data could not be added");
                     }
                 });
-        mealPlanList.add(mealPlan);
+        this.shoppingList.add(shoppingList);
     }
 
     //public void removeIngredient(ingredient) {
