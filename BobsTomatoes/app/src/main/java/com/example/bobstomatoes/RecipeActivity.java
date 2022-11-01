@@ -29,8 +29,19 @@ public class RecipeActivity extends AbstractNavigationBar {
         Recipe testRecipe = new Recipe("Tomato Soup", 10, 2, "Category",
                 "a nice tomato soup", recipeIngredients);
 
-        ArrayList<Recipe> testRecipes = new ArrayList<>();
-        testRecipes.add(testRecipe);
+
+
+
+
+
+        RecipeDB recipeDB = new RecipeDB();
+        recipeDB.addRecipe(testRecipe);
+
+
+
+
+        ArrayList<Recipe> testRecipes = recipeDB.getRecipes();
+
 
         //Recipe Adapter
         ArrayAdapter<Recipe> recipeAdapter = new RecipeAdapter(this, testRecipes);

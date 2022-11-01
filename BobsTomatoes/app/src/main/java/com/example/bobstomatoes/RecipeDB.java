@@ -4,12 +4,19 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class RecipeDB {
     private ArrayList<Recipe> recipeList;
@@ -24,13 +31,15 @@ public class RecipeDB {
 
     public RecipeDB() {
         recipeList = new ArrayList<Recipe>(); // Change String to Recipe
-        //Populate
+
     }
 
     public void addRecipe(Recipe recipe){
-        HashMap<String,Recipe> data = new HashMap<>();
+
+        HashMap<String, Recipe> data = new HashMap<>();
         String recipeName = recipe.getRecipeTitle();
         data.put("Attributes", recipe);
+
         recipeReference.document(recipeName)
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -59,6 +68,10 @@ public class RecipeDB {
     //Find oldRecipePos
     //recipeList.set(oldRecipePos, updatedRecipe)
     //}
+
+    public ArrayList<Recipe> getRecipes(){
+        return this.recipeList;
+    }
 
 
 
