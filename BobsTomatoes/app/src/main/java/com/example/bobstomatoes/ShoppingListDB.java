@@ -8,30 +8,32 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
-public class IngredientDB {
-    private ArrayList<Ingredient> ingredientList;
+public class ShoppingListDB {
+    private ArrayList<ShoppingList> shoppingList;
 
-    private FirebaseFirestore ingredientDatabase = FirebaseFirestore.getInstance();
+    private FirebaseFirestore shoppingListDatabase = FirebaseFirestore.getInstance();
 
-    private final CollectionReference ingredientReference = ingredientDatabase.collection("Ingredients");
+    private final CollectionReference shoppingListReference = shoppingListDatabase.collection("Shopping List");
 
-    public ArrayList<Ingredient> getIngredientList() {
-        return ingredientList;
+    public ArrayList<ShoppingList> getShoppingList() {
+        return shoppingList;
     }
 
-    public IngredientDB() {
-        ingredientList = new ArrayList<Ingredient>(); // Change String to Ingredient
+    public ShoppingListDB() {
+        shoppingList = new ArrayList<ShoppingList>(); // Change String to Ingredient
         //Populate
     }
 
-    public void addIngredient(Ingredient ingredient){
-        HashMap<String,Ingredient> data = new HashMap<>();
-        String ingredientName = ingredient.getIngredientDesc();
-        data.put("Attributes", ingredient);
-        ingredientReference.document(ingredientName)
+    public void addShoppingList(ShoppingList shoppingList){
+        HashMap<String,ShoppingList> data = new HashMap<>();
+
+        data.put("Attributes", shoppingList);
+        shoppingListReference.document("Shopping List")
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -45,7 +47,7 @@ public class IngredientDB {
                         Log.d("", "Data could not be added");
                     }
                 });
-        ingredientList.add(ingredient);
+        this.shoppingList.add(shoppingList);
     }
 
     //public void removeIngredient(ingredient) {
@@ -60,6 +62,6 @@ public class IngredientDB {
     //ingredientList.set(oldIngredientPos, updatedIngredient)
     //}
 
-
-
 }
+
+

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/navigation_buttons_layout_id"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="bottom"
+    android:layout_weight="1">
+
+    <Button
+        android:id="@+id/storage_nav_button_id"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="Storage"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:textSize="10sp">
+    </Button>
+
+    <Button
+        android:id="@+id/recipes_nav_button_id"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:text="Recipes"
+        android:layout_gravity="center"
+        android:textSize="10sp">
+    </Button>
+
+    <Button
+        android:id="@+id/center_add_button_id"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_weight="1">
+    </Button>
+
+    <Button
+        android:id="@+id/mealplan_nav_button_id"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:text="Meal Plan"
+        android:layout_gravity="center"
+        android:textSize="10sp">
+    </Button>
+
+    <Button
+        android:id="@+id/shoplist_nav_button_id"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="Shopping List"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:textSize="10sp">
+    </Button>
+
+</LinearLayout>

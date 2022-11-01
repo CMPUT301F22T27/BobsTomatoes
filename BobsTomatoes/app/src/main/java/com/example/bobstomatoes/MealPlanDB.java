@@ -8,30 +8,32 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
-public class IngredientDB {
-    private ArrayList<Ingredient> ingredientList;
+public class MealPlanDB {
+    private ArrayList<MealPlan> mealPlanList;
 
-    private FirebaseFirestore ingredientDatabase = FirebaseFirestore.getInstance();
+    private FirebaseFirestore mealPlanDatabase = FirebaseFirestore.getInstance();
 
-    private final CollectionReference ingredientReference = ingredientDatabase.collection("Ingredients");
+    private final CollectionReference mealPlanReference = mealPlanDatabase.collection("Meal Plan");
 
-    public ArrayList<Ingredient> getIngredientList() {
-        return ingredientList;
+    public ArrayList<MealPlan> getMealPlanList() {
+        return mealPlanList;
     }
 
-    public IngredientDB() {
-        ingredientList = new ArrayList<Ingredient>(); // Change String to Ingredient
+    public MealPlanDB() {
+        mealPlanList = new ArrayList<MealPlan>(); // Change String to Ingredient
         //Populate
     }
 
-    public void addIngredient(Ingredient ingredient){
-        HashMap<String,Ingredient> data = new HashMap<>();
-        String ingredientName = ingredient.getIngredientDesc();
-        data.put("Attributes", ingredient);
-        ingredientReference.document(ingredientName)
+    public void addMealPlan(MealPlan mealPlan){
+        HashMap<String,MealPlan> data = new HashMap<>();
+        String mealPlanDate = mealPlan.getDate().toString();
+        data.put("Attributes", mealPlan);
+        mealPlanReference.document(mealPlanDate)
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -45,7 +47,7 @@ public class IngredientDB {
                         Log.d("", "Data could not be added");
                     }
                 });
-        ingredientList.add(ingredient);
+        mealPlanList.add(mealPlan);
     }
 
     //public void removeIngredient(ingredient) {
@@ -60,6 +62,6 @@ public class IngredientDB {
     //ingredientList.set(oldIngredientPos, updatedIngredient)
     //}
 
-
-
 }
+
+
