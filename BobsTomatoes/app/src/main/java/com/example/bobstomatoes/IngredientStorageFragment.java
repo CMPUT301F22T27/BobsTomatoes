@@ -25,6 +25,7 @@ public class IngredientStorageFragment extends DialogFragment{
     private Button editButton;
     private Button deleteButton;
     Ingredient ingredient;
+    Ingredient editIngredient;
 
     @NonNull
     @Override
@@ -50,6 +51,24 @@ public class IngredientStorageFragment extends DialogFragment{
             unitText.setText(String.valueOf(ingredient.getIngredientUnit()));
             categoryText.setText(ingredient.getIngredientCategory());
         }
+
+        editButton.setOnClickListener(view1 -> {
+            String newDescription = descriptionText.getText().toString();
+            String newDate = dateText.getText().toString();
+            String newLocation = locationText.getText().toString();
+            String tempAmount = amountText.getText().toString();
+            int newAmount = Integer.parseInt(tempAmount);
+            String tempUnit = unitText.getText().toString();
+            int newUnit = Integer.parseInt(tempUnit);
+            String newCategory = categoryText.getText().toString();
+
+            editIngredient = new Ingredient(newDescription, newDate, newLocation, newAmount, newUnit, newCategory);
+
+        });
+
+        deleteButton.setOnClickListener(view1 -> {
+
+        });
 
 
         return null;
