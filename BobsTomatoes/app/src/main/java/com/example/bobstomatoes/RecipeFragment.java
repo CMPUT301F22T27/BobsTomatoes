@@ -222,7 +222,7 @@ public class RecipeFragment extends DialogFragment {
 
                 for (int i = 0; i < selectedIngredients.size(); i ++){
                     //Check if ingredient already selected
-                    if (selectedIngredient.getIngredientDesc() == selectedIngredients.get(i).getIngredientDesc()){
+                    if (selectedIngredient.getIngredientDesc().equals(selectedIngredients.get(i).getIngredientDesc())){
 
                         //Unselect ingredient
                         selectedIngredients.remove(i);
