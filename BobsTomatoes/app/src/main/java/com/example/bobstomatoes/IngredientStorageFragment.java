@@ -25,16 +25,19 @@ public class IngredientStorageFragment extends DialogFragment {
     private EditText amountText;
     private EditText unitText;
     private EditText categoryText;
+    Boolean isEdit = false;
 
     private OnIngredientFragmentListener listener;
 
     Ingredient selectedIngredient;
     Ingredient editIngredient;
+    Ingredient addIngredient;
     int oldIngredientPos;
 
     public interface OnIngredientFragmentListener{
         public void onEditOkPressed(Ingredient ingredient);
         public void onDeleteOkPressed(Ingredient ingredient);
+        public void onAddOkPressed(Ingredient ingredient);
 
     }
 
@@ -63,9 +66,12 @@ public class IngredientStorageFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         Bundle bundle = this.getArguments();
+
         if (bundle != null) {
+
             selectedIngredient = bundle.getParcelable("selectedIngredient");
             oldIngredientPos = bundle.getInt("oldIngredientPos");
+            isEdit = bundle.getBoolean("isEdit");
             descriptionText.setText(selectedIngredient.getIngredientDesc());
             dateText.setText(selectedIngredient.getIngredientDate());
             locationText.setText(selectedIngredient.getIngredientLocation());
@@ -74,10 +80,40 @@ public class IngredientStorageFragment extends DialogFragment {
             categoryText.setText(selectedIngredient.getIngredientCategory());
         }
 
-        return builder
-                .setView(view)
-                .setTitle("Ingredient")
-                .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+        if (isEdit == true) {
+            return builder
+                    .setView(view)
+                    .setTitle("Ingredient")
+                    .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            String newDescription = descriptionText.getText().toString();
+                            String newDate = dateText.getText().toString();
+                            String newLocation = locationText.getText().toString();
+                            String tempAmount = amountText.getText().toString();
+                            int newAmount = Integer.parseInt(tempAmount);
+                            String tempUnit = unitText.getText().toString();
+                            int newUnit = Integer.parseInt(tempUnit);
+                            String newCategory = categoryText.getText().toString();
+                            editIngredient = new Ingredient(newDescription, newDate, newLocation, newAmount, newUnit, newCategory);
+                            listener.onEditOkPressed(editIngredient);
+                        }
+                    })
+                    .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            listener.onDeleteOkPressed(selectedIngredient);
+                        }
+                    })
+                    .create();
+
+        }
+
+        else {
+            return builder
+                    .setView(view)
+                    .setTitle("Ingredient")
+                    .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String newDescription = descriptionText.getText().toString();
@@ -88,18 +124,21 @@ public class IngredientStorageFragment extends DialogFragment {
                         String tempUnit = unitText.getText().toString();
                         int newUnit = Integer.parseInt(tempUnit);
                         String newCategory = categoryText.getText().toString();
-                        editIngredient = new Ingredient(newDescription, newDate, newLocation, newAmount, newUnit, newCategory);
-                        listener.onEditOkPressed(editIngredient);
-                    }
-                })
-                .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        listener.onDeleteOkPressed(selectedIngredient);
-                    }
-                }).create();
+                        addIngredient = new Ingredient(newDescription, newDate, newLocation, newAmount, newUnit, newCategory);
+                        listener.onAddOkPressed(addIngredient);
+                    }})
 
-    }
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    })
+                    .create();
+
+        }
 
 
-}
+
+        }
+        }
