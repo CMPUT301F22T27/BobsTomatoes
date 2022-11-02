@@ -20,6 +20,11 @@ public class Recipe implements Serializable {
         this.recipeIngredients = recipeIngredients;
     }
 
+    //Need this and setters to pull from database
+    public Recipe(){
+
+    }
+
     public String getRecipeTitle() {
         return recipeTitle;
     }
@@ -41,4 +46,29 @@ public class Recipe implements Serializable {
     public ArrayList<Ingredient> getRecipeIngredients() {
         return recipeIngredients;
     }
+
+    public void setRecipeTitle(String recipeTitle) {
+        this.recipeTitle = recipeTitle;
+    }
+
+    public void setRecipeTime(int recipeTime) {
+        this.recipeTime = recipeTime;
+    }
+
+    public void setRecipeServings(int recipeServings) {
+        this.recipeServings = recipeServings;
+    }
+
+    public void setRecipeCategory(String recipeCategory) {
+        this.recipeCategory = recipeCategory;
+    }
+
+    public void setRecipeComments(String recipeComments) {
+        this.recipeComments = recipeComments;
+    }
+
+    public void setRecipeIngredients(ArrayList<Ingredient> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
+    }
+
 }
