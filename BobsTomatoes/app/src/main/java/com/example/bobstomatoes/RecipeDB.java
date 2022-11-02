@@ -36,13 +36,21 @@ public class RecipeDB implements Parcelable {
 
     public RecipeDB() {
         recipeList = new ArrayList<Recipe>(); // Change String to Recipe
-        updateRecipeList();
     }
 
     public void addRecipe(Recipe recipe){
-        HashMap<String, Recipe> data = new HashMap<>();
+
+        //Populate map with recipe contents
+        HashMap<String, Object> data = new HashMap<>();
         String recipeName = recipe.getRecipeTitle();
-        data.put("Attributes", recipe);
+        data.put("recipeTitle", recipeName);
+        data.put("recipeTime", recipe.getRecipeTime());
+        data.put("recipeServings", recipe.getRecipeServings());
+        data.put("recipeCategory", recipe.getRecipeCategory());
+        data.put("recipeComments", recipe.getRecipeComments());
+        data.put("recipeIngredients", recipe.getRecipeIngredients());
+
+        //Add recipe to database
         recipeReference.document(recipeName)
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -61,9 +69,18 @@ public class RecipeDB implements Parcelable {
     }
 
     public void removeRecipe(Recipe recipe) {
-        HashMap<String, Recipe> data = new HashMap<>();
+
+        //Populate map with recipe contents
+        HashMap<String, Object> data = new HashMap<>();
         String recipeName = recipe.getRecipeTitle();
-        data.put("Attributes", recipe);
+        data.put("recipeTitle", recipeName);
+        data.put("recipeTime", recipe.getRecipeTime());
+        data.put("recipeServings", recipe.getRecipeServings());
+        data.put("recipeCategory", recipe.getRecipeCategory());
+        data.put("recipeComments", recipe.getRecipeComments());
+        data.put("recipeIngredients", recipe.getRecipeIngredients());
+
+        //Remove recipe from database
         recipeReference.document(recipeName)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -82,9 +99,18 @@ public class RecipeDB implements Parcelable {
     }
 
     public void editRecipe(int oldRecipePos, Recipe updatedRecipe) {
-        HashMap<String, Recipe> data = new HashMap<>();
+
+        //Populate map with recipe contents
+        HashMap<String, Object> data = new HashMap<>();
         String recipeName = updatedRecipe.getRecipeTitle();
-        data.put("Attributes", updatedRecipe);
+        data.put("recipeTitle", recipeName);
+        data.put("recipeTime", updatedRecipe.getRecipeTime());
+        data.put("recipeServings", updatedRecipe.getRecipeServings());
+        data.put("recipeCategory", updatedRecipe.getRecipeCategory());
+        data.put("recipeComments", updatedRecipe.getRecipeComments());
+        data.put("recipeIngredients", updatedRecipe.getRecipeIngredients());
+
+        //Edit recipe in database
         recipeReference.document(recipeName)
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -100,10 +126,15 @@ public class RecipeDB implements Parcelable {
                     }
                 });
         recipeList.set(oldRecipePos, updatedRecipe);
+
     }
 
     public ArrayList<Recipe> getRecipes(){
         return this.recipeList;
+    }
+
+    public CollectionReference getRecipeReference(){
+        return this.recipeReference;
     }
 
     public void updateRecipeList(){
