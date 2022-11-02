@@ -73,6 +73,7 @@ public class Recipe implements Parcelable {
     public void setRecipeIngredients(ArrayList<Ingredient> recipeIngredients) {
         this.recipeIngredients = recipeIngredients;
     }
+
     protected Recipe(Parcel in) {
         recipeTitle = in.readString();
         recipeTime = in.readInt();
