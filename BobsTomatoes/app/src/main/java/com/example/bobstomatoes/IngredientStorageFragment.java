@@ -25,8 +25,6 @@ public class IngredientStorageFragment extends DialogFragment {
     private EditText amountText;
     private EditText unitText;
     private EditText categoryText;
-    private Button editButton;
-    private Button deleteButton;
 
     private OnIngredientFragmentListener listener;
 
@@ -62,8 +60,6 @@ public class IngredientStorageFragment extends DialogFragment {
         amountText = view.findViewById(R.id.editTextIngredientAmount);
         unitText = view.findViewById(R.id.editTextIngredientUnit);
         categoryText = view.findViewById(R.id.editTextIngredientCategory);
-        editButton = view.findViewById(R.id.editButton);
-        deleteButton = view.findViewById(R.id.deleteButton);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         Bundle bundle = this.getArguments();
