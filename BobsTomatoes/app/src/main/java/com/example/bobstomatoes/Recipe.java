@@ -1,9 +1,12 @@
 package com.example.bobstomatoes;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Recipe implements Serializable {
+public class Recipe implements Parcelable {
     private String recipeTitle;
     private int recipeTime;
     private int recipeServings;
@@ -70,5 +73,38 @@ public class Recipe implements Serializable {
     public void setRecipeIngredients(ArrayList<Ingredient> recipeIngredients) {
         this.recipeIngredients = recipeIngredients;
     }
+    protected Recipe(Parcel in) {
+        recipeTitle = in.readString();
+        recipeTime = in.readInt();
+        recipeServings = in.readInt();
+        recipeCategory = in.readString();
+        recipeComments = in.readString();
+    }
 
+    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
+        @Override
+        public Recipe createFromParcel(Parcel in) {
+            return new Recipe(in);
+        }
+
+        @Override
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(recipeTitle);
+        parcel.writeInt(recipeTime);
+        parcel.writeInt(recipeServings);
+        parcel.writeString(recipeCategory);
+        parcel.writeString(recipeComments);
+    }
 }
