@@ -19,6 +19,8 @@ public class IngredientStorageActivity extends AbstractNavigationBar {
     IngredientStorageFragment fragment = new IngredientStorageFragment();
     ArrayAdapter<Ingredient> ingredientAdapter;
     IngredientDB ingredientDB;
+    ArrayList<Ingredient> testIngredients;
+
 
 
     @Override
@@ -38,17 +40,19 @@ public class IngredientStorageActivity extends AbstractNavigationBar {
 
         ingredientsListView = findViewById(R.id.ingredients_list);
 
-        //ingredientDB = new IngredientDB();
+        ingredientDB = new IngredientDB(testIngredients);
 
-        ArrayList<Ingredient> testIngredients = ingredientDB.getIngredientList();
+        testIngredients = ingredientDB.getIngredientList();
 
-        //Ingredient testIngredient1 = new Ingredient("Tomato Sauce", "2022-11-02", "Pantry", 1, 6, "Canned");
+        Log.d("MAINNN",testIngredients.toString());
 
-        //ingredientDB.addIngredient(testIngredient1);
+
+        Ingredient testIngredient1 = new Ingredient("Tomatoes", "2022-11-02", "Fridge", 1, 4, "Canned");
+
+        ingredientDB.addIngredient(testIngredient1);
 
         ingredientAdapter = new IngredientStorageAdapter(this, testIngredients);
 
-        Log.d("HELLLLLLL", testIngredients.toString());
 
         ingredientsListView.setAdapter(ingredientAdapter);
         ingredientAdapter.notifyDataSetChanged();
@@ -79,6 +83,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar {
 
     public void onDeleteOkPressed(Ingredient ingredient){
         ingredientDB.removeIngredient(ingredient);
+        ingredientAdapter.notifyDataSetChanged();
     }
 
 }
