@@ -3,9 +3,19 @@ package com.example.bobstomatoes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class IngredientStorageActivity extends AbstractNavigationBar {
+
+    ListView ingredientsList;
+    ArrayList<Ingredient> dataList;
+    int ingredientPos;
+    Bundle bundle;
+    IngredientStorageFragment fragment = new IngredientStorageFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +30,27 @@ public class IngredientStorageActivity extends AbstractNavigationBar {
             public void onClick(View view) {
                 //do nothing
             }
+        });
+
+        dataList = new ArrayList<>();
+        ingredientsList = findViewById(R.id.ingredients_list);
+
+        // Creates fragment to allow editing and deletion of an ingredient
+        ingredientsList.setOnItemClickListener((adapterView, view, i, l) -> {
+            ingredientPos = ingredientsList.getCheckedItemPosition();
+            String currentDescription = dataList.get(ingredientPos).getIngredientDesc();
+            String currentDate = dataList.get(ingredientPos).getIngredientDate();
+            String currentLocation = dataList.get(ingredientPos).getIngredientLocation();
+            int currentAmount = dataList.get(ingredientPos).getIngredientAmount();
+            int currentUnit = dataList.get(ingredientPos).getIngredientUnit();
+            String currentCategory = dataList.get(ingredientPos).getIngredientCategory();
+
+            Ingredient tempIngredient = new Ingredient(currentDescription, currentDate, currentLocation, currentAmount, currentUnit, currentCategory);
+
+            bundle.putParcelable("tempIngredient", (Parcelable) tempIngredient);
+
+            fragment.setArguments(bundle);
+            fragment.show(getSupportFragmentManager(), "EDIT OR DELETE INGREDIENT");
         });
 
     }
