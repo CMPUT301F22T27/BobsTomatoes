@@ -3,6 +3,7 @@ package com.example.bobstomatoes;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -10,7 +11,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -31,7 +34,7 @@ public class RecipeDB {
 
     public RecipeDB() {
         recipeList = new ArrayList<Recipe>(); // Change String to Recipe
-
+        updateRecipeList();
     }
 
     public void addRecipe(Recipe recipe){
@@ -73,6 +76,16 @@ public class RecipeDB {
         return this.recipeList;
     }
 
-
+    public void updateRecipeList(){
+        recipeReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                recipeList.clear();
+                for (QueryDocumentSnapshot doc: value) {
+                    recipeList.add(doc.toObject(Recipe.class));
+                }
+            }
+        });
+    }
 
 }
