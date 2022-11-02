@@ -115,7 +115,6 @@ public class RecipeFragment extends DialogFragment {
 
             //Populate selectedIngredients
             selectedIngredients = selectedRecipe.getRecipeIngredients();
-            Log.d("TESTESTESTESTEST", selectedIngredients.get(0).getIngredientDesc());
 
 
             //Builder for Edit/delete
