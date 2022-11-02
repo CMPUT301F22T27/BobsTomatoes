@@ -3,6 +3,7 @@ package com.example.bobstomatoes;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,14 +27,13 @@ public class IngredientStorageFragment extends DialogFragment{
     private EditText categoryText;
     private Button editButton;
     private Button deleteButton;
-    private OnFragmentInteractionListener listener;
-    Ingredient tempIngredient;
+    private OnIngredientFragmentListener listener;
+    Ingredient selectedIngredient;
     Ingredient editIngredient;
-    ArrayList<Ingredient> dataList;
-    int ingredientPos;
+    int oldIngredientPos;
 
-    public interface OnFragmentInteractionListener{
-        public void onEditPressed(Ingredient ingredient);
+    public interface OnIngredientFragmentListener{
+        public void onEditOkPressed(Ingredient ingredient);
         public void onDeletePressed(Ingredient ingredient);
 
     }
@@ -41,8 +41,8 @@ public class IngredientStorageFragment extends DialogFragment{
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener){
-            listener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnIngredientFragmentListener){
+            listener = (OnIngredientFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + "must implement the interface method(s)");
@@ -52,6 +52,7 @@ public class IngredientStorageFragment extends DialogFragment{
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        String title;
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_ingredient_storage, null);
         descriptionText = view.findViewById(R.id.editTextIngredientDesc);
         dateText = view.findViewById(R.id.editTextIngredientDate);
@@ -65,37 +66,61 @@ public class IngredientStorageFragment extends DialogFragment{
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            tempIngredient = bundle.getParcelable("tempIngredient");
-            dataList = bundle.getParcelable("dataList");
-            ingredientPos = bundle.getInt("ingredientPosition");
-            descriptionText.setText(tempIngredient.getIngredientDesc());
-            dateText.setText(tempIngredient.getIngredientDate());
-            locationText.setText(tempIngredient.getIngredientLocation());
-            amountText.setText(String.valueOf(tempIngredient.getIngredientAmount()));
-            unitText.setText(String.valueOf(tempIngredient.getIngredientUnit()));
-            categoryText.setText(tempIngredient.getIngredientCategory());
+            selectedIngredient = bundle.getParcelable("selectedIngredient");
+            oldIngredientPos = bundle.getInt("oldIngredientPos");
+            descriptionText.setText(selectedIngredient.getIngredientDesc());
+            dateText.setText(selectedIngredient.getIngredientDate());
+            locationText.setText(selectedIngredient.getIngredientLocation());
+            amountText.setText(String.valueOf(selectedIngredient.getIngredientAmount()));
+            unitText.setText(String.valueOf(selectedIngredient.getIngredientUnit()));
+            categoryText.setText(selectedIngredient.getIngredientCategory());
         }
 
-        editButton.setOnClickListener(view1 -> {
-            String newDescription = descriptionText.getText().toString();
-            String newDate = dateText.getText().toString();
-            String newLocation = locationText.getText().toString();
-            String tempAmount = amountText.getText().toString();
-            int newAmount = Integer.parseInt(tempAmount);
-            String tempUnit = unitText.getText().toString();
-            int newUnit = Integer.parseInt(tempUnit);
-            String newCategory = categoryText.getText().toString();
+        return builder
+                .setView(view)
+                .setTitle("Ingredient")
+                .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        listener.onDeletePressed(selectedIngredient);
+                    }
+                })
+                .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String newDescription = descriptionText.getText().toString();
+                        String newDate = dateText.getText().toString();
+                        String newLocation = locationText.getText().toString();
+                        String tempAmount = amountText.getText().toString();
+                        int newAmount = Integer.parseInt(tempAmount);
+                        String tempUnit = unitText.getText().toString();
+                        int newUnit = Integer.parseInt(tempUnit);
+                        String newCategory = categoryText.getText().toString();
+                        editIngredient = new Ingredient(newDescription, newDate, newLocation, newAmount, newUnit, newCategory);
+                        listener.onEditOkPressed(editIngredient);
+                    }
+                }).create();
 
-            editIngredient = new Ingredient(newDescription, newDate, newLocation, newAmount, newUnit, newCategory);
-            dataList.set(ingredientPos, editIngredient);
+//        editButton.setOnClickListener(view1 -> {
+//            String newDescription = descriptionText.getText().toString();
+//            String newDate = dateText.getText().toString();
+//            String newLocation = locationText.getText().toString();
+//            String tempAmount = amountText.getText().toString();
+//            int newAmount = Integer.parseInt(tempAmount);
+//            String tempUnit = unitText.getText().toString();
+//            int newUnit = Integer.parseInt(tempUnit);
+//            String newCategory = categoryText.getText().toString();
+//
+//            editIngredient = new Ingredient(newDescription, newDate, newLocation, newAmount, newUnit, newCategory);
+//            ingredientDB.editIngredient(oldIngredientPos, editIngredient);
+//
+//        });
+//
+//        deleteButton.setOnClickListener(view1 -> {
+//            ingredientDB.removeIngredient(selectedIngredient);
+//        });
 
-        });
 
-        deleteButton.setOnClickListener(view1 -> {
-            dataList.remove(ingredientPos);
-        });
-
-
-        return null;
+        //return null;
     }
 }

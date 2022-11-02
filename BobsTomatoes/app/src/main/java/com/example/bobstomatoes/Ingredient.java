@@ -22,26 +22,9 @@ public class Ingredient implements Parcelable {
         this.ingredientCategory = ingredientCategory;
     }
 
-    protected Ingredient(Parcel in) {
-        ingredientDesc = in.readString();
-        ingredientDate = in.readString();
-        ingredientLocation = in.readString();
-        ingredientAmount = in.readInt();
-        ingredientUnit = in.readInt();
-        ingredientCategory = in.readString();
+    public Ingredient() {
+
     }
-
-    public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
-        @Override
-        public Ingredient createFromParcel(Parcel in) {
-            return new Ingredient(in);
-        }
-
-        @Override
-        public Ingredient[] newArray(int size) {
-            return new Ingredient[size];
-        }
-    };
 
     public String getIngredientDesc() {
         return ingredientDesc;
@@ -66,6 +49,51 @@ public class Ingredient implements Parcelable {
     public String getIngredientCategory() {
         return ingredientCategory;
     }
+
+    public void setIngredientDesc(String ingredientDesc) {
+        this.ingredientDesc = ingredientDesc;
+    }
+
+    public void setIngredientDate(String ingredientDate) {
+        this.ingredientDate = ingredientDate;
+    }
+
+    public void setIngredientLocation(String ingredientLocation) {
+        this.ingredientLocation = ingredientLocation;
+    }
+
+    public void setIngredientAmount(int ingredientAmount) {
+        this.ingredientAmount = ingredientAmount;
+    }
+
+    public void setIngredientUnit(int ingredientUnit) {
+        this.ingredientUnit = ingredientUnit;
+    }
+
+    public void setIngredientCategory(String ingredientCategory) {
+        this.ingredientCategory = ingredientCategory;
+    }
+
+    protected Ingredient(Parcel in) {
+        ingredientDesc = in.readString();
+        ingredientDate = in.readString();
+        ingredientLocation = in.readString();
+        ingredientAmount = in.readInt();
+        ingredientUnit = in.readInt();
+        ingredientCategory = in.readString();
+    }
+
+    public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
+        @Override
+        public Ingredient createFromParcel(Parcel in) {
+            return new Ingredient(in);
+        }
+
+        @Override
+        public Ingredient[] newArray(int size) {
+            return new Ingredient[size];
+        }
+    };
 
     @Override
     public int describeContents() {
