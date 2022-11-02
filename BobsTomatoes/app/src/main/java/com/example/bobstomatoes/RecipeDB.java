@@ -60,12 +60,26 @@ public class RecipeDB {
         recipeList.add(recipe);
     }
 
-    //public void removeRecipe(recipe) {
-    //remove from both arrayList and DB
-
-    // Use recipe to find its position in arrayList
-    //recipeList.remove(recipePos)
-    //}
+    public void removeRecipe(Recipe recipe) {
+        HashMap<String, Recipe> data = new HashMap<>();
+        String recipeName = recipe.getRecipeTitle();
+        data.put("Attributes", recipe);
+        recipeReference.document(recipeName)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("", "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("", "Data could not be added");
+                    }
+                });
+        recipeList.remove(recipe);
+    }
 
     //public void editRecipe(oldRecipe, updatedRecipe) {
     //Find oldRecipePos
