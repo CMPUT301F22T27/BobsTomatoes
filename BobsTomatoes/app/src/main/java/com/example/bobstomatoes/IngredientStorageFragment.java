@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+
 public class IngredientStorageFragment extends DialogFragment{
     private EditText descriptionText;
     private EditText dateText;
@@ -24,8 +26,28 @@ public class IngredientStorageFragment extends DialogFragment{
     private EditText categoryText;
     private Button editButton;
     private Button deleteButton;
-    Ingredient ingredient;
+    private OnFragmentInteractionListener listener;
+    Ingredient tempIngredient;
     Ingredient editIngredient;
+    ArrayList<Ingredient> dataList;
+    int ingredientPos;
+
+    public interface OnFragmentInteractionListener{
+        public void onEditPressed(Ingredient ingredient);
+        public void onDeletePressed(Ingredient ingredient);
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener){
+            listener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + "must implement the interface method(s)");
+        }
+    }
 
     @NonNull
     @Override
@@ -43,13 +65,15 @@ public class IngredientStorageFragment extends DialogFragment{
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            ingredient = bundle.getParcelable("tempIngredient");
-            descriptionText.setText(ingredient.getIngredientDesc());
-            dateText.setText(ingredient.getIngredientDate());
-            locationText.setText(ingredient.getIngredientLocation());
-            amountText.setText(String.valueOf(ingredient.getIngredientAmount()));
-            unitText.setText(String.valueOf(ingredient.getIngredientUnit()));
-            categoryText.setText(ingredient.getIngredientCategory());
+            tempIngredient = bundle.getParcelable("tempIngredient");
+            dataList = bundle.getParcelable("dataList");
+            ingredientPos = bundle.getInt("ingredientPosition");
+            descriptionText.setText(tempIngredient.getIngredientDesc());
+            dateText.setText(tempIngredient.getIngredientDate());
+            locationText.setText(tempIngredient.getIngredientLocation());
+            amountText.setText(String.valueOf(tempIngredient.getIngredientAmount()));
+            unitText.setText(String.valueOf(tempIngredient.getIngredientUnit()));
+            categoryText.setText(tempIngredient.getIngredientCategory());
         }
 
         editButton.setOnClickListener(view1 -> {
@@ -63,11 +87,12 @@ public class IngredientStorageFragment extends DialogFragment{
             String newCategory = categoryText.getText().toString();
 
             editIngredient = new Ingredient(newDescription, newDate, newLocation, newAmount, newUnit, newCategory);
+            dataList.set(ingredientPos, editIngredient);
 
         });
 
         deleteButton.setOnClickListener(view1 -> {
-
+            dataList.remove(ingredientPos);
         });
 
 

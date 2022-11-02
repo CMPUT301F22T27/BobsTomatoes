@@ -9,6 +9,9 @@
         <entry key="..\:/Users/Jake/Documents/UofA Fall Semester Year 3/CMPUT 301/BobsTomatoes/BobsTomatoes/app/src/main/res/layout/fragment_ingredient_storage.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Jake/Documents/UofA Fall Semester Year 3/CMPUT 301/BobsTomatoes/BobsTomatoes/app/src/main/res/layout/main_meal_plan.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Jake/Documents/UofA Fall Semester Year 3/CMPUT 301/BobsTomatoes/BobsTomatoes/app/src/main/res/layout/navigation_buttons_layout.xml" value="0.22826086956521738" />
+        <entry key="app/src/main/res/layout/activity_ingredient_storage.xml" value="0.17844202898550723" />
+        <entry key="app/src/main/res/layout/fragment_ingredient_storage.xml" value="0.17844202898550723" />
+        <entry key="app/src/main/res/layout/ingredient_storage_adapter_content.xml" value="0.1381340579710145" />
       </map>
     </option>
   </component>
