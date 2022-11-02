@@ -26,6 +26,27 @@ public class Ingredient implements Parcelable {
 
     }
 
+    protected Ingredient(Parcel in) {
+        ingredientDesc = in.readString();
+        ingredientDate = in.readString();
+        ingredientLocation = in.readString();
+        ingredientAmount = in.readInt();
+        ingredientUnit = in.readInt();
+        ingredientCategory = in.readString();
+    }
+
+    public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
+        @Override
+        public Ingredient createFromParcel(Parcel in) {
+            return new Ingredient(in);
+        }
+
+        @Override
+        public Ingredient[] newArray(int size) {
+            return new Ingredient[size];
+        }
+    };
+
     public String getIngredientDesc() {
         return ingredientDesc;
     }
@@ -73,27 +94,6 @@ public class Ingredient implements Parcelable {
     public void setIngredientCategory(String ingredientCategory) {
         this.ingredientCategory = ingredientCategory;
     }
-
-    protected Ingredient(Parcel in) {
-        ingredientDesc = in.readString();
-        ingredientDate = in.readString();
-        ingredientLocation = in.readString();
-        ingredientAmount = in.readInt();
-        ingredientUnit = in.readInt();
-        ingredientCategory = in.readString();
-    }
-
-    public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
-        @Override
-        public Ingredient createFromParcel(Parcel in) {
-            return new Ingredient(in);
-        }
-
-        @Override
-        public Ingredient[] newArray(int size) {
-            return new Ingredient[size];
-        }
-    };
 
     @Override
     public int describeContents() {
