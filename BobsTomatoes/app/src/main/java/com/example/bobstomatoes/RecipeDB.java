@@ -1,5 +1,7 @@
 package com.example.bobstomatoes;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -21,7 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RecipeDB {
+public class RecipeDB implements Parcelable {
     private ArrayList<Recipe> recipeList;
 
     private FirebaseFirestore recipeDatabase = FirebaseFirestore.getInstance();
@@ -116,4 +118,29 @@ public class RecipeDB {
         });
     }
 
+    protected RecipeDB(Parcel in) {
+        recipeList = in.createTypedArrayList(Recipe.CREATOR);
+    }
+
+    public static final Creator<RecipeDB> CREATOR = new Creator<RecipeDB>() {
+        @Override
+        public RecipeDB createFromParcel(Parcel in) {
+            return new RecipeDB(in);
+        }
+
+        @Override
+        public RecipeDB[] newArray(int size) {
+            return new RecipeDB[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeTypedList(recipeList);
+    }
 }

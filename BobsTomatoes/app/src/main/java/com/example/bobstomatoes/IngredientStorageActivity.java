@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
@@ -12,11 +13,15 @@ import java.util.ArrayList;
 
 public class IngredientStorageActivity extends AbstractNavigationBar {
 
-    ListView ingredientsList;
-    ArrayList<Ingredient> dataList;
+    ListView ingredientsListView;
     int ingredientPos;
     Bundle bundle;
     IngredientStorageFragment fragment = new IngredientStorageFragment();
+    ArrayAdapter<Ingredient> ingredientAdapter;
+    IngredientDB ingredientDB;
+    ArrayList<Ingredient> testIngredients;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,32 +38,52 @@ public class IngredientStorageActivity extends AbstractNavigationBar {
             }
         });
 
-        dataList = new ArrayList<>();
-        ingredientsList = findViewById(R.id.ingredients_list);
-        ArrayAdapter<Ingredient> ingredientArrayAdapter = new
-        Ingredient testIngredient1 = new Ingredient("sauce", "date", "pantry", 5, 6, "category");
-        dataList.add(testIngredient1);
+        ingredientsListView = findViewById(R.id.ingredients_list);
 
+        ingredientDB = new IngredientDB(testIngredients);
+
+        testIngredients = ingredientDB.getIngredientList();
+
+        Log.d("MAINNN",testIngredients.toString());
+
+
+        Ingredient testIngredient1 = new Ingredient("Tomatoes", "2022-11-02", "Fridge", 1, 4, "Canned");
+
+        ingredientDB.addIngredient(testIngredient1);
+
+        ingredientAdapter = new IngredientStorageAdapter(this, testIngredients);
+
+
+        ingredientsListView.setAdapter(ingredientAdapter);
+        ingredientAdapter.notifyDataSetChanged();
+
+        //Log.d("", testIngredients.get(0).getIngredientLocation());
         // Creates fragment to allow editing and deletion of an ingredient
-        ingredientsList.setOnItemClickListener((adapterView, view, i, l) -> {
-            ingredientPos = ingredientsList.getCheckedItemPosition();
-            String currentDescription = dataList.get(ingredientPos).getIngredientDesc();
-            String currentDate = dataList.get(ingredientPos).getIngredientDate();
-            String currentLocation = dataList.get(ingredientPos).getIngredientLocation();
-            int currentAmount = dataList.get(ingredientPos).getIngredientAmount();
-            int currentUnit = dataList.get(ingredientPos).getIngredientUnit();
-            String currentCategory = dataList.get(ingredientPos).getIngredientCategory();
+        ingredientsListView.setOnItemClickListener((adapterView, view, i, l) -> {
+            ingredientPos = ingredientsListView.getCheckedItemPosition();
+            Ingredient selectedIngredient = testIngredients.get(ingredientPos);
 
-            Ingredient tempIngredient = new Ingredient(currentDescription, currentDate, currentLocation, currentAmount, currentUnit, currentCategory);
+            bundle.putParcelable("selectedIngredient", selectedIngredient);
+            bundle.putInt("oldIngredientPos", ingredientPos);
 
-            bundle.putParcelable("tempIngredient", (Parcelable) tempIngredient);
-            bundle.putParcelable("dataList", (Parcelable) dataList);
-            bundle.putInt("ingredientPosition", ingredientPos);
+            //fragment.setArguments(bundle);
 
-            fragment.setArguments(bundle);
             fragment.show(getSupportFragmentManager(), "EDIT OR DELETE INGREDIENT");
         });
+    }
 
+    public void onAddOkPressed(Ingredient ingredient) {
+
+    }
+
+    public void onEditOkPressed(Ingredient ingredient) {
+        ingredientDB.editIngredient(ingredientPos, ingredient);
+        ingredientAdapter.notifyDataSetChanged();
+    }
+
+    public void onDeleteOkPressed(Ingredient ingredient){
+        ingredientDB.removeIngredient(ingredient);
+        ingredientAdapter.notifyDataSetChanged();
     }
 
 }

@@ -15,13 +15,13 @@ import java.util.ArrayList;
 /**
  * Custom array adapter class designed to work with ingredient objects
  */
-
 public class IngredientStorageAdapter extends ArrayAdapter<Ingredient> {
+
     private ArrayList<Ingredient> ingredients;
     private Context context;
 
     /**
-     * RecipeAdapter constructor. Takes in context of activity and arraylist of recipes
+     * IngredientStorageAdapter constructor. Takes in context of activity and arraylist of recipes
      * @param context
      * @param ingredients
      */
@@ -32,7 +32,7 @@ public class IngredientStorageAdapter extends ArrayAdapter<Ingredient> {
     }
 
     /**
-     * Creates and inflates a new view representation of a recipe item
+     * Creates and inflates a new view representation of a ingredient item
      * @param position
      * @param convertView
      * @param parent
@@ -46,14 +46,14 @@ public class IngredientStorageAdapter extends ArrayAdapter<Ingredient> {
         View view = convertView;
 
         if(view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.recipe_adapter_content, parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.ingredient_storage_adapter_content, parent,false);
         }
 
         Ingredient ingredient = ingredients.get(position);
 
-        TextView recipeName = view.findViewById(R.id.in);
+        TextView ingredientName = view.findViewById(R.id.ingredient_name_textview_id);
 
-        recipeName.setText(recipe.getRecipeTitle());
+        ingredientName.setText(ingredient.getIngredientDesc());
 
         return view;
     }
