@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,9 @@ public class IngredientStorageActivity extends AbstractNavigationBar {
 
         dataList = new ArrayList<>();
         ingredientsList = findViewById(R.id.ingredients_list);
+        ArrayAdapter<Ingredient> ingredientArrayAdapter = new
+        Ingredient testIngredient1 = new Ingredient("sauce", "date", "pantry", 5, 6, "category");
+        dataList.add(testIngredient1);
 
         // Creates fragment to allow editing and deletion of an ingredient
         ingredientsList.setOnItemClickListener((adapterView, view, i, l) -> {
@@ -48,10 +52,13 @@ public class IngredientStorageActivity extends AbstractNavigationBar {
             Ingredient tempIngredient = new Ingredient(currentDescription, currentDate, currentLocation, currentAmount, currentUnit, currentCategory);
 
             bundle.putParcelable("tempIngredient", (Parcelable) tempIngredient);
+            bundle.putParcelable("dataList", (Parcelable) dataList);
+            bundle.putInt("ingredientPosition", ingredientPos);
 
             fragment.setArguments(bundle);
             fragment.show(getSupportFragmentManager(), "EDIT OR DELETE INGREDIENT");
         });
 
     }
+
 }
