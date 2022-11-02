@@ -38,11 +38,9 @@ public class RecipeDB {
     }
 
     public void addRecipe(Recipe recipe){
-
         HashMap<String, Recipe> data = new HashMap<>();
         String recipeName = recipe.getRecipeTitle();
         data.put("Attributes", recipe);
-
         recipeReference.document(recipeName)
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -81,10 +79,26 @@ public class RecipeDB {
         recipeList.remove(recipe);
     }
 
-    //public void editRecipe(oldRecipe, updatedRecipe) {
-    //Find oldRecipePos
-    //recipeList.set(oldRecipePos, updatedRecipe)
-    //}
+    public void editRecipe(int oldRecipePos, Recipe updatedRecipe) {
+        HashMap<String, Recipe> data = new HashMap<>();
+        String recipeName = updatedRecipe.getRecipeTitle();
+        data.put("Attributes", updatedRecipe);
+        recipeReference.document(recipeName)
+                .set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("", "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("", "Data could not be added");
+                    }
+                });
+        recipeList.set(oldRecipePos, updatedRecipe);
+    }
 
     public ArrayList<Recipe> getRecipes(){
         return this.recipeList;
