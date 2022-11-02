@@ -30,14 +30,8 @@ public class RecipeActivity extends AbstractNavigationBar {
                 "a nice tomato soup", recipeIngredients);
 
 
-
-
-
-
         RecipeDB recipeDB = new RecipeDB();
         recipeDB.addRecipe(testRecipe);
-
-
 
 
         ArrayList<Recipe> testRecipes = recipeDB.getRecipes();
