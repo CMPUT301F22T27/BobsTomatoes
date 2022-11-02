@@ -25,29 +25,15 @@ import java.util.Map;
 
 public class IngredientDB {
 
-    private final ArrayList<Ingredient> ingredientList = new ArrayList<>();
+    private final ArrayList<Ingredient> ingredientList;
 
     private final FirebaseFirestore ingredientDatabase = FirebaseFirestore.getInstance();
 
     private final CollectionReference ingredientReference = ingredientDatabase.collection("Ingredients");
-
-
-
-    public IngredientDB(ArrayList<Ingredient> aIngredientList) {
-        //ingredientList = new ArrayList<Ingredient>();
-        readData(new FireStoreCallback() {
-            @Override
-            public void onCallBack(ArrayList<Ingredient> ingredientsList) {
-                Log.d("in database:", ingredientsList.toString());
-                setIngredientList(aIngredientList);
-            }
-        });
+    
+    public IngredientDB() {
+        ingredientList = new ArrayList<Ingredient>();
     }
-
-//    public interface MyCallBack {
-//        void onCallBack(ArrayList<Ingredient> aIngredientList);
-//    }
-
 
     public void addIngredient(Ingredient ingredient){
         HashMap<String, Object> data = new HashMap<>();
@@ -157,47 +143,13 @@ public class IngredientDB {
         });
     }
 
-    public void readData(FireStoreCallback callBack) {
-        ingredientReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.i("", "onComplete: " + document.getId() + "=>" + document.getData());
-                        Log.d("", document.getId() + " => " + document.getData());
-                        String ingredientDesc = document.getId();
-                        String ingredientDate = (String) document.getData().get("ingredientDate");
-                        String ingredientLocation = (String) document.getData().get("ingredientLocation");
-                        int ingredientAmount = Integer.parseInt(document.getData().get("ingredientAmount").toString());
-                        int ingredientUnit = Integer.parseInt(document.getData().get("ingredientUnit").toString());
-                        String ingredientCategory = (String) document.getData().get("ingredientCategory");
-                        Ingredient ingredient = new Ingredient(ingredientDesc, ingredientDate, ingredientLocation, ingredientAmount, ingredientUnit, ingredientCategory);
-                        Log.d("",ingredient + "");
-                        ingredientList.add(ingredient);
-                        Log.d("", ingredientList.get(0).getIngredientDesc());
-                        Log.d("", ingredientList.get(0).getIngredientLocation());
-//                      Ingredient ingredient = document.toObject(Ingredient.class);
-                    }
-                    callBack.onCallBack(ingredientList);
-                } else {
-                    Log.d("", "onEvent: Accessed 1111111111111");
-                    Log.d("", "Error getting documents: ", task.getException());
-                }
-            }
-        });
-    }
-
-    private interface FireStoreCallback {
-        void onCallBack(ArrayList<Ingredient> test);
-    }
-
     public ArrayList<Ingredient> getIngredientList() {
         return ingredientList;
     }
 
-    public ArrayList<Ingredient> setIngredientList(ArrayList<Ingredient> arrayList){
-        arrayList = ingredientList;
-        return arrayList;
+    public CollectionReference getIngredientReference(){
+        return ingredientReference;
     }
+
 
 }

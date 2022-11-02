@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
-public class IngredientStorageFragment extends DialogFragment{
+public class IngredientStorageFragment extends DialogFragment {
     private EditText descriptionText;
     private EditText dateText;
     private EditText locationText;
@@ -27,14 +27,16 @@ public class IngredientStorageFragment extends DialogFragment{
     private EditText categoryText;
     private Button editButton;
     private Button deleteButton;
+
     private OnIngredientFragmentListener listener;
+
     Ingredient selectedIngredient;
     Ingredient editIngredient;
     int oldIngredientPos;
 
     public interface OnIngredientFragmentListener{
         public void onEditOkPressed(Ingredient ingredient);
-        public void onDeletePressed(Ingredient ingredient);
+        public void onDeleteOkPressed(Ingredient ingredient);
 
     }
 
@@ -45,7 +47,7 @@ public class IngredientStorageFragment extends DialogFragment{
             listener = (OnIngredientFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + "must implement the interface method(s)");
+                    + " must implement the interface method(s)");
         }
     }
 
@@ -79,12 +81,6 @@ public class IngredientStorageFragment extends DialogFragment{
         return builder
                 .setView(view)
                 .setTitle("Ingredient")
-                .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        listener.onDeletePressed(selectedIngredient);
-                    }
-                })
                 .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -99,28 +95,15 @@ public class IngredientStorageFragment extends DialogFragment{
                         editIngredient = new Ingredient(newDescription, newDate, newLocation, newAmount, newUnit, newCategory);
                         listener.onEditOkPressed(editIngredient);
                     }
+                })
+                .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        listener.onDeleteOkPressed(selectedIngredient);
+                    }
                 }).create();
 
-//        editButton.setOnClickListener(view1 -> {
-//            String newDescription = descriptionText.getText().toString();
-//            String newDate = dateText.getText().toString();
-//            String newLocation = locationText.getText().toString();
-//            String tempAmount = amountText.getText().toString();
-//            int newAmount = Integer.parseInt(tempAmount);
-//            String tempUnit = unitText.getText().toString();
-//            int newUnit = Integer.parseInt(tempUnit);
-//            String newCategory = categoryText.getText().toString();
-//
-//            editIngredient = new Ingredient(newDescription, newDate, newLocation, newAmount, newUnit, newCategory);
-//            ingredientDB.editIngredient(oldIngredientPos, editIngredient);
-//
-//        });
-//
-//        deleteButton.setOnClickListener(view1 -> {
-//            ingredientDB.removeIngredient(selectedIngredient);
-//        });
-
-
-        //return null;
     }
+
+
 }
