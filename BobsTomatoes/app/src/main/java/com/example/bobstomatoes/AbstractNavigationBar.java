@@ -1,10 +1,12 @@
 package com.example.bobstomatoes;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 
 /**
@@ -19,6 +21,7 @@ public abstract class AbstractNavigationBar extends AppCompatActivity {
     public Button recipeButton;
     public Button mealPlanButton;
     public Button shoppingListButton;
+    public Button addButton;
 
     /**
      * Initialize buttons from layout by id
@@ -75,6 +78,8 @@ public abstract class AbstractNavigationBar extends AppCompatActivity {
 
             }
         });
+
+
 
 
 
