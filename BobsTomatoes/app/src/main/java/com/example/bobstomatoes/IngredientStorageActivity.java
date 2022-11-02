@@ -8,6 +8,7 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 
@@ -25,7 +26,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     int ingredientPos;
     Bundle bundle;
     IngredientStorageFragment fragment = new IngredientStorageFragment();
-    Button addButton;
+    ImageButton addButton;
     ArrayAdapter<Ingredient> ingredientAdapter;
 
     IngredientDB ingredientDB;
@@ -91,7 +92,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         });
 
 
-        addButton = findViewById(R.id.center_add_button_id);
+        addButton = findViewById(R.id.center_add_imageButton_id);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override

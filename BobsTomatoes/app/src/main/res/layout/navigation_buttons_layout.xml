@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation_buttons_layout_id"
     android:orientation="horizontal"
     android:layout_width="match_parent"
@@ -27,13 +28,13 @@
         android:textSize="10sp">
     </Button>
 
-    <Button
-        android:id="@+id/center_add_button_id"
+    <ImageButton
+        android:id="@+id/center_add_imageButton_id"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_weight="1"
         android:layout_gravity="center"
-        android:layout_weight="1">
-    </Button>
+        app:srcCompat="@android:drawable/ic_input_add" />
 
     <Button
         android:id="@+id/mealplan_nav_button_id"
