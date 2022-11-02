@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 
@@ -24,7 +25,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     int ingredientPos;
     Bundle bundle;
     IngredientStorageFragment fragment = new IngredientStorageFragment();
-
+    Button addButton;
     ArrayAdapter<Ingredient> ingredientAdapter;
 
     IngredientDB ingredientDB;
@@ -48,6 +49,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
                 //do nothing
             }
         });
+
 
         ingredientsListView = findViewById(R.id.ingredients_list);
 
@@ -81,14 +83,30 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
 
             bundle.putParcelable("selectedIngredient", selectedIngredient);
             bundle.putInt("oldIngredientPos", ingredientPos);
+            bundle.putBoolean("isEdit", true);
 
             fragment.setArguments(bundle);
 
             fragment.show(getSupportFragmentManager(), "EDIT OR DELETE INGREDIENT");
         });
-    }
 
+
+        addButton = findViewById(R.id.center_add_button_id);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bundle.putBoolean("isEdit", false);
+                new IngredientStorageFragment().show(getSupportFragmentManager(), "ADD INGREDIENT FRAGMENT");
+            }
+        });
+
+
+    }
     public void onAddOkPressed(Ingredient ingredient) {
+
+        ingredientDB.addIngredient(ingredient);
+        ingredientAdapter.notifyDataSetChanged();
 
     }
 
