@@ -36,7 +36,6 @@ public class RecipeDB implements Parcelable {
 
     public RecipeDB() {
         recipeList = new ArrayList<Recipe>(); // Change String to Recipe
-        updateRecipeList();
     }
 
     public void addRecipe(Recipe recipe){
