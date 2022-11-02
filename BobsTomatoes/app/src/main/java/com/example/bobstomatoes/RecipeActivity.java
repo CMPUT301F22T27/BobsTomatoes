@@ -61,6 +61,10 @@ public class RecipeActivity extends AbstractNavigationBar {
         //Link array and adapter
         RecipeListView.setAdapter(recipeAdapter);
 
+        recipeDB.removeRecipe(testRecipe2);
+
+        recipeAdapter.notifyDataSetChanged();
+
         //Sets up buttons and onClickListeners for navigation bar
         initializeButtons(RecipeActivity.this);
 
