@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 public class RecipeActivity extends AbstractNavigationBar implements RecipeFragment.OnRecipeFragmentListener {
 
     ListView RecipeListView;
-    Button addButton;
+    ImageButton addButton;
 
     Bundle bundle;
     int recipePos;
@@ -38,7 +39,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         setContentView(R.layout.activity_recipe);
 
         RecipeListView = findViewById(R.id.recipe_listview_id);
-        addButton = findViewById(R.id.center_add_button_id);
+        addButton = findViewById(R.id.center_add_imageButton_id);
 
         //Initialize recipe database
         recipeDB = new RecipeDB();
