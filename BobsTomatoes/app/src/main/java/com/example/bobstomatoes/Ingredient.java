@@ -95,6 +95,22 @@ public class Ingredient implements Parcelable {
         this.ingredientCategory = ingredientCategory;
     }
 
+    public int compareToIngredientDesc(Ingredient ingredient) {
+        return (this.getIngredientDesc().compareTo(ingredient.getIngredientDesc()));
+    }
+
+    public int compareToIngredientLocation(Ingredient ingredient) {
+        return (this.getIngredientLocation().compareTo(ingredient.getIngredientLocation()));
+    }
+
+    public int compareToIngredientDate(Ingredient ingredient){
+        return(this.getIngredientDate().compareTo(ingredient.getIngredientDate()));
+    }
+
+    public int compareToIngredientCategory(Ingredient ingredient){
+        return(this.getIngredientCategory().compareTo(ingredient.getIngredientCategory()));
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -109,4 +125,6 @@ public class Ingredient implements Parcelable {
         parcel.writeInt(ingredientUnit);
         parcel.writeString(ingredientCategory);
     }
+
+
 }

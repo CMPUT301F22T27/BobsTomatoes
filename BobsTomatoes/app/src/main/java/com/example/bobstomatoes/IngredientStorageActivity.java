@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,6 +21,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class IngredientStorageActivity extends AbstractNavigationBar implements IngredientStorageFragment.OnIngredientFragmentListener {
 
@@ -32,10 +35,15 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     IngredientDB ingredientDB;
     ArrayList<Ingredient> testIngredients;
     CollectionReference ingredientReference;
+    String [] sortChoices = {"Description", "Location", "Best Before Date", "Category"};
+    ArrayList <String> spinnerOptions = new ArrayList<>();
+    ArrayAdapter <String> spinnerAdapter;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredient_storage);
 
@@ -91,6 +99,29 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
             fragment.show(getSupportFragmentManager(), "EDIT OR DELETE INGREDIENT");
         });
 
+        // Create and Populate Spinner
+        // Spinner allows users to choose how to sort ingredients
+        Spinner choiceSpinner = (Spinner) findViewById(R.id.sortDropDownID);
+        // Populate Sort Choice Spinner
+        for (int i = 0;  i < sortChoices.length; i++) {
+            spinnerOptions.add(sortChoices[i]);
+        }
+        spinnerAdapter = new ArrayAdapter <> (this, android.R.layout.simple_spinner_dropdown_item, spinnerOptions);
+        choiceSpinner.setAdapter(spinnerAdapter);
+
+        // Retrieve user sort choice
+        choiceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String sortChoice = (String) choiceSpinner.getSelectedItem();
+                sortByChoice(sortChoice);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                
+            }
+        });
+
 
         addButton = findViewById(R.id.center_add_imageButton_id);
 
@@ -101,7 +132,6 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
                 new IngredientStorageFragment().show(getSupportFragmentManager(), "ADD INGREDIENT FRAGMENT");
             }
         });
-
 
     }
     public void onAddOkPressed(Ingredient ingredient) {
@@ -118,6 +148,19 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
 
     public void onDeleteOkPressed(Ingredient ingredient){
         ingredientDB.removeIngredient(ingredient);
+        ingredientAdapter.notifyDataSetChanged();
+    }
+
+    public void sortByChoice(String choice){
+        if(choice.equals("Description")){
+            Collections.sort(testIngredients, Ingredient::compareToIngredientDesc);
+        }else if(choice.equals("Location")){
+            Collections.sort(testIngredients, Ingredient::compareToIngredientLocation);
+        }else if(choice.equals("Best Before Date")){
+            Collections.sort(testIngredients, Ingredient::compareToIngredientDate);
+        }else{
+            Collections.sort(testIngredients, Ingredient::compareToIngredientCategory);
+        }
         ingredientAdapter.notifyDataSetChanged();
     }
 
