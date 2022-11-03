@@ -48,6 +48,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Recipes");
         setContentView(R.layout.activity_recipe);
 
         RecipeListView = findViewById(R.id.recipe_listview_id);

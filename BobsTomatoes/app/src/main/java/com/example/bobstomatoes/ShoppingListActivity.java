@@ -10,6 +10,7 @@ public class ShoppingListActivity extends AbstractNavigationBar {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Shopping List");
         setContentView(R.layout.activity_shopping_list);
 
         //Sets up buttons and onClickListeners for navigation bar
