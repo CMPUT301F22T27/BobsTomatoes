@@ -48,6 +48,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        setTitle("Ingredient Storage");
         setContentView(R.layout.activity_ingredient_storage);
 
         bundle = new Bundle();
