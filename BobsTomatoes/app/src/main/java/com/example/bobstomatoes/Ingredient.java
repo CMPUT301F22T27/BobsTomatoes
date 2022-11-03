@@ -8,7 +8,6 @@ import java.io.Serializable;
 /**
  * Class detailing the information of an ingredient
  * extends Parceable
- * @author
  */
 public class Ingredient implements Parcelable {
     private String ingredientDesc;

@@ -20,6 +20,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Class for Recipe which displays a list of all the recipes
+ * extends AbstractNavigationBar
+ * implements RecipeFragment.OnRecipeFragmentListener
+ */
+
 public class RecipeActivity extends AbstractNavigationBar implements RecipeFragment.OnRecipeFragmentListener {
 
     ListView RecipeListView;
@@ -115,6 +121,10 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     }
 
+    /**
+     * Confirms the addition of a new recipe when the add button is pressed
+     * @param recipe
+     */
     public void onAddOkPressed(Recipe recipe) {
 
         recipeDB.addRecipe(recipe);
@@ -122,6 +132,10 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     }
 
+    /**
+     * Confirms the edit of a recipe when the edit button is pressed
+     * @param recipe
+     */
     public void onEditOkPressed(Recipe recipe) {
 
         recipeDB.editRecipe(recipePos, recipe);
@@ -129,6 +143,10 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     }
 
+    /**
+     * Confirms the deletion of a recipe when the delete button is pressed
+     * @param recipe
+     */
     public void onDeleteOkPressed(Recipe recipe){
 
         recipeDB.removeRecipe(recipe);
