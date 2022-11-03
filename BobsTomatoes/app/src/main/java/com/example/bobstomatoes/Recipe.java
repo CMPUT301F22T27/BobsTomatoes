@@ -93,11 +93,11 @@ public class Recipe implements Parcelable {
     }
 
     public int compareToRecipeTime(Recipe recipe) {
-        return (this.getRecipeTime().compareTo(recipe.getRecipeTime()));
+        return (String.valueOf(this.getRecipeTime()).compareTo(String.valueOf(recipe.getRecipeTime())));
     }
 
     public int compareToRecipeServings(Recipe recipe){
-        return(this.getRecipeServings().compareTo(recipe.getRecipeServings()));
+        return(String.valueOf(this.getRecipeServings()).compareTo(String.valueOf(recipe.getRecipeServings())));
     }
 
     public int compareToRecipeCategory(Recipe recipe){
