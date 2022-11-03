@@ -5,6 +5,11 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 
+/**
+ * Class detailing the information of an ingredient
+ * extends Parceable
+ * @author
+ */
 public class Ingredient implements Parcelable {
     private String ingredientDesc;
     private String ingredientDate;
@@ -13,6 +18,15 @@ public class Ingredient implements Parcelable {
     private int ingredientUnit;
     private String ingredientCategory;
 
+    /**
+     * Ingredient constructor, takes in the description, date, location, amount, unit, and category of the ingredient
+     * @param ingredientDesc
+     * @param ingredientDate
+     * @param ingredientLocation
+     * @param ingredientAmount
+     * @param ingredientUnit
+     * @param ingredientCategory
+     */
     public Ingredient(String ingredientDesc, String ingredientDate, String ingredientLocation, int ingredientAmount, int ingredientUnit, String ingredientCategory) {
         this.ingredientDesc = ingredientDesc;
         this.ingredientDate = ingredientDate;
