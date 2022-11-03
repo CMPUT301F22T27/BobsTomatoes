@@ -23,6 +23,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Class for Ingredient Storage which displays a list of all ingredients
+ * extends AbstractNavigator
+ * implements IngredientStorageFragment.OnIngredientFragmentListener
+ */
+
 public class IngredientStorageActivity extends AbstractNavigationBar implements IngredientStorageFragment.OnIngredientFragmentListener {
 
     ListView ingredientsListView;
@@ -31,15 +37,12 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     IngredientStorageFragment fragment = new IngredientStorageFragment();
     ImageButton addButton;
     ArrayAdapter<Ingredient> ingredientAdapter;
-
     IngredientDB ingredientDB;
     ArrayList<Ingredient> testIngredients;
     CollectionReference ingredientReference;
     String [] sortChoices = {"Description", "Location", "Best Before Date", "Category"};
     ArrayList <String> spinnerOptions = new ArrayList<>();
     ArrayAdapter <String> spinnerAdapter;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +61,6 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
                 //do nothing
             }
         });
-
 
         ingredientsListView = findViewById(R.id.ingredients_list);
 
@@ -88,14 +90,10 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         ingredientsListView.setOnItemClickListener((adapterView, view, i, l) -> {
             ingredientPos = ingredientsListView.getCheckedItemPosition();
             Ingredient selectedIngredient = testIngredients.get(ingredientPos);
-
-
             bundle.putParcelable("selectedIngredient", selectedIngredient);
             bundle.putInt("oldIngredientPos", ingredientPos);
             bundle.putBoolean("isEdit", true);
-
             fragment.setArguments(bundle);
-
             fragment.show(getSupportFragmentManager(), "EDIT OR DELETE INGREDIENT");
         });
 
@@ -122,9 +120,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
             }
         });
 
-
         addButton = findViewById(R.id.center_add_imageButton_id);
-
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,25 +128,40 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
                 new IngredientStorageFragment().show(getSupportFragmentManager(), "ADD INGREDIENT FRAGMENT");
             }
         });
-
     }
-    public void onAddOkPressed(Ingredient ingredient) {
 
+    /**
+     * Confirms the addition of a new ingredient when the add button is pressed
+     * @param ingredient
+     */
+    public void onAddOkPressed(Ingredient ingredient) {
         ingredientDB.addIngredient(ingredient);
         ingredientAdapter.notifyDataSetChanged();
 
     }
 
+    /**
+     * Confirms the edit of an ingredient when the edit button is pressed
+     * @param ingredient
+     */
     public void onEditOkPressed(Ingredient ingredient) {
         ingredientDB.editIngredient(ingredientPos, ingredient);
         ingredientAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Confirms the deletion of an ingredient when the delete button is pressed
+     * @param ingredient
+     */
     public void onDeleteOkPressed(Ingredient ingredient){
         ingredientDB.removeIngredient(ingredient);
         ingredientAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Allows the user to sort the list of ingredients by description, location, or best before date
+     * @param choice
+     */
     public void sortByChoice(String choice){
         if(choice.equals("Description")){
             Collections.sort(testIngredients, Ingredient::compareToIngredientDesc);
@@ -180,6 +191,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
             }
         });
     }
+
     private interface FireStoreCallback {
         void onCallBack(ArrayList<Ingredient> test);
     }

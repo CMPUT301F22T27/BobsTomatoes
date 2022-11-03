@@ -31,6 +31,7 @@ import java.util.ArrayList;
 
 /**
  * DialogFragment for adding, editing, and deleting a recipe
+ * extends DialogFragment
  */
 public class RecipeFragment extends DialogFragment {
 
@@ -77,6 +78,11 @@ public class RecipeFragment extends DialogFragment {
         }
     }
 
+    /**
+     * Provides a dialog for the fragment to manage and display, allows the user to add, edit, and delete a recipe
+     * @param savedInstanceState
+     * @return
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

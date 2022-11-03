@@ -18,6 +18,11 @@ import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
+/**
+ * Class for the Ingredient Storage Fragment which allows the user to add, edit, and delete ingredients
+ * extends DialogFragment
+ */
+
 public class IngredientStorageFragment extends DialogFragment {
     private EditText descriptionText;
     private EditText dateText;
@@ -52,6 +57,11 @@ public class IngredientStorageFragment extends DialogFragment {
         }
     }
 
+    /**
+     * Provides a dialog for the fragment to manage and display, allows the user to add, edit, and delete an ingredient
+     * @param savedInstanceState
+     * @return
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -68,7 +78,6 @@ public class IngredientStorageFragment extends DialogFragment {
         Bundle bundle = this.getArguments();
 
         if (bundle != null) {
-
             selectedIngredient = bundle.getParcelable("selectedIngredient");
             oldIngredientPos = bundle.getInt("oldIngredientPos");
             isEdit = bundle.getBoolean("isEdit");
@@ -83,7 +92,7 @@ public class IngredientStorageFragment extends DialogFragment {
         if (isEdit == true) {
             return builder
                     .setView(view)
-                    .setTitle("Ingredient")
+                    .setTitle("Edit Ingredient")
                     .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -106,13 +115,12 @@ public class IngredientStorageFragment extends DialogFragment {
                         }
                     })
                     .create();
-
         }
 
         else {
             return builder
                     .setView(view)
-                    .setTitle("Ingredient")
+                    .setTitle("Add Ingredient")
                     .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

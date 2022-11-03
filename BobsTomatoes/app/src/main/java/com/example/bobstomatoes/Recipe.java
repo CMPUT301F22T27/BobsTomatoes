@@ -6,6 +6,11 @@ import android.os.Parcelable;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Class detailing the information of a Recipe
+ * extends Parceable
+ */
+
 public class Recipe implements Parcelable {
     private String recipeTitle;
     private int recipeTime;
@@ -14,6 +19,15 @@ public class Recipe implements Parcelable {
     private String recipeComments;
     private ArrayList<Ingredient> recipeIngredients;
 
+    /**
+     * Recipe constructor, takes in the title, time, servings, category, comments, and the ingredients of the recipe
+     * @param recipeTitle
+     * @param recipeTime
+     * @param recipeServings
+     * @param recipeCategory
+     * @param recipeComments
+     * @param recipeIngredients
+     */
     public Recipe(String recipeTitle, int recipeTime, int recipeServings, String recipeCategory, String recipeComments, ArrayList<Ingredient> recipeIngredients) {
         this.recipeTitle = recipeTitle;
         this.recipeTime = recipeTime;
