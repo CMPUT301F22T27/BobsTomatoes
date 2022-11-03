@@ -27,7 +27,6 @@ import java.util.Collections;
  * Class for Ingredient Storage which displays a list of all ingredients
  * extends AbstractNavigator
  * implements IngredientStorageFragment.OnIngredientFragmentListener
- * @author Colin, Gabe, Jack
  */
 
 public class IngredientStorageActivity extends AbstractNavigationBar implements IngredientStorageFragment.OnIngredientFragmentListener {
@@ -132,7 +131,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     }
 
     /**
-     * Confirms the addition of a new ingredient when the delete button is pressed
+     * Confirms the addition of a new ingredient when the add button is pressed
      * @param ingredient
      */
     public void onAddOkPressed(Ingredient ingredient) {
@@ -142,7 +141,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     }
 
     /**
-     * Confirms the edit of an ingredient when the delete button is pressed
+     * Confirms the edit of an ingredient when the edit button is pressed
      * @param ingredient
      */
     public void onEditOkPressed(Ingredient ingredient) {

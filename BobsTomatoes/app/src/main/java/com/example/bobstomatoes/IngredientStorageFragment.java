@@ -21,7 +21,6 @@ import java.util.ArrayList;
 /**
  * Class for the Ingredient Storage Fragment which allows the user to add, edit, and delete ingredients
  * extends DialogFragment
- * @author Colin
  */
 
 public class IngredientStorageFragment extends DialogFragment {
@@ -59,7 +58,7 @@ public class IngredientStorageFragment extends DialogFragment {
     }
 
     /**
-     * Provide a dialog for the fragment to manage and display, allows the user to add, edit, and delete an ingredient
+     * Provides a dialog for the fragment to manage and display, allows the user to add, edit, and delete an ingredient
      * @param savedInstanceState
      * @return
      */
