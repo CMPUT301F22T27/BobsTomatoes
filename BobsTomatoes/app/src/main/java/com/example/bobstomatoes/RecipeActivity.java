@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Class for Recipe which displays a list of all the recipes
@@ -38,6 +40,10 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
     ArrayAdapter<Recipe> recipeAdapter;
     ArrayList<Recipe> testRecipes;
     CollectionReference recipeReference;
+
+    String [] sortChoices = {"Title", "Preparation Time", "Number of servings", "Category"};
+    ArrayList <String> spinnerOptions = new ArrayList<>();
+    ArrayAdapter <String> spinnerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +125,29 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
             }
         });
 
+        // Create and Populate Spinner
+        // Spinner allows users to choose how to sort ingredients
+        Spinner choiceSpinner = (Spinner) findViewById(R.id.sortDropDownID);
+        // Populate Sort Choice Spinner
+        for (int i = 0;  i < sortChoices.length; i++) {
+            spinnerOptions.add(sortChoices[i]);
+        }
+        spinnerAdapter = new ArrayAdapter <> (this, android.R.layout.simple_spinner_dropdown_item, spinnerOptions);
+        choiceSpinner.setAdapter(spinnerAdapter);
+
+        // Retrieve user sort choice
+        choiceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String sortChoice = (String) choiceSpinner.getSelectedItem();
+                sortByChoice(sortChoice);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 
     /**
@@ -148,10 +177,26 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
      * @param recipe
      */
     public void onDeleteOkPressed(Recipe recipe){
-
         recipeDB.removeRecipe(recipe);
         recipeAdapter.notifyDataSetChanged();
 
+    }
+
+    /**
+     * Allows the user to sort the list of recipes by title, preparation time, number of servings, and category
+     * @param choice
+     */
+    public void sortByChoice(String choice){
+        if(choice.equals("Title")){
+            Collections.sort(testRecipes, Recipe::compareToRecipeTitle);
+        }else if(choice.equals("Preparation Time")){
+            Collections.sort(testRecipes, Recipe::compareToRecipeTime);
+        }else if(choice.equals("Number of Servings")){
+            Collections.sort(testRecipes, Recipe::compareToRecipeServings);
+        }else{
+            Collections.sort(testRecipes, Recipe::compareToRecipeCategory);
+        }
+        recipeAdapter.notifyDataSetChanged();
     }
 
     public void readData(FireStoreCallback callBack) {
