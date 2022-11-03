@@ -161,9 +161,6 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         }else{
             Collections.sort(testIngredients, Ingredient::compareToIngredientCategory);
         }
-        for (int i = 0; i < testIngredients.size(); i++) {
-            System.out.println(testIngredients.get(i).getIngredientDesc());
-        }
         ingredientAdapter.notifyDataSetChanged();
     }
 
