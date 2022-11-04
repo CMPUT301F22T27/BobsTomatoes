@@ -37,6 +37,7 @@ public class Ingredient implements Parcelable {
 
     /**
      * Ingredient constructor, is an empty constructor, takes in nothing
+     * Used for FireStore database
      */
     public Ingredient() {
 

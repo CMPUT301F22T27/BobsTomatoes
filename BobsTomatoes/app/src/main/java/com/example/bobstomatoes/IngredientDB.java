@@ -28,7 +28,7 @@ import java.util.Map;
  */
 public class IngredientDB {
 
-    private final ArrayList<Ingredient> ingredientList;
+    private ArrayList<Ingredient> ingredientList;
 
     private final FirebaseFirestore ingredientDatabase = FirebaseFirestore.getInstance();
 
@@ -38,7 +38,7 @@ public class IngredientDB {
      * IngredientDB constructor, is an empty constructor, initialize ingredientList
      */
     public IngredientDB() {
-        ingredientList = new ArrayList<Ingredient>();
+        this.ingredientList = new ArrayList<Ingredient>();
     }
 
     /**
@@ -47,6 +47,7 @@ public class IngredientDB {
      * @param ingredient    specified Ingredient to add into database
      */
     public void addIngredient(Ingredient ingredient){
+        // Create HashMap for FireStore with Ingredient Attributes
         HashMap<String, Object> data = new HashMap<>();
         String ingredientName = ingredient.getIngredientDesc();
         data.put("ingredientDesc", ingredient.getIngredientDesc());
@@ -55,6 +56,8 @@ public class IngredientDB {
         data.put("ingredientAmount", ingredient.getIngredientAmount());
         data.put("ingredientUnit", ingredient.getIngredientUnit());
         data.put("ingredientCategory", ingredient.getIngredientCategory());
+
+        // Insert the data into the FireStore database
         ingredientReference.document(ingredientName)
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -77,6 +80,7 @@ public class IngredientDB {
      * @param ingredient    specified Ingredient to remove from the database
      */
     public void removeIngredient(Ingredient ingredient){
+        // Create HashMap for FireStore with Ingredient Attributes
         HashMap<String, Object> data = new HashMap<>();
         String ingredientName = ingredient.getIngredientDesc();
         data.put("ingredientDesc", ingredient.getIngredientDesc());
@@ -85,6 +89,8 @@ public class IngredientDB {
         data.put("ingredientAmount", ingredient.getIngredientAmount());
         data.put("ingredientUnit", ingredient.getIngredientUnit());
         data.put("ingredientCategory", ingredient.getIngredientCategory());
+
+        // Remove the data from the FireStore Database
         ingredientReference.document(ingredientName)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -109,6 +115,7 @@ public class IngredientDB {
      * @param updatedIngredient   new ingredient with updated information
      */
     public void editIngredient(int oldIngredientPos, Ingredient updatedIngredient) {
+        // Create HashMap for FireStore with Ingredient Attributes
         HashMap<String, Object> data = new HashMap<>();
         String ingredientName = updatedIngredient.getIngredientDesc();
         data.put("ingredientDesc", updatedIngredient.getIngredientDesc());
@@ -117,6 +124,8 @@ public class IngredientDB {
         data.put("ingredientAmount", updatedIngredient.getIngredientAmount());
         data.put("ingredientUnit", updatedIngredient.getIngredientUnit());
         data.put("ingredientCategory", updatedIngredient.getIngredientCategory());
+
+        // Overwrite the data in the FireStore Database
         ingredientReference.document(ingredientName)
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

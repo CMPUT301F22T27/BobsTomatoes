@@ -88,7 +88,7 @@ public class IngredientStorageFragment extends DialogFragment {
             unitText.setText(String.valueOf(selectedIngredient.getIngredientUnit()));
             categoryText.setText(selectedIngredient.getIngredientCategory());
         }
-
+        // If isEdit is true, then the ingredient was clicked on the ListView so populate the fragment text boxes with its details and make the two buttons Delete and Edit
         if (isEdit == true) {
             return builder
                     .setView(view)
@@ -116,7 +116,7 @@ public class IngredientStorageFragment extends DialogFragment {
                     })
                     .create();
         }
-
+        // If its false, then the add button was pressed, so open a fragment with its text boxes empty and make the two buttons Cancel and Add
         else {
             return builder
                     .setView(view)
