@@ -79,7 +79,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         RecipeListView.setAdapter(recipeAdapter);
 
         //Populate recipe list from database
-        readData(new FireStoreCallback() {
+        readData(new RecipeFireStoreCallback() {
             @Override
             public void onCallBack(ArrayList<Recipe> test) {
                 recipeAdapter.notifyDataSetChanged();
@@ -200,7 +200,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         recipeAdapter.notifyDataSetChanged();
     }
 
-    public void readData(FireStoreCallback callBack) {
+    public void readData(RecipeFireStoreCallback callBack) {
         recipeReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -217,7 +217,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         });
     }
 
-    private interface FireStoreCallback {
+    private interface RecipeFireStoreCallback {
         void onCallBack(ArrayList<Recipe> test);
     }
 

@@ -143,10 +143,6 @@ public class IngredientStorageFragment extends DialogFragment {
                         }
                     })
                     .create();
-
         }
-
-
-
-        }
-        }
+    }
+}
