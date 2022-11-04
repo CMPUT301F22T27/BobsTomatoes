@@ -78,7 +78,6 @@ public class IngredientDBTest {
 
     @Test
     public void testDeleteIngredient() {
-
         CollectionReference ingredientReference = ingredientDB.getIngredientReference();
 
         ArrayList<Ingredient> ingredientList = ingredientDB.getIngredientList();
@@ -89,6 +88,7 @@ public class IngredientDBTest {
         int PreSize = ingredientList.size();
 
         ingredientDB.addIngredient(ingredient);
+        ingredientDB.removeIngredient(ingredient);
 
         ingredientRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -96,9 +96,9 @@ public class IngredientDBTest {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if(document.exists()) {
-                        assertEquals(1,1);
-                    } else {
                         assertEquals(0,1);
+                    } else {
+                        assertEquals(1,1);
                     }
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
@@ -106,10 +106,9 @@ public class IngredientDBTest {
             }
         });
 
-        assertEquals(PreSize+1, ingredientList.size());
+        assertEquals(PreSize, ingredientList.size());
 
         //Remove the ingredient after the test
-        ingredientDB.removeIngredient(ingredient);
     }
 
 }
