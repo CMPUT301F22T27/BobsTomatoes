@@ -45,13 +45,13 @@ public class RecipeFragment extends DialogFragment {
 
     private RecipeFragment.OnRecipeFragmentListener listener;
 
-    //Database
+    // Database
     IngredientDB ingredientDB;
     ArrayList<Ingredient> ingredientList;
     CollectionReference ingredientReference;
     ArrayAdapter<Ingredient> ingredientAdapter;
 
-    //For ingredient selection
+    // For ingredient selection
     ArrayList<Ingredient> selectedIngredients;
 
     Recipe selectedRecipe;
@@ -102,13 +102,13 @@ public class RecipeFragment extends DialogFragment {
 
         selectedIngredients = new ArrayList<>();
 
-        //Ingredients List
+        // Ingredients List
         initIngredientList();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         Bundle bundle = this.getArguments();
 
-        //If bundle != null, then a recipe has been passed in to the fragment -> edit/delete
+        // If bundle != null, then a recipe has been passed in to the fragment -> edit/delete
         if (bundle != null) {
 
 
@@ -121,11 +121,11 @@ public class RecipeFragment extends DialogFragment {
             categoryText.setText(selectedRecipe.getRecipeCategory());
             commentsText.setText(selectedRecipe.getRecipeComments());
 
-            //Populate selectedIngredients
+            // Populate selectedIngredients
             selectedIngredients = selectedRecipe.getRecipeIngredients();
 
 
-            //Builder for Edit/delete
+            // Builder for Edit/delete
             return builder.setView(view)
                     .setTitle("Edit Recipe")
                     .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
@@ -156,7 +156,7 @@ public class RecipeFragment extends DialogFragment {
                     .create();
 
 
-        } else {  //If bundle = null, then a recipe has not been passed in to the fragment -> add
+        } else {  // If bundle = null, then a recipe has not been passed in to the fragment -> add
 
             //Builder for add
             return builder.setView(view)
@@ -208,7 +208,7 @@ public class RecipeFragment extends DialogFragment {
         });
 
 
-        //Handle selection and unselection of items
+        // Handle selection and unselection of items
         ingredientsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
@@ -218,7 +218,7 @@ public class RecipeFragment extends DialogFragment {
                 boolean found = false;
 
                 for (int i = 0; i < selectedIngredients.size(); i ++){
-                    //Check if ingredient already selected
+                    // Check if ingredient already selected
                     if (selectedIngredient.getIngredientDesc().equals(selectedIngredients.get(i).getIngredientDesc())){
 
                         //Unselect ingredient
@@ -226,7 +226,7 @@ public class RecipeFragment extends DialogFragment {
 
                         found = true;
 
-                        //Messing around with highlighting
+                        // Messing around with highlighting
                         ingredientsList.setSelector(R.color.white);
 
 
@@ -237,7 +237,7 @@ public class RecipeFragment extends DialogFragment {
 
                     selectedIngredients.add(selectedIngredient);
 
-                    //Messing around with highlighting
+                    // Messing around with highlighting
                     ingredientsList.setSelector(R.color.teal_200);
 
 

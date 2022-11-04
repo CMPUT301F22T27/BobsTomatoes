@@ -58,13 +58,13 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
 
         bundle = new Bundle();
 
-        //Sets up buttons and onClickListeners for navigation bar
+        // Sets up buttons and onClickListeners for navigation bar
         initializeButtons(IngredientStorageActivity.this);
 
         storageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //do nothing
+                // do nothing
             }
         });
 
@@ -79,7 +79,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         ingredientAdapter = new IngredientStorageAdapter(this, ingredientList);
         ingredientsListView.setAdapter(ingredientAdapter);
 
-        //This basically forces the onComplete to finish before we can use the ArrayList, so by calling this, we can safely assume the list has been populated from the DataBase
+        // Populate ingredient list from database, by calling this, we can safely assume the list has been populated from the DataBase
         readData(new IngredientFireStoreCallback() {
             /**
              * Notify data change for ingredientList
@@ -126,7 +126,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
             }
         });
 
-        //Opens the fragment with blank editTexts to add a completely new Recipe
+        // Opens the fragment with blank editTexts to add a completely new Recipe
         addButton = findViewById(R.id.center_add_imageButton_id);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
