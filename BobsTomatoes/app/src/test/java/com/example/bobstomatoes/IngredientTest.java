@@ -24,8 +24,15 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Ingredient test, test sorting of ingredients by description, date, location, category, test will execute on android device
+ */
 public class IngredientTest {
 
+    /**
+     * Create an ingredient list
+     * @return      return the new created ingredient list
+     */
     private ArrayList<Ingredient> mockIngredientList(){
         ArrayList<Ingredient> ingredientList= new ArrayList<>();
         ingredientList.add(mockIngredient());
@@ -37,14 +44,26 @@ public class IngredientTest {
         return ingredientList;
     }
 
+    /**
+     * Create a new ingredient
+     * @return      return new ingredient
+     */
     private Ingredient mockIngredient(){
         return new Ingredient("Mango", "2022-11-04", "Fridge", 6, 6, "Fruit");
     }
 
+    /**
+     * Create a new ingredient database
+     * @return      return new ingredient database
+     */
     private IngredientDB mockIngredientDB(){
         return new IngredientDB();
     }
 
+    /**
+     * Test the comparing of ingredient descriptions
+     * Allow for sorting of ingredients by description
+     */
     @Test
     void testCompareToIngredientDesc(){
         ArrayList<Ingredient> ingredientList = mockIngredientList();
@@ -58,7 +77,10 @@ public class IngredientTest {
         assertTrue(ingredientList.get(4).getIngredientDesc().equals("Mango"));
         assertTrue(ingredientList.get(5).getIngredientDesc().equals("Milk"));
     }
-
+    /**
+     * Test the comparing of ingredient dates
+     * Allow for sorting of ingredients by date
+     */
     @Test
     void testCompareToIngredientDate(){
         ArrayList<Ingredient> ingredientList = mockIngredientList();
@@ -73,6 +95,10 @@ public class IngredientTest {
         assertTrue(ingredientList.get(5).getIngredientDate().equals("2023-06-30"));
     }
 
+    /**
+     * Test the comparing of ingredient locations
+     * Allow for sorting of ingredients by location
+     */
     @Test
     void testCompareToIngredientLocation(){
         ArrayList<Ingredient> ingredientList = mockIngredientList();
@@ -87,6 +113,10 @@ public class IngredientTest {
         assertTrue(ingredientList.get(5).getIngredientLocation().equals("Pantry"));
     }
 
+    /**
+     * Test the comparing of ingredient category
+     * Allow for sorting of ingredients by category
+     */
     @Test
     void testCompareToIngredientCategory(){
         ArrayList<Ingredient> ingredientList = mockIngredientList();
