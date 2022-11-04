@@ -189,7 +189,7 @@ public class Ingredient implements Parcelable {
      * Description compareTo
      * Compare ingredient descriptions for sorting
      * @param ingredient    specified ingredient
-     * @return              returns 0 if both equal, >0 if first value is greater, <0 if second value is greater
+     * @return              returns 0 if both equal, greater than 0 if first value is greater, less than 0 if second value is greater
      */
     public int compareToIngredientDesc(Ingredient ingredient) {
         return (this.getIngredientDesc().compareTo(ingredient.getIngredientDesc()));
@@ -199,7 +199,7 @@ public class Ingredient implements Parcelable {
      * Location compareTo
      * Compare ingredient locations for sorting
      * @param ingredient    specified ingredient
-     * @return              returns 0 if both equal, >0 if first value is greater, <0 if second value is greater
+     * @return              returns 0 if both equal, greater than 0 if first value is greater, less than 0 if second value is greater
      */
     public int compareToIngredientLocation(Ingredient ingredient) {
         return (this.getIngredientLocation().compareTo(ingredient.getIngredientLocation()));
@@ -209,7 +209,7 @@ public class Ingredient implements Parcelable {
      * Date compareTo
      * Compare ingredient Best Before Dates for sorting
      * @param ingredient    specified ingredient
-     * @return              returns 0 if both equal, >0 if first value is greater, <0 if second value is greater
+     * @return              returns 0 if both equal, greater than 0 if first value is greater, less than 0 if second value is greater
      */
     public int compareToIngredientDate(Ingredient ingredient){
         return(this.getIngredientDate().compareTo(ingredient.getIngredientDate()));
@@ -219,7 +219,7 @@ public class Ingredient implements Parcelable {
      * Category compareTo
      * Compare ingredient categories for sorting
      * @param ingredient    specified ingredient
-     * @return              returns 0 if both equal, >0 if first value is greater, <0 if second value is greater
+     * @return              returns 0 if both equal, greater than 0 if first value is greater, less than 0 if second value is greater
      */
     public int compareToIngredientCategory(Ingredient ingredient){
         return(this.getIngredientCategory().compareTo(ingredient.getIngredientCategory()));
