@@ -30,7 +30,8 @@ android {
 
     testOptions {
         unitTests.all {
-            execution "ANDROIX_TEST_ORCHESTRATOR"
+            execution "ANDROIDX_TEST_ORCHESTRATOR"
+            useJUnitPlatform()
         }
     }
 }

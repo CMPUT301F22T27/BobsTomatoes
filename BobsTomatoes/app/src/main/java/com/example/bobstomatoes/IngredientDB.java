@@ -30,16 +30,14 @@ public class IngredientDB {
 
     private ArrayList<Ingredient> ingredientList;
 
-    private final FirebaseFirestore ingredientDatabase;
+    private final FirebaseFirestore ingredientDatabase = FirebaseFirestore.getInstance();
 
-    private final CollectionReference ingredientReference;
+    private final CollectionReference ingredientReference = ingredientDatabase.collection("Ingredients");
 
     /**
      * IngredientDB constructor, is an empty constructor, initialize ingredientList
      */
     public IngredientDB() {
-        this.ingredientDatabase = FirebaseFirestore.getInstance();
-        this.ingredientReference = ingredientDatabase.collection("Ingredients");
         this.ingredientList = new ArrayList<Ingredient>();
     }
 
