@@ -5,8 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+/**
+ * Class for Meal Plan which displays a calendar showing meal plans
+ * extends AbstractNavigator
+ */
 public class MealPlanActivity extends AbstractNavigationBar {
 
+    /**
+     * Create instance
+     * Display meal plan activity
+     * @param savedInstanceState    interface container containing savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
