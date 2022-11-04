@@ -73,7 +73,7 @@ public class IngredientDB {
     }
     /**
      * Remove ingredient
-     * Removes new ingredient description, date, location, amount, unit, category from firebase database
+     * Removes an ingredient description, date, location, amount, unit, category from firebase database
      * @param ingredient    specified Ingredient to remove from the database
      */
     public void removeIngredient(Ingredient ingredient){
