@@ -26,7 +26,7 @@ public abstract class AbstractNavigationBar extends AppCompatActivity {
     /**
      * Initialize buttons from layout by id
      * Set onClickListeners to navigate between activities
-     * @poram AbstractNavigationBar, instance of current activity
+     * @param activity, instance of current activity
      */
     public void initializeButtons(AbstractNavigationBar activity){
 

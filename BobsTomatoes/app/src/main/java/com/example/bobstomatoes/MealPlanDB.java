@@ -17,9 +17,10 @@ import java.util.HashMap;
  * Class adding, removing, and editing meal plans in firebase database
  */
 public class MealPlanDB {
+
     private ArrayList<MealPlan> mealPlanList;
 
-    private FirebaseFirestore mealPlanDatabase = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore mealPlanDatabase = FirebaseFirestore.getInstance();
 
     private final CollectionReference mealPlanReference = mealPlanDatabase.collection("Meal Plan");
 
@@ -45,10 +46,15 @@ public class MealPlanDB {
      * Inputs a new meal plan's recipes, ingredients, date on firebase database
      * @param mealPlan    specified meal plan to add into database
      */
-    public void addMealPlan(MealPlan mealPlan){
-        HashMap<String,MealPlan> data = new HashMap<>();
-        String mealPlanDate = mealPlan.getDate().toString();
-        data.put("Attributes", mealPlan);
+    public void addMealPlan(MealPlan mealPlan) {
+        //Populate map with recipe contents
+        HashMap<String, Object> data = new HashMap<>();
+        String mealPlanDate = mealPlan.getDate();
+        data.put("mealPlanDate", mealPlanDate);
+        data.put("mealPlanRecipes", mealPlan.getRecipes());
+        data.put("mealPlanIngredients", mealPlan.getIngredients());
+
+        //Edit recipe in database
         mealPlanReference.document(mealPlanDate)
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -71,12 +77,31 @@ public class MealPlanDB {
      * Removes a meal plan's recipes, ingredients, date from firebase database
      * @param mealPlan    specified meal plan to remove from the database
      */
-    //public void removeIngredient(ingredient) {
-    //remove from both arrayList and DB
+    public void removeMealPlan(MealPlan mealPlan) {
+        //Populate map with recipe contents
+        HashMap<String, Object> data = new HashMap<>();
+        String mealPlanDate = mealPlan.getDate();
+        data.put("mealPlanDate", mealPlanDate);
+        data.put("mealPlanRecipes", mealPlan.getRecipes());
+        data.put("mealPlanIngredients", mealPlan.getIngredients());
 
-    // Use ingredient to find its position in arrayList
-    //ingredientList.remove(ingredientPos)
-    //}
+        //Edit recipe in database
+        mealPlanReference.document(mealPlanDate)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("", "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("", "Data could not be added");
+                    }
+                });
+        mealPlanList.remove(mealPlan);
+    }
 
     /**
      * Edit meal plan
@@ -84,11 +109,40 @@ public class MealPlanDB {
      * @param oldMealPlanPos    index of original meal plan
      * @param updatedMealPlan   new meal plan with updated information
      */
-    //public void editIngredient(oldIngredient, updatedIngredient) {
-    //Find oldIngredientPos
-    //ingredientList.set(oldIngredientPos, updatedIngredient)
-    //}
+    public void editMealPlan(int oldMealPlanPos, MealPlan updatedMealPlan) {
+        //Populate map with recipe contents
+        HashMap<String, Object> data = new HashMap<>();
+        String mealPlanDate = updatedMealPlan.getDate();
+        data.put("mealPlanDate", mealPlanDate);
+        data.put("mealPlanRecipes", updatedMealPlan.getRecipes());
+        data.put("mealPlanIngredients", updatedMealPlan.getIngredients());
 
+        //Edit recipe in database
+        mealPlanReference.document(mealPlanDate)
+                .set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("", "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("", "Data could not be added");
+                    }
+                });
+        mealPlanList.set(oldMealPlanPos, updatedMealPlan);
+    }
+
+    /**
+     * Meal Plan reference getter
+     * Retrieve collection path of Meal Plan, allow for accessibility to other classes
+     * @return  path of Meal Plan
+     */
+    public CollectionReference getMealPlanReference() {
+        return mealPlanReference;
+    }
 }
 
 
