@@ -155,7 +155,7 @@ public class Recipe implements Parcelable {
      * Title compareTo
      * Compare recipe titles for sorting
      * @param recipe    specified recipe
-     * @return          returns 0 if both equal, >0 if first value is greater, <0 if second value is greater
+     * @return          returns 0 if both equal, greater than 0 if first value is greater, less than 0 if second value is greater
      */
     public int compareToRecipeTitle(Recipe recipe) {
         return (this.getRecipeTitle().compareTo(recipe.getRecipeTitle()));
@@ -165,7 +165,7 @@ public class Recipe implements Parcelable {
      * Time compareTo
      * Compare recipe make time for sorting
      * @param recipe    specified recipe
-     * @return          returns 0 if both equal, >0 if first value is greater, <0 if second value is greater
+     * @return          returns 0 if both equal, greater than 0 if first value is greater, less than 0 if second value is greater
      */
     public int compareToRecipeTime(Recipe recipe) {
         return (String.valueOf(this.getRecipeTime()).compareTo(String.valueOf(recipe.getRecipeTime())));
@@ -175,7 +175,7 @@ public class Recipe implements Parcelable {
      * Servings compareTo
      * Compare recipe serving size for sorting
      * @param recipe    specified recipe
-     * @return          returns 0 if both equal, >0 if first value is greater, <0 if second value is greater
+     * @return          returns 0 if both equal, greater than 0 if first value is greater, less than 0 if second value is greater
      */
     public int compareToRecipeServings(Recipe recipe){
         return(String.valueOf(this.getRecipeServings()).compareTo(String.valueOf(recipe.getRecipeServings())));
@@ -185,7 +185,7 @@ public class Recipe implements Parcelable {
      * Category compareTo
      * Compare recipe category for sorting
      * @param recipe    specified recipe
-     * @return          returns 0 if both equal, >0 if first value is greater, <0 if second value is greater
+     * @return          returns 0 if both equal, greater than 0 if first value is greater, less than 0 if second value is greater
      */
     public int compareToRecipeCategory(Recipe recipe){
         return(this.getRecipeCategory().compareTo(recipe.getRecipeCategory()));
