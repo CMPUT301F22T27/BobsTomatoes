@@ -23,17 +23,26 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
+/**
+ * Ingredient database test, test adding, deleting, and editing ingredient, tests will execute on an Android device
+ */
 @RunWith(AndroidJUnit4.class)
 public class IngredientDBTest {
 
     IngredientDB ingredientDB;
 
+    /**
+     * Initialize database for ingredients
+     */
     @Before
     public void initializeDB(){
         this.ingredientDB = new IngredientDB();
 
     }
 
+    /**
+     * Test adding of ingredient into database
+     */
     @Test
     public void testAddIngredientDB() {
 
@@ -70,7 +79,9 @@ public class IngredientDBTest {
 
     }
 
-
+    /**
+     * Testing deletion/removal of ingredient from database
+     */
     @Test
     public void testDeleteIngredient() {
         CollectionReference ingredientReference = ingredientDB.getIngredientReference();
@@ -104,6 +115,9 @@ public class IngredientDBTest {
         assertEquals(PreSize, ingredientList.size());
     }
 
+    /**
+     * Testing editing of ingredient in database
+     */
     @Test
     public void testEditIngredient() {
         CollectionReference ingredientReference = ingredientDB.getIngredientReference();
@@ -172,7 +186,7 @@ public class IngredientDBTest {
 
 
         assertEquals(PreSize+1, ingredientList.size());
-
+        assertEquals(ingredient2, ingredientList.get(0));
         ingredientDB.removeIngredient(ingredient2);
     }
 }

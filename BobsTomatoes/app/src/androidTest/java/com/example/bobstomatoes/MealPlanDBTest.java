@@ -18,16 +18,25 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * Meal plan database test, test adding, deleting, and editing meal plan, tests will execute on an Android device
+ */
 public class MealPlanDBTest {
 
     MealPlanDB mealPlanDB;
 
+    /**
+     * Initialize database for meal plans
+     */
     @Before
     public void initializeDB(){
         this.mealPlanDB = new MealPlanDB();
 
     }
 
+    /**
+     * Test adding of meal plan into database
+     */
     @Test
     public void testAddMealPlanDB() {
         boolean isInDocument;
@@ -73,7 +82,9 @@ public class MealPlanDBTest {
         mealPlanDB.removeMealPlan(mealPlan);
     }
 
-
+    /**
+     * Testing deletion/removal of meal plan from database
+     */
     @Test
     public void testDeleteMealPlan() {
         boolean isInDocument;
@@ -117,6 +128,9 @@ public class MealPlanDBTest {
 
 
     }
+    /**
+     * Testing editing of meal plan in database
+     */
 
 //    @Test
 //    public void testEditIngredient() {
@@ -186,7 +200,7 @@ public class MealPlanDBTest {
 //
 //
 //        assertEquals(PreSize+1, ingredientList.size());
-//
+//        assertEquals(ingredient2, ingredientList.get(0));
 //        ingredientDB.removeIngredient(ingredient2);
 //    }
 }
