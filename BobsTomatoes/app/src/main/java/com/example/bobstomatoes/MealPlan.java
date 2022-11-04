@@ -6,51 +6,100 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Class detailing the information of a meal plan
+ * implements Parcelable
+ */
 public class MealPlan implements Parcelable {
     private ArrayList<Recipe> recipes;
     private ArrayList<Ingredient> ingredients;
     private Date date;
 
+    /**
+     * MealPlan constructor, takes in recipes, ingredients, date
+     * @param recipes       array list of recipes that the meal plan uses
+     * @param ingredients   array list of ingredients that the meal plan uses
+     * @param date          the date specifying the time span of the meal plan
+     */
     public MealPlan(ArrayList<Recipe> recipes, ArrayList<Ingredient> ingredients, Date date){
         this.recipes = recipes;
         this.ingredients = ingredients;
         this.date = date;
     }
 
+    /**
+     * Recipes getter
+     * Retrieve list of recipes used in meal plan, allow accessibility to other classes
+     * @return      returns the list of recipes
+     */
     public ArrayList<Recipe> getRecipes() {
         return recipes;
     }
 
+    /**
+     * Ingredients getter
+     * Retrieve list of ingredients used in meal plan, allow accessibility to other classes
+     * @return      returns the list of ingredients
+     */
     public ArrayList<Ingredient> getIngredients() {
         return ingredients;
     }
 
+    /**
+     * Date getter
+     * Retrieve date of meal plan, allow accessibility to other classes
+     * @return      returns the meal plan date
+     */
     public Date getDate() {
         return date;
     }
 
+    /**
+     * MealPlan constructor, takes in a parcel
+     * @param in    parcel containing an meal plan's information (recipes, ingredients, etc)
+     */
     protected MealPlan(Parcel in) {
         recipes = in.createTypedArrayList(Recipe.CREATOR);
         ingredients = in.createTypedArrayList(Ingredient.CREATOR);
     }
 
     public static final Creator<MealPlan> CREATOR = new Creator<MealPlan>() {
+        /**
+         * Create new instance of the Parcelable Class
+         * @param in    parcel containing an meal plan's information (recipes, ingredients, etc)
+         * @return      returns a new created MealPlan
+         */
         @Override
         public MealPlan createFromParcel(Parcel in) {
             return new MealPlan(in);
         }
 
+        /**
+         * Create a new array of the Parcelable Class
+         * @param size  size of new array
+         * @return      returns a new MealPlan Array
+         */
         @Override
         public MealPlan[] newArray(int size) {
             return new MealPlan[size];
         }
     };
 
+    /**
+     * Create bitmask return value
+     * @return      return value
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     * Parcel writer
+     * Creates parcel with specified object written in
+     * @param parcel    parcel in which object should be written
+     * @param i         addition flags of how object should be written
+     */
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeTypedList(recipes);

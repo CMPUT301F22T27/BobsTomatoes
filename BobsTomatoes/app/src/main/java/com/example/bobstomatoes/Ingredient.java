@@ -68,7 +68,7 @@ public class Ingredient implements Parcelable {
 
         /**
          * Create a new array of the Parcelable Class
-         * @param size
+         * @param size  size of new array
          * @return      returns a new Ingredient Array
          */
         @Override
