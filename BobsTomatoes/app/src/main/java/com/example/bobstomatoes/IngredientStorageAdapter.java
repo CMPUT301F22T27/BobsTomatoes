@@ -22,8 +22,8 @@ public class IngredientStorageAdapter extends ArrayAdapter<Ingredient> {
 
     /**
      * IngredientStorageAdapter constructor. Takes in context of activity and arraylist of recipes
-     * @param context
-     * @param ingredients
+     * @param context       activity context
+     * @param ingredients   array list of ingredients
      */
     public IngredientStorageAdapter(Context context, ArrayList<Ingredient> ingredients) {
         super(context, 0, ingredients);
@@ -33,10 +33,10 @@ public class IngredientStorageAdapter extends ArrayAdapter<Ingredient> {
 
     /**
      * Creates and inflates a new view representation of a ingredient item
-     * @param position
-     * @param convertView
-     * @param parent
-     * @return
+     * @param position      index of specified ingredients
+     * @param convertView   new view
+     * @param parent        parent view
+     * @return              returns new view representation
      */
     @NonNull
     @Override
