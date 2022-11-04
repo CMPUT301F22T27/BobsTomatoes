@@ -28,7 +28,7 @@ import java.util.Map;
  */
 public class IngredientDB {
 
-    private final ArrayList<Ingredient> ingredientList;
+    private ArrayList<Ingredient> ingredientList;
 
     private final FirebaseFirestore ingredientDatabase;
 
