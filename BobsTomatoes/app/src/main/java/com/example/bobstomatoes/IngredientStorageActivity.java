@@ -90,12 +90,6 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
             }
         });
 
-        //testIngredients = ingredientDB.getIngredientList();
-
-        //Ingredient testIngredient1 = new Ingredient("Red Tomatoes", "2022-11-02", "Fridge", 1, 4, "Canned");
-
-        //ingredientDB.addIngredient(testIngredient1);
-
         // Creates fragment to allow editing and deletion of an ingredient
         ingredientsListView.setOnItemClickListener((adapterView, view, i, l) -> {
             ingredientPos = ingredientsListView.getCheckedItemPosition();
