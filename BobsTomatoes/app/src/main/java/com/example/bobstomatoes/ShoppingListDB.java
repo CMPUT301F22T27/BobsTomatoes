@@ -29,6 +29,11 @@ public class ShoppingListDB {
         //Populate
     }
 
+    /**
+     * Add shopping list
+     * Inputs a new recipe's title, time, servings, category, comments, ingredients to firebase database
+     * @param shoppingList    specified recipe to add into recipe database
+     */
     public void addShoppingList(ShoppingList shoppingList){
         HashMap<String,ShoppingList> data = new HashMap<>();
 

@@ -23,6 +23,11 @@ public class MealPlanDB {
 
     private final CollectionReference mealPlanReference = mealPlanDatabase.collection("Meal Plan");
 
+    /**
+     * MealPlanList getter
+     * Retrieve list of meal plans, allow accessibility to other classes
+     * @return      returns the list of meal plans
+     */
     public ArrayList<MealPlan> getMealPlanList() {
         return mealPlanList;
     }
@@ -37,7 +42,7 @@ public class MealPlanDB {
 
     /**
      * Add a meal plan
-     * Inputs a new meal plan's recipes, ingredients, date
+     * Inputs a new meal plan's recipes, ingredients, date on firebase database
      * @param mealPlan    specified meal plan to add into database
      */
     public void addMealPlan(MealPlan mealPlan){
@@ -63,7 +68,7 @@ public class MealPlanDB {
 
     /**
      * Remove meal plan
-     * Removes a meal plan's recipes, ingredients, and date from firebase database
+     * Removes a meal plan's recipes, ingredients, date from firebase database
      * @param mealPlan    specified meal plan to remove from the database
      */
     //public void removeIngredient(ingredient) {
@@ -73,6 +78,12 @@ public class MealPlanDB {
     //ingredientList.remove(ingredientPos)
     //}
 
+    /**
+     * Edit meal plan
+     * Update an old meal plan with new recipes, ingredients, date on firebase database
+     * @param oldMealPlanPos    index of original meal plan
+     * @param updatedMealPlan   new meal plan with updated information
+     */
     //public void editIngredient(oldIngredient, updatedIngredient) {
     //Find oldIngredientPos
     //ingredientList.set(oldIngredientPos, updatedIngredient)

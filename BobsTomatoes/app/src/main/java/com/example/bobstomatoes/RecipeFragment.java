@@ -66,6 +66,10 @@ public class RecipeFragment extends DialogFragment {
 
     }
 
+    /**
+     * Attaches context fragment to RecipeFragment
+     * @param context   fragment object that will be attached
+     */
     @Override
     public void onAttach(Context context) {
 
@@ -80,8 +84,8 @@ public class RecipeFragment extends DialogFragment {
 
     /**
      * Provides a dialog for the fragment to manage and display, allows the user to add, edit, and delete a recipe
-     * @param savedInstanceState
-     * @return
+     * @param savedInstanceState    interface container containing saveInstanceState
+     * @return                      returns dialog
      */
     @NonNull
     @Override
@@ -180,6 +184,10 @@ public class RecipeFragment extends DialogFragment {
         }
     }
 
+
+    /**
+     * Initialize and update ingredient list and database
+     */
     public void initIngredientList(){
 
         ingredientDB = new IngredientDB();
@@ -240,6 +248,10 @@ public class RecipeFragment extends DialogFragment {
 
     }
 
+    /**
+     * Populates data base using callBack
+     * @param callBack  ingredient database
+     */
     public void readData(IngredientFireStoreCallback callBack) {
         ingredientReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override

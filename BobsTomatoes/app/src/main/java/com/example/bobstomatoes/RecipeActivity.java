@@ -45,6 +45,11 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
     ArrayList <String> spinnerOptions = new ArrayList<>();
     ArrayAdapter <String> spinnerAdapter;
 
+    /**
+     * Create instance
+     * Display recipe activity
+     * @param savedInstanceState    interface container containing savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +75,10 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
         //Populate recipe list from database
         readData(new RecipeFireStoreCallback() {
+            /**
+             * Notify data change for ingredientList
+             * @param recipeList    array list of ingredients
+             */
             @Override
             public void onCallBack(ArrayList<Recipe> recipeList) {
                 recipeAdapter.notifyDataSetChanged();
@@ -143,7 +152,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     /**
      * Confirms the addition of a new recipe when the add button is pressed
-     * @param recipe
+     * @param recipe    specified recipe
      */
     public void onAddOkPressed(Recipe recipe) {
 
@@ -154,7 +163,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     /**
      * Confirms the edit of a recipe when the edit button is pressed
-     * @param recipe
+     * @param recipe    specified recipe
      */
     public void onEditOkPressed(Recipe recipe) {
 
@@ -165,7 +174,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     /**
      * Confirms the deletion of a recipe when the delete button is pressed
-     * @param recipe
+     * @param recipe    specified recipe
      */
     public void onDeleteOkPressed(Recipe recipe){
         recipeDB.removeRecipe(recipe);
@@ -175,7 +184,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     /**
      * Allows the user to sort the list of recipes by title, preparation time, number of servings, and category
-     * @param choice
+     * @param choice    user choice of how to sort recipes
      */
     public void sortByChoice(String choice){
         if(choice.equals("Title")){
@@ -190,6 +199,10 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         recipeAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Populates data base using callBack
+     * @param callBack  recipe database
+     */
     public void readData(RecipeFireStoreCallback callBack) {
         recipeReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
