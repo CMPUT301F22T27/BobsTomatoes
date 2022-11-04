@@ -20,7 +20,7 @@ public class MealPlanDB {
 
     private ArrayList<MealPlan> mealPlanList;
 
-    private FirebaseFirestore mealPlanDatabase = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore mealPlanDatabase = FirebaseFirestore.getInstance();
 
     private final CollectionReference mealPlanReference = mealPlanDatabase.collection("Meal Plan");
 
