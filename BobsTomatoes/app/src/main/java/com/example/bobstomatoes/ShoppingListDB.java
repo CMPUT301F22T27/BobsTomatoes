@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * Database for shoppingList
+ */
 public class ShoppingListDB {
     private ArrayList<ShoppingList> shoppingList;
 
