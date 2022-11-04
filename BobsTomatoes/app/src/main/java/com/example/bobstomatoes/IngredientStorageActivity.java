@@ -44,6 +44,11 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     ArrayList <String> spinnerOptions = new ArrayList<>();
     ArrayAdapter <String> spinnerAdapter;
 
+    /**
+     * Create instance
+     * Display ingredient storage activity
+     * @param savedInstanceState    interface container containing savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -75,6 +80,10 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         ingredientsListView.setAdapter(ingredientAdapter);
 
         readData(new IngredientFireStoreCallback() {
+            /**
+             * Notify data change for ingredientList
+             * @param ingredientList    array list of ingredients
+             */
             @Override
             public void onCallBack(ArrayList<Ingredient> ingredientList) {
                 ingredientAdapter.notifyDataSetChanged();
@@ -110,6 +119,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
 
         // Retrieve user sort choice
         choiceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String sortChoice = (String) choiceSpinner.getSelectedItem();
@@ -133,7 +143,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
 
     /**
      * Confirms the addition of a new ingredient when the add button is pressed
-     * @param ingredient
+     * @param ingredient    specified ingredient
      */
     public void onAddOkPressed(Ingredient ingredient) {
         ingredientDB.addIngredient(ingredient);
@@ -143,7 +153,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
 
     /**
      * Confirms the edit of an ingredient when the edit button is pressed
-     * @param ingredient
+     * @param ingredient    specified ingredient
      */
     public void onEditOkPressed(Ingredient ingredient) {
         ingredientDB.editIngredient(ingredientPos, ingredient);
@@ -152,7 +162,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
 
     /**
      * Confirms the deletion of an ingredient when the delete button is pressed
-     * @param ingredient
+     * @param ingredient    specified ingredient
      */
     public void onDeleteOkPressed(Ingredient ingredient){
         ingredientDB.removeIngredient(ingredient);
@@ -161,7 +171,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
 
     /**
      * Allows the user to sort the list of ingredients by description, location, or best before date
-     * @param choice
+     * @param choice    user choice of how to sort ingredients
      */
     public void sortByChoice(String choice){
         if(choice.equals("Description")){
@@ -176,6 +186,10 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         ingredientAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Populates data base using callBack
+     * @param callBack  ingredient database
+     */
     public void readData(IngredientFireStoreCallback callBack) {
         ingredientReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -193,6 +207,9 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         });
     }
 
+    /**
+     * Call back ingredientList
+     */
     private interface IngredientFireStoreCallback {
         void onCallBack(ArrayList<Ingredient> ingredientList);
     }
