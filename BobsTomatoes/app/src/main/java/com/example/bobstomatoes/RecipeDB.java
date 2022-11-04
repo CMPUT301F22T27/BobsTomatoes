@@ -22,7 +22,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Class adding, removing, and editing recipe firebase database
+ */
 public class RecipeDB implements Parcelable {
     private ArrayList<Recipe> recipeList;
 
@@ -30,14 +32,27 @@ public class RecipeDB implements Parcelable {
 
     private final CollectionReference recipeReference = recipeDatabase.collection("Recipes");
 
+    /**
+     * recipeList getter
+     * Retrieve list of recipes, allow accessibility to other classes
+     * @return      returns the list of recipes
+     */
     public ArrayList<Recipe> getRecipeList() {
         return recipeList;
     }
 
+    /**
+     * RecipeDP constructor, is an empty constructor, initialize recipeList
+     */
     public RecipeDB() {
         recipeList = new ArrayList<Recipe>(); // Change String to Recipe
     }
 
+    /**
+     * Add recipe
+     * Inputs a new recipe's title, time, servings, category, comments, ingredients to firebase database
+     * @param recipe    specified recipe to add into recipe database
+     */
     public void addRecipe(Recipe recipe){
 
         //Populate map with recipe contents
@@ -68,6 +83,11 @@ public class RecipeDB implements Parcelable {
         recipeList.add(recipe);
     }
 
+    /**
+     * Remove recipe
+     * Removes an old recipe's title, time, servings, category, comments, ingredients from firebase database
+     * @param recipe    specified recipe to remove from recipe database
+     */
     public void removeRecipe(Recipe recipe) {
 
         //Populate map with recipe contents
@@ -98,6 +118,12 @@ public class RecipeDB implements Parcelable {
         recipeList.remove(recipe);
     }
 
+    /**
+     * Edit recipe
+     * Update an old recipe with new title, time, servings, category, comments, ingredients on firebase database
+     * @param oldRecipePos    index of old recipe
+     * @param updatedRecipe   new recipe with updated information
+     */
     public void editRecipe(int oldRecipePos, Recipe updatedRecipe) {
 
         //Populate map with recipe contents
@@ -129,47 +155,71 @@ public class RecipeDB implements Parcelable {
 
     }
 
+    /**
+     * recipeList getter
+     * Retrieve list of recipes, allow accessibility to other classes
+     * @return      returns the list of recipes
+     */
     public ArrayList<Recipe> getRecipes(){
         return this.recipeList;
     }
 
+    /**
+     * Recipe reference getter
+     * Retrieve collection path of Recipes, allow for accessibility to other classes
+     * @return  path of Recipes
+     */
     public CollectionReference getRecipeReference(){
         return this.recipeReference;
     }
 
-    public void updateRecipeList(){
-        recipeReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                recipeList.clear();
-                for (QueryDocumentSnapshot doc: value) {
-                    recipeList.add(doc.toObject(Recipe.class));
-                }
-            }
-        });
-    }
 
+    /**
+     * RecipeDP constructor, takes in a parcel
+     * @param in    parcel containing a database of recipes
+     */
     protected RecipeDB(Parcel in) {
         recipeList = in.createTypedArrayList(Recipe.CREATOR);
     }
 
+
     public static final Creator<RecipeDB> CREATOR = new Creator<RecipeDB>() {
+        /**
+         * Create new instance of the Parcelable Class
+         * @param in    parcel containing a database of recipes
+         * @return      returns a new created recipe database
+         */
         @Override
         public RecipeDB createFromParcel(Parcel in) {
             return new RecipeDB(in);
         }
 
+        /**
+         * Create a new array of the Parcelable Class
+         * @param size  size of new array
+         * @return      returns a new recipe database
+         */
         @Override
         public RecipeDB[] newArray(int size) {
             return new RecipeDB[size];
         }
     };
 
+    /**
+     * Create bitmask return value
+     * @return      return value
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     * Parcel writer
+     * Creates parcel with specified object written in
+     * @param parcel    parcel in which object should be written
+     * @param i         addition flags of how object should be written
+     */
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeTypedList(recipeList);

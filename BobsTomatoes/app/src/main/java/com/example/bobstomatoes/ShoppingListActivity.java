@@ -7,6 +7,11 @@ import android.view.View;
 
 public class ShoppingListActivity extends AbstractNavigationBar {
 
+    /**
+     * Create instance
+     * Display shopping list activity
+     * @param savedInstanceState    interface container containing savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
