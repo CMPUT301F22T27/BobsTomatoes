@@ -13,7 +13,7 @@ import java.util.Date;
 public class MealPlan implements Parcelable {
     private ArrayList<Recipe> recipes;
     private ArrayList<Ingredient> ingredients;
-    private Date date;
+    private String date;
 
     /**
      * MealPlan constructor, takes in recipes, ingredients, date
@@ -21,7 +21,7 @@ public class MealPlan implements Parcelable {
      * @param ingredients   array list of ingredients that the meal plan uses
      * @param date          the date specifying the time span of the meal plan
      */
-    public MealPlan(ArrayList<Recipe> recipes, ArrayList<Ingredient> ingredients, Date date){
+    public MealPlan(ArrayList<Recipe> recipes, ArrayList<Ingredient> ingredients, String date){
         this.recipes = recipes;
         this.ingredients = ingredients;
         this.date = date;
@@ -50,7 +50,7 @@ public class MealPlan implements Parcelable {
      * Retrieve date of meal plan, allow accessibility to other classes
      * @return      returns the meal plan date
      */
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
