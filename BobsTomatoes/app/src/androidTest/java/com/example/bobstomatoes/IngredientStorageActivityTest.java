@@ -31,6 +31,7 @@ public class MainActivityTest{
      */
     @Before
     public void setUp() throws Exception{
+
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
     }
     /**
