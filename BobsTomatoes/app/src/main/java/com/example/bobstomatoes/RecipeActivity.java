@@ -62,16 +62,6 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         //Create bundle
         bundle = new Bundle();
 
-        //Test Values
-//        Ingredient testIngredient1 = new Ingredient("Red Tomatoes", "2022",
-//                "Fridge", 1, 1, "Canned");
-//        ArrayList<Ingredient> testIngredientsList = new ArrayList<>();
-//        testIngredientsList.add(testIngredient1);
-//        Recipe testRecipe1 = new Recipe("Tomato Bomb", 10, 2,
-//                "Soup", "Very Good!", testIngredientsList);
-//        testRecipes = new ArrayList<>();
-//        testRecipes.add(testRecipe1);
-
         //Recipe Adapter
         recipeAdapter = new RecipeAdapter(this, recipeList);
 
@@ -81,7 +71,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         //Populate recipe list from database
         readData(new RecipeFireStoreCallback() {
             @Override
-            public void onCallBack(ArrayList<Recipe> test) {
+            public void onCallBack(ArrayList<Recipe> recipeList) {
                 recipeAdapter.notifyDataSetChanged();
             }
         });
@@ -218,7 +208,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
     }
 
     private interface RecipeFireStoreCallback {
-        void onCallBack(ArrayList<Recipe> test);
+        void onCallBack(ArrayList<Recipe> recipeList);
     }
 
 
