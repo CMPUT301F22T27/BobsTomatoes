@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * Class detailing the information of an ingredient
- * extends Parceable
+ * Implements Parcelable
  */
 public class Ingredient implements Parcelable {
     private String ingredientDesc;
@@ -37,7 +37,6 @@ public class Ingredient implements Parcelable {
 
     /**
      * Ingredient constructor, is an empty constructor, takes in nothing
-     * @param
      */
     public Ingredient() {
 
