@@ -1,10 +1,6 @@
 package com.example.bobstomatoes;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
-import com.example.bobstomatoes.IngredientDBTest;
-import com.example.bobstomatoes.Ingredient;
 
 import android.util.Log;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -40,7 +36,6 @@ public class IngredientDBTest {
 
     @Test
     public void testAddIngredientDB() {
-        boolean isInDocument;
 
         CollectionReference ingredientReference = ingredientDB.getIngredientReference();
 
@@ -65,14 +60,14 @@ public class IngredientDBTest {
                     }
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
+                    assertEquals(0,1);
                 }
             }
         });
 
         assertEquals(PreSize+1, ingredientList.size());
-
-        //Remove the ingredient after the test
         ingredientDB.removeIngredient(ingredient);
+
     }
 
 
@@ -180,5 +175,4 @@ public class IngredientDBTest {
 
         ingredientDB.removeIngredient(ingredient2);
     }
-
 }
