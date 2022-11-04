@@ -17,8 +17,12 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+/**
+ * Recipe database test, test adding, deleting, and editing recipe, tests will execute on an Android device
+ */
 public class RecipeDBTest {
     RecipeDB recipeDB;
+
 
     ArrayList<Ingredient> mockIngredientList(){
         ArrayList<Ingredient> ingredientList= new ArrayList<>();
@@ -26,12 +30,18 @@ public class RecipeDBTest {
         return ingredientList;
     }
 
+    /**
+     * Initialize database for recipes
+     */
     @Before
     public void initializeDB(){
         this.recipeDB = new RecipeDB();
 
     }
 
+    /**
+     * Test adding of recipe into database
+     */
     @Test
     public void testAddRecipeDB() {
         boolean isInDocument;
@@ -69,7 +79,9 @@ public class RecipeDBTest {
         recipeDB.removeRecipe(recipe);
     }
 
-
+    /**
+     * Testing deletion/removal of recipe from database
+     */
     @Test
     public void testDeleteRecipe() {
         CollectionReference recipeReference = recipeDB.getRecipeReference();
@@ -103,6 +115,9 @@ public class RecipeDBTest {
         assertEquals(PreSize, recipeList.size());
     }
 
+    /**
+     * Testing editing of recipe in database
+     */
     @Test
     public void testEditRecipe() {
         CollectionReference recipeReference = recipeDB.getRecipeReference();
@@ -171,7 +186,7 @@ public class RecipeDBTest {
 
 
         assertEquals(PreSize+1, recipeList.size());
-
+        assertEquals(recipe2, recipeList.get(0));
         recipeDB.removeRecipe(recipe2);
     }
 }
