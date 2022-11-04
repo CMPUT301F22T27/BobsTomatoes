@@ -8,6 +8,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import org.junit.runner.RunWith;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -95,9 +97,9 @@ public class IngredientDBTest {
 
     @Test
     void testAddIngredientDB(){
-        Ingredient ingredient = mockIngredient();
+        ingredientDB = new IngredientDB();
 
-        assertNull(ingredientDB);
+        Ingredient ingredient = mockIngredient();
 
         ArrayList<Ingredient> ingredientListDB = ingredientDB.getIngredientList();
 
@@ -108,6 +110,7 @@ public class IngredientDBTest {
         ingredientDB.addIngredient(ingredient);
 
         assertEquals(preSize+1, ingredientListDB.size());
+
     }
 
     public void readData(IngredientFireStoreCallback callBack, CollectionReference ingredientReference, ArrayList<Ingredient> ingredientList) {
