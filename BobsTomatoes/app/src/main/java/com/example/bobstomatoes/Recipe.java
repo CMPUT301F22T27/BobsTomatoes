@@ -88,6 +88,22 @@ public class Recipe implements Parcelable {
         this.recipeIngredients = recipeIngredients;
     }
 
+    public int compareToRecipeTitle(Recipe recipe) {
+        return (this.getRecipeTitle().compareTo(recipe.getRecipeTitle()));
+    }
+
+    public int compareToRecipeTime(Recipe recipe) {
+        return (String.valueOf(this.getRecipeTime()).compareTo(String.valueOf(recipe.getRecipeTime())));
+    }
+
+    public int compareToRecipeServings(Recipe recipe){
+        return(String.valueOf(this.getRecipeServings()).compareTo(String.valueOf(recipe.getRecipeServings())));
+    }
+
+    public int compareToRecipeCategory(Recipe recipe){
+        return(this.getRecipeCategory().compareTo(recipe.getRecipeCategory()));
+    }
+
     protected Recipe(Parcel in) {
         recipeTitle = in.readString();
         recipeTime = in.readInt();

@@ -113,35 +113,6 @@ public class IngredientDB {
         ingredientList.set(oldIngredientPos, updatedIngredient);
     }
 
-    public void updateIngredientList(){
-        Log.d("", "onEvent: Accessed 0000000000000000");
-        ingredientReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.i("", "onComplete: " + document.getId() + "=>" + document.getData());
-                        Log.d("", document.getId() + " => " + document.getData());
-                        String ingredientDesc = document.getId();
-                        String ingredientDate = (String) document.getData().get("ingredientDate");
-                        String ingredientLocation = (String) document.getData().get("ingredientLocation");
-                        int ingredientAmount = Integer.parseInt(document.getData().get("ingredientAmount").toString());
-                        int ingredientUnit = Integer.parseInt(document.getData().get("ingredientUnit").toString());
-                        String ingredientCategory = (String) document.getData().get("ingredientCategory");
-                        Ingredient ingredient = new Ingredient(ingredientDesc, ingredientDate, ingredientLocation, ingredientAmount, ingredientUnit, ingredientCategory);
-                        Log.d("",ingredient + "");
-                        ingredientList.add(ingredient);
-                        Log.d("", ingredientList.get(0).getIngredientDesc());
-                        Log.d("", ingredientList.get(0).getIngredientLocation());
-//                      Ingredient ingredient = document.toObject(Ingredient.class);
-                    }
-                } else {
-                    Log.d("", "onEvent: Accessed 1111111111111");
-                    Log.d("", "Error getting documents: ", task.getException());
-                }
-            }
-        });
-    }
 
     public ArrayList<Ingredient> getIngredientList() {
         return ingredientList;

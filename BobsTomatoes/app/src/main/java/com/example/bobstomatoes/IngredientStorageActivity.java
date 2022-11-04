@@ -38,7 +38,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     ImageButton addButton;
     ArrayAdapter<Ingredient> ingredientAdapter;
     IngredientDB ingredientDB;
-    ArrayList<Ingredient> testIngredients;
+    ArrayList<Ingredient> ingredientList;
     CollectionReference ingredientReference;
     String [] sortChoices = {"Description", "Location", "Best Before Date", "Category"};
     ArrayList <String> spinnerOptions = new ArrayList<>();
@@ -48,6 +48,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        setTitle("Ingredient Storage");
         setContentView(R.layout.activity_ingredient_storage);
 
         bundle = new Bundle();
@@ -66,16 +67,16 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
 
         ingredientDB = new IngredientDB();
 
-        testIngredients = ingredientDB.getIngredientList();
+        ingredientList = ingredientDB.getIngredientList();
 
         ingredientReference = ingredientDB.getIngredientReference();
 
-        ingredientAdapter = new IngredientStorageAdapter(this, testIngredients);
+        ingredientAdapter = new IngredientStorageAdapter(this, ingredientList);
         ingredientsListView.setAdapter(ingredientAdapter);
 
-        readData(new FireStoreCallback() {
+        readData(new IngredientFireStoreCallback() {
             @Override
-            public void onCallBack(ArrayList<Ingredient> test) {
+            public void onCallBack(ArrayList<Ingredient> ingredientList) {
                 ingredientAdapter.notifyDataSetChanged();
             }
         });
@@ -89,7 +90,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         // Creates fragment to allow editing and deletion of an ingredient
         ingredientsListView.setOnItemClickListener((adapterView, view, i, l) -> {
             ingredientPos = ingredientsListView.getCheckedItemPosition();
-            Ingredient selectedIngredient = testIngredients.get(ingredientPos);
+            Ingredient selectedIngredient = ingredientList.get(ingredientPos);
             bundle.putParcelable("selectedIngredient", selectedIngredient);
             bundle.putInt("oldIngredientPos", ingredientPos);
             bundle.putBoolean("isEdit", true);
@@ -164,27 +165,27 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
      */
     public void sortByChoice(String choice){
         if(choice.equals("Description")){
-            Collections.sort(testIngredients, Ingredient::compareToIngredientDesc);
+            Collections.sort(ingredientList, Ingredient::compareToIngredientDesc);
         }else if(choice.equals("Location")){
-            Collections.sort(testIngredients, Ingredient::compareToIngredientLocation);
+            Collections.sort(ingredientList, Ingredient::compareToIngredientLocation);
         }else if(choice.equals("Best Before Date")){
-            Collections.sort(testIngredients, Ingredient::compareToIngredientDate);
+            Collections.sort(ingredientList, Ingredient::compareToIngredientDate);
         }else{
-            Collections.sort(testIngredients, Ingredient::compareToIngredientCategory);
+            Collections.sort(ingredientList, Ingredient::compareToIngredientCategory);
         }
         ingredientAdapter.notifyDataSetChanged();
     }
 
-    public void readData(FireStoreCallback callBack) {
+    public void readData(IngredientFireStoreCallback callBack) {
         ingredientReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                       Ingredient ingredient = document.toObject(Ingredient.class);
-                      testIngredients.add(ingredient);
+                        ingredientList.add(ingredient);
                     }
-                    callBack.onCallBack(testIngredients);
+                    callBack.onCallBack(ingredientList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
                 }
@@ -192,7 +193,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         });
     }
 
-    private interface FireStoreCallback {
-        void onCallBack(ArrayList<Ingredient> test);
+    private interface IngredientFireStoreCallback {
+        void onCallBack(ArrayList<Ingredient> ingredientList);
     }
 }
