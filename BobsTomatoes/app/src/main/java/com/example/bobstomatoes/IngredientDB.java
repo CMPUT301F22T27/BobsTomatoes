@@ -28,7 +28,7 @@ import java.util.Map;
  */
 public class IngredientDB {
 
-    private final ArrayList<Ingredient> ingredientList;
+    private ArrayList<Ingredient> ingredientList;
 
     private final FirebaseFirestore ingredientDatabase = FirebaseFirestore.getInstance();
 
@@ -38,7 +38,7 @@ public class IngredientDB {
      * IngredientDB constructor, is an empty constructor, initialize ingredientList
      */
     public IngredientDB() {
-        ingredientList = new ArrayList<Ingredient>();
+        this.ingredientList = new ArrayList<Ingredient>();
     }
 
     /**

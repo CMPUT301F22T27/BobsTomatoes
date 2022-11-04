@@ -173,20 +173,6 @@ public class RecipeDB implements Parcelable {
         return this.recipeReference;
     }
 
-    /**
-     * Update recipe list on firebase
-     */
-    public void updateRecipeList(){
-        recipeReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                recipeList.clear();
-                for (QueryDocumentSnapshot doc: value) {
-                    recipeList.add(doc.toObject(Recipe.class));
-                }
-            }
-        });
-    }
 
     /**
      * RecipeDP constructor, takes in a parcel
