@@ -79,6 +79,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         ingredientAdapter = new IngredientStorageAdapter(this, ingredientList);
         ingredientsListView.setAdapter(ingredientAdapter);
 
+        //This basically forces the onComplete to finish before we can use the ArrayList, so by calling this, we can safely assume the list has been populated from the DataBase
         readData(new IngredientFireStoreCallback() {
             /**
              * Notify data change for ingredientList
@@ -125,6 +126,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
             }
         });
 
+        //Opens the fragment with blank editTexts to add a completely new Recipe
         addButton = findViewById(R.id.center_add_imageButton_id);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,7 +204,9 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     }
 
     /**
+     * Interface
      * Call back ingredientList
+     * Basically allows us to access the ingredientList outside of the onComplete and it ensures that the onComplete has fully populated our list
      */
     private interface IngredientFireStoreCallback {
         void onCallBack(ArrayList<Ingredient> ingredientList);

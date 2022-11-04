@@ -220,6 +220,11 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         });
     }
 
+    /**
+     * Interface
+     * Call back recipeList
+     * Basically allows us to access the recipeList outside of the onComplete and it ensures that the onComplete has fully populated our list
+     */
     private interface RecipeFireStoreCallback {
         void onCallBack(ArrayList<Recipe> recipeList);
     }
