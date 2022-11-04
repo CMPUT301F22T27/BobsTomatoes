@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class detailing the database of ingredients
+ * Class adding, removing, and editing ingredient firebase database
  */
 public class IngredientDB {
 
