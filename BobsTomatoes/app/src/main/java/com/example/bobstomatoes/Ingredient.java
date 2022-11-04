@@ -187,7 +187,7 @@ public class Ingredient implements Parcelable {
 
     /**
      * Description compareTo
-     * Compare ingredient descriptions
+     * Compare ingredient descriptions for sorting
      * @param ingredient    specified ingredient
      * @return              returns 0 if both equal, >0 if first value is greater, <0 if second value is greater
      */
@@ -197,7 +197,7 @@ public class Ingredient implements Parcelable {
 
     /**
      * Location compareTo
-     * Compare ingredient locations
+     * Compare ingredient locations for sorting
      * @param ingredient    specified ingredient
      * @return              returns 0 if both equal, >0 if first value is greater, <0 if second value is greater
      */
@@ -207,7 +207,7 @@ public class Ingredient implements Parcelable {
 
     /**
      * Date compareTo
-     * Compare ingredient Best Before Dates
+     * Compare ingredient Best Before Dates for sorting
      * @param ingredient    specified ingredient
      * @return              returns 0 if both equal, >0 if first value is greater, <0 if second value is greater
      */
@@ -217,7 +217,7 @@ public class Ingredient implements Parcelable {
 
     /**
      * Category compareTo
-     * Compare ingredient categories
+     * Compare ingredient categories for sorting
      * @param ingredient    specified ingredient
      * @return              returns 0 if both equal, >0 if first value is greater, <0 if second value is greater
      */

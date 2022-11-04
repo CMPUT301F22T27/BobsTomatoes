@@ -22,8 +22,8 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
 
     /**
      * RecipeAdapter constructor. Takes in context of activity and arraylist of recipes
-     * @param context
-     * @param recipes
+     * @param context   activity context
+     * @param recipes   array list of recipes
      */
     public RecipeAdapter(Context context, ArrayList<Recipe> recipes) {
         super(context, 0, recipes);
@@ -33,10 +33,10 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
 
     /**
      * Creates and inflates a new view representation of a recipe item
-     * @param position
-     * @param convertView
-     * @param parent
-     * @return
+     * @param position      index of specified recipe
+     * @param convertView   new view
+     * @param parent        parent view
+     * @return              returns new view representation of recipe items
      */
     @NonNull
     @Override
