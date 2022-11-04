@@ -24,15 +24,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class IngredientDBTest {
-
-    IngredientDB ingredientDB;
-
-    @Before
-    public void initializeDB(){
-        ingredientDB = new IngredientDB();
-    }
-
+public class IngredientTest {
 
     private ArrayList<Ingredient> mockIngredientList(){
         ArrayList<Ingredient> ingredientList= new ArrayList<>();
@@ -68,6 +60,20 @@ public class IngredientDBTest {
     }
 
     @Test
+    void testCompareToIngredientDate(){
+        ArrayList<Ingredient> ingredientList = mockIngredientList();
+
+        Collections.sort(ingredientList, Ingredient::compareToIngredientDate);
+
+        assertTrue(ingredientList.get(0).getIngredientDate().equals("2021-01-28"));
+        assertTrue(ingredientList.get(1).getIngredientDate().equals("2022-11-03"));
+        assertTrue(ingredientList.get(2).getIngredientDate().equals("2022-11-04"));
+        assertTrue(ingredientList.get(3).getIngredientDate().equals("2022-11-05"));
+        assertTrue(ingredientList.get(4).getIngredientDate().equals("2022-12-04"));
+        assertTrue(ingredientList.get(5).getIngredientDate().equals("2023-06-30"));
+    }
+
+    @Test
     void testCompareToIngredientLocation(){
         ArrayList<Ingredient> ingredientList = mockIngredientList();
 
@@ -94,47 +100,4 @@ public class IngredientDBTest {
         assertTrue(ingredientList.get(4).getIngredientCategory().equals("Grain"));
         assertTrue(ingredientList.get(5).getIngredientCategory().equals("Protein"));
     }
-
-    @Test
-    void testAddIngredientDB(){
-        ingredientDB = new IngredientDB();
-
-        Ingredient ingredient = mockIngredient();
-
-        ArrayList<Ingredient> ingredientListDB = ingredientDB.getIngredientList();
-
-        ingredientDB.addIngredient(ingredient);
-
-        int preSize = ingredientListDB.size();
-
-        ingredientDB.addIngredient(ingredient);
-
-        assertEquals(preSize+1, ingredientListDB.size());
-
-    }
-
-    public void readData(IngredientFireStoreCallback callBack, CollectionReference ingredientReference, ArrayList<Ingredient> ingredientList) {
-        ingredientReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Ingredient ingredient = document.toObject(Ingredient.class);
-                        ingredientList.add(ingredient);
-                    }
-                    callBack.onCallBack(ingredientList);
-                } else {
-                    Log.d("", "Error getting documents: ", task.getException());
-                }
-            }
-        });
-    }
-
-    /**
-     * Call back ingredientList
-     */
-    private interface IngredientFireStoreCallback {
-        void onCallBack(ArrayList<Ingredient> ingredientList);
-    }
-
 }
