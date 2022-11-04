@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+/**
+ * ShoppingListActivity, displays shoppingList and extends AbstractNavigationBar
+ */
 public class ShoppingListActivity extends AbstractNavigationBar {
 
     /**
