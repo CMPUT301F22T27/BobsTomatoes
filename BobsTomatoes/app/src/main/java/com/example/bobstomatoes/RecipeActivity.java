@@ -50,14 +50,14 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         bundle = new Bundle();
 
         //Test Values
-//        Ingredient testIngredient1 = new Ingredient("Red Tomatoes", "2022",
-//                "Fridge", 1, 1, "Canned");
-//        ArrayList<Ingredient> testIngredientsList = new ArrayList<>();
-//        testIngredientsList.add(testIngredient1);
-//        Recipe testRecipe1 = new Recipe("Tomato Bomb", 10, 2,
-//                "Soup", "Very Good!", testIngredientsList);
-//        testRecipes = new ArrayList<>();
-//        testRecipes.add(testRecipe1);
+        Ingredient testIngredient1 = new Ingredient("Red Tomatoes", "2022",
+                "Fridge", 1, 1, "Canned");
+        ArrayList<Ingredient> testIngredientsList = new ArrayList<>();
+        testIngredientsList.add(testIngredient1);
+        Recipe testRecipe1 = new Recipe("Tomato Bomb", 10, 2,
+                "Soup", "Very Good!", testIngredientsList);
+        testRecipes = new ArrayList<>();
+        testRecipes.add(testRecipe1);
 
         //Recipe Adapter
         recipeAdapter = new RecipeAdapter(this, testRecipes);
