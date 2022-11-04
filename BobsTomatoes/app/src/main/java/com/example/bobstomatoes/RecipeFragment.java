@@ -47,7 +47,7 @@ public class RecipeFragment extends DialogFragment {
 
     //Database
     IngredientDB ingredientDB;
-    ArrayList<Ingredient> testIngredients;
+    ArrayList<Ingredient> ingredientList;
     CollectionReference ingredientReference;
     ArrayAdapter<Ingredient> ingredientAdapter;
 
@@ -110,8 +110,6 @@ public class RecipeFragment extends DialogFragment {
 
             selectedRecipe = bundle.getParcelable("selectedRecipe");
             oldRecipePos = bundle.getInt("oldRecipePos");
-
-            Log.d("TESTESTESTEST", selectedRecipe.getRecipeTitle() + "");
 
             titleText.setText(selectedRecipe.getRecipeTitle());
             timeText.setText(String.valueOf(selectedRecipe.getRecipeTime()));
@@ -186,29 +184,17 @@ public class RecipeFragment extends DialogFragment {
 
         ingredientDB = new IngredientDB();
 
-        testIngredients = ingredientDB.getIngredientList();
+        ingredientList = ingredientDB.getIngredientList();
 
         ingredientReference = ingredientDB.getIngredientReference();
 
-
-        //For no database testing
-//        ArrayList<Ingredient> ingredients = new ArrayList<>();
-//
-//        ingredients.add(new Ingredient("Red Tomatoes", "2022",
-//                "Fridge", 1, 1, "Canned"));
-//        ingredients.add(new Ingredient("Tomato Sauce", "2022",
-//                "Fridge", 1, 1, "Canned"));
-//
-//        ingredientAdapter = new IngredientStorageAdapter(getContext(), ingredients);
-
-
-        ingredientAdapter = new IngredientStorageAdapter(getContext(), testIngredients);
+        ingredientAdapter = new IngredientStorageAdapter(getContext(), ingredientList);
 
         ingredientsList.setAdapter(ingredientAdapter);
 
-        readData(new FireStoreCallback() {
+        readData(new IngredientFireStoreCallback() {
             @Override
-            public void onCallBack(ArrayList<Ingredient> test) {
+            public void onCallBack(ArrayList<Ingredient> IngredientList) {
                 ingredientAdapter.notifyDataSetChanged();
             }
         });
@@ -219,10 +205,7 @@ public class RecipeFragment extends DialogFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
 
-                //For no database testing
-                //Ingredient selectedIngredient = ingredients.get(pos);
-
-                Ingredient selectedIngredient = testIngredients.get(pos);
+                Ingredient selectedIngredient = ingredientList.get(pos);
 
                 boolean found = false;
 
@@ -238,7 +221,6 @@ public class RecipeFragment extends DialogFragment {
                         //Messing around with highlighting
                         ingredientsList.setSelector(R.color.white);
 
-                        Log.d("TESTESTESTESTES", "REMOVED FROM LIST");
 
                     }
                 }
@@ -250,7 +232,6 @@ public class RecipeFragment extends DialogFragment {
                     //Messing around with highlighting
                     ingredientsList.setSelector(R.color.teal_200);
 
-                    Log.d("TESTESTESTESTES", "ADDED TO LIST");
 
                 }
 
@@ -259,16 +240,16 @@ public class RecipeFragment extends DialogFragment {
 
     }
 
-    public void readData(FireStoreCallback callBack) {
+    public void readData(IngredientFireStoreCallback callBack) {
         ingredientReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Ingredient ingredient = document.toObject(Ingredient.class);
-                        testIngredients.add(ingredient);
+                        ingredientList.add(ingredient);
                     }
-                    callBack.onCallBack(testIngredients);
+                    callBack.onCallBack(ingredientList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
                 }
@@ -276,8 +257,8 @@ public class RecipeFragment extends DialogFragment {
         });
     }
 
-    private interface FireStoreCallback {
-        void onCallBack(ArrayList<Ingredient> test);
+    private interface IngredientFireStoreCallback {
+        void onCallBack(ArrayList<Ingredient> IngredientList);
     }
 
 }

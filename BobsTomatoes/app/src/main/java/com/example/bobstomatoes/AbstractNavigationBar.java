@@ -79,13 +79,6 @@ public abstract class AbstractNavigationBar extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
     }
-
 
 }
