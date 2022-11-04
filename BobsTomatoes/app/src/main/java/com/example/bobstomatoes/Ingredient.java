@@ -5,6 +5,10 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 
+/**
+ * Class detailing the information of an ingredient
+ * extends Parceable
+ */
 public class Ingredient implements Parcelable {
     private String ingredientDesc;
     private String ingredientDate;
@@ -13,6 +17,15 @@ public class Ingredient implements Parcelable {
     private int ingredientUnit;
     private String ingredientCategory;
 
+    /**
+     * Ingredient constructor, takes in the description, date, location, amount, unit, and category of the ingredient
+     * @param ingredientDesc
+     * @param ingredientDate
+     * @param ingredientLocation
+     * @param ingredientAmount
+     * @param ingredientUnit
+     * @param ingredientCategory
+     */
     public Ingredient(String ingredientDesc, String ingredientDate, String ingredientLocation, int ingredientAmount, int ingredientUnit, String ingredientCategory) {
         this.ingredientDesc = ingredientDesc;
         this.ingredientDate = ingredientDate;
@@ -95,6 +108,22 @@ public class Ingredient implements Parcelable {
         this.ingredientCategory = ingredientCategory;
     }
 
+    public int compareToIngredientDesc(Ingredient ingredient) {
+        return (this.getIngredientDesc().compareTo(ingredient.getIngredientDesc()));
+    }
+
+    public int compareToIngredientLocation(Ingredient ingredient) {
+        return (this.getIngredientLocation().compareTo(ingredient.getIngredientLocation()));
+    }
+
+    public int compareToIngredientDate(Ingredient ingredient){
+        return(this.getIngredientDate().compareTo(ingredient.getIngredientDate()));
+    }
+
+    public int compareToIngredientCategory(Ingredient ingredient){
+        return(this.getIngredientCategory().compareTo(ingredient.getIngredientCategory()));
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -109,4 +138,6 @@ public class Ingredient implements Parcelable {
         parcel.writeInt(ingredientUnit);
         parcel.writeString(ingredientCategory);
     }
+
+
 }

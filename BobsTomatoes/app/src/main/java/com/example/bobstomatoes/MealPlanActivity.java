@@ -10,6 +10,7 @@ public class MealPlanActivity extends AbstractNavigationBar {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Meal Plan");
         setContentView(R.layout.main_meal_plan);
 
         //Sets up buttons and onClickListeners for navigation bar

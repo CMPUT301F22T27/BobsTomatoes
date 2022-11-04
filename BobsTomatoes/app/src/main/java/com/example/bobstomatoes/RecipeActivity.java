@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,6 +20,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
+/**
+ * Class for Recipe which displays a list of all the recipes
+ * extends AbstractNavigationBar
+ * implements RecipeFragment.OnRecipeFragmentListener
+ */
 
 public class RecipeActivity extends AbstractNavigationBar implements RecipeFragment.OnRecipeFragmentListener {
 
@@ -30,12 +38,17 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     RecipeDB recipeDB;
     ArrayAdapter<Recipe> recipeAdapter;
-    ArrayList<Recipe> testRecipes;
+    ArrayList<Recipe> recipeList;
     CollectionReference recipeReference;
+
+    String [] sortChoices = {"Title", "Preparation Time", "Number of servings", "Category"};
+    ArrayList <String> spinnerOptions = new ArrayList<>();
+    ArrayAdapter <String> spinnerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Recipes");
         setContentView(R.layout.activity_recipe);
 
         RecipeListView = findViewById(R.id.recipe_listview_id);
@@ -43,7 +56,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
         //Initialize recipe database
         recipeDB = new RecipeDB();
-        testRecipes = recipeDB.getRecipes();
+        recipeList = recipeDB.getRecipes();
         recipeReference = recipeDB.getRecipeReference();
 
         //Create bundle
@@ -60,13 +73,13 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         testRecipes.add(testRecipe1);
 
         //Recipe Adapter
-        recipeAdapter = new RecipeAdapter(this, testRecipes);
+        recipeAdapter = new RecipeAdapter(this, recipeList);
 
         //Link array and adapter
         RecipeListView.setAdapter(recipeAdapter);
 
         //Populate recipe list from database
-        readData(new FireStoreCallback() {
+        readData(new RecipeFireStoreCallback() {
             @Override
             public void onCallBack(ArrayList<Recipe> test) {
                 recipeAdapter.notifyDataSetChanged();
@@ -101,7 +114,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
 
                 recipePos = pos;
-                Recipe selectedRecipe = testRecipes.get(pos);
+                Recipe selectedRecipe = recipeList.get(pos);
 
                 bundle.putParcelable("selectedRecipe", selectedRecipe);
                 bundle.putInt("oldRecipePos", recipePos);
@@ -113,8 +126,35 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
             }
         });
 
+        // Create and Populate Spinner
+        // Spinner allows users to choose how to sort ingredients
+        Spinner choiceSpinner = (Spinner) findViewById(R.id.sortDropDownID);
+        // Populate Sort Choice Spinner
+        for (int i = 0;  i < sortChoices.length; i++) {
+            spinnerOptions.add(sortChoices[i]);
+        }
+        spinnerAdapter = new ArrayAdapter <> (this, android.R.layout.simple_spinner_dropdown_item, spinnerOptions);
+        choiceSpinner.setAdapter(spinnerAdapter);
+
+        // Retrieve user sort choice
+        choiceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String sortChoice = (String) choiceSpinner.getSelectedItem();
+                sortByChoice(sortChoice);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 
+    /**
+     * Confirms the addition of a new recipe when the add button is pressed
+     * @param recipe
+     */
     public void onAddOkPressed(Recipe recipe) {
 
         recipeDB.addRecipe(recipe);
@@ -122,6 +162,10 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     }
 
+    /**
+     * Confirms the edit of a recipe when the edit button is pressed
+     * @param recipe
+     */
     public void onEditOkPressed(Recipe recipe) {
 
         recipeDB.editRecipe(recipePos, recipe);
@@ -129,23 +173,43 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     }
 
+    /**
+     * Confirms the deletion of a recipe when the delete button is pressed
+     * @param recipe
+     */
     public void onDeleteOkPressed(Recipe recipe){
-
         recipeDB.removeRecipe(recipe);
         recipeAdapter.notifyDataSetChanged();
 
     }
 
-    public void readData(FireStoreCallback callBack) {
+    /**
+     * Allows the user to sort the list of recipes by title, preparation time, number of servings, and category
+     * @param choice
+     */
+    public void sortByChoice(String choice){
+        if(choice.equals("Title")){
+            Collections.sort(recipeList, Recipe::compareToRecipeTitle);
+        }else if(choice.equals("Preparation Time")){
+            Collections.sort(recipeList, Recipe::compareToRecipeTime);
+        }else if(choice.equals("Number of Servings")){
+            Collections.sort(recipeList, Recipe::compareToRecipeServings);
+        }else{
+            Collections.sort(recipeList, Recipe::compareToRecipeCategory);
+        }
+        recipeAdapter.notifyDataSetChanged();
+    }
+
+    public void readData(RecipeFireStoreCallback callBack) {
         recipeReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Recipe recipe = document.toObject(Recipe.class);
-                        testRecipes.add(recipe);
+                        recipeList.add(recipe);
                     }
-                    callBack.onCallBack(testRecipes);
+                    callBack.onCallBack(recipeList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
                 }
@@ -153,7 +217,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         });
     }
 
-    private interface FireStoreCallback {
+    private interface RecipeFireStoreCallback {
         void onCallBack(ArrayList<Recipe> test);
     }
 
