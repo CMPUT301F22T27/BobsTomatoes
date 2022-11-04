@@ -38,7 +38,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     RecipeDB recipeDB;
     ArrayAdapter<Recipe> recipeAdapter;
-    ArrayList<Recipe> testRecipes;
+    ArrayList<Recipe> recipeList;
     CollectionReference recipeReference;
 
     String [] sortChoices = {"Title", "Preparation Time", "Number of servings", "Category"};
@@ -56,7 +56,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
         //Initialize recipe database
         recipeDB = new RecipeDB();
-        testRecipes = recipeDB.getRecipes();
+        recipeList = recipeDB.getRecipes();
         recipeReference = recipeDB.getRecipeReference();
 
         //Create bundle
@@ -73,7 +73,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 //        testRecipes.add(testRecipe1);
 
         //Recipe Adapter
-        recipeAdapter = new RecipeAdapter(this, testRecipes);
+        recipeAdapter = new RecipeAdapter(this, recipeList);
 
         //Link array and adapter
         RecipeListView.setAdapter(recipeAdapter);
@@ -114,7 +114,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
 
                 recipePos = pos;
-                Recipe selectedRecipe = testRecipes.get(pos);
+                Recipe selectedRecipe = recipeList.get(pos);
 
                 bundle.putParcelable("selectedRecipe", selectedRecipe);
                 bundle.putInt("oldRecipePos", recipePos);
@@ -189,13 +189,13 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
      */
     public void sortByChoice(String choice){
         if(choice.equals("Title")){
-            Collections.sort(testRecipes, Recipe::compareToRecipeTitle);
+            Collections.sort(recipeList, Recipe::compareToRecipeTitle);
         }else if(choice.equals("Preparation Time")){
-            Collections.sort(testRecipes, Recipe::compareToRecipeTime);
+            Collections.sort(recipeList, Recipe::compareToRecipeTime);
         }else if(choice.equals("Number of Servings")){
-            Collections.sort(testRecipes, Recipe::compareToRecipeServings);
+            Collections.sort(recipeList, Recipe::compareToRecipeServings);
         }else{
-            Collections.sort(testRecipes, Recipe::compareToRecipeCategory);
+            Collections.sort(recipeList, Recipe::compareToRecipeCategory);
         }
         recipeAdapter.notifyDataSetChanged();
     }
@@ -207,9 +207,9 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Recipe recipe = document.toObject(Recipe.class);
-                        testRecipes.add(recipe);
+                        recipeList.add(recipe);
                     }
-                    callBack.onCallBack(testRecipes);
+                    callBack.onCallBack(recipeList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
                 }
