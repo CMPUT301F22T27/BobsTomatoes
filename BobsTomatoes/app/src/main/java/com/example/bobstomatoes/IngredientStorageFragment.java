@@ -59,8 +59,8 @@ public class IngredientStorageFragment extends DialogFragment {
 
     /**
      * Provides a dialog for the fragment to manage and display, allows the user to add, edit, and delete an ingredient
-     * @param savedInstanceState
-     * @return
+     * @param savedInstanceState    interface container containing saveInstanceState
+     * @return                      returns dialog 
      */
     @NonNull
     @Override
@@ -143,10 +143,6 @@ public class IngredientStorageFragment extends DialogFragment {
                         }
                     })
                     .create();
-
         }
-
-
-
-        }
-        }
+    }
+}
