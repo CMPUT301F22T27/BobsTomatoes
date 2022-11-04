@@ -7,8 +7,15 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Recipe test, test sorting of recipes by title, time, servings, category, test will execute on an android device
+ */
 public class RecipeTest {
 
+    /**
+     * Create an ingredient list
+     * @return      return the new created ingredient list
+     */
     ArrayList<Ingredient> mockIngredientList(){
         ArrayList<Ingredient> ingredientList= new ArrayList<>();
         ingredientList.add(new Ingredient("Honeydew", "2022-12-04", "Pantry", 1,1,"Fruit"));
@@ -19,6 +26,10 @@ public class RecipeTest {
         return ingredientList;
     }
 
+    /**
+     * Create a recipe list
+     * @return      return the new created recipe list
+     */
     private ArrayList<Recipe> mockRecipeList(){
         ArrayList<Recipe> recipeList= new ArrayList<>();
         recipeList.add(mockRecipe());
@@ -30,14 +41,26 @@ public class RecipeTest {
         return recipeList;
     }
 
+    /**
+     * Create a new recipe
+     * @return      return new recipe
+     */
     private Recipe mockRecipe(){
         return new Recipe("Mushroom Soup", 12, 6, "Soup", "Hot", mockIngredientList());
     }
 
+    /**
+     * Create a new recipe database
+     * @return      return new recipe
+     */
     private RecipeDB mockRecipeDB(){
         return new RecipeDB();
     }
 
+    /**
+     * Test the comparing of recipe title
+     * Allow for sorting of ingredients by titles
+     */
     @Test
     void testCompareToRecipeTitle(){
         ArrayList<Recipe> recipeList = mockRecipeList();
@@ -52,6 +75,10 @@ public class RecipeTest {
         assertTrue(recipeList.get(5).getRecipeTitle().equals("Tomato Soup"));
     }
 
+    /**
+     * Test the comparing of recipe time
+     * Allow for sorting of recipe by time
+     */
     @Test
     void testCompareToRecipeTime(){
         ArrayList<Recipe> recipeList = mockRecipeList();
@@ -66,6 +93,10 @@ public class RecipeTest {
         assertTrue(recipeList.get(5).getRecipeTime() == 30);
     }
 
+    /**
+     * Test the comparing of recipe serving size
+     * Allow for sorting of ingredients by serving size
+     */
     @Test
     void testCompareToRecipeServings(){
         ArrayList<Recipe> recipeList = mockRecipeList();
@@ -80,6 +111,10 @@ public class RecipeTest {
         assertTrue(recipeList.get(5).getRecipeServings() == 6);
     }
 
+    /**
+     * Test the comparing of recipe category
+     * Allow for sorting of ingredients by categories
+     */
     @Test
     void testCompareToRecipeCategory(){
         ArrayList<Recipe> recipeList = mockRecipeList();
