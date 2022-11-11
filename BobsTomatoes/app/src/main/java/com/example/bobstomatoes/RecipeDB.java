@@ -55,7 +55,7 @@ public class RecipeDB implements Parcelable {
      */
     public void addRecipe(Recipe recipe){
 
-        //Populate map with recipe contents
+        // Populate map with recipe contents
         HashMap<String, Object> data = new HashMap<>();
         String recipeName = recipe.getRecipeTitle();
         data.put("recipeTitle", recipeName);
@@ -65,7 +65,7 @@ public class RecipeDB implements Parcelable {
         data.put("recipeComments", recipe.getRecipeComments());
         data.put("recipeIngredients", recipe.getRecipeIngredients());
 
-        //Add recipe to database
+        // Add recipe to database
         recipeReference.document(recipeName)
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -90,7 +90,7 @@ public class RecipeDB implements Parcelable {
      */
     public void removeRecipe(Recipe recipe) {
 
-        //Populate map with recipe contents
+        // Populate map with recipe contents
         HashMap<String, Object> data = new HashMap<>();
         String recipeName = recipe.getRecipeTitle();
         data.put("recipeTitle", recipeName);
@@ -126,7 +126,7 @@ public class RecipeDB implements Parcelable {
      */
     public void editRecipe(int oldRecipePos, Recipe updatedRecipe) {
 
-        //Populate map with recipe contents
+        // Populate map with recipe contents
         HashMap<String, Object> data = new HashMap<>();
         String recipeName = updatedRecipe.getRecipeTitle();
         data.put("recipeTitle", recipeName);

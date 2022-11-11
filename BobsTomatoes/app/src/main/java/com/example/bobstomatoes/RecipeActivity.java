@@ -59,21 +59,21 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         RecipeListView = findViewById(R.id.recipe_listview_id);
         addButton = findViewById(R.id.center_add_imageButton_id);
 
-        //Initialize recipe database
+        // Initialize recipe database
         recipeDB = new RecipeDB();
         recipeList = recipeDB.getRecipes();
         recipeReference = recipeDB.getRecipeReference();
 
-        //Create bundle
+        // Create bundle
         bundle = new Bundle();
 
-        //Recipe Adapter
+        // Recipe Adapter
         recipeAdapter = new RecipeAdapter(this, recipeList);
 
-        //Link array and adapter
+        // Link array and adapter
         RecipeListView.setAdapter(recipeAdapter);
 
-        //Populate recipe list from database
+        // Populate recipe list from database, by calling this, we can safely assume the list has been populated from the DataBase
         readData(new RecipeFireStoreCallback() {
             /**
              * Notify data change for ingredientList
@@ -86,18 +86,18 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         });
 
 
-        //Sets up buttons and onClickListeners for navigation bar
+        // Sets up buttons and onClickListeners for navigation bar
         initializeButtons(RecipeActivity.this);
 
         //Override recipe nav button to do nothing
         recipeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //do nothing
+                // do nothing
             }
         });
 
-        //Add Button Listener
+        // Add Button Listener
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,7 +107,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
             }
         });
 
-        //Set listview item click listener for when user clicks item in list
+        // Set listview item click listener for when user clicks item in list
         RecipeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
@@ -220,6 +220,11 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         });
     }
 
+    /**
+     * Interface
+     * Call back recipeList
+     * Basically allows us to access the recipeList outside of the onComplete and it ensures that the onComplete has fully populated our list
+     */
     private interface RecipeFireStoreCallback {
         void onCallBack(ArrayList<Recipe> recipeList);
     }
