@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="vertical"
-tools:context=".IngredientStorageActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".IngredientStorageActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="horizontal">
 
@@ -33,16 +33,17 @@ tools:context=".IngredientStorageActivity">
     </LinearLayout>
 
 
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/recyclerView"
-    android:layout_width="match_parent"
-    android:layout_height="625dp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="610dp" />
 
+    <include
+        android:id="@+id/navigation_buttons_layout_id"
+        layout="@layout/navigation_buttons_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-<include
-    android:id="@+id/navigation_buttons_layout_id"
-    layout="@layout/navigation_buttons_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"></include>
+    </include>
 
 </LinearLayout>
