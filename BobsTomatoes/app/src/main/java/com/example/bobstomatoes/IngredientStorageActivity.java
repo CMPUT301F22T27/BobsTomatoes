@@ -1,16 +1,13 @@
 package com.example.bobstomatoes;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
@@ -31,8 +28,7 @@ import java.util.Collections;
  * implements IngredientStorageFragment.OnIngredientFragmentListener
  */
 
-public class IngredientStorageActivity extends AbstractNavigationBar implements IngredientStorageFragment.OnIngredientFragmentListener {
-
+public class IngredientStorageActivity extends AbstractNavigationBar implements IngredientStorageFragment.OnIngredientFragmentListener, RecyclerViewInterface {
     ListView ingredientsListView;
     int ingredientPos;
     Bundle bundle;
@@ -83,7 +79,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
 
         ingredientReference = ingredientDB.getIngredientReference();
 
-        ingredientRecyclerAdapter = new IngredientStorageRecyclerAdapter(this, ingredientList);
+        ingredientRecyclerAdapter = new IngredientStorageRecyclerAdapter(this, ingredientList, this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(ingredientRecyclerAdapter);
@@ -212,6 +208,16 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         });
     }
 
+    @Override
+    public void onItemClick(int position) {
+        Ingredient selectedIngredient = ingredientList.get(position);
+        bundle.putParcelable("selectedIngredient", selectedIngredient);
+        bundle.putInt("oldIngredientPos", position);
+        bundle.putBoolean("isEdit", true);
+        fragment.setArguments(bundle);
+        fragment.show(getSupportFragmentManager(), "EDIT OR DELETE INGREDIENT");
+    }
+
     /**
      * Interface
      * Call back ingredientList
@@ -220,4 +226,5 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     private interface IngredientFireStoreCallback {
         void onCallBack(ArrayList<Ingredient> ingredientList);
     }
+
 }

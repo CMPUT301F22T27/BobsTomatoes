@@ -10,24 +10,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<IngredientStorageRecyclerAdapter.ViewHolder> {
     private ArrayList<Ingredient> ingredientList = new ArrayList<>();
     private Context context;
 
+    private final RecyclerViewInterface recyclerViewInterface;
 
-    public IngredientStorageRecyclerAdapter(Context context, ArrayList<Ingredient> ingredientList) {
+    public IngredientStorageRecyclerAdapter(Context context, ArrayList<Ingredient> ingredientList, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.ingredientList = ingredientList;
+        this.recyclerViewInterface = recyclerViewInterface;
     }
 
     @NonNull
     @Override
     public IngredientStorageRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.activity_recycler_ingredient_list, viewGroup, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, recyclerViewInterface);
     }
 
     @Override
@@ -42,21 +43,28 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
         return ingredientList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder{
         TextView ingredientView;
         TextView locationView;
         TextView amountView;
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             ingredientView = itemView.findViewById(R.id.ingredientDescTextView);
             locationView = itemView.findViewById(R.id.ingredientLocationTextView);
             amountView = itemView.findViewById(R.id.ingredientAmountTextView);
 
-        }
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (recyclerViewInterface != null){
+                        int pos = getBindingAdapterPosition();
 
-        @Override
-        public void onClick(View view) {
-            int adapterPosition = getBindingAdapterPosition();
+                        if (pos != RecyclerView.NO_POSITION){
+                            recyclerViewInterface.onItemClick(pos);
+                        }
+                    }
+                }
+            });
         }
     }
 }
