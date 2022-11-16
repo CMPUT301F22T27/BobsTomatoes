@@ -2,6 +2,8 @@ package com.example.bobstomatoes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -37,7 +39,10 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     IngredientStorageFragment fragment = new IngredientStorageFragment();
     ImageButton addButton;
     ArrayAdapter<Ingredient> ingredientAdapter;
+    IngredientStorageRecyclerAdapter ingredientRecyclerAdapter;
     IngredientDB ingredientDB;
+    RecyclerView recyclerView;
+    IngredientStorageRecyclerAdapter recyclerAdapter;
     ArrayList<Ingredient> ingredientList;
     CollectionReference ingredientReference;
     String [] sortChoices = {"Description", "Location", "Best Before Date", "Category"};
@@ -68,7 +73,8 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
             }
         });
 
-        ingredientsListView = findViewById(R.id.ingredients_list);
+        //ingredientsListView = findViewById(R.id.ingredients_list);
+        recyclerView = new RecyclerView(IngredientStorageActivity.this);
 
         ingredientDB = new IngredientDB();
 
@@ -76,8 +82,10 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
 
         ingredientReference = ingredientDB.getIngredientReference();
 
-        ingredientAdapter = new IngredientStorageAdapter(this, ingredientList);
-        ingredientsListView.setAdapter(ingredientAdapter);
+        ingredientRecyclerAdapter = new IngredientStorageRecyclerAdapter(this, ingredientList);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(ingredientRecyclerAdapter);
 
         // Populate ingredient list from database, by calling this, we can safely assume the list has been populated from the DataBase
         readData(new IngredientFireStoreCallback() {
@@ -87,20 +95,20 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
              */
             @Override
             public void onCallBack(ArrayList<Ingredient> ingredientList) {
-                ingredientAdapter.notifyDataSetChanged();
+                ingredientRecyclerAdapter.notifyDataSetChanged();
             }
         });
 
-        // Creates fragment to allow editing and deletion of an ingredient
-        ingredientsListView.setOnItemClickListener((adapterView, view, i, l) -> {
-            ingredientPos = ingredientsListView.getCheckedItemPosition();
-            Ingredient selectedIngredient = ingredientList.get(ingredientPos);
-            bundle.putParcelable("selectedIngredient", selectedIngredient);
-            bundle.putInt("oldIngredientPos", ingredientPos);
-            bundle.putBoolean("isEdit", true);
-            fragment.setArguments(bundle);
-            fragment.show(getSupportFragmentManager(), "EDIT OR DELETE INGREDIENT");
-        });
+//        // Creates fragment to allow editing and deletion of an ingredient
+//        ingredientsListView.setOnItemClickListener((adapterView, view, i, l) -> {
+//            ingredientPos = ingredientsListView.getCheckedItemPosition();
+//            Ingredient selectedIngredient = ingredientList.get(ingredientPos);
+//            bundle.putParcelable("selectedIngredient", selectedIngredient);
+//            bundle.putInt("oldIngredientPos", ingredientPos);
+//            bundle.putBoolean("isEdit", true);
+//            fragment.setArguments(bundle);
+//            fragment.show(getSupportFragmentManager(), "EDIT OR DELETE INGREDIENT");
+//        });
 
         // Create and Populate Spinner
         // Spinner allows users to choose how to sort ingredients
@@ -143,7 +151,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
      */
     public void onAddOkPressed(Ingredient ingredient) {
         ingredientDB.addIngredient(ingredient);
-        ingredientAdapter.notifyDataSetChanged();
+        ingredientRecyclerAdapter.notifyDataSetChanged();
 
     }
 
@@ -153,7 +161,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
      */
     public void onEditOkPressed(Ingredient ingredient) {
         ingredientDB.editIngredient(ingredientPos, ingredient);
-        ingredientAdapter.notifyDataSetChanged();
+        ingredientRecyclerAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -162,7 +170,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
      */
     public void onDeleteOkPressed(Ingredient ingredient){
         ingredientDB.removeIngredient(ingredient);
-        ingredientAdapter.notifyDataSetChanged();
+        ingredientRecyclerAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -179,7 +187,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         }else{
             Collections.sort(ingredientList, Ingredient::compareToIngredientCategory);
         }
-        ingredientAdapter.notifyDataSetChanged();
+        ingredientRecyclerAdapter.notifyDataSetChanged();
     }
 
     /**
