@@ -33,6 +33,8 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
     @Override
     public void onBindViewHolder(IngredientStorageRecyclerAdapter.ViewHolder viewHolder, int position) {
         viewHolder.ingredientView.setText(ingredientList.get(position).getIngredientDesc());
+        viewHolder.locationView.setText(ingredientList.get(position).getIngredientLocation());
+        viewHolder.amountView.setText(String.valueOf(ingredientList.get(position).getIngredientAmount()));
     }
 
     @Override
@@ -40,12 +42,21 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
         return ingredientList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView ingredientView;
+        TextView locationView;
+        TextView amountView;
         public ViewHolder(View itemView) {
             super(itemView);
             ingredientView = itemView.findViewById(R.id.ingredientDescTextView);
+            locationView = itemView.findViewById(R.id.ingredientLocationTextView);
+            amountView = itemView.findViewById(R.id.ingredientAmountTextView);
 
+        }
+
+        @Override
+        public void onClick(View view) {
+            int adapterPosition = getBindingAdapterPosition();
         }
     }
 }

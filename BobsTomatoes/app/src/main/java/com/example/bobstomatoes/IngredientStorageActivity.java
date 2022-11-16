@@ -59,7 +59,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
 
         super.onCreate(savedInstanceState);
         setTitle("Ingredient Storage");
-        setContentView(R.layout.activity_ingredient_storage);
+        setContentView(R.layout.activity_recycler_ingredient);
 
         bundle = new Bundle();
 
@@ -74,7 +74,8 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         });
 
         //ingredientsListView = findViewById(R.id.ingredients_list);
-        recyclerView = new RecyclerView(IngredientStorageActivity.this);
+        recyclerView = findViewById(R.id.recyclerView);
+       //recyclerView = new RecyclerView(IngredientStorageActivity.this);
 
         ingredientDB = new IngredientDB();
 

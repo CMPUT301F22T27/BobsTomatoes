@@ -22,9 +22,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="One Cuisine Type"
-            android:id="@+id/categoryTextView"
-            android:layout_below="@+id/restaurantNameTextView"
+            android:text="Ingredient Location"
+            android:id="@+id/ingredientLocationTextView"
+            android:layout_below="@+id/ingredientDescTextView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:textStyle="italic"/>
@@ -36,8 +36,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rating"
-                android:id="@+id/ratingTextView"
+                android:text="Ingredient Amount"
+                android:id="@+id/ingredientAmountTextView"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true" />
         </RelativeLayout>
