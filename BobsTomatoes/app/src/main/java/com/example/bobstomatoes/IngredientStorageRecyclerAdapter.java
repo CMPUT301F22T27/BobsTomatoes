@@ -35,7 +35,9 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
     public void onBindViewHolder(IngredientStorageRecyclerAdapter.ViewHolder viewHolder, int position) {
         viewHolder.ingredientView.setText(ingredientList.get(position).getIngredientDesc());
         viewHolder.locationView.setText(ingredientList.get(position).getIngredientLocation());
-        viewHolder.amountView.setText(String.valueOf(ingredientList.get(position).getIngredientAmount()));
+        //viewHolder.amountView.setText(String.valueOf(ingredientList.get(position).getIngredientAmount()));
+        viewHolder.amountView.setText("Amount: " + ingredientList.get(position).getIngredientAmount());
+
     }
 
     @Override

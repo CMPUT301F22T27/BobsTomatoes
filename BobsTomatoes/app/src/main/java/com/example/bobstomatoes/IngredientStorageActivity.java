@@ -1,6 +1,7 @@
 package com.example.bobstomatoes;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -82,6 +83,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         ingredientRecyclerAdapter = new IngredientStorageRecyclerAdapter(this, ingredientList, this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(ingredientRecyclerAdapter);
 
         // Populate ingredient list from database, by calling this, we can safely assume the list has been populated from the DataBase
