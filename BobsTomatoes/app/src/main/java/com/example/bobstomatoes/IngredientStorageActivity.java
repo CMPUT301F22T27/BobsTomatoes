@@ -39,7 +39,6 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     IngredientStorageRecyclerAdapter ingredientRecyclerAdapter;
     IngredientDB ingredientDB;
     RecyclerView recyclerView;
-    IngredientStorageRecyclerAdapter recyclerAdapter;
     ArrayList<Ingredient> ingredientList;
     CollectionReference ingredientReference;
     String [] sortChoices = {"Description", "Location", "Best Before Date", "Category"};

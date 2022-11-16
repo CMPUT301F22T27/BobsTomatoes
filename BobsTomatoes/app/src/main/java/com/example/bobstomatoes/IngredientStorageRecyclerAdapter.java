@@ -47,7 +47,7 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
         return ingredientList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView ingredientView;
         TextView locationView;
         TextView amountView;
