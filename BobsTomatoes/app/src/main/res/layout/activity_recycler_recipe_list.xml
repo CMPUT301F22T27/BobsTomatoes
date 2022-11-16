@@ -33,7 +33,7 @@
                     android:id="@+id/recipeTimeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="recipeTimeTextView" />
+                    android:text="Recipe Cook Time" />
 
                 <TextView
                     android:id="@+id/recipeServingSizeTextView"
@@ -51,13 +51,13 @@
                     android:id="@+id/recipeCategoryTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="recipeCategoryTextView" />
+                    android:text="Recipe Category" />
 
                 <TextView
                     android:id="@+id/recipeCommentsTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="recipeCommentsTextView" />
+                    android:text="Recipe Comments" />
             </LinearLayout>
         </LinearLayout>
 

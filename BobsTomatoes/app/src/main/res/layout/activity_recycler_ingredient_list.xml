@@ -43,7 +43,7 @@
                     android:id="@+id/ingredientUnitTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ingredientUnitTextView" />
+                    android:text="Ingredient Unit" />
 
                 <TextView
                     android:id="@+id/ingredientAmountTextView"
@@ -61,13 +61,13 @@
                     android:id="@+id/ingredientCategoryTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ingredientCategoryTextView" />
+                    android:text="Ingredient Category" />
 
                 <TextView
                     android:id="@+id/ingredientDateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ingredientDateTextView" />
+                    android:text="Ingredient Date" />
             </LinearLayout>
         </LinearLayout>
 
