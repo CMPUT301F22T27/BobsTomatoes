@@ -35,8 +35,10 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
     public void onBindViewHolder(IngredientStorageRecyclerAdapter.ViewHolder viewHolder, int position) {
         viewHolder.ingredientView.setText(ingredientList.get(position).getIngredientDesc());
         viewHolder.locationView.setText(ingredientList.get(position).getIngredientLocation());
-        //viewHolder.amountView.setText(String.valueOf(ingredientList.get(position).getIngredientAmount()));
         viewHolder.amountView.setText("Amount: " + ingredientList.get(position).getIngredientAmount());
+        viewHolder.dateView.setText(ingredientList.get(position).getIngredientDate());
+        viewHolder.unitView.setText("Unit: $" + ingredientList.get(position).getIngredientUnit());
+        viewHolder.categoryView.setText(ingredientList.get(position).getIngredientCategory());
 
     }
 
@@ -49,11 +51,17 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
         TextView ingredientView;
         TextView locationView;
         TextView amountView;
+        TextView dateView;
+        TextView unitView;
+        TextView categoryView;
         public ViewHolder(View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             ingredientView = itemView.findViewById(R.id.ingredientDescTextView);
             locationView = itemView.findViewById(R.id.ingredientLocationTextView);
             amountView = itemView.findViewById(R.id.ingredientAmountTextView);
+            dateView = itemView.findViewById(R.id.ingredientDateTextView);
+            unitView = itemView.findViewById(R.id.ingredientUnitTextView);
+            categoryView = itemView.findViewById(R.id.ingredientCategoryTextView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
