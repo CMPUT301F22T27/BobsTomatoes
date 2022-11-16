@@ -36,9 +36,9 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
         viewHolder.ingredientView.setText(ingredientList.get(position).getIngredientDesc());
         viewHolder.locationView.setText(ingredientList.get(position).getIngredientLocation());
         viewHolder.amountView.setText("Amount: " + ingredientList.get(position).getIngredientAmount());
-        viewHolder.dateView.setText(ingredientList.get(position).getIngredientDate());
+        viewHolder.dateView.setText("Date: " + ingredientList.get(position).getIngredientDate());
         viewHolder.unitView.setText("Unit: $" + ingredientList.get(position).getIngredientUnit());
-        viewHolder.categoryView.setText(ingredientList.get(position).getIngredientCategory());
+        viewHolder.categoryView.setText("Category: " + ingredientList.get(position).getIngredientCategory());
 
     }
 
