@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +39,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         viewHolder.recipeServingSizeView.setText("Serving Size: " + recipeList.get(position).getRecipeServings());
         viewHolder.recipeCategoryView.setText("Category: " + recipeList.get(position).getRecipeCategory());
         viewHolder.recipeCommentViews.setText("Comments: " + recipeList.get(position).getRecipeComments());
+        //viewHolder.recipeImageView.setImageResource(recipeList);
 
     }
 
@@ -52,6 +54,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         TextView recipeServingSizeView;
         TextView recipeCategoryView;
         TextView recipeCommentViews;
+        ImageView recipeImageView;
         public ViewHolder(View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             recipeNameView = itemView.findViewById(R.id.recipeNameTextView);
@@ -59,6 +62,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
             recipeServingSizeView = itemView.findViewById(R.id.recipeServingSizeTextView);
             recipeCategoryView = itemView.findViewById(R.id.recipeCategoryTextView);
             recipeCommentViews = itemView.findViewById(R.id.recipeCommentsTextView);
+            recipeImageView = itemView.findViewById(R.id.imageView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
