@@ -59,5 +59,41 @@
         android:layout_height="wrap_content"
         android:layout_weight="100" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/takePhotoButton"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Take Photo">
+            </Button>
+
+            <Button
+                android:id="@+id/choosePhotoButton"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Choose Photo">
+            </Button>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/recipeImageView"
+            android:layout_width="250dp"
+            android:layout_height="250dp">
+        </ImageView>
+
+    </LinearLayout>
+
 
 </LinearLayout>
