@@ -36,7 +36,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
     @Override
     public void onBindViewHolder(RecipeRecyclerAdapter.ViewHolder viewHolder, int position) {
         viewHolder.recipeNameView.setText(recipeList.get(position).getRecipeTitle());
-        viewHolder.recipeCookTimeView.setText("Cook Time: " + recipeList.get(position).getRecipeTime());
+        viewHolder.recipeCookTimeView.setText("Prep Time: " + recipeList.get(position).getRecipeTime());
         viewHolder.recipeServingSizeView.setText("Serving Size: " + recipeList.get(position).getRecipeServings());
         viewHolder.recipeCategoryView.setText("Category: " + recipeList.get(position).getRecipeCategory());
         viewHolder.recipeCommentViews.setText(recipeList.get(position).getRecipeComments());
