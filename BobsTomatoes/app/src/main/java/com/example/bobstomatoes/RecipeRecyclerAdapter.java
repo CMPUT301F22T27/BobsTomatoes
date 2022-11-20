@@ -1,6 +1,7 @@
 package com.example.bobstomatoes;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         viewHolder.recipeServingSizeView.setText("Serving Size: " + recipeList.get(position).getRecipeServings());
         viewHolder.recipeCategoryView.setText("Category: " + recipeList.get(position).getRecipeCategory());
         viewHolder.recipeCommentViews.setText(recipeList.get(position).getRecipeComments());
-        viewHolder.recipeImageView.setImageBitmap(recipeList.get(position).getRecipeImage());
+        viewHolder.recipeImageView.setImageBitmap(recipeList.get(position).getDecodedImage());
 
     }
 
@@ -78,4 +79,5 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
             });
         }
     }
+
 }

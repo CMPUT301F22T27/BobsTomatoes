@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +40,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -58,6 +61,7 @@ public class RecipeFragment extends DialogFragment {
     private ImageView recipeImageView;
 
     private Bitmap finalPhoto;
+    private String encodedImage;
 
     private RecipeFragment.OnRecipeFragmentListener listener;
 
@@ -154,7 +158,9 @@ public class RecipeFragment extends DialogFragment {
             selectedIngredients = selectedRecipe.getRecipeIngredients();
 
             //Populate ImageView
-            finalPhoto = selectedRecipe.getRecipeImage();
+            encodedImage = selectedRecipe.getRecipeImage();
+            finalPhoto = selectedRecipe.getDecodedImage();
+
             recipeImageView.setImageBitmap(finalPhoto);
 
             // Builder for Edit/delete
@@ -177,11 +183,12 @@ public class RecipeFragment extends DialogFragment {
                             int newServings = Integer.parseInt(servingsText.getText().toString());
                             String newCategory = categoryText.getText().toString();
                             String newComments = commentsText.getText().toString();
-                            BitmapDrawable bd = (BitmapDrawable) recipeImageView.getDrawable();
-                            finalPhoto = bd.getBitmap();
+//                            BitmapDrawable bd = (BitmapDrawable) recipeImageView.getDrawable();
+//                            finalPhoto = bd.getBitmap();
+
 
                             Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
-                                    newCategory, newComments, selectedIngredients, finalPhoto);
+                                    newCategory, newComments, selectedIngredients, encodedImage);
 
                             listener.onEditOkPressed(newRecipe);
 
@@ -205,11 +212,11 @@ public class RecipeFragment extends DialogFragment {
                             int newServings = Integer.parseInt(servingsText.getText().toString());
                             String newCategory = categoryText.getText().toString();
                             String newComments = commentsText.getText().toString();
-                            BitmapDrawable bd = (BitmapDrawable) recipeImageView.getDrawable();
-                            finalPhoto = bd.getBitmap();
+//                            BitmapDrawable bd = (BitmapDrawable) recipeImageView.getDrawable();
+//                            finalPhoto = bd.getBitmap();
 
                             Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
-                                    newCategory, newComments, selectedIngredients, finalPhoto);
+                                    newCategory, newComments, selectedIngredients, encodedImage);
 
                             listener.onAddOkPressed(newRecipe);
 
@@ -350,14 +357,10 @@ public class RecipeFragment extends DialogFragment {
 
                             }
 
-
                             recipeImageView.setImageBitmap(finalPhoto);
 
-                            //Store and use bitmap code should be added here
-                            //finalPhoto stores image bitmap
-
-
-
+                            //Encode bitmap to Base64
+                            encodedImage = encodeImage(finalPhoto);
 
                         }
 
@@ -386,6 +389,23 @@ public class RecipeFragment extends DialogFragment {
             }
         });
 
+    }
+
+    /**
+     * encodeImage
+     * Takes in a bitmap and encodes it to Base64.
+     * @param imageBitmap
+     * @return
+     */
+    private String encodeImage(Bitmap imageBitmap){
+
+        ByteArrayOutputStream baos  = new ByteArrayOutputStream();
+
+        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+
+        String encodedImage = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+
+        return encodedImage;
 
     }
 

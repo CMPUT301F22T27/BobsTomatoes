@@ -1,9 +1,12 @@
 package com.example.bobstomatoes;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Base64;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -19,7 +22,7 @@ public class Recipe implements Parcelable {
     private String recipeCategory;
     private String recipeComments;
     private ArrayList<Ingredient> recipeIngredients;
-    private Bitmap recipeImage;
+    private String recipeImage;
 
     /**
      * Recipe constructor, takes in the title, time, servings, category, comments, and the ingredients of the recipe
@@ -31,7 +34,7 @@ public class Recipe implements Parcelable {
      * @param recipeIngredients ingredients needed to make recipe
      */
     public Recipe(String recipeTitle, int recipeTime, int recipeServings, String recipeCategory,
-                  String recipeComments, ArrayList<Ingredient> recipeIngredients, Bitmap recipeImage) {
+                  String recipeComments, ArrayList<Ingredient> recipeIngredients, String recipeImage) {
         this.recipeTitle = recipeTitle;
         this.recipeTime = recipeTime;
         this.recipeServings = recipeServings;
@@ -56,8 +59,25 @@ public class Recipe implements Parcelable {
         recipeCategory = in.readString();
         recipeComments = in.readString();
         recipeIngredients = in.createTypedArrayList(Ingredient.CREATOR);
-        recipeImage = in.readParcelable(Bitmap.class.getClassLoader());
+        recipeImage = in.readString();
     }
+
+
+    /**
+     * decodeImage
+     * Returns recipe Base64 image as a decoded bitmap.
+     * @return
+     */
+    public Bitmap getDecodedImage(){
+
+        byte[] decodedByteArray = Base64.decode(this.recipeImage, Base64.DEFAULT);
+
+        Bitmap decodedImage = BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
+
+        return decodedImage;
+
+    }
+
 
     public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
         @Override
@@ -128,7 +148,7 @@ public class Recipe implements Parcelable {
      * Retrieve recipe image, allow for accessibility to other classes
      * @return      returns the image of the recipe as a bitmap
      */
-    public Bitmap getRecipeImage() {
+    public String getRecipeImage() {
         return recipeImage;
     }
 
@@ -137,7 +157,7 @@ public class Recipe implements Parcelable {
      * Set the recipe's image to a new given image
      * @param recipeImage    new image for recipe
      */
-    public void setRecipeImage(Bitmap recipeImage) {
+    public void setRecipeImage(String recipeImage) {
         this.recipeImage = recipeImage;
     }
 
@@ -258,7 +278,7 @@ public class Recipe implements Parcelable {
         parcel.writeString(recipeCategory);
         parcel.writeString(recipeComments);
         parcel.writeTypedList(recipeIngredients);
-        parcel.writeParcelable(recipeImage, i);
+        parcel.writeString(recipeImage);
     }
 
 //    /**
