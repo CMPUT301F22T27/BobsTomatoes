@@ -52,6 +52,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="0dp"
                 android:layout_toEndOf="@+id/recipeImageView"
+                android:textStyle="italic"
                 android:text="Recipe Category" />
 
             <TextView
