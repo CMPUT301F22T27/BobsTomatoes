@@ -66,21 +66,21 @@ public class RecipeDB implements Parcelable {
         data.put("recipeIngredients", recipe.getRecipeIngredients());
         data.put("recipeImage", recipe.getRecipeImage());
 
-        // Add recipe to database
-        recipeReference.document(recipeName)
-                .set(data)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d("", "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("", "Data could not be added");
-                    }
-                });
+//        // Add recipe to database
+//        recipeReference.document(recipeName)
+//                .set(data)
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void unused) {
+//                        Log.d("", "DocumentSnapshot successfully written!");
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.d("", "Data could not be added");
+//                    }
+//                });
         recipeList.add(recipe);
     }
 

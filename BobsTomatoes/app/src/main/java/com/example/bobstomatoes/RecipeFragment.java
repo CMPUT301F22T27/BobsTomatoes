@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -202,6 +203,8 @@ public class RecipeFragment extends DialogFragment {
                             int newServings = Integer.parseInt(servingsText.getText().toString());
                             String newCategory = categoryText.getText().toString();
                             String newComments = commentsText.getText().toString();
+                            BitmapDrawable bd = (BitmapDrawable) recipeImageView.getDrawable();
+                            finalPhoto = bd.getBitmap();
 
                             Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
                                     newCategory, newComments, selectedIngredients, finalPhoto);
