@@ -2,6 +2,7 @@ package com.example.bobstomatoes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,6 +51,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     RecipeRecyclerAdapter recipeRecyclerAdapter;
     RecyclerView recyclerView;
+    CardView cardView;
 
     /**
      * Create instance
@@ -79,7 +81,6 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         // Link array and adapter
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(recipeRecyclerAdapter);
 
 

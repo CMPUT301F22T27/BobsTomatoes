@@ -63,7 +63,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
             recipeServingSizeView = itemView.findViewById(R.id.recipeServingSizeTextView);
             recipeCategoryView = itemView.findViewById(R.id.recipeCategoryTextView);
             recipeCommentViews = itemView.findViewById(R.id.recipeCommentsTextView);
-            recipeImageView = itemView.findViewById(R.id.imageView);
+            recipeImageView = itemView.findViewById(R.id.recipeImageView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
