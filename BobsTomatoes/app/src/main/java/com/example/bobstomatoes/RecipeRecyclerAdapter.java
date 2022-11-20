@@ -38,7 +38,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         viewHolder.recipeCookTimeView.setText("Cook Time: " + recipeList.get(position).getRecipeTime());
         viewHolder.recipeServingSizeView.setText("Serving Size: " + recipeList.get(position).getRecipeServings());
         viewHolder.recipeCategoryView.setText("Category: " + recipeList.get(position).getRecipeCategory());
-        viewHolder.recipeCommentViews.setText("Comments: " + recipeList.get(position).getRecipeComments());
+        viewHolder.recipeCommentViews.setText(recipeList.get(position).getRecipeComments());
         viewHolder.recipeImageView.setImageBitmap(recipeList.get(position).getRecipeImage());
 
     }

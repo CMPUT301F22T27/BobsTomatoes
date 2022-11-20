@@ -9,16 +9,17 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="229dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scaleType="centerCrop"
         tools:srcCompat="@tools:sample/avatars" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="165dp"
+        android:layout_weight="1"
         android:background="#ffffff"
         android:orientation="vertical"
-        android:layout_weight="1"
         android:padding="10dp">
 
         <TextView
@@ -26,49 +27,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recipe Name"
-            android:textSize="20dp"
+            android:textSize="27dp"
             android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/recipeCategoryTextView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:text="Recipe Category"
+            android:textSize="20dp"
+            android:textStyle="italic" />
 
-            <LinearLayout
-                android:layout_width="201dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/recipeTimeTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Recipe Cook Time" />
+            <TextView
+                android:id="@+id/recipeTimeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:text="Recipe Cook Time" />
 
-                <TextView
-                    android:id="@+id/recipeServingSizeTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Recipe Serving Size" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/recipeServingSizeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:text="Recipe Serving Size" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/recipeCategoryTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Recipe Category" />
-
-                <TextView
-                    android:id="@+id/recipeCommentsTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Recipe Comments" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/recipeCommentsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:text="Comments" />
         </LinearLayout>
 
     </LinearLayout>

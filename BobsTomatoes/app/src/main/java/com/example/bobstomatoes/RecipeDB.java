@@ -141,21 +141,21 @@ public class RecipeDB implements Parcelable {
         data.put("recipeImage", updatedRecipe.getRecipeImage());
 
 
-        //Edit recipe in database
-        recipeReference.document(recipeName)
-                .set(data)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d("", "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("", "Data could not be added");
-                    }
-                });
+//        //Edit recipe in database
+//        recipeReference.document(recipeName)
+//                .set(data)
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void unused) {
+//                        Log.d("", "DocumentSnapshot successfully written!");
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.d("", "Data could not be added");
+//                    }
+//                });
         recipeList.set(oldRecipePos, updatedRecipe);
 
     }

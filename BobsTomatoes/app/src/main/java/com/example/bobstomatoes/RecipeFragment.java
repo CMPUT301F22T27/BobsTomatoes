@@ -177,6 +177,8 @@ public class RecipeFragment extends DialogFragment {
                             int newServings = Integer.parseInt(servingsText.getText().toString());
                             String newCategory = categoryText.getText().toString();
                             String newComments = commentsText.getText().toString();
+                            BitmapDrawable bd = (BitmapDrawable) recipeImageView.getDrawable();
+                            finalPhoto = bd.getBitmap();
 
                             Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
                                     newCategory, newComments, selectedIngredients, finalPhoto);
