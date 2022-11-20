@@ -4,13 +4,24 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +29,9 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,6 +40,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -42,8 +56,16 @@ public class RecipeFragment extends DialogFragment {
     private EditText categoryText;
     private EditText commentsText;
     private ListView ingredientsList;
+    private Button takePhotoButton;
+    private Button choosePhotoButton;
+    private ImageView recipeImageView;
+
+    private Bitmap finalPhoto;
+    private String encodedImage;
 
     private RecipeFragment.OnRecipeFragmentListener listener;
+
+    private ActivityResultLauncher<Intent> activityResultLauncher;
 
     // Database
     IngredientDB ingredientDB;
@@ -102,6 +124,17 @@ public class RecipeFragment extends DialogFragment {
 
         selectedIngredients = new ArrayList<>();
 
+        //Image View
+        recipeImageView = view.findViewById(R.id.recipeImageView);
+
+        //Set up button to launch camera app
+        takePhotoButton = view.findViewById(R.id.takePhotoButton);
+
+        //Button to choose gallery image
+        choosePhotoButton = view.findViewById(R.id.choosePhotoButton);
+
+        initializeCamera(view);
+
         // Ingredients List
         initIngredientList();
 
@@ -124,6 +157,11 @@ public class RecipeFragment extends DialogFragment {
             // Populate selectedIngredients
             selectedIngredients = selectedRecipe.getRecipeIngredients();
 
+            //Populate ImageView
+            encodedImage = selectedRecipe.getRecipeImage();
+            finalPhoto = selectedRecipe.getDecodedImage();
+
+            recipeImageView.setImageBitmap(finalPhoto);
 
             // Builder for Edit/delete
             return builder.setView(view)
@@ -145,9 +183,12 @@ public class RecipeFragment extends DialogFragment {
                             int newServings = Integer.parseInt(servingsText.getText().toString());
                             String newCategory = categoryText.getText().toString();
                             String newComments = commentsText.getText().toString();
+//                            BitmapDrawable bd = (BitmapDrawable) recipeImageView.getDrawable();
+//                            finalPhoto = bd.getBitmap();
+
 
                             Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
-                                    newCategory, newComments, selectedIngredients);
+                                    newCategory, newComments, selectedIngredients, encodedImage);
 
                             listener.onEditOkPressed(newRecipe);
 
@@ -171,9 +212,11 @@ public class RecipeFragment extends DialogFragment {
                             int newServings = Integer.parseInt(servingsText.getText().toString());
                             String newCategory = categoryText.getText().toString();
                             String newComments = commentsText.getText().toString();
+//                            BitmapDrawable bd = (BitmapDrawable) recipeImageView.getDrawable();
+//                            finalPhoto = bd.getBitmap();
 
                             Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
-                                    newCategory, newComments, selectedIngredients);
+                                    newCategory, newComments, selectedIngredients, encodedImage);
 
                             listener.onAddOkPressed(newRecipe);
 
@@ -271,6 +314,99 @@ public class RecipeFragment extends DialogFragment {
 
     private interface IngredientFireStoreCallback {
         void onCallBack(ArrayList<Ingredient> IngredientList);
+    }
+
+    private void initializeCamera(View view){
+
+
+        //Retrieve info from camera activity
+        //Defines an activity result launcher which launches an intent as an activity
+        //and returns the results of the activity into OnActivityResult, where it can be handled
+        activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+
+                        Intent data = result.getData();
+
+                        if (data != null){
+
+                            Bundle bundle = data.getExtras();
+
+                            //Indicates photo was taken
+                            if (bundle != null){
+
+                                finalPhoto = (Bitmap) bundle.get("data");
+
+
+                            //Photo is from camera roll, comes back as Uri
+                            } else {
+
+                                Uri imageUri = data.getData();
+
+                                try {
+
+                                    finalPhoto = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri);
+
+                                } catch (Exception e) {
+
+                                    finalPhoto = null;
+
+                                }
+
+                            }
+
+                            recipeImageView.setImageBitmap(finalPhoto);
+
+                            //Encode bitmap to Base64
+                            encodedImage = encodeImage(finalPhoto);
+
+                        }
+
+                    }
+                });
+
+        takePhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                activityResultLauncher.launch(intent);
+
+            }
+        });
+
+        choosePhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                activityResultLauncher.launch(intent);
+
+            }
+        });
+
+    }
+
+    /**
+     * encodeImage
+     * Takes in a bitmap and encodes it to Base64.
+     * @param imageBitmap
+     * @return
+     */
+    private String encodeImage(Bitmap imageBitmap){
+
+        ByteArrayOutputStream baos  = new ByteArrayOutputStream();
+
+        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+
+        String encodedImage = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+
+        return encodedImage;
+
     }
 
 }

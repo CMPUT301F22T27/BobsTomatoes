@@ -2,6 +2,10 @@ package com.example.bobstomatoes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -28,7 +32,7 @@ import java.util.Collections;
  * implements RecipeFragment.OnRecipeFragmentListener
  */
 
-public class RecipeActivity extends AbstractNavigationBar implements RecipeFragment.OnRecipeFragmentListener {
+public class RecipeActivity extends AbstractNavigationBar implements RecipeFragment.OnRecipeFragmentListener, RecyclerViewInterface {
 
     ListView RecipeListView;
     ImageButton addButton;
@@ -37,13 +41,15 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
     int recipePos;
 
     RecipeDB recipeDB;
-    ArrayAdapter<Recipe> recipeAdapter;
     ArrayList<Recipe> recipeList;
     CollectionReference recipeReference;
 
     String [] sortChoices = {"Title", "Preparation Time", "Number of servings", "Category"};
     ArrayList <String> spinnerOptions = new ArrayList<>();
     ArrayAdapter <String> spinnerAdapter;
+
+    RecipeRecyclerAdapter recipeRecyclerAdapter;
+    RecyclerView recyclerView;
 
     /**
      * Create instance
@@ -54,9 +60,9 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("Recipes");
-        setContentView(R.layout.activity_recipe);
+        setContentView(R.layout.activity_recycler_recipe);
 
-        RecipeListView = findViewById(R.id.recipe_listview_id);
+        recyclerView = findViewById(R.id.recyclerView);
         addButton = findViewById(R.id.center_add_imageButton_id);
 
         // Initialize recipe database
@@ -68,10 +74,13 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         bundle = new Bundle();
 
         // Recipe Adapter
-        recipeAdapter = new RecipeAdapter(this, recipeList);
+        recipeRecyclerAdapter = new RecipeRecyclerAdapter(this, recipeList,this);
 
         // Link array and adapter
-        RecipeListView.setAdapter(recipeAdapter);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(recipeRecyclerAdapter);
+
 
         // Populate recipe list from database, by calling this, we can safely assume the list has been populated from the DataBase
         readData(new RecipeFireStoreCallback() {
@@ -81,7 +90,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
              */
             @Override
             public void onCallBack(ArrayList<Recipe> recipeList) {
-                recipeAdapter.notifyDataSetChanged();
+                recipeRecyclerAdapter.notifyDataSetChanged();
             }
         });
 
@@ -107,23 +116,23 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
             }
         });
 
-        // Set listview item click listener for when user clicks item in list
-        RecipeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
-
-                recipePos = pos;
-                Recipe selectedRecipe = recipeList.get(pos);
-
-                bundle.putParcelable("selectedRecipe", selectedRecipe);
-                bundle.putInt("oldRecipePos", recipePos);
-
-                RecipeFragment fragment = new RecipeFragment();
-                fragment.setArguments(bundle);
-                fragment.show(getSupportFragmentManager(), "EDIT/DELETE RECIPE");
-
-            }
-        });
+//        // Set listview item click listener for when user clicks item in list
+//        RecipeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+//
+//                recipePos = pos;
+//                Recipe selectedRecipe = recipeList.get(pos);
+//
+//                bundle.putParcelable("selectedRecipe", selectedRecipe);
+//                bundle.putInt("oldRecipePos", recipePos);
+//
+//                RecipeFragment fragment = new RecipeFragment();
+//                fragment.setArguments(bundle);
+//                fragment.show(getSupportFragmentManager(), "EDIT/DELETE RECIPE");
+//
+//            }
+//        });
 
         // Create and Populate Spinner
         // Spinner allows users to choose how to sort ingredients
@@ -157,7 +166,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
     public void onAddOkPressed(Recipe recipe) {
 
         recipeDB.addRecipe(recipe);
-        recipeAdapter.notifyDataSetChanged();
+        recipeRecyclerAdapter.notifyDataSetChanged();
 
     }
 
@@ -168,7 +177,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
     public void onEditOkPressed(Recipe recipe) {
 
         recipeDB.editRecipe(recipePos, recipe);
-        recipeAdapter.notifyDataSetChanged();
+        recipeRecyclerAdapter.notifyDataSetChanged();
 
     }
 
@@ -178,7 +187,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
      */
     public void onDeleteOkPressed(Recipe recipe){
         recipeDB.removeRecipe(recipe);
-        recipeAdapter.notifyDataSetChanged();
+        recipeRecyclerAdapter.notifyDataSetChanged();
 
     }
 
@@ -196,7 +205,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         }else{
             Collections.sort(recipeList, Recipe::compareToRecipeCategory);
         }
-        recipeAdapter.notifyDataSetChanged();
+        recipeRecyclerAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -218,6 +227,19 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
                 }
             }
         });
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        recipePos = position;
+        Recipe selectedRecipe = recipeList.get(position);
+
+        bundle.putParcelable("selectedRecipe", selectedRecipe);
+        bundle.putInt("oldRecipePos", recipePos);
+
+        RecipeFragment fragment = new RecipeFragment();
+        fragment.setArguments(bundle);
+        fragment.show(getSupportFragmentManager(), "EDIT/DELETE RECIPE");
     }
 
     /**
