@@ -38,7 +38,7 @@
         android:ems="10"
         android:hint="Recipe Category"
         android:inputType="textPersonName" />
-]
+
          <EditText
             android:id="@+id/editTextRecipeComment"
             android:layout_width="match_parent"
