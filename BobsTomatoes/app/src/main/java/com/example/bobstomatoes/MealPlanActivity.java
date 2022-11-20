@@ -77,10 +77,14 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanC
         LocalDate firstOfMonth = selectedDate.withDayOfMonth(1);
         int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
 
+        int j = 0;
         for(int i = 1; i <= 42; i++)
         {
-            if(i <= dayOfWeek || i > daysInMonth + dayOfWeek)
+            if(i <= dayOfWeek|| i > daysInMonth + dayOfWeek)
             {
+                j = j + 1;
+                if (dayOfWeek == 7 && j <= 7)
+                    continue;
                 daysInMonthArray.add("");
             }
             else
