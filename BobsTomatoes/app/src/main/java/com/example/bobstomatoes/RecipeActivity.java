@@ -41,7 +41,6 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
     int recipePos;
 
     RecipeDB recipeDB;
-    ArrayAdapter<Recipe> recipeAdapter;
     ArrayList<Recipe> recipeList;
     CollectionReference recipeReference;
 
@@ -51,7 +50,6 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     RecipeRecyclerAdapter recipeRecyclerAdapter;
     RecyclerView recyclerView;
-    CardView cardView;
 
     /**
      * Create instance
