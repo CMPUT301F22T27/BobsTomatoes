@@ -152,6 +152,9 @@ public class RecipeFragment extends DialogFragment {
             // Populate selectedIngredients
             selectedIngredients = selectedRecipe.getRecipeIngredients();
 
+            //Populate ImageView
+            finalPhoto = selectedRecipe.getRecipeImage();
+            recipeImageView.setImageBitmap(finalPhoto);
 
             // Builder for Edit/delete
             return builder.setView(view)
@@ -175,7 +178,7 @@ public class RecipeFragment extends DialogFragment {
                             String newComments = commentsText.getText().toString();
 
                             Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
-                                    newCategory, newComments, selectedIngredients);
+                                    newCategory, newComments, selectedIngredients, finalPhoto);
 
                             listener.onEditOkPressed(newRecipe);
 
@@ -201,7 +204,7 @@ public class RecipeFragment extends DialogFragment {
                             String newComments = commentsText.getText().toString();
 
                             Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
-                                    newCategory, newComments, selectedIngredients);
+                                    newCategory, newComments, selectedIngredients, finalPhoto);
 
                             listener.onAddOkPressed(newRecipe);
 
