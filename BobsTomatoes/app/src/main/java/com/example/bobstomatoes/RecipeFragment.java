@@ -33,6 +33,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -243,6 +244,8 @@ public class RecipeFragment extends DialogFragment {
 
         ingredientsList.setAdapter(ingredientAdapter);
 
+        ingredientsList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
         readData(new IngredientFireStoreCallback() {
             @Override
             public void onCallBack(ArrayList<Ingredient> IngredientList) {
@@ -269,9 +272,7 @@ public class RecipeFragment extends DialogFragment {
 
                         found = true;
 
-                        // Messing around with highlighting
-                        ingredientsList.setSelector(R.color.white);
-
+                        view.setActivated(false);
 
                     }
                 }
@@ -280,15 +281,11 @@ public class RecipeFragment extends DialogFragment {
 
                     selectedIngredients.add(selectedIngredient);
 
-                    // Messing around with highlighting
-                    ingredientsList.setSelector(R.color.teal_200);
-
+                    view.setActivated(true);
 
                 }
-
             }
         });
-
     }
 
     /**
