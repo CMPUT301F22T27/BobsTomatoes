@@ -1,11 +1,14 @@
 package com.example.bobstomatoes;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -57,7 +60,15 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        // Modify ActionBar
         setTitle("Ingredient Storage");
+        ActionBar actionBar; // Define ActionBar object
+        actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable =
+                new ColorDrawable(Color.parseColor("#E38212")); // Define ColorDrawable object + parse color
+        actionBar.setBackgroundDrawable(colorDrawable); // Set BackgroundDrawable
+
         setContentView(R.layout.activity_recycler_ingredient);
 
         bundle = new Bundle();
