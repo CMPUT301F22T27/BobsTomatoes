@@ -17,6 +17,7 @@
             android:id="@+id/ingredientDescTextView"
             android:textSize="20dp"
             android:textStyle="bold"
+            android:textColor="@color/black"
             android:text="Ingredient Name" />
 
         <TextView
@@ -27,6 +28,7 @@
             android:layout_below="@+id/ingredientDescTextView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:textColor="@color/black"
             android:textStyle="italic"/>
 
         <LinearLayout
@@ -43,30 +45,35 @@
                     android:id="@+id/ingredientUnitTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:text="Ingredient Unit" />
 
                 <TextView
                     android:id="@+id/ingredientAmountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:text="Ingredient Amount" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:textColor="@color/black"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/ingredientCategoryTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:text="Ingredient Category" />
 
                 <TextView
                     android:id="@+id/ingredientDateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:text="Ingredient Date" />
             </LinearLayout>
         </LinearLayout>
