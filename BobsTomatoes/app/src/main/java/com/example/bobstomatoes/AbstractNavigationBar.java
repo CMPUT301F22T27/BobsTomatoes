@@ -3,6 +3,7 @@ package com.example.bobstomatoes;
 import android.app.FragmentTransaction;
 import android.content.ClipData;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
@@ -29,6 +30,8 @@ public abstract class AbstractNavigationBar extends AppCompatActivity {
      * Set onClickListeners to navigate between activities
      * @param activity, instance of current activity
      */
+
+    Bundle bundle;
     public void initializeButtons(AbstractNavigationBar activity){
         if (activity instanceof MealPlanActivity){
             MainMealPlanBinding binding;
@@ -77,6 +80,10 @@ public abstract class AbstractNavigationBar extends AppCompatActivity {
                 } else if (itemID == R.id.shopping_list_item){
                     Intent intent = new Intent(activity, ShoppingListActivity.class);
                     activity.startActivity(intent);
+                } else if (itemID == R.id.add_item){
+                    bundle = new Bundle();
+                    bundle.putBoolean("isEdit", false);
+                    new IngredientStorageFragment().show(getSupportFragmentManager(), "ADD INGREDIENT FRAGMENT");
                 }
 
                 return false;
@@ -102,6 +109,8 @@ public abstract class AbstractNavigationBar extends AppCompatActivity {
                 } else if (itemID == R.id.shopping_list_item){
                     Intent intent = new Intent(activity, ShoppingListActivity.class);
                     activity.startActivity(intent);
+                } else if (itemID == R.id.add_item){
+                    new RecipeFragment().show(getSupportFragmentManager(), "RECIPE ADD FRAGMENT");
                 }
 
                 return false;

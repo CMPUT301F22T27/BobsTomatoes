@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.ListView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.example.bobstomatoes.databinding.ActivityRecyclerIngredientBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -118,16 +120,6 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
                 
             }
         });
-
-//        // Opens the fragment with blank editTexts to add a completely new Recipe
-//        addButton = findViewById(R.id.center_add_imageButton_id);
-//        addButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                bundle.putBoolean("isEdit", false);
-//                new IngredientStorageFragment().show(getSupportFragmentManager(), "ADD INGREDIENT FRAGMENT");
-//            }
-//        });
     }
 
     /**
