@@ -62,12 +62,6 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         // Sets up buttons and onClickListeners for navigation bar
         initializeButtons(IngredientStorageActivity.this);
 
-        storageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // do nothing
-            }
-        });
 
         //ingredientsListView = findViewById(R.id.ingredients_list);
         recyclerView = findViewById(R.id.recyclerView);
@@ -100,17 +94,6 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
             }
         });
 
-//        // Creates fragment to allow editing and deletion of an ingredient
-//        ingredientsListView.setOnItemClickListener((adapterView, view, i, l) -> {
-//            ingredientPos = ingredientsListView.getCheckedItemPosition();
-//            Ingredient selectedIngredient = ingredientList.get(ingredientPos);
-//            bundle.putParcelable("selectedIngredient", selectedIngredient);
-//            bundle.putInt("oldIngredientPos", ingredientPos);
-//            bundle.putBoolean("isEdit", true);
-//            fragment.setArguments(bundle);
-//            fragment.show(getSupportFragmentManager(), "EDIT OR DELETE INGREDIENT");
-//        });
-
         // Create and Populate Spinner
         // Spinner allows users to choose how to sort ingredients
         Spinner choiceSpinner = (Spinner) findViewById(R.id.sortDropDownID);
@@ -135,15 +118,15 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
             }
         });
 
-        // Opens the fragment with blank editTexts to add a completely new Recipe
-        addButton = findViewById(R.id.center_add_imageButton_id);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bundle.putBoolean("isEdit", false);
-                new IngredientStorageFragment().show(getSupportFragmentManager(), "ADD INGREDIENT FRAGMENT");
-            }
-        });
+//        // Opens the fragment with blank editTexts to add a completely new Recipe
+//        addButton = findViewById(R.id.center_add_imageButton_id);
+//        addButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                bundle.putBoolean("isEdit", false);
+//                new IngredientStorageFragment().show(getSupportFragmentManager(), "ADD INGREDIENT FRAGMENT");
+//            }
+//        });
     }
 
     /**

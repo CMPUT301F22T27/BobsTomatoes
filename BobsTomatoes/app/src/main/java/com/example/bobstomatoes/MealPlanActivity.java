@@ -25,14 +25,6 @@ public class MealPlanActivity extends AbstractNavigationBar {
         //Sets up buttons and onClickListeners for navigation bar
         initializeButtons(MealPlanActivity.this);
 
-        mealPlanButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //do nothing
-            }
-        });
-
-
     }
 
 }
