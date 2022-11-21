@@ -188,6 +188,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
      * Populates data base using callBack
      * @param callBack  recipe database
      */
+
     public void readData(RecipeFireStoreCallback callBack) {
         recipeReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
