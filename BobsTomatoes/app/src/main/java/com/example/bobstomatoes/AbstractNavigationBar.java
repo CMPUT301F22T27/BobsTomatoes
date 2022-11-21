@@ -30,6 +30,7 @@ public abstract class AbstractNavigationBar extends AppCompatActivity {
      * @param activity, instance of current activity
      */
     public void initializeButtons(AbstractNavigationBar activity){
+
         if (activity instanceof MealPlanActivity){
             MainMealPlanBinding binding;
             binding = MainMealPlanBinding.inflate(getLayoutInflater());
