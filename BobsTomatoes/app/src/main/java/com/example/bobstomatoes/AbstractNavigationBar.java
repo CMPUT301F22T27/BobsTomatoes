@@ -1,6 +1,7 @@
 package com.example.bobstomatoes;
 
 import android.app.FragmentTransaction;
+import android.content.ClipData;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +35,9 @@ public abstract class AbstractNavigationBar extends AppCompatActivity {
             binding = MainMealPlanBinding.inflate(getLayoutInflater());
             setContentView(binding.getRoot());
 
+            View view = findViewById(R.id.meal_plan_item);
+            view.setActivated(true);
+
             binding.navigationButtonsLayoutId.bottomNavigationView.setOnItemSelectedListener(item -> {
                 int itemID = item.getItemId();
 
@@ -57,6 +61,9 @@ public abstract class AbstractNavigationBar extends AppCompatActivity {
             binding = ActivityRecyclerIngredientBinding.inflate(getLayoutInflater());
             setContentView(binding.getRoot());
 
+            View view = findViewById(R.id.ingredients_item);
+            view.setActivated(true);
+
             binding.navigationButtonsLayoutId.bottomNavigationView.setOnItemSelectedListener(item -> {
                 int itemID = item.getItemId();
                 if (itemID == R.id.ingredients_item){
@@ -79,6 +86,9 @@ public abstract class AbstractNavigationBar extends AppCompatActivity {
             binding = ActivityRecyclerRecipeBinding.inflate(getLayoutInflater());
             setContentView(binding.getRoot());
 
+            View view = findViewById(R.id.recipes_item);
+            view.setActivated(true);
+
             binding.navigationButtonsLayoutId.bottomNavigationView.setOnItemSelectedListener(item -> {
                 int itemID = item.getItemId();
                 if (itemID == R.id.ingredients_item){
@@ -100,6 +110,9 @@ public abstract class AbstractNavigationBar extends AppCompatActivity {
             ActivityShoppingListBinding binding;
             binding = ActivityShoppingListBinding.inflate(getLayoutInflater());
             setContentView(binding.getRoot());
+
+            View view = findViewById(R.id.shopping_list_item);
+            view.setActivated(true);
 
             binding.navigationButtonsLayoutId.bottomNavigationView.setOnItemSelectedListener(item -> {
                 int itemID = item.getItemId();
