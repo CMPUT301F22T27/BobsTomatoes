@@ -35,8 +35,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
 
     <include
         android:id="@+id/navigation_buttons_layout_id"
