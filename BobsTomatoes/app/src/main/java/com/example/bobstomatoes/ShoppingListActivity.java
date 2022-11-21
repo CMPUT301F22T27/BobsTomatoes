@@ -24,12 +24,5 @@ public class ShoppingListActivity extends AbstractNavigationBar {
         //Sets up buttons and onClickListeners for navigation bar
         initializeButtons(ShoppingListActivity.this);
 
-        shoppingListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //do nothing
-            }
-        });
-
     }
 }

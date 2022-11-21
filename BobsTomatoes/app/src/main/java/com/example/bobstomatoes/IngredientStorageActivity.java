@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,8 +15,10 @@ import android.widget.ListView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.example.bobstomatoes.databinding.ActivityRecyclerIngredientBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -62,12 +65,6 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         // Sets up buttons and onClickListeners for navigation bar
         initializeButtons(IngredientStorageActivity.this);
 
-        storageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // do nothing
-            }
-        });
 
         //ingredientsListView = findViewById(R.id.ingredients_list);
         recyclerView = findViewById(R.id.recyclerView);
@@ -100,17 +97,6 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
             }
         });
 
-//        // Creates fragment to allow editing and deletion of an ingredient
-//        ingredientsListView.setOnItemClickListener((adapterView, view, i, l) -> {
-//            ingredientPos = ingredientsListView.getCheckedItemPosition();
-//            Ingredient selectedIngredient = ingredientList.get(ingredientPos);
-//            bundle.putParcelable("selectedIngredient", selectedIngredient);
-//            bundle.putInt("oldIngredientPos", ingredientPos);
-//            bundle.putBoolean("isEdit", true);
-//            fragment.setArguments(bundle);
-//            fragment.show(getSupportFragmentManager(), "EDIT OR DELETE INGREDIENT");
-//        });
-
         // Create and Populate Spinner
         // Spinner allows users to choose how to sort ingredients
         Spinner choiceSpinner = (Spinner) findViewById(R.id.sortDropDownID);
@@ -132,16 +118,6 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 
-            }
-        });
-
-        // Opens the fragment with blank editTexts to add a completely new Recipe
-        addButton = findViewById(R.id.center_add_imageButton_id);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bundle.putBoolean("isEdit", false);
-                new IngredientStorageFragment().show(getSupportFragmentManager(), "ADD INGREDIENT FRAGMENT");
             }
         });
     }

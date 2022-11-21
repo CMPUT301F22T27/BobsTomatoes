@@ -62,8 +62,11 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         setTitle("Recipes");
         setContentView(R.layout.activity_recycler_recipe);
 
+        // Sets up buttons and onClickListeners for navigation bar
+        initializeButtons(RecipeActivity.this);
+
         recyclerView = findViewById(R.id.recyclerView);
-        addButton = findViewById(R.id.center_add_imageButton_id);
+        //addButton = findViewById(R.id.center_add_imageButton_id);
 
         // Initialize recipe database
         recipeDB = new RecipeDB();
@@ -91,48 +94,21 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
             @Override
             public void onCallBack(ArrayList<Recipe> recipeList) {
                 recipeRecyclerAdapter.notifyDataSetChanged();
+                Log.d("ARRAYLIST", recipeList + "");
             }
         });
 
 
-        // Sets up buttons and onClickListeners for navigation bar
-        initializeButtons(RecipeActivity.this);
-
-        //Override recipe nav button to do nothing
-        recipeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // do nothing
-            }
-        });
-
-        // Add Button Listener
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                new RecipeFragment().show(getSupportFragmentManager(), "RECIPE ADD FRAGMENT");
-
-            }
-        });
-
-//        // Set listview item click listener for when user clicks item in list
-//        RecipeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        // Add Button Listener
+//        addButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+//            public void onClick(View view) {
 //
-//                recipePos = pos;
-//                Recipe selectedRecipe = recipeList.get(pos);
-//
-//                bundle.putParcelable("selectedRecipe", selectedRecipe);
-//                bundle.putInt("oldRecipePos", recipePos);
-//
-//                RecipeFragment fragment = new RecipeFragment();
-//                fragment.setArguments(bundle);
-//                fragment.show(getSupportFragmentManager(), "EDIT/DELETE RECIPE");
+//                new RecipeFragment().show(getSupportFragmentManager(), "RECIPE ADD FRAGMENT");
 //
 //            }
 //        });
+
 
         // Create and Populate Spinner
         // Spinner allows users to choose how to sort ingredients
