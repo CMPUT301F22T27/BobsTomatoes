@@ -64,6 +64,7 @@ public class RecipeDB implements Parcelable {
         data.put("recipeCategory", recipe.getRecipeCategory());
         data.put("recipeComments", recipe.getRecipeComments());
         data.put("recipeIngredients", recipe.getRecipeIngredients());
+        data.put("recipeImage", recipe.getRecipeImage());
 
         // Add recipe to database
         recipeReference.document(recipeName)
@@ -99,6 +100,8 @@ public class RecipeDB implements Parcelable {
         data.put("recipeCategory", recipe.getRecipeCategory());
         data.put("recipeComments", recipe.getRecipeComments());
         data.put("recipeIngredients", recipe.getRecipeIngredients());
+        data.put("recipeImage", recipe.getRecipeImage());
+
 
         //Remove recipe from database
         recipeReference.document(recipeName)
@@ -135,6 +138,8 @@ public class RecipeDB implements Parcelable {
         data.put("recipeCategory", updatedRecipe.getRecipeCategory());
         data.put("recipeComments", updatedRecipe.getRecipeComments());
         data.put("recipeIngredients", updatedRecipe.getRecipeIngredients());
+        data.put("recipeImage", updatedRecipe.getRecipeImage());
+
 
         //Edit recipe in database
         recipeReference.document(recipeName)
