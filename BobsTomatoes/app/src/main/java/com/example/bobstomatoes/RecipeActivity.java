@@ -2,6 +2,7 @@ package com.example.bobstomatoes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,7 +41,6 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
     int recipePos;
 
     RecipeDB recipeDB;
-    ArrayAdapter<Recipe> recipeAdapter;
     ArrayList<Recipe> recipeList;
     CollectionReference recipeReference;
 
@@ -79,7 +79,6 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         // Link array and adapter
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(recipeRecyclerAdapter);
 
 
@@ -201,7 +200,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
             Collections.sort(recipeList, Recipe::compareToRecipeTitle);
         }else if(choice.equals("Preparation Time")){
             Collections.sort(recipeList, Recipe::compareToRecipeTime);
-        }else if(choice.equals("Number of Servings")){
+        }else if(choice.equals("Number of servings")){
             Collections.sort(recipeList, Recipe::compareToRecipeServings);
         }else{
             Collections.sort(recipeList, Recipe::compareToRecipeCategory);

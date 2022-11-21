@@ -232,7 +232,7 @@ public class Recipe implements Parcelable {
      * @return          returns 0 if both equal, greater than 0 if first value is greater, less than 0 if second value is greater
      */
     public int compareToRecipeTime(Recipe recipe) {
-        return (String.valueOf(this.getRecipeTime()).compareTo(String.valueOf(recipe.getRecipeTime())));
+        return recipe.getRecipeTime()-this.getRecipeTime();
     }
 
     /**
@@ -242,7 +242,7 @@ public class Recipe implements Parcelable {
      * @return          returns 0 if both equal, greater than 0 if first value is greater, less than 0 if second value is greater
      */
     public int compareToRecipeServings(Recipe recipe){
-        return(String.valueOf(this.getRecipeServings()).compareTo(String.valueOf(recipe.getRecipeServings())));
+        return recipe.getRecipeServings()-this.getRecipeServings();
     }
 
     /**
