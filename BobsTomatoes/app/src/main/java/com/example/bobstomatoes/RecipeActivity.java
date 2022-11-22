@@ -1,12 +1,15 @@
 package com.example.bobstomatoes;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -59,7 +62,15 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Modify ActionBar
         setTitle("Recipes");
+        ActionBar actionBar; // Define ActionBar object
+        actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable =
+                new ColorDrawable(Color.parseColor("#00C034")); // Define ColorDrawable object + parse color
+        actionBar.setBackgroundDrawable(colorDrawable); // Set BackgroundDrawable
+
         setContentView(R.layout.activity_recycler_recipe);
 
         // Sets up buttons and onClickListeners for navigation bar
@@ -148,13 +159,12 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     /**
      * Confirms the edit of a recipe when the edit button is pressed
-     * @param recipe    specified recipe
+     * @param newRecipe    new updated recipe to be added
+     * @param oldRecipe    old recipe to be removed
      */
-    public void onEditOkPressed(Recipe recipe) {
-
-        recipeDB.editRecipe(recipePos, recipe);
+    public void onEditOkPressed(Recipe newRecipe, Recipe oldRecipe) {
+        recipeDB.editRecipe(recipePos, newRecipe, oldRecipe);
         recipeRecyclerAdapter.notifyDataSetChanged();
-
     }
 
     /**
