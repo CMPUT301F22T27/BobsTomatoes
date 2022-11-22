@@ -1,3 +1,4 @@
+/*
 package com.example.bobstomatoes;
 
 import android.view.View;
@@ -24,3 +25,4 @@ public class MealPlanCalendarViewHolder extends RecyclerView.ViewHolder implemen
         onItemListener.onItemClick(getAdapterPosition(), (String) dayOfMonth.getText());
     }
 }
+*/

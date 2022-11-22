@@ -5,13 +5,14 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarViewHolder>
+class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapter.MealPlanCalendarViewHolder>
 {
     private final ArrayList<String> daysOfMonth;
     private final OnItemListener onItemListener;
@@ -35,24 +36,7 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarViewH
         return new MealPlanCalendarViewHolder(view, onItemListener);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull MealPlanCalendarViewHolder holder, @SuppressLint("RecyclerView") int position)
-    {
-        holder.dayOfMonth.setText(daysOfMonth.get(position));
-        if(selectedPosition==position)
-            holder.itemView.setBackgroundColor(Color.parseColor("#F8C8DC"));
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedPosition=position;
-                notifyDataSetChanged();
-
-            }
-        });
-    }
 
     @Override
     public int getItemCount()
@@ -62,6 +46,39 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarViewH
 
     public interface  OnItemListener
     {
-        void onItemClick(int position, String dayText);
+        void onItemClick(int position, String dayText, TextView day);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MealPlanCalendarViewHolder holder, @SuppressLint("RecyclerView") int position)
+    {
+/*
+        String date = daysOfMonth.get(position);
+*/
+        holder.dayOfMonth.setText(daysOfMonth.get(position));
+
+      /*  if (date.equals(selectedPosition))
+            holder.itemView.setBackgroundColor(Color.LTGRAY);*/
+
+
+    }
+
+    public class MealPlanCalendarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    {
+        public final TextView dayOfMonth;
+        private MealPlanCalendarAdapter.OnItemListener onItemListener;
+        public MealPlanCalendarViewHolder(@NonNull View itemView, MealPlanCalendarAdapter.OnItemListener onItemListener)
+        {
+            super(itemView);
+            dayOfMonth = itemView.findViewById(R.id.cellDayText);
+            this.onItemListener = onItemListener;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view)
+        {
+            onItemListener.onItemClick(getAbsoluteAdapterPosition(), (String) dayOfMonth.getText(), dayOfMonth);
+        }
     }
 }
