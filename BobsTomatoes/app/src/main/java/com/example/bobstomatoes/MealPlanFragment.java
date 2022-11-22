@@ -38,7 +38,7 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class MealPlanFragment extends DialogFragment implements MealPlanFragment.OnMealPlanFragmentListener {
+public class MealPlanFragment extends DialogFragment {
 
     private ListView recipesList;
     private ListView ingredientsList;
@@ -65,6 +65,7 @@ public class MealPlanFragment extends DialogFragment implements MealPlanFragment
 
     Recipe selectedRecipe;
     MealPlan selectedMealPlan;
+    String selectedDate;
     int oldRecipePos;
     int oldIngredientPos;
     String date = "0-0-0";
@@ -120,15 +121,12 @@ public class MealPlanFragment extends DialogFragment implements MealPlanFragment
         // If bundle != null, then a recipe has been passed in to the fragment -> edit/delete
         if (bundle != null) {
 
-
-            selectedRecipes = bundle.getParcelable("selectedRecipe");
-            selectedIngredients = bundle.getParcelable("selectedIngredient");
-            oldRecipePos = bundle.getInt("oldRecipePos");
-            oldIngredientPos = bundle.getInt("oldIngredientPos");
+            selectedMealPlan = bundle.getParcelable("selectedMealPlan");
+            selectedDate = bundle.getString("selectedDate");
 
             // Populate selectedIngredients and selectedRecipes
-            selectedRecipes = selectedMealPlan.getRecipes();
-            selectedIngredients = selectedMealPlan.getIngredients();
+            selectedRecipes = selectedMealPlan.getMealPlanRecipes();
+            selectedIngredients = selectedMealPlan.getMealPlanIngredients();
 
             // Builder for Edit/delete
             return builder.setView(view)
@@ -146,7 +144,7 @@ public class MealPlanFragment extends DialogFragment implements MealPlanFragment
                         public void onClick(DialogInterface dialogInterface, int i) {
 
 
-                            MealPlan newMealPlan = new MealPlan(selectedRecipes, selectedIngredients, date);
+                            MealPlan newMealPlan = new MealPlan(selectedDate, selectedRecipes, selectedIngredients);
 
                             listener.onEditOkPressed(newMealPlan);
 
@@ -165,7 +163,7 @@ public class MealPlanFragment extends DialogFragment implements MealPlanFragment
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
-                            MealPlan newMealPlan = new MealPlan(selectedRecipes, selectedIngredients, date);
+                            MealPlan newMealPlan = new MealPlan("", selectedRecipes, selectedIngredients);
 
                             listener.onAddOkPressed(newMealPlan);
 
