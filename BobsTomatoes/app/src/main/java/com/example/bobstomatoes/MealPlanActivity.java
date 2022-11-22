@@ -42,6 +42,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     private LocalDate selectedDate;
     String globalDayText;
     MealPlanDB mealPlanDB;
+    Boolean planFound = false;
 
     ArrayList<MealPlan> mealPlanList;
     CollectionReference mealPlanReference;
@@ -148,7 +149,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         {
             mealPlanPos = position;
             globalDayText = dayText;
-
             calendarRecyclerView.getChildAt(position).setSelected(true);
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
@@ -186,18 +186,20 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                     for (int i = 0; i < mealPlanList.size(); i++){
                         Log.d("TESTING:", mealPlanList + "");
                         if (mealPlanList.get(i).getMealPlanDate().equals(globalDate)) {
-
                             currentMealPlan = mealPlanList.get(i);
+                            planFound = true;
                         }
                     }
+                    if (planFound) {
+                        bundle = new Bundle();
+                        bundle.putString("selectedDate", globalDate);
+                        bundle.putParcelable("selectedMealPlan", currentMealPlan);
 
-                    bundle = new Bundle();
-                    bundle.putString("selectedDate", globalDate);
-                    bundle.putParcelable("selectedMealPlan", currentMealPlan);
-
-                    MealPlanFragment fragment = new MealPlanFragment();
-                    fragment.setArguments(bundle);
-                    fragment.show(getSupportFragmentManager(), "EDIT/DELETE MEAL PLAN");
+                        MealPlanFragment fragment = new MealPlanFragment();
+                        fragment.setArguments(bundle);
+                        fragment.show(getSupportFragmentManager(), "EDIT/DELETE MEAL PLAN");
+                        planFound = false;
+                    }
                 }
             });
 
