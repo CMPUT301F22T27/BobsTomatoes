@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -121,14 +122,21 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanC
     public void onItemClick(int position, String dayText, TextView day)
     {
 
+        /*MealPlanFragment fragment = new MealPlanFragment();
+        fragment.setArguments(bundle);
+        fragment.show(getSupportFragmentManager(), "TEST");
+        System.out.println("PRINTED");*/
         if(!dayText.equals(""))
         {
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             calendarRecyclerView.getChildAt(position).setBackgroundColor(Color.LTGRAY);
-
-
         }
+        MealPlanFragment fragment = new MealPlanFragment();
+        fragment.setArguments(bundle);
+        fragment.show(getSupportFragmentManager(), "TEST");
+        System.out.println("PRINTED");
+
     }
 
 }
