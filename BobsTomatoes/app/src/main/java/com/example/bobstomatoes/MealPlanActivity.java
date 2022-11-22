@@ -190,6 +190,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                             planFound = true;
                         }
                     }
+
                     if (planFound) {
                         bundle = new Bundle();
                         bundle.putString("selectedDate", globalDate);
