@@ -88,12 +88,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             @Override
             public void onCallBack(ArrayList<MealPlan> mealPlanList) {
 
-                for(int i = 0; i <= 40; i++) {
-                    View check = calendarRecyclerView.getChildAt(i);
-                    if (Objects.nonNull(check));
-                    check.setBackgroundColor(Color.WHITE);
-                }
-
                 for (int i = 0; i < mealPlanList.size(); i++){
                     Log.d("TESTING:", mealPlanList + "");
                     if (mealPlanList.get(i).getMealPlanDate().equals(globalDate)) {
@@ -113,7 +107,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
                         if (mealPlanList.get(j).getMealPlanDate().equals(date)){
                             check.setSelected(true);
-                            check.setBackgroundColor(Color.LTGRAY);
+                            //check.setBackgroundColor(Color.LTGRAY);
+                            check.setActivated(true);
                         }
                     }
                 }
@@ -187,11 +182,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             @Override
             public void onCallBack(ArrayList<MealPlan> mealPlanList) {
 
-                for(int i = 0; i <= 40; i++) {
-                    View check = calendarRecyclerView.getChildAt(i);
-                    if (Objects.nonNull(check));
-                    check.setBackgroundColor(Color.WHITE);
-                }
 
                 for (int i = 0; i < mealPlanList.size(); i++){
                     Log.d("TESTING:", mealPlanList + "");
@@ -211,7 +201,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
                         if (mealPlanList.get(j).getMealPlanDate().equals(date)){
                             check.setSelected(true);
-                            check.setBackgroundColor(Color.LTGRAY);
+                            //check.setBackgroundColor(Color.LTGRAY);
+                            check.setActivated(true);
                         }
                     }
                 }
@@ -234,11 +225,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             @Override
             public void onCallBack(ArrayList<MealPlan> mealPlanList) {
 
-                for(int i = 0; i <= 40; i++) {
-                    View check = calendarRecyclerView.getChildAt(i);
-                    if (Objects.nonNull(check));
-                    check.setBackgroundColor(Color.WHITE);
-                }
 
                 for (int i = 0; i < mealPlanList.size(); i++){
                     Log.d("TESTING:", mealPlanList + "");
@@ -258,7 +244,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
                         if (mealPlanList.get(j).getMealPlanDate().equals(date)){
                             check.setSelected(true);
-                            check.setBackgroundColor(Color.LTGRAY);
+                            //check.setBackgroundColor(Color.LTGRAY);
+                            check.setActivated(true);
                         }
                     }
                 }
@@ -276,7 +263,9 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             calendarRecyclerView.getChildAt(position).setSelected(true);
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-//            calendarRecyclerView.getChildAt(position).setBackgroundColor(Color.LTGRAY);
+
+            //calendarRecyclerView.getChildAt(position).setBackgroundColor(Color.LTGRAY);
+            calendarRecyclerView.getChildAt(position).setActivated(true);
 
             Log.d("PRINTING CHILD POSITION:", dayText + "");
 
@@ -287,17 +276,35 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             Log.d("MEAL PLAN POSITION:", position + "");
 
 
+            for (int i = 0; i <= 40; i++) {
 
-//            for(int i = 0; i <= 40; i++) {
-//                View check = calendarRecyclerView.getChildAt(i);
-//
-//                if (Objects.nonNull(check));
-//                    ColorDrawable viewColor = (ColorDrawable) check.getBackground();
-//                    int color = viewColor.getColor();
-//                    Log.d("viewColor: ", viewColor + "");
-//                    if (i != position && color != Color.LTGRAY)
-//                        check.setBackgroundColor(Color.WHITE);
-//            }
+                View check = calendarRecyclerView.getChildAt(i);
+                dayOfMonth = check.findViewById(R.id.cellDayText);
+                String tempDay = (String) dayOfMonth.getText();
+
+                String date = selectedDate.toString();
+                date = date.substring(0,8).concat(tempDay);
+
+                boolean found = false;
+
+                for (int j = 0; j < mealPlanList.size(); j++) {
+                    if (mealPlanList.get(j).getMealPlanDate().equals(date)){
+                        found = true;
+                    }
+                }
+
+                if (i != position){
+
+                    if (found){
+                        check.setActivated(false);
+                    } else {
+                        check.setActivated(false);
+                    }
+
+                }
+
+            }
+
 
 
             String date = selectedDate.toString();
