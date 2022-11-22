@@ -183,7 +183,7 @@ public class MealPlanFragment extends DialogFragment {
 
         recipeReference = recipeDB.getRecipeReference();
 
-        recipeAdapter = new RecipeAdapter(getContext() , recipeList);
+        recipeAdapter = new RecipeAdapter(getContext(), recipeList);
 
         recipesList.setAdapter(recipeAdapter);
 
@@ -198,7 +198,7 @@ public class MealPlanFragment extends DialogFragment {
             @Override
             public void onCallBack(ArrayList<Recipe> recipeList) {
                 recipeAdapter.notifyDataSetChanged();
-                //Log.d("ARRAYLIST", recipeList + "");
+                Log.d("ARRAYLIST", recipeList + "");
             }
         });
 

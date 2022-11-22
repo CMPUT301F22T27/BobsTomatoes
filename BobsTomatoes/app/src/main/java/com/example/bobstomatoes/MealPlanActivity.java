@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Class for Meal Plan which displays a calendar showing meal plans
  * extends AbstractNavigator
  */
-public class MealPlanActivity extends AbstractNavigationBar implements MealPlanCalendarAdapter.OnItemListener {
+public class MealPlanActivity extends AbstractNavigationBar implements MealPlanFragment.OnMealPlanFragmentListener, MealPlanCalendarAdapter.OnItemListener  {
 
     /**
      * Create instance
@@ -139,4 +139,18 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanC
 
     }
 
+    @Override
+    public void onAddOkPressed(MealPlan mealPlan) {
+
+    }
+
+    @Override
+    public void onEditOkPressed(MealPlan mealPlan) {
+
+    }
+
+    @Override
+    public void onDeleteOkPressed(MealPlan mealPlan) {
+
+    }
 }
