@@ -66,6 +66,7 @@ public class MealPlanFragment extends DialogFragment {
     Recipe selectedRecipe;
     MealPlan selectedMealPlan;
     int oldRecipePos;
+    int oldIngredientPos;
     String date = "0-0-0";
 
     public interface OnMealPlanFragmentListener{
@@ -111,6 +112,7 @@ public class MealPlanFragment extends DialogFragment {
 
         // Recipes List
         initRecipeList();
+        initIngredientList();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         Bundle bundle = this.getArguments();
@@ -120,10 +122,13 @@ public class MealPlanFragment extends DialogFragment {
 
 
             selectedRecipes = bundle.getParcelable("selectedRecipe");
+            selectedIngredients = bundle.getParcelable("selectedIngredient");
             oldRecipePos = bundle.getInt("oldRecipePos");
+            oldIngredientPos = bundle.getInt("oldIngredientPos");
 
-            // Populate selectedIngredients
+            // Populate selectedIngredients and selectedRecipes
             selectedRecipes = selectedMealPlan.getRecipes();
+            selectedIngredients = selectedMealPlan.getIngredients();
 
             // Builder for Edit/delete
             return builder.setView(view)
@@ -251,6 +256,92 @@ public class MealPlanFragment extends DialogFragment {
                         recipeList.add(recipe);
                     }
                     callBack.onCallBack(recipeList);
+                } else {
+                    Log.d("", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    /**
+     * Initialize and update ingredient list and database
+     */
+    public void initIngredientList(){
+
+        ingredientDB = new IngredientDB();
+
+        ingredientList = ingredientDB.getIngredientList();
+
+        ingredientReference = ingredientDB.getIngredientReference();
+
+        ingredientAdapter = new IngredientStorageAdapter(getContext(), ingredientList);
+
+        ingredientsList.setAdapter(ingredientAdapter);
+
+        ingredientsList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        // Populate recipe list from database, by calling this, we can safely assume the list has been populated from the DataBase
+        readData(new IngredientFireStoreCallback() {
+            /**
+             * Notify data change for recipeList
+             * @param ingredientList    array list of recipes
+             */
+            @Override
+            public void onCallBack(ArrayList<Ingredient> ingredientList) {
+                ingredientAdapter.notifyDataSetChanged();
+                Log.d("ARRAYLIST", ingredientList + "");
+            }
+        });
+
+
+        // Handle selection and unselection of items
+        ingredientsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+
+                Ingredient selectedIngredient = ingredientList.get(pos);
+
+                boolean found = false;
+
+                for (int i = 0; i < selectedIngredients.size(); i ++){
+                    // Check if ingredient already selected
+                    if (selectedIngredient.getIngredientDesc().equals(selectedIngredients.get(i).getIngredientDesc())){
+
+                        //Unselect ingredient
+                        selectedIngredients.remove(i);
+
+                        found = true;
+
+                        view.setActivated(false);
+
+                    }
+                }
+
+                if (!found){
+
+                    selectedIngredients.add(selectedIngredient);
+
+                    view.setActivated(true);
+
+                }
+            }
+        });
+    }
+
+    /**
+     * Populates data base using callBack
+     * @param callBack  ingredient database
+     */
+    public void readData(IngredientFireStoreCallback callBack) {
+        ingredientReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Ingredient ingredient = document.toObject(Ingredient.class);
+                        ingredientList.add(ingredient);
+                    }
+                    callBack.onCallBack(ingredientList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
                 }
