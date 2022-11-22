@@ -118,13 +118,16 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanC
     }
 
     @Override
-    public void onItemClick(int position, String dayText)
+    public void onItemClick(int position, String dayText, TextView day)
     {
 
         if(!dayText.equals(""))
         {
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            calendarRecyclerView.getChildAt(position).setBackgroundColor(Color.LTGRAY);
+
+
         }
     }
 
