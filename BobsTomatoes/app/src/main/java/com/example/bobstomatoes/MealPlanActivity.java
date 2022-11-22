@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Class for Meal Plan which displays a calendar showing meal plans
@@ -120,15 +121,19 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanC
     @Override
     public void onItemClick(int position, String dayText, TextView day)
     {
-
         if(!dayText.equals(""))
         {
+            calendarRecyclerView.getChildAt(position).setSelected(true);
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             calendarRecyclerView.getChildAt(position).setBackgroundColor(Color.LTGRAY);
 
+            for(int i = 0; i <= 40; i++) {
+                View check = calendarRecyclerView.getChildAt(i);
+                if (Objects.nonNull(check))
+                    if (i != position)
+                        check.setBackgroundColor(Color.WHITE);
+            }
 
         }
-    }
-
-}
+    }}
