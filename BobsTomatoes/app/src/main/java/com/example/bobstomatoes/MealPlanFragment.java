@@ -38,7 +38,7 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class MealPlanFragment extends DialogFragment {
+public class MealPlanFragment extends DialogFragment implements MealPlanFragment.OnMealPlanFragmentListener {
 
     private ListView recipesList;
     private ListView ingredientsList;
