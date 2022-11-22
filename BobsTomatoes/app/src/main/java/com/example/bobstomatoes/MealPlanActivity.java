@@ -152,7 +152,9 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             calendarRecyclerView.getChildAt(position).setSelected(true);
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+/*
             calendarRecyclerView.getChildAt(position).setBackgroundColor(Color.LTGRAY);
+*/
 
 //            String date = selectedDate.toString();
 //            date = date.substring(0,8).concat(globalDayText);
@@ -161,13 +163,9 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             Log.d("MEAL PLAN POSITION:", position + "");
 
 
-            for(int i = 0; i <= 40; i++) {
-                View check = calendarRecyclerView.getChildAt(i);
-                if (Objects.nonNull(check))
-                    if (i != position)
-                        check.setBackgroundColor(Color.WHITE);
-            }
 
+
+            calendarRecyclerView.getAdapter().notifyDataSetChanged();
 
             String date = selectedDate.toString();
             globalDate = date.substring(0,8).concat(globalDayText);

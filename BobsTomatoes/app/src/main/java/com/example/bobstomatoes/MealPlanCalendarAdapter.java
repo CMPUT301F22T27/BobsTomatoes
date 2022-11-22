@@ -16,6 +16,7 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
 {
     private final ArrayList<String> daysOfMonth;
     private final OnItemListener onItemListener;
+    int selected_position = -1; // You have to set this globally in the Adapter class
 
 
     public MealPlanCalendarAdapter(ArrayList<String> daysOfMonth, OnItemListener onItemListener)
@@ -57,14 +58,17 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
     {
 
         holder.dayOfMonth.setText(daysOfMonth.get(position));
+        holder.itemView.setBackgroundColor(selected_position == position ? Color.GREEN : Color.TRANSPARENT);
+
 
     }
+
+
 
 
     public class MealPlanCalendarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         public final TextView dayOfMonth;
-        public Boolean hasMealPlan = false;
         private MealPlanCalendarAdapter.OnItemListener onItemListener;
         public MealPlanCalendarViewHolder(@NonNull View itemView, MealPlanCalendarAdapter.OnItemListener onItemListener) {
             super(itemView);
@@ -76,6 +80,12 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
         @Override
         public void onClick(View view)
         {
+            if (getAbsoluteAdapterPosition() == RecyclerView.NO_POSITION) return;
+
+            // Updating old as well as new positions
+            notifyItemChanged(selected_position);
+            selected_position = getAbsoluteAdapterPosition();
+            notifyItemChanged(selected_position);
             onItemListener.onItemClick(getAbsoluteAdapterPosition(), (String) dayOfMonth.getText(), dayOfMonth);
 
 
