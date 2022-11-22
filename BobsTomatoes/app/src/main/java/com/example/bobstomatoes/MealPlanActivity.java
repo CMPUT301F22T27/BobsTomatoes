@@ -1,5 +1,6 @@
 package com.example.bobstomatoes;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,20 +8,28 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Class for Meal Plan which displays a calendar showing meal plans
  * extends AbstractNavigator
  */
-public class MealPlanActivity extends AbstractNavigationBar implements MealPlanCalendarAdapter.OnItemListener {
+public class MealPlanActivity extends AbstractNavigationBar implements MealPlanFragment.OnMealPlanFragmentListener, MealPlanCalendarAdapter.OnItemListener {
 
     /**
      * Create instance
@@ -31,6 +40,16 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanC
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
+    String globalDayText;
+    MealPlanDB mealPlanDB;
+    Boolean planFound = false;
+
+    ArrayList<MealPlan> mealPlanList;
+    CollectionReference mealPlanReference;
+    int mealPlanPos;
+    Bundle bundle;
+    MealPlan currentMealPlan;
+    String globalDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +70,12 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanC
         initWidgets();
         selectedDate = LocalDate.now();
         setMonthView();
+
+        mealPlanDB = new MealPlanDB();
+        mealPlanList = mealPlanDB.getMealPlanList();
+        mealPlanReference = mealPlanDB.getMealPlanReference();
+
+
 
     }
 
@@ -120,15 +145,110 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanC
     @Override
     public void onItemClick(int position, String dayText, TextView day)
     {
-
         if(!dayText.equals(""))
         {
+            mealPlanPos = position;
+            globalDayText = dayText;
+            calendarRecyclerView.getChildAt(position).setSelected(true);
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             calendarRecyclerView.getChildAt(position).setBackgroundColor(Color.LTGRAY);
 
+//            String date = selectedDate.toString();
+//            date = date.substring(0,8).concat(globalDayText);
+//            Log.d("TESTING:", date);
+
+            Log.d("MEAL PLAN POSITION:", position + "");
+
+
+            for(int i = 0; i <= 40; i++) {
+                View check = calendarRecyclerView.getChildAt(i);
+                if (Objects.nonNull(check))
+                    if (i != position)
+                        check.setBackgroundColor(Color.WHITE);
+            }
+
+
+            String date = selectedDate.toString();
+            globalDate = date.substring(0,8).concat(globalDayText);
+            //Log.d("TESTING", date);
+
+
+            // Populate meal plan list from database, by calling this, we can safely assume the list has been populated from the DataBase
+            readData(new MealPlanFireStoreCallBack() {
+                /**
+                 * Notify data change for ingredientList
+                 * @param mealPlanList    array list of ingredients
+                 */
+                @Override
+                public void onCallBack(ArrayList<MealPlan> mealPlanList) {
+
+                    for (int i = 0; i < mealPlanList.size(); i++){
+                        Log.d("TESTING:", mealPlanList + "");
+                        if (mealPlanList.get(i).getMealPlanDate().equals(globalDate)) {
+                            currentMealPlan = mealPlanList.get(i);
+                            planFound = true;
+                        }
+                    }
+
+                    if (planFound) {
+                        bundle = new Bundle();
+                        bundle.putString("selectedDate", globalDate);
+                        bundle.putParcelable("selectedMealPlan", currentMealPlan);
+
+                        MealPlanFragment fragment = new MealPlanFragment();
+                        fragment.setArguments(bundle);
+                        fragment.show(getSupportFragmentManager(), "EDIT/DELETE MEAL PLAN");
+                        planFound = false;
+                    }
+                }
+            });
 
         }
+    }
+
+
+    public void onAddOkPressed(MealPlan mealPlan) {
+        String date = selectedDate.toString();
+        date = date.substring(0,8).concat(globalDayText);
+        mealPlanDB.addMealPlan(mealPlan, date);
+    }
+
+
+    public void onEditOkPressed(MealPlan mealPlan) {
+        mealPlanDB.editMealPlan(mealPlanPos, mealPlan);
+    }
+
+
+    public void onDeleteOkPressed(MealPlan mealPlan) {
+        mealPlanDB.removeMealPlan(mealPlan);
+    }
+
+    public void readData(MealPlanFireStoreCallBack callBack) {
+        mealPlanReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        MealPlan mealPlan = document.toObject(MealPlan.class);
+                        Log.d("IN READ DATA:", mealPlan.getMealPlanDate() + "");
+                        mealPlanList.add(mealPlan);
+                    }
+                    callBack.onCallBack(mealPlanList);
+                } else {
+                    Log.d("", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    /**
+     * Interface
+     * Call back MealPlanList
+     * Basically allows us to access the MealPlanList outside of the onComplete and it ensures that the onComplete has fully populated our list
+     */
+    private interface MealPlanFireStoreCallBack {
+        void onCallBack(ArrayList<MealPlan> mealPlanList);
     }
 
 }

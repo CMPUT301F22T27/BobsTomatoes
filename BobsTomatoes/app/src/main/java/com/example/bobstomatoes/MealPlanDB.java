@@ -20,7 +20,7 @@ public class MealPlanDB {
 
     private ArrayList<MealPlan> mealPlanList;
 
-    private final FirebaseFirestore mealPlanDatabase = FirebaseFirestore.getInstance();
+    private FirebaseFirestore mealPlanDatabase = FirebaseFirestore.getInstance();
 
     private final CollectionReference mealPlanReference = mealPlanDatabase.collection("Meal Plan");
 
@@ -46,13 +46,12 @@ public class MealPlanDB {
      * Inputs a new meal plan's recipes, ingredients, date on firebase database
      * @param mealPlan    specified meal plan to add into database
      */
-    public void addMealPlan(MealPlan mealPlan) {
+    public void addMealPlan(MealPlan mealPlan, String mealPlanDate) {
         //Populate map with recipe contents
         HashMap<String, Object> data = new HashMap<>();
-        String mealPlanDate = mealPlan.getDate();
         data.put("mealPlanDate", mealPlanDate);
-        data.put("mealPlanRecipes", mealPlan.getRecipes());
-        data.put("mealPlanIngredients", mealPlan.getIngredients());
+        data.put("mealPlanRecipes", mealPlan.getMealPlanRecipes());
+        data.put("mealPlanIngredients", mealPlan.getMealPlanIngredients());
 
         //Edit recipe in database
         mealPlanReference.document(mealPlanDate)
@@ -69,6 +68,7 @@ public class MealPlanDB {
                         Log.d("", "Data could not be added");
                     }
                 });
+        mealPlan.setMealPlanDate(mealPlanDate);
         mealPlanList.add(mealPlan);
     }
 
@@ -80,10 +80,10 @@ public class MealPlanDB {
     public void removeMealPlan(MealPlan mealPlan) {
         //Populate map with recipe contents
         HashMap<String, Object> data = new HashMap<>();
-        String mealPlanDate = mealPlan.getDate();
+        String mealPlanDate = mealPlan.getMealPlanDate();
         data.put("mealPlanDate", mealPlanDate);
-        data.put("mealPlanRecipes", mealPlan.getRecipes());
-        data.put("mealPlanIngredients", mealPlan.getIngredients());
+        data.put("mealPlanRecipes", mealPlan.getMealPlanRecipes());
+        data.put("mealPlanIngredients", mealPlan.getMealPlanIngredients());
 
         //Edit recipe in database
         mealPlanReference.document(mealPlanDate)
@@ -112,10 +112,10 @@ public class MealPlanDB {
     public void editMealPlan(int oldMealPlanPos, MealPlan updatedMealPlan) {
         //Populate map with recipe contents
         HashMap<String, Object> data = new HashMap<>();
-        String mealPlanDate = updatedMealPlan.getDate();
+        String mealPlanDate = updatedMealPlan.getMealPlanDate();
         data.put("mealPlanDate", mealPlanDate);
-        data.put("mealPlanRecipes", updatedMealPlan.getRecipes());
-        data.put("mealPlanIngredients", updatedMealPlan.getIngredients());
+        data.put("mealPlanRecipes", updatedMealPlan.getMealPlanRecipes());
+        data.put("mealPlanIngredients", updatedMealPlan.getMealPlanIngredients());
 
         //Edit recipe in database
         mealPlanReference.document(mealPlanDate)
