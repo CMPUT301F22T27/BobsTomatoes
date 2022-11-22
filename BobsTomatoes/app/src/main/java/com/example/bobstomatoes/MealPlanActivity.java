@@ -1,5 +1,6 @@
 package com.example.bobstomatoes;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,9 +8,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -32,6 +40,12 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanC
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
+    MealPlanDB mealPlanDB;
+
+    ArrayList<MealPlan> mealPlanList;
+    CollectionReference mealPlanReference;
+    int mealPlanPos;
+    Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,4 +150,47 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanC
             }
 
         }
-    }}
+    }
+
+
+    public void onAddOkPressed(MealPlan mealPlan) {
+        mealPlanDB.addMealPlan(mealPlan);
+    }
+
+
+    public void onEditOkPressed(MealPlan mealPlan) {
+        mealPlanDB.editMealPlan(mealPlanPos, mealPlan);
+    }
+
+
+    public void onDeleteOkPressed(MealPlan mealPlan) {
+        mealPlanDB.removeMealPlan(mealPlan);
+    }
+
+    public void readData(MealPlanFireStoreCallBack callBack) {
+        mealPlanReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        MealPlan mealPlan = document.toObject(MealPlan.class);
+                        mealPlanList.add(mealPlan);
+                    }
+                    callBack.onCallBack(mealPlanList);
+                } else {
+                    Log.d("", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    /**
+     * Interface
+     * Call back recipeList
+     * Basically allows us to access the recipeList outside of the onComplete and it ensures that the onComplete has fully populated our list
+     */
+    private interface MealPlanFireStoreCallBack {
+        void onCallBack(ArrayList<MealPlan> mealPlanList);
+    }
+
+}
