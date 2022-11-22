@@ -52,13 +52,13 @@ public class MealPlanDBTest {
         ingredientList.add(ingredient);
         recipeList.add(new Recipe("Tomato Soup", 20, 5, "Soup","Tasty", ingredientList));
 
-        MealPlan mealPlan = new MealPlan(recipeList, ingredientList, "2022-11-04");
+        MealPlan mealPlan = new MealPlan("2022-11-04", recipeList, ingredientList);
 
         DocumentReference mealPlanRef = mealPlanReference.document(mealPlan.getDate());
 
         int PreSize = mealPlanList.size();
 
-        mealPlanDB.addMealPlan(mealPlan);
+        mealPlanDB.addMealPlan(mealPlan, "2022-11-22");
 
         mealPlanRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -99,13 +99,13 @@ public class MealPlanDBTest {
         ingredientList.add(ingredient);
         recipeList.add(new Recipe("Tomato Soup", 20, 5, "Soup","Tasty", ingredientList));
 
-        MealPlan mealPlan = new MealPlan(recipeList, ingredientList, "2022-11-04");
+        MealPlan mealPlan = new MealPlan("2022-11-04", recipeList, ingredientList);
 
         DocumentReference mealPlanRef = mealPlanReference.document(mealPlan.getDate());
 
         int PreSize = mealPlanList.size();
 
-        mealPlanDB.addMealPlan(mealPlan);
+        mealPlanDB.addMealPlan(mealPlan, "2022-11-22");
         mealPlanDB.removeMealPlan(mealPlan);
 
         mealPlanRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
