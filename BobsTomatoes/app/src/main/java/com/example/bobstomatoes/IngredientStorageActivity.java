@@ -145,14 +145,12 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
 
     /**
      * Confirms the edit of an ingredient when the edit button is pressed
-     * @param ingredient    specified ingredient
+     * @param newIngredient    new updated ingredient to be added
+     * @param oldIngredient     old ingredient to be removed
      */
-    public void onEditOkPressed(Ingredient ingredient) {
-        ingredientDB.editIngredient(ingredientPos, ingredient);
+    public void onEditOkPressed(Ingredient newIngredient, Ingredient oldIngredient) {
+        ingredientDB.editIngredient(ingredientPos, newIngredient, oldIngredient);
         ingredientRecyclerAdapter.notifyDataSetChanged();
-        for(int i = 0; i < ingredientList.size(); i++){
-            Log.d("arraylist", ingredientList.get(i).getIngredientDesc() + " " + ingredientList.get(i).getIngredientAmount());
-        }
     }
 
     /**

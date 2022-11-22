@@ -150,7 +150,7 @@ public class IngredientDBTest {
             }
         });
 
-        ingredientDB.editIngredient(0,ingredient2);
+        ingredientDB.editIngredient(0,ingredient2, ingredient);
 
         ingredient1Ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
