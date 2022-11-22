@@ -159,13 +159,12 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     /**
      * Confirms the edit of a recipe when the edit button is pressed
-     * @param recipe    specified recipe
+     * @param newRecipe    new updated recipe to be added
+     * @param oldRecipe    old recipe to be removed
      */
-    public void onEditOkPressed(Recipe recipe) {
-
-        recipeDB.editRecipe(recipePos, recipe);
+    public void onEditOkPressed(Recipe newRecipe, Recipe oldRecipe) {
+        recipeDB.editRecipe(recipePos, newRecipe, oldRecipe);
         recipeRecyclerAdapter.notifyDataSetChanged();
-
     }
 
     /**
