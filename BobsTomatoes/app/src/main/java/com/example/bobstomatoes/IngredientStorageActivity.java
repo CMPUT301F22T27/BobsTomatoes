@@ -1,11 +1,14 @@
 package com.example.bobstomatoes;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -57,7 +60,15 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        // Modify ActionBar
         setTitle("Ingredient Storage");
+        ActionBar actionBar; // Define ActionBar object
+        actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable =
+                new ColorDrawable(Color.parseColor("#E38212")); // Define ColorDrawable object + parse color
+        actionBar.setBackgroundDrawable(colorDrawable); // Set BackgroundDrawable
+
         setContentView(R.layout.activity_recycler_ingredient);
 
         bundle = new Bundle();
@@ -134,14 +145,12 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
 
     /**
      * Confirms the edit of an ingredient when the edit button is pressed
-     * @param ingredient    specified ingredient
+     * @param newIngredient    new updated ingredient to be added
+     * @param oldIngredient     old ingredient to be removed
      */
-    public void onEditOkPressed(Ingredient ingredient) {
-        ingredientDB.editIngredient(ingredientPos, ingredient);
+    public void onEditOkPressed(Ingredient newIngredient, Ingredient oldIngredient) {
+        ingredientDB.editIngredient(ingredientPos, newIngredient, oldIngredient);
         ingredientRecyclerAdapter.notifyDataSetChanged();
-        for(int i = 0; i < ingredientList.size(); i++){
-            Log.d("arraylist", ingredientList.get(i).getIngredientDesc() + " " + ingredientList.get(i).getIngredientAmount());
-        }
     }
 
     /**
