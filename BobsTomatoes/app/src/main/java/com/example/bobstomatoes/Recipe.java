@@ -6,6 +6,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Base64;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -68,6 +70,7 @@ public class Recipe implements Parcelable {
      * Returns recipe Base64 image as a decoded bitmap.
      * @return
      */
+    @Exclude
     public Bitmap getDecodedImage(){
 
         byte[] decodedByteArray = Base64.decode(this.recipeImage, Base64.DEFAULT);

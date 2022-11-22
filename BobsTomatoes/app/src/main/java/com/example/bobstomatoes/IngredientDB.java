@@ -117,7 +117,7 @@ public class IngredientDB {
     public void editIngredient(int oldIngredientPos, Ingredient updatedIngredient, Ingredient oldIngredient) {
         // Create HashMap for FireStore with Ingredient Attributes
 
-        // Delete the ingredient incase they change the name of the ingredient
+        // Delete the ingredient in case they change the name of the ingredient
         HashMap<String, Object> data = new HashMap<>();
         String ingredientName = oldIngredient.getIngredientDesc();
         data.put("ingredientDesc", oldIngredient.getIngredientDesc());
@@ -168,7 +168,7 @@ public class IngredientDB {
                         Log.d("", "Data could not be added");
                     }
                 });
-        
+
         ingredientList.set(oldIngredientPos, updatedIngredient);
     }
 
