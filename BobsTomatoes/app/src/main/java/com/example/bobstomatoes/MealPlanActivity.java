@@ -294,11 +294,19 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                 Log.d("FOUND:",found + " " + i);
                 if (i != position){
 
+                    check.setSelected(false);
+
                     if (found){
                         check.setActivated(true);
+
                     } else {
                         check.setActivated(false);
                     }
+
+
+                } else {
+
+                    check.setSelected(true);
 
                 }
 
