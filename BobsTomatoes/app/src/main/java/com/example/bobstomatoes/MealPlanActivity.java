@@ -282,39 +282,39 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             globalDate = date.substring(0,8).concat(globalDayText);
             //Log.d("TESTING", date);
 
-//            // Populate meal plan list from database, by calling this, we can safely assume the list has been populated from the DataBase
-//            readData(new MealPlanFireStoreCallBack() {
-//                /**
-//                 * Notify data change for ingredientList
-//                 * @param mealPlanList    array list of ingredients
-//                 */
-//                @Override
-//                public void onCallBack(ArrayList<MealPlan> mealPlanList) {
-//
-//                    for (int i = 0; i < mealPlanList.size(); i++){
-//                        Log.d("TESTING:", mealPlanList + "");
-//                        if (mealPlanList.get(i).getMealPlanDate().equals(globalDate)) {
-//                            currentMealPlan = mealPlanList.get(i);
-//                        }
-//                    }
-//
-//                    for (int i = 0; i <= 40; i++) {
-//                        for (int j = 0; j < mealPlanList.size(); j++) {
-//                            View check = calendarRecyclerView.getChildAt(i);
-//                            dayOfMonth = check.findViewById(R.id.cellDayText);
-//                            String day = (String) dayOfMonth.getText();
-//
-//                            String date = selectedDate.toString();
-//                            date = date.substring(0,8).concat(day);
-//
-//                            if (mealPlanList.get(j).getMealPlanDate().equals(date)){
-//                                check.setSelected(true);
-//                                check.setBackgroundColor(Color.LTGRAY);
-//                            }
-//                        }
-//                    }
-//                }
-//            });
+            // Populate meal plan list from database, by calling this, we can safely assume the list has been populated from the DataBase
+            readData(new MealPlanFireStoreCallBack() {
+                /**
+                 * Notify data change for ingredientList
+                 * @param mealPlanList    array list of ingredients
+                 */
+                @Override
+                public void onCallBack(ArrayList<MealPlan> mealPlanList) {
+
+                    for (int i = 0; i < mealPlanList.size(); i++){
+                        Log.d("TESTING:", mealPlanList + "");
+                        if (mealPlanList.get(i).getMealPlanDate().equals(globalDate)) {
+                            currentMealPlan = mealPlanList.get(i);
+                        }
+                    }
+
+                    for (int i = 0; i <= 40; i++) {
+                        for (int j = 0; j < mealPlanList.size(); j++) {
+                            View check = calendarRecyclerView.getChildAt(i);
+                            dayOfMonth = check.findViewById(R.id.cellDayText);
+                            String day = (String) dayOfMonth.getText();
+
+                            String date = selectedDate.toString();
+                            date = date.substring(0,8).concat(day);
+
+                            if (!mealPlanList.get(j).getMealPlanDate().equals(date)){
+                                check.setSelected(true);
+                                check.setBackgroundColor(Color.WHITE);
+                            }
+                        }
+                    }
+                }
+            });
 
 
             // Populate meal plan list from database, by calling this, we can safely assume the list has been populated from the DataBase
