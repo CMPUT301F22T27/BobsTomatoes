@@ -345,6 +345,10 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
 
     public void onAddOkPressed(MealPlan mealPlan) {
+        View check = calendarRecyclerView.getChildAt(mealPlanPos);
+        check.setSelected(true);
+        check.setBackgroundColor(Color.LTGRAY);
+
         String date = selectedDate.toString();
         date = date.substring(0,8).concat(globalDayText);
         mealPlanDB.addMealPlan(mealPlan, date);
@@ -357,6 +361,11 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
 
     public void onDeleteOkPressed(MealPlan mealPlan) {
+        View check = calendarRecyclerView.getChildAt(mealPlanPos);
+        check.setSelected(true);
+        check.setBackgroundColor(Color.WHITE);
+
+
         mealPlanDB.removeMealPlan(mealPlan);
     }
 
