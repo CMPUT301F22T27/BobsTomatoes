@@ -17,6 +17,7 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
     private final ArrayList<String> daysOfMonth;
     private final OnItemListener onItemListener;
     public int selectedPosition = -1;
+    public int new_position;
 
 
     public MealPlanCalendarAdapter(ArrayList<String> daysOfMonth, OnItemListener onItemListener)
@@ -47,6 +48,8 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
     public interface  OnItemListener
     {
         void onItemClick(int position, String dayText, TextView day);
+
+
     }
 
     @Override
@@ -54,8 +57,16 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
     {
 /*
         String date = daysOfMonth.get(position);
-*/
+*/      new_position = position;
         holder.dayOfMonth.setText(daysOfMonth.get(position));
+/*
+
+        if(selectedPosition==position)
+            holder.itemView.setBackgroundColor(Color.parseColor("#F8C8DC"));
+        else
+            holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
+*/
+
 
       /*  if (date.equals(selectedPosition))
             holder.itemView.setBackgroundColor(Color.LTGRAY);*/
@@ -79,6 +90,9 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
         public void onClick(View view)
         {
             onItemListener.onItemClick(getAbsoluteAdapterPosition(), (String) dayOfMonth.getText(), dayOfMonth);
+
+
+
         }
     }
 }

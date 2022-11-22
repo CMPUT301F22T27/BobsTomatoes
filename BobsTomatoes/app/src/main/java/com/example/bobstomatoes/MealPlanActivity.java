@@ -125,7 +125,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanC
         {
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-            day.setBackgroundColor(Color.LTGRAY);
+            calendarRecyclerView.getChildAt(position).setBackgroundColor(Color.LTGRAY);
+
 
         }
     }
