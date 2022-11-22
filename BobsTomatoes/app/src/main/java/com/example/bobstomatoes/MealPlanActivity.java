@@ -1,6 +1,5 @@
 package com.example.bobstomatoes;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,28 +7,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Class for Meal Plan which displays a calendar showing meal plans
  * extends AbstractNavigator
  */
-public class MealPlanActivity extends AbstractNavigationBar implements MealPlanFragment.OnMealPlanFragmentListener, MealPlanCalendarAdapter.OnItemListener  {
+public class MealPlanActivity extends AbstractNavigationBar implements MealPlanCalendarAdapter.OnItemListener {
 
     /**
      * Create instance
@@ -40,12 +32,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
-    MealPlanDB mealPlanDB;
-
-    ArrayList<MealPlan> mealPlanList;
-    CollectionReference mealPlanReference;
-    int mealPlanPos;
-    Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,22 +52,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         initWidgets();
         selectedDate = LocalDate.now();
         setMonthView();
-
-        // Initialize recipe database
-        mealPlanDB = new MealPlanDB();
-        mealPlanList = mealPlanDB.getMealPlanList();
-        mealPlanReference = mealPlanDB.getMealPlanReference();
-
-        // Create bundle
-        bundle = new Bundle();
-
-        // Populate recipe list from database, by calling this, we can safely assume the list has been populated from the DataBase
-        /*readData(new MealPlanFireStoreCallBack() {
-            @Override
-            public void onCallBack(ArrayList<MealPlan> mealPlanList) {
-
-            }
-        });*/
 
     }
 
@@ -151,63 +121,19 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     @Override
     public void onItemClick(int position, String dayText, TextView day)
     {
-
-        /*MealPlanFragment fragment = new MealPlanFragment();
-        fragment.setArguments(bundle);
-        fragment.show(getSupportFragmentManager(), "TEST");
-        System.out.println("PRINTED");*/
         if(!dayText.equals(""))
         {
+            calendarRecyclerView.getChildAt(position).setSelected(true);
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             calendarRecyclerView.getChildAt(position).setBackgroundColor(Color.LTGRAY);
-        }
-        mealPlanPos = position;
-        MealPlanFragment fragment = new MealPlanFragment();
-        fragment.setArguments(bundle);
-        fragment.show(getSupportFragmentManager(), "TEST");
-        System.out.println("PRINTED");
 
-    }
-
-    @Override
-    public void onAddOkPressed(MealPlan mealPlan) {
-        mealPlanDB.addMealPlan(mealPlan);
-    }
-
-    @Override
-    public void onEditOkPressed(MealPlan mealPlan) {
-        mealPlanDB.editMealPlan(mealPlanPos, mealPlan);
-    }
-
-    @Override
-    public void onDeleteOkPressed(MealPlan mealPlan) {
-        mealPlanDB.removeMealPlan(mealPlan);
-    }
-
-    public void readData(MealPlanFireStoreCallBack callBack) {
-        mealPlanReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        MealPlan mealPlan = document.toObject(MealPlan.class);
-                        mealPlanList.add(mealPlan);
-                    }
-                    callBack.onCallBack(mealPlanList);
-                } else {
-                    Log.d("", "Error getting documents: ", task.getException());
-                }
+            for(int i = 0; i <= 40; i++) {
+                View check = calendarRecyclerView.getChildAt(i);
+                if (Objects.nonNull(check))
+                    if (i != position)
+                        check.setBackgroundColor(Color.WHITE);
             }
-        });
-    }
 
-    /**
-     * Interface
-     * Call back recipeList
-     * Basically allows us to access the recipeList outside of the onComplete and it ensures that the onComplete has fully populated our list
-     */
-    private interface MealPlanFireStoreCallBack {
-        void onCallBack(ArrayList<MealPlan> mealPlanList);
-    }
-}
+        }
+    }}
