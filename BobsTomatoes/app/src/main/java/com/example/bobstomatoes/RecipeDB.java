@@ -127,23 +127,25 @@ public class RecipeDB implements Parcelable {
      * @param oldRecipePos    index of old recipe
      * @param updatedRecipe   new recipe with updated information
      */
-    public void editRecipe(int oldRecipePos, Recipe updatedRecipe) {
+    public void editRecipe(int oldRecipePos, Recipe updatedRecipe, Recipe oldRecipe) {
 
         // Populate map with recipe contents
+
+        // Delete the recipe incase they change the name of the recipe
         HashMap<String, Object> data = new HashMap<>();
-        String recipeName = updatedRecipe.getRecipeTitle();
+        String recipeName = oldRecipe.getRecipeTitle();
         data.put("recipeTitle", recipeName);
-        data.put("recipeTime", updatedRecipe.getRecipeTime());
-        data.put("recipeServings", updatedRecipe.getRecipeServings());
-        data.put("recipeCategory", updatedRecipe.getRecipeCategory());
-        data.put("recipeComments", updatedRecipe.getRecipeComments());
-        data.put("recipeIngredients", updatedRecipe.getRecipeIngredients());
-        data.put("recipeImage", updatedRecipe.getRecipeImage());
+        data.put("recipeTime", oldRecipe.getRecipeTime());
+        data.put("recipeServings", oldRecipe.getRecipeServings());
+        data.put("recipeCategory", oldRecipe.getRecipeCategory());
+        data.put("recipeComments", oldRecipe.getRecipeComments());
+        data.put("recipeIngredients", oldRecipe.getRecipeIngredients());
+        data.put("recipeImage", oldRecipe.getRecipeImage());
 
 
-        //Edit recipe in database
+        //Remove recipe in database
         recipeReference.document(recipeName)
-                .set(data)
+                .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -156,8 +158,34 @@ public class RecipeDB implements Parcelable {
                         Log.d("", "Data could not be added");
                     }
                 });
-        recipeList.set(oldRecipePos, updatedRecipe);
 
+        //Add/Update the current recipe
+        HashMap<String, Object> data2 = new HashMap<>();
+        String recipeName2 = updatedRecipe.getRecipeTitle();
+        data2.put("recipeTitle", updatedRecipe.getRecipeTitle());
+        data2.put("recipeTime", updatedRecipe.getRecipeTime());
+        data2.put("recipeServings", updatedRecipe.getRecipeServings());
+        data2.put("recipeCategory", updatedRecipe.getRecipeCategory());
+        data2.put("recipeIngredients", updatedRecipe.getRecipeIngredients());
+        data2.put("recipeImage", updatedRecipe.getRecipeImage());
+
+        // Overwrite the data in the FireStore Database
+        recipeReference.document(recipeName2)
+                .set(data2)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("", "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("", "Data could not be added");
+                    }
+                });
+
+        recipeList.set(oldRecipePos, updatedRecipe);
     }
 
     /**
