@@ -130,6 +130,8 @@ public class IngredientDBTest {
 
         DocumentReference ingredient2Ref = ingredientReference.document(ingredient2.getIngredientDesc());
 
+        Ingredient oldIngredient = ingredientList.get(0);
+
         int PreSize = ingredientList.size();
 
         ingredientDB.addIngredient(ingredient);
@@ -150,7 +152,7 @@ public class IngredientDBTest {
             }
         });
 
-        ingredientDB.editIngredient(0,ingredient2, ingredient);
+        ingredientDB.editIngredient(0,ingredient2, oldIngredient);
 
         ingredient1Ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
