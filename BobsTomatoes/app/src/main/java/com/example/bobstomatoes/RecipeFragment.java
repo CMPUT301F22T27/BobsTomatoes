@@ -84,7 +84,7 @@ public class RecipeFragment extends DialogFragment {
     public interface OnRecipeFragmentListener{
 
         public void onAddOkPressed(Recipe recipe);
-        public void onEditOkPressed(Recipe recipe);
+        public void onEditOkPressed(Recipe newRecipe, Recipe oldRecipe);
         public void onDeleteOkPressed(Recipe recipe);
 
     }
@@ -191,7 +191,7 @@ public class RecipeFragment extends DialogFragment {
                             Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
                                     newCategory, newComments, selectedIngredients, encodedImage);
 
-                            listener.onEditOkPressed(newRecipe);
+                            listener.onEditOkPressed(newRecipe, selectedRecipe);
 
                         }
                     })
