@@ -264,7 +264,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 
-            //calendarRecyclerView.getChildAt(position).setBackgroundColor(Color.LTGRAY);
             calendarRecyclerView.getChildAt(position).setActivated(true);
 
             Log.d("PRINTING CHILD POSITION:", dayText + "");
@@ -292,11 +291,11 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                         found = true;
                     }
                 }
-
+                Log.d("FOUND:",found + " " + i);
                 if (i != position){
 
                     if (found){
-                        check.setActivated(false);
+                        check.setActivated(true);
                     } else {
                         check.setActivated(false);
                     }
@@ -305,41 +304,28 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
             }
 
-
-
             String date = selectedDate.toString();
             globalDate = date.substring(0,8).concat(globalDayText);
             //Log.d("TESTING", date);
 
-            // Populate meal plan list from database, by calling this, we can safely assume the list has been populated from the DataBase
-            readData(new MealPlanFireStoreCallBack() {
-                /**
-                 * Notify data change for ingredientList
-                 * @param mealPlanList    array list of ingredients
-                 */
-                @Override
-                public void onCallBack(ArrayList<MealPlan> mealPlanList) {
-
-                    for (int i = 0; i < mealPlanList.size(); i++){
-                        Log.d("TESTING:", mealPlanList + "");
-                        if (mealPlanList.get(i).getMealPlanDate().equals(globalDate)) {
-                            currentMealPlan = mealPlanList.get(i);
-                            planFound = true;
-                        }
-                    }
-
-                    if (planFound) {
-                        bundle = new Bundle();
-                        bundle.putString("selectedDate", globalDate);
-                        bundle.putParcelable("selectedMealPlan", currentMealPlan);
-
-                        MealPlanFragment fragment = new MealPlanFragment();
-                        fragment.setArguments(bundle);
-                        fragment.show(getSupportFragmentManager(), "EDIT/DELETE MEAL PLAN");
-                        planFound = false;
-                    }
+            for (int i = 0; i < mealPlanList.size(); i++) {
+                Log.d("TESTING:", mealPlanList + "");
+                if (mealPlanList.get(i).getMealPlanDate().equals(globalDate)) {
+                    currentMealPlan = mealPlanList.get(i);
+                    planFound = true;
                 }
-            });
+            }
+
+            if (planFound) {
+                bundle = new Bundle();
+                bundle.putString("selectedDate", globalDate);
+                bundle.putParcelable("selectedMealPlan", currentMealPlan);
+
+                MealPlanFragment fragment = new MealPlanFragment();
+                fragment.setArguments(bundle);
+                fragment.show(getSupportFragmentManager(), "EDIT/DELETE MEAL PLAN");
+                planFound = false;
+            }
         }
     }
 
@@ -364,7 +350,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         View check = calendarRecyclerView.getChildAt(mealPlanPos);
         check.setSelected(true);
         check.setBackgroundColor(Color.WHITE);
-
 
         mealPlanDB.removeMealPlan(mealPlan);
     }
