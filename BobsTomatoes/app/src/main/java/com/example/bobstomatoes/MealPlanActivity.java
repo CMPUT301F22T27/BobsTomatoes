@@ -106,7 +106,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                         date = date.substring(0,8).concat(day);
 
                         if (mealPlanList.get(j).getMealPlanDate().equals(date)){
-                            check.setSelected(true);
+
                             //check.setBackgroundColor(Color.LTGRAY);
                             check.setActivated(true);
                         }
@@ -200,7 +200,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                         date = date.substring(0,8).concat(day);
 
                         if (mealPlanList.get(j).getMealPlanDate().equals(date)){
-                            check.setSelected(true);
                             //check.setBackgroundColor(Color.LTGRAY);
                             check.setActivated(true);
                         }
@@ -243,7 +242,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                         date = date.substring(0,8).concat(day);
 
                         if (mealPlanList.get(j).getMealPlanDate().equals(date)){
-                            check.setSelected(true);
                             //check.setBackgroundColor(Color.LTGRAY);
                             check.setActivated(true);
                         }
@@ -260,7 +258,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         {
             mealPlanPos = position;
             globalDayText = dayText;
-            calendarRecyclerView.getChildAt(position).setSelected(true);
+
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 
@@ -317,7 +315,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             //Log.d("TESTING", date);
 
             for (int i = 0; i < mealPlanList.size(); i++) {
-                Log.d("TESTING:", mealPlanList + "");
+                Log.d("DATES:", mealPlanList.get(i).getMealPlanDate() + "");
                 if (mealPlanList.get(i).getMealPlanDate().equals(globalDate)) {
                     currentMealPlan = mealPlanList.get(i);
                     planFound = true;
@@ -340,11 +338,11 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
     public void onAddOkPressed(MealPlan mealPlan) {
         View check = calendarRecyclerView.getChildAt(mealPlanPos);
-        check.setSelected(true);
-        check.setBackgroundColor(Color.LTGRAY);
+        check.setActivated(true);
 
         String date = selectedDate.toString();
         date = date.substring(0,8).concat(globalDayText);
+
         mealPlanDB.addMealPlan(mealPlan, date);
     }
 
@@ -356,8 +354,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
     public void onDeleteOkPressed(MealPlan mealPlan) {
         View check = calendarRecyclerView.getChildAt(mealPlanPos);
-        check.setSelected(true);
-        check.setBackgroundColor(Color.WHITE);
+        check.setActivated(false);
+        check.setSelected(false);
 
         mealPlanDB.removeMealPlan(mealPlan);
     }
@@ -367,6 +365,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    mealPlanList.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         MealPlan mealPlan = document.toObject(MealPlan.class);
                         Log.d("IN READ DATA:", mealPlan.getMealPlanDate() + "");
