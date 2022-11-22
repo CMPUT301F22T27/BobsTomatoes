@@ -1,8 +1,11 @@
 package com.example.bobstomatoes;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -32,7 +35,15 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Modify ActionBar
         setTitle("Meal Plan");
+        ActionBar actionBar; // Define ActionBar object
+        actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable =
+                new ColorDrawable(Color.parseColor("#4260F5")); // Define ColorDrawable object + parse color
+        actionBar.setBackgroundDrawable(colorDrawable); // Set BackgroundDrawable
+
         setContentView(R.layout.main_meal_plan);
 
         //Sets up buttons and onClickListeners for navigation bar
