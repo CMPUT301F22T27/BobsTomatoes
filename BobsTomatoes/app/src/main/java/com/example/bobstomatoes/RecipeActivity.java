@@ -68,7 +68,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         ActionBar actionBar; // Define ActionBar object
         actionBar = getSupportActionBar();
         ColorDrawable colorDrawable =
-                new ColorDrawable(Color.parseColor("#4AE30E")); // Define ColorDrawable object + parse color
+                new ColorDrawable(Color.parseColor("#00C034")); // Define ColorDrawable object + parse color
         actionBar.setBackgroundDrawable(colorDrawable); // Set BackgroundDrawable
 
         setContentView(R.layout.activity_recycler_recipe);
