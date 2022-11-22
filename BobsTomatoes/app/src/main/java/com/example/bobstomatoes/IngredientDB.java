@@ -114,20 +114,22 @@ public class IngredientDB {
      * @param oldIngredientPos    index of original ingredient
      * @param updatedIngredient   new ingredient with updated information
      */
-    public void editIngredient(int oldIngredientPos, Ingredient updatedIngredient) {
+    public void editIngredient(int oldIngredientPos, Ingredient updatedIngredient, Ingredient oldIngredient) {
         // Create HashMap for FireStore with Ingredient Attributes
-        HashMap<String, Object> data = new HashMap<>();
-        String ingredientName = updatedIngredient.getIngredientDesc();
-        data.put("ingredientDesc", updatedIngredient.getIngredientDesc());
-        data.put("ingredientDate", updatedIngredient.getIngredientDate());
-        data.put("ingredientLocation", updatedIngredient.getIngredientLocation());
-        data.put("ingredientAmount", updatedIngredient.getIngredientAmount());
-        data.put("ingredientUnit", updatedIngredient.getIngredientUnit());
-        data.put("ingredientCategory", updatedIngredient.getIngredientCategory());
 
-        // Overwrite the data in the FireStore Database
+        // Delete the ingredient incase they change the name of the ingredient
+        HashMap<String, Object> data = new HashMap<>();
+        String ingredientName = oldIngredient.getIngredientDesc();
+        data.put("ingredientDesc", oldIngredient.getIngredientDesc());
+        data.put("ingredientDate", oldIngredient.getIngredientDate());
+        data.put("ingredientLocation", oldIngredient.getIngredientLocation());
+        data.put("ingredientAmount", oldIngredient.getIngredientAmount());
+        data.put("ingredientUnit", oldIngredient.getIngredientUnit());
+        data.put("ingredientCategory", oldIngredient.getIngredientCategory());
+
+        // Remove the data from the FireStore Database
         ingredientReference.document(ingredientName)
-                .set(data)
+                .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -140,6 +142,33 @@ public class IngredientDB {
                         Log.d("", "Data could not be added");
                     }
                 });
+
+        // Add/Update the current ingredient
+        HashMap<String, Object> data2 = new HashMap<>();
+        String ingredientName2 = updatedIngredient.getIngredientDesc();
+        data2.put("ingredientDesc", updatedIngredient.getIngredientDesc());
+        data2.put("ingredientDate", updatedIngredient.getIngredientDate());
+        data2.put("ingredientLocation", updatedIngredient.getIngredientLocation());
+        data2.put("ingredientAmount", updatedIngredient.getIngredientAmount());
+        data2.put("ingredientUnit", updatedIngredient.getIngredientUnit());
+        data2.put("ingredientCategory", updatedIngredient.getIngredientCategory());
+
+        // Overwrite the data in the FireStore Database
+        ingredientReference.document(ingredientName2)
+                .set(data2)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("", "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("", "Data could not be added");
+                    }
+                });
+        
         ingredientList.set(oldIngredientPos, updatedIngredient);
     }
 

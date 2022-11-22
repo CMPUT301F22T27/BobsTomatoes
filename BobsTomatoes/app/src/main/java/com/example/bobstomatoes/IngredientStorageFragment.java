@@ -50,7 +50,7 @@ public class IngredientStorageFragment extends DialogFragment {
     int oldIngredientPos;
 
     public interface OnIngredientFragmentListener{
-        public void onEditOkPressed(Ingredient ingredient);
+        public void onEditOkPressed(Ingredient newIngredient, Ingredient oldIngredient);
         public void onDeleteOkPressed(Ingredient ingredient);
         public void onAddOkPressed(Ingredient ingredient);
 
@@ -115,7 +115,7 @@ public class IngredientStorageFragment extends DialogFragment {
                             int newUnit = Integer.parseInt(tempUnit);
                             String newCategory = categoryText.getText().toString();
                             editIngredient = new Ingredient(newDescription, newDate, newLocation, newAmount, newUnit, newCategory);
-                            listener.onEditOkPressed(editIngredient);
+                            listener.onEditOkPressed(editIngredient, selectedIngredient);
                         }
                     })
                     .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
