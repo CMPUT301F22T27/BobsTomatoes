@@ -11,4 +11,6 @@
     <color name="green">#B3D9BE</color>
     <color name="gray">#888</color>
     <color name="blue">#0000FF</color>
+    <color name="highlighting">#C6CFFC</color>
+    <color name ="selecting">#E8C5DB</color>
 </resources>
