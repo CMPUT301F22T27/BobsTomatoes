@@ -55,6 +55,9 @@ public abstract class AbstractNavigationBar extends AppCompatActivity {
                 } else if (itemID == R.id.shopping_list_item){
                     Intent intent = new Intent(activity, ShoppingListActivity.class);
                     activity.startActivity(intent);
+                } else if (itemID == R.id.add_item){
+                    //bundle = new Bundle();
+                    new MealPlanFragment().show(getSupportFragmentManager(), "MEAL PLAN ADD FRAGMENT");
                 }
 
                return false;
