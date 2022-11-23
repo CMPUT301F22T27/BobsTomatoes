@@ -1,5 +1,6 @@
 package com.example.bobstomatoes;
 
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.ClipData;
 import android.content.Intent;
@@ -12,7 +13,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.bobstomatoes.databinding.ActivityRecyclerIngredientBinding;
 import com.example.bobstomatoes.databinding.ActivityRecyclerRecipeBinding;
-import com.example.bobstomatoes.databinding.ActivityShoppingListBinding;
+import com.example.bobstomatoes.databinding.ActivityRecyclerShoppingListBinding;
+import com.example.bobstomatoes.databinding.ActivityRecyclerShoppingListBinding;
 import com.example.bobstomatoes.databinding.MainMealPlanBinding;
 import com.example.bobstomatoes.databinding.NavigationButtonsLayoutBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -119,8 +121,8 @@ public abstract class AbstractNavigationBar extends AppCompatActivity {
                 return false;
             });
         } else if (activity instanceof ShoppingListActivity){
-            ActivityShoppingListBinding binding;
-            binding = ActivityShoppingListBinding.inflate(getLayoutInflater());
+            ActivityRecyclerShoppingListBinding binding;
+            binding = ActivityRecyclerShoppingListBinding.inflate(getLayoutInflater());
             setContentView(binding.getRoot());
 
             View view = findViewById(R.id.shopping_list_item);
@@ -138,6 +140,8 @@ public abstract class AbstractNavigationBar extends AppCompatActivity {
                     Intent intent = new Intent(activity, MealPlanActivity.class);
                     activity.startActivity(intent);
                 } else if (itemID == R.id.shopping_list_item){
+                    // Leave Empty
+                } else if (itemID == R.id.add_item) {
                     // Leave Empty
                 }
 

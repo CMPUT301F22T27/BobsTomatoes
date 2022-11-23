@@ -41,6 +41,18 @@ public class MealPlanDB {
         //Populate
     }
 
+//    public void updateMealPlan(){
+//        IngredientDB ingredientDB = new IngredientDB();
+//        ArrayList<Ingredient> allIngredients;
+//
+//        RecipeDB recipeDB = new RecipeDB();
+//        ArrayList<Recipe> allRecipes;
+//
+//
+//        for (int i = 0; i < mealPlanList.size(); i++) {
+//        }
+//    }
+
     /**
      * Add a meal plan
      * Inputs a new meal plan's recipes, ingredients, date on firebase database
