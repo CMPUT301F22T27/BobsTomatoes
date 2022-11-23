@@ -103,7 +103,7 @@ public class IngredientStorageFragment extends DialogFragment {
         unitText = view.findViewById(R.id.editTextIngredientUnit);
 
         categoryRadioGroup1 = view.findViewById(R.id.radioGroupCategory1);
-        categoryRadioGroup1 = view.findViewById(R.id.radioGroupCategory2);
+        categoryRadioGroup2 = view.findViewById(R.id.radioGroupCategory2);
         dairyRadioButton = view.findViewById(R.id.radioButtonDairy);
         fruitRadioButton = view.findViewById(R.id.radioButtonFruit);
         grainRadioButton = view.findViewById(R.id.radioButtonGrain);
@@ -165,16 +165,65 @@ public class IngredientStorageFragment extends DialogFragment {
             }
         }
 
-            if(dairyRadioButton.isChecked() || fruitRadioButton.isChecked() || grainRadioButton.isChecked()) {
-                proteinRadioButton.setChecked(false);
-                vegetableRadioButton.setChecked(false);
-                otherRadioButton.setChecked(false);
-
-            } else if (proteinRadioButton.isChecked() || vegetableRadioButton.isChecked() || otherRadioButton.isChecked()) {
-                dairyRadioButton.setChecked(false);
-                fruitRadioButton.setChecked(false);
-                grainRadioButton.setChecked(false);
+        categoryRadioGroup1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int radioButtonID) {
+                if (radioButtonID == dairyRadioButton.getId()){
+                    if(dairyRadioButton.isChecked() == true) {
+                        Log.d("RADIOS1", "DAIRY");
+                        proteinRadioButton.setChecked(false);
+                        vegetableRadioButton.setChecked(false);
+                        otherRadioButton.setChecked(false);
+                    }
+                }
+                if (radioButtonID == fruitRadioButton.getId()){
+                    if(fruitRadioButton.isChecked() == true) {
+                        Log.d("RADIOS1", "FRUIT");
+                        proteinRadioButton.setChecked(false);
+                        vegetableRadioButton.setChecked(false);
+                        otherRadioButton.setChecked(false);
+                    }
+                }
+                if (radioButtonID == grainRadioButton.getId()){
+                    if (grainRadioButton.isChecked() == true) {
+                        Log.d("RADIOS1", "GRAIN");
+                        proteinRadioButton.setChecked(false);
+                        vegetableRadioButton.setChecked(false);
+                        otherRadioButton.setChecked(false);
+                    }
+                }
             }
+        });
+
+        categoryRadioGroup2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int radioButtonID) {
+                if (radioButtonID == otherRadioButton.getId()) {
+                    if (otherRadioButton.isChecked() == true) {
+                        Log.d("RADIOS2", "OTHER");
+                        dairyRadioButton.setChecked(false);
+                        fruitRadioButton.setChecked(false);
+                        grainRadioButton.setChecked(false);
+                    }
+                }
+                if (radioButtonID == vegetableRadioButton.getId()) {
+                    if (vegetableRadioButton.isChecked() == true) {
+                        Log.d("RADIOS2", "VEGETABLE");
+                        dairyRadioButton.setChecked(false);
+                        fruitRadioButton.setChecked(false);
+                        grainRadioButton.setChecked(false);
+                    }
+                }
+                if (radioButtonID == proteinRadioButton.getId()) {
+                    if (proteinRadioButton.isChecked() == true) {
+                        Log.d("RADIOS2", "PROTEIN");
+                        dairyRadioButton.setChecked(false);
+                        fruitRadioButton.setChecked(false);
+                        grainRadioButton.setChecked(false);
+                    }
+                }
+            }
+        });
 
         // If isEdit is true, then the ingredient was clicked on the ListView so populate the fragment text boxes with its details and make the two buttons Delete and Edit
         if (isEdit == true) {

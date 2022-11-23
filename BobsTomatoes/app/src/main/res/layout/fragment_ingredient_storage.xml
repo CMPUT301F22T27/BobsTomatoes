@@ -126,11 +126,11 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/radioButtonOther"
+            android:id="@+id/radioButtonProtein"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Other" />
+            android:text="Protein" />
 
         <RadioButton
             android:id="@+id/radioButtonVegetable"
@@ -140,11 +140,12 @@
             android:text="Vegetable" />
 
         <RadioButton
-            android:id="@+id/radioButtonProtein"
+            android:id="@+id/radioButtonOther"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Protein" />
+            android:text="Other" />
+
     </RadioGroup>
 
 </LinearLayout>
