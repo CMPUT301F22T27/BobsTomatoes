@@ -117,6 +117,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     Log.d("TESTING SHOPPING", values1 + "");
                     Log.d("TESTING SHOPPING", ingredients2 + "");
                     Log.d("TESTING SHOPPING", values2 + "");
+                    Log.d("TESTING SHOPPING", neededIngredients + "");
 
                 }
             }
@@ -152,6 +153,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     Log.d("TESTING SHOPPING", values1 + "");
                     Log.d("TESTING SHOPPING", ingredients2 + "");
                     Log.d("TESTING SHOPPING", values2 + "");
+                    Log.d("TESTING SHOPPING", neededIngredients + "");
 
 
 
