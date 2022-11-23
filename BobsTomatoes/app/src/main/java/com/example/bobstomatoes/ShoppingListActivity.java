@@ -255,10 +255,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                 //Get list of ingredients in recipe
                 ArrayList<Ingredient> ingredientsInTempRecipe = tempRecipe.getRecipeIngredients();
 
-                //Get hashmap of number of ingredients in recipe
-                //HashMap<String, Integer> ingredientCountsR = tempRecipe.getIngredientCounts();
-                //not implemented
-
                 //Iterate over ingredients in that recipe
                 for(int k = 0; k < ingredientsInTempRecipe.size(); k++){
 
@@ -269,8 +265,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     String ingredientName = tempIngredient.getIngredientDesc();
 
                     //Get number of that ingredient in recipe
-                    //int numIngredient = ingredientCountsR.get(ingredientName);
-                    int numIngredient = 1;
+                    int numIngredient = tempIngredient.getIngredientAmount();
 
                     //Check if we have seen this ingredient before in mealplans
                     if (checkedIngredients.get(ingredientName) == null){
@@ -313,9 +308,8 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                 //Get ingredient name
                 String ingredientName = tempIngredient.getIngredientDesc();
 
-                //Get number of that ingredient in mealPlan
-                //int numIngredient = ingredientCountsMP.get(ingredientName);
-                int numIngredient = 1;
+                //Get number of that ingredient in recipe
+                int numIngredient = tempIngredient.getIngredientAmount();
 
                 //Check if we have seen this ingredient before in mealplans
                 if (checkedIngredients.get(ingredientName) == null){
