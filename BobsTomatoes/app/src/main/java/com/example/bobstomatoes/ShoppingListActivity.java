@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -40,13 +41,17 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
     ArrayList<MealPlan> mealPlanList;
 
     ShoppingList shoppingList;
-    ArrayList<Ingredient> neededIngredients;
+    ArrayList<Ingredient> neededIngredients = new ArrayList<>();
 
     private boolean ingredientDataAvailable = false;
     private boolean mealPlanDataAvailable = false;
 
     ShoppingListRecyclerAdapter shoppingListRecyclerAdapter;
     RecyclerView recyclerView;
+
+    Context context = this;
+
+    private RecyclerViewInterface recyclerViewInterface;
 
 
     /**
@@ -68,13 +73,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
         setContentView(R.layout.activity_recycler_shopping_list);
 
-        //RecyclerView
-        recyclerView = findViewById(R.id.recyclerView);
-        shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(this, neededIngredients, this);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(shoppingListRecyclerAdapter);
-
         //Sets up buttons and onClickListeners for navigation bar
         initializeButtons(ShoppingListActivity.this);
 
@@ -86,6 +84,9 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
         mealPlanDB = new MealPlanDB();
         mealPlanReference = mealPlanDB.getMealPlanReference();
         mealPlanList = mealPlanDB.getMealPlanList();
+
+        //RecyclerView
+        recyclerView = findViewById(R.id.recyclerView);
 
         // Populate ingredient list from database
         readIngredientData(new IngredientFireStoreCallback() {
@@ -103,6 +104,11 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     createShoppingList();
                     createNeededIngredients();
 
+                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, recyclerViewInterface);
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                    recyclerView.setAdapter(shoppingListRecyclerAdapter);
+
                     shoppingListRecyclerAdapter.notifyDataSetChanged();
 
                     //TESTING
@@ -119,6 +125,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     Log.d("TESTING SHOPPING", ingredients2 + "");
                     Log.d("TESTING SHOPPING", values2 + "");
                     Log.d("TESTING SHOPPING", neededIngredients + "");
+                    Log.d("TESTING SHOPPING", neededIngredients.get(0).getIngredientDesc());
                     Log.d("GABE STINKY ASS", "STINKY ASS GABE");
 
                 }
@@ -141,6 +148,11 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     createShoppingList();
                     createNeededIngredients();
 
+                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, recyclerViewInterface);
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                    recyclerView.setAdapter(shoppingListRecyclerAdapter);
+
                     shoppingListRecyclerAdapter.notifyDataSetChanged();
 
                     //TESTING
@@ -157,13 +169,12 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     Log.d("TESTING SHOPPING", ingredients2 + "");
                     Log.d("TESTING SHOPPING", values2 + "");
                     Log.d("TESTING SHOPPING", neededIngredients + "");
+                    Log.d("TESTING SHOPPING", neededIngredients.get(0).getIngredientDesc());
                     Log.d("GABE STINKY ASS", "STINKY ASS GABE");
 
                 }
             }
         });
-
-
     }
 
 
@@ -203,7 +214,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                 }
 
             }
-
         }
 
     }

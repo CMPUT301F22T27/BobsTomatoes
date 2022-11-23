@@ -1,6 +1,7 @@
 package com.example.bobstomatoes;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,6 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
 
     @Override
     public void onBindViewHolder(ShoppingListRecyclerAdapter.ViewHolder viewHolder, int position) {
-
         viewHolder.ingredientNameView.setText(ingredientList.get(position).getIngredientDesc());
         viewHolder.ingredientUnitView.setText("Cost: " + ingredientList.get(position).getIngredientUnit());
         viewHolder.ingredientAmountView.setText("Amount: " + ingredientList.get(position).getIngredientAmount());
