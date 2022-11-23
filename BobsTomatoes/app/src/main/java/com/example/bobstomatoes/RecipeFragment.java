@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -48,7 +49,7 @@ import java.util.ArrayList;
  * DialogFragment for adding, editing, and deleting a recipe
  * extends DialogFragment
  */
-public class RecipeFragment extends DialogFragment implements RecipeIngredientFragment.OnRecipeFragmentListener {
+public class RecipeFragment extends DialogFragment {
 
 
     private EditText titleText;
@@ -81,7 +82,6 @@ public class RecipeFragment extends DialogFragment implements RecipeIngredientFr
     Recipe editRecipe;
     int oldRecipePos;
 
-    View globalView;
 
 
     public interface OnRecipeFragmentListener{
@@ -166,6 +166,7 @@ public class RecipeFragment extends DialogFragment implements RecipeIngredientFr
             finalPhoto = selectedRecipe.getDecodedImage();
 
             recipeImageView.setImageBitmap(finalPhoto);
+
 
             // Builder for Edit/delete
             return builder.setView(view)
@@ -261,8 +262,6 @@ public class RecipeFragment extends DialogFragment implements RecipeIngredientFr
         ingredientsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
-
-                globalView = view;
                 Ingredient selectedIngredient = ingredientList.get(pos);
 
                 boolean ingredientFound = false;
@@ -282,11 +281,16 @@ public class RecipeFragment extends DialogFragment implements RecipeIngredientFr
                 }
 
                 if (!ingredientFound){
+                    view.setActivated(true);
+
                     //Open 2nd fragment here
                     Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("ingredientList", selectedIngredients);
                     bundle.putParcelable("selectedIngredient", selectedIngredient);
-
                     RecipeIngredientFragment fragment = new RecipeIngredientFragment();
+                    fragment.setArguments(bundle);
+                    fragment.setCancelable(false);
+                    fragment.show(getChildFragmentManager(), "INGREDIENT");
                 }
 
             }
@@ -410,11 +414,4 @@ public class RecipeFragment extends DialogFragment implements RecipeIngredientFr
         return encodedImage;
 
     }
-
-    @Override
-    public void onAddOkPressed(Ingredient ingredient) {
-        selectedIngredients.add(ingredient);
-        globalView.setActivated(true);
-    }
-
 }
