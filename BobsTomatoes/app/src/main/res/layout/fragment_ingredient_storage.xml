@@ -90,7 +90,7 @@
 <!--        android:hint="Ingredient Category" />-->
 
     <RadioGroup
-        android:id="@+id/radioGroupCategory"
+        android:id="@+id/radioGroupCategory1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -116,12 +116,21 @@
             android:layout_weight="1"
             android:text="Grain" />
 
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/radioGroupCategory2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
         <RadioButton
-            android:id="@+id/radioButtonProtein"
+            android:id="@+id/radioButtonOther"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Protein" />
+            android:text="Other" />
 
         <RadioButton
             android:id="@+id/radioButtonVegetable"
@@ -131,12 +140,11 @@
             android:text="Vegetable" />
 
         <RadioButton
-            android:id="@+id/radioButtonOther"
+            android:id="@+id/radioButtonProtein"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Other" />
-
+            android:text="Protein" />
     </RadioGroup>
 
 </LinearLayout>
