@@ -73,7 +73,7 @@ public class MealPlanFragment extends DialogFragment {
     public interface OnMealPlanFragmentListener{
 
         public void onAddOkPressed(MealPlan mealPlan);
-        public void onEditOkPressed(MealPlan mealPlan);
+        public void onEditOkPressed(MealPlan oldMealPlan, MealPlan updatedMealPlan);
         public void onDeleteOkPressed(MealPlan mealPlan);
 
     }
@@ -146,7 +146,7 @@ public class MealPlanFragment extends DialogFragment {
 
                             MealPlan newMealPlan = new MealPlan(selectedDate, selectedRecipes, selectedIngredients);
 
-                            listener.onEditOkPressed(newMealPlan);
+                            listener.onEditOkPressed(selectedMealPlan, newMealPlan);
 
                         }
                     })
