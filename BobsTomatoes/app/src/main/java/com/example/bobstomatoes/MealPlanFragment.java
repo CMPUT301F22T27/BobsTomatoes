@@ -119,7 +119,7 @@ public class MealPlanFragment extends DialogFragment {
         Bundle bundle = this.getArguments();
 
         // If bundle != null, then a recipe has been passed in to the fragment -> edit/delete
-        if (bundle.getParcelable("selectedMealPlan") != null) {
+        if (bundle != null) {
 
             selectedMealPlan = bundle.getParcelable("selectedMealPlan");
             selectedDate = bundle.getString("selectedDate");
