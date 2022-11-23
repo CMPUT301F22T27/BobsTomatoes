@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,7 +36,7 @@ import java.util.Collections;
  * implements RecipeFragment.OnRecipeFragmentListener
  */
 
-public class RecipeActivity extends AbstractNavigationBar implements RecipeFragment.OnRecipeFragmentListener, RecyclerViewInterface {
+public class RecipeActivity extends AbstractNavigationBar implements RecipeFragment.OnRecipeFragmentListener, RecipeIngredientFragment.OnRecipeIngredientListener, RecyclerViewInterface {
 
     ListView RecipeListView;
     ImageButton addButton;
@@ -53,6 +54,9 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     RecipeRecyclerAdapter recipeRecyclerAdapter;
     RecyclerView recyclerView;
+
+    ArrayList<Ingredient> globalIngredientList = new ArrayList<>();
+
 
     /**
      * Create instance
@@ -109,18 +113,6 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
             }
         });
 
-
-//        // Add Button Listener
-//        addButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                new RecipeFragment().show(getSupportFragmentManager(), "RECIPE ADD FRAGMENT");
-//
-//            }
-//        });
-
-
         // Create and Populate Spinner
         // Spinner allows users to choose how to sort ingredients
         Spinner choiceSpinner = (Spinner) findViewById(R.id.sortDropDownID);
@@ -151,7 +143,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
      * @param recipe    specified recipe
      */
     public void onAddOkPressed(Recipe recipe) {
-
+        recipe.setRecipeIngredients(globalIngredientList);
         recipeDB.addRecipe(recipe);
         recipeRecyclerAdapter.notifyDataSetChanged();
 
@@ -159,10 +151,12 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     /**
      * Confirms the edit of a recipe when the edit button is pressed
-     * @param newRecipe    new updated recipe to be added
-     * @param oldRecipe    old recipe to be removed
+     *
+     * @param newRecipe     new updated recipe to be added
+     * @param oldRecipe     old recipe to be removed
      */
     public void onEditOkPressed(Recipe newRecipe, Recipe oldRecipe) {
+        newRecipe.setRecipeIngredients(globalIngredientList);
         recipeDB.editRecipe(recipePos, newRecipe, oldRecipe);
         recipeRecyclerAdapter.notifyDataSetChanged();
     }
@@ -175,6 +169,15 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         recipeDB.removeRecipe(recipe);
         recipeRecyclerAdapter.notifyDataSetChanged();
 
+    }
+
+    /**
+     * For specifying the ingredient amount and adding it to the ingredient list
+     * @param ingredientList    ingredient list for the recipe
+     */
+    @Override
+    public void onAddIngredientOkPressed(ArrayList<Ingredient> ingredientList) {
+        globalIngredientList = ingredientList;
     }
 
     /**
@@ -198,7 +201,6 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
      * Populates data base using callBack
      * @param callBack  recipe database
      */
-
     public void readData(RecipeFireStoreCallback callBack) {
         recipeReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -216,6 +218,10 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         });
     }
 
+    /**
+     * ItemClick for RecyclerView to open the fragment
+     * @param position      position of the recipe in the array list
+     */
     @Override
     public void onItemClick(int position) {
         recipePos = position;
@@ -228,6 +234,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         fragment.setArguments(bundle);
         fragment.show(getSupportFragmentManager(), "EDIT/DELETE RECIPE");
     }
+
 
     /**
      * Interface
