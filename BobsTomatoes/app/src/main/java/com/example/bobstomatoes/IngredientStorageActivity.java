@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,11 +17,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.example.bobstomatoes.databinding.ActivityRecyclerIngredientBinding;
+import com.example.bobstomatoes.databinding.ProgressDialogBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -51,6 +57,8 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     ArrayList <String> spinnerOptions = new ArrayList<>();
     ArrayAdapter <String> spinnerAdapter;
 
+    Dialog progressBar;
+
     /**
      * Create instance
      * Display ingredient storage activity
@@ -60,6 +68,10 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.progress_dialog);
+        progressBar = builder.create();
 
         // Modify ActionBar
         setTitle("Ingredient Storage");
@@ -188,10 +200,12 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    showDialog(true);
                     for (QueryDocumentSnapshot document : task.getResult()) {
                       Ingredient ingredient = document.toObject(Ingredient.class);
                         ingredientList.add(ingredient);
                     }
+                    showDialog(false);
                     callBack.onCallBack(ingredientList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
@@ -218,6 +232,18 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
      */
     private interface IngredientFireStoreCallback {
         void onCallBack(ArrayList<Ingredient> ingredientList);
+    }
+
+    private void showDialog(boolean isShown){
+        if (isShown) {
+            progressBar.setCancelable(false);
+            progressBar.setCanceledOnTouchOutside(false);
+            progressBar.show();
+        } else {
+            progressBar.setCancelable(true);
+            progressBar.setCanceledOnTouchOutside(true);
+            progressBar.dismiss();
+        }
     }
 
 }
