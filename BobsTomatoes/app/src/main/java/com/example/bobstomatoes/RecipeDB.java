@@ -166,6 +166,7 @@ public class RecipeDB implements Parcelable {
         data2.put("recipeTime", updatedRecipe.getRecipeTime());
         data2.put("recipeServings", updatedRecipe.getRecipeServings());
         data2.put("recipeCategory", updatedRecipe.getRecipeCategory());
+        data2.put("recipeComments", updatedRecipe.getRecipeComments());
         data2.put("recipeIngredients", updatedRecipe.getRecipeIngredients());
         data2.put("recipeImage", updatedRecipe.getRecipeImage());
 

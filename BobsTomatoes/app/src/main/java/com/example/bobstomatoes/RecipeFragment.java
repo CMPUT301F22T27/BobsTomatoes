@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -80,6 +81,8 @@ public class RecipeFragment extends DialogFragment {
     Recipe selectedRecipe;
     Recipe editRecipe;
     int oldRecipePos;
+
+
 
     public interface OnRecipeFragmentListener{
 
@@ -163,6 +166,7 @@ public class RecipeFragment extends DialogFragment {
             finalPhoto = selectedRecipe.getDecodedImage();
 
             recipeImageView.setImageBitmap(finalPhoto);
+
 
             // Builder for Edit/delete
             return builder.setView(view)
@@ -258,10 +262,9 @@ public class RecipeFragment extends DialogFragment {
         ingredientsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
-
                 Ingredient selectedIngredient = ingredientList.get(pos);
 
-                boolean found = false;
+                boolean ingredientFound = false;
 
                 for (int i = 0; i < selectedIngredients.size(); i ++){
                     // Check if ingredient already selected
@@ -270,20 +273,26 @@ public class RecipeFragment extends DialogFragment {
                         //Unselect ingredient
                         selectedIngredients.remove(i);
 
-                        found = true;
+                        ingredientFound = true;
 
                         view.setActivated(false);
 
                     }
                 }
 
-                if (!found){
-
-                    selectedIngredients.add(selectedIngredient);
-
+                if (!ingredientFound){
                     view.setActivated(true);
 
+                    //Open 2nd fragment here
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("ingredientList", selectedIngredients);
+                    bundle.putParcelable("selectedIngredient", selectedIngredient);
+                    RecipeIngredientFragment fragment = new RecipeIngredientFragment();
+                    fragment.setArguments(bundle);
+                    fragment.setCancelable(false);
+                    fragment.show(getChildFragmentManager(), "INGREDIENT");
                 }
+
             }
         });
     }
@@ -405,5 +414,4 @@ public class RecipeFragment extends DialogFragment {
         return encodedImage;
 
     }
-
 }
