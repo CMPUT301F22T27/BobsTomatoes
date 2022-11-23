@@ -164,7 +164,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
     }
 
 
-
     @Override
     public void onItemClick(int position) {
 
