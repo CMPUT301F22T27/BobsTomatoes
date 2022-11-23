@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -19,10 +20,18 @@ public class RecipeIngredientFragment extends DialogFragment {
 
     private RecipeIngredientFragment.OnRecipeIngredientListener listener;
 
+
+    /**
+     * Interface for the onAddIngredientOkPressed
+     */
     public interface OnRecipeIngredientListener{
-        public void onAddIngredientOkPressed(Ingredient ingredient, ArrayList<Ingredient> ingredientsList);
+        public void onAddIngredientOkPressed(ArrayList<Ingredient> ingredientsList);
     }
 
+    /**
+     * Attaches context fragment to RecipeIngredientFragment
+     * @param context   fragment object that will be attached
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -34,6 +43,11 @@ public class RecipeIngredientFragment extends DialogFragment {
         }
     }
 
+    /**
+     * Provides a dialog for specifying the ingredient amount
+     * @param savedInstancedState
+     * @return
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstancedState){
@@ -43,19 +57,19 @@ public class RecipeIngredientFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         Bundle bundle = this.getArguments();
 
+
         Ingredient ingredient = bundle.getParcelable("selectedIngredient");
         ArrayList<Ingredient> ingredientList = bundle.getParcelableArrayList("ingredientList");
 
         //Builder for add
         return builder.setView(view)
                 .setTitle("Add Recipe")
-                .setNegativeButton("Cancel", null)
                 .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         ingredient.setIngredientAmount(Integer.parseInt(ingredientAmount.getText().toString()));
                         ingredientList.add(ingredient);
-                        listener.onAddIngredientOkPressed(ingredient, ingredientList);
+                        listener.onAddIngredientOkPressed(ingredientList);
 
                     }
                 })
