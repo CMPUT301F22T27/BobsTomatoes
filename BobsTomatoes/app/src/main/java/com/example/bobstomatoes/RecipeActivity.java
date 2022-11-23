@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,7 +36,7 @@ import java.util.Collections;
  * implements RecipeFragment.OnRecipeFragmentListener
  */
 
-public class RecipeActivity extends AbstractNavigationBar implements RecipeFragment.OnRecipeFragmentListener, RecyclerViewInterface {
+public class RecipeActivity extends AbstractNavigationBar implements RecipeFragment.OnRecipeFragmentListener, RecipeIngredientFragment.OnRecipeIngredientListener, RecyclerViewInterface {
 
     ListView RecipeListView;
     ImageButton addButton;
@@ -53,6 +54,9 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     RecipeRecyclerAdapter recipeRecyclerAdapter;
     RecyclerView recyclerView;
+
+    ArrayList<Ingredient> globalIngredientList = new ArrayList<>();
+
 
     /**
      * Create instance
@@ -151,7 +155,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
      * @param recipe    specified recipe
      */
     public void onAddOkPressed(Recipe recipe) {
-
+        recipe.setRecipeIngredients(globalIngredientList);
         recipeDB.addRecipe(recipe);
         recipeRecyclerAdapter.notifyDataSetChanged();
 
@@ -159,10 +163,12 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     /**
      * Confirms the edit of a recipe when the edit button is pressed
-     * @param newRecipe    new updated recipe to be added
-     * @param oldRecipe    old recipe to be removed
+     *
+     * @param newRecipe new updated recipe to be added
+     * @param oldRecipe old recipe to be removed
      */
     public void onEditOkPressed(Recipe newRecipe, Recipe oldRecipe) {
+        newRecipe.setRecipeIngredients(globalIngredientList);
         recipeDB.editRecipe(recipePos, newRecipe, oldRecipe);
         recipeRecyclerAdapter.notifyDataSetChanged();
     }
@@ -175,6 +181,11 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         recipeDB.removeRecipe(recipe);
         recipeRecyclerAdapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public void onAddIngredientOkPressed(Ingredient ingredient, ArrayList<Ingredient> ingredientList) {
+        globalIngredientList = ingredientList;
     }
 
     /**
@@ -228,6 +239,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         fragment.setArguments(bundle);
         fragment.show(getSupportFragmentManager(), "EDIT/DELETE RECIPE");
     }
+
 
     /**
      * Interface

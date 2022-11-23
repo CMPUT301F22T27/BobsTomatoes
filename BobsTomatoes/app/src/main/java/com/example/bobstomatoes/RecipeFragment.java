@@ -48,7 +48,7 @@ import java.util.ArrayList;
  * DialogFragment for adding, editing, and deleting a recipe
  * extends DialogFragment
  */
-public class RecipeFragment extends DialogFragment implements RecipeIngredientFragment.OnRecipeFragmentListener {
+public class RecipeFragment extends DialogFragment implements RecipeIngredientFragment.OnRecipeIngredientListener {
 
 
     private EditText titleText;
@@ -282,11 +282,16 @@ public class RecipeFragment extends DialogFragment implements RecipeIngredientFr
                 }
 
                 if (!ingredientFound){
+                    globalView.setActivated(true);
+
                     //Open 2nd fragment here
                     Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("ingredientList", selectedIngredients);
                     bundle.putParcelable("selectedIngredient", selectedIngredient);
 
                     RecipeIngredientFragment fragment = new RecipeIngredientFragment();
+                    fragment.setArguments(bundle);
+                    fragment.show(getChildFragmentManager(), "INGREDIENT");
                 }
 
             }
@@ -412,9 +417,8 @@ public class RecipeFragment extends DialogFragment implements RecipeIngredientFr
     }
 
     @Override
-    public void onAddOkPressed(Ingredient ingredient) {
-        selectedIngredients.add(ingredient);
-        globalView.setActivated(true);
+    public void onAddIngredientOkPressed(Ingredient ingredient, ArrayList<Ingredient> ingredientList) {
+
     }
 
 }
