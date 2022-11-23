@@ -121,7 +121,7 @@ public class MealPlanDB {
      * @param oldMealPlanPos    index of original meal plan
      * @param updatedMealPlan   new meal plan with updated information
      */
-    public void editMealPlan(int oldMealPlanPos, MealPlan updatedMealPlan) {
+    public void editMealPlan(MealPlan oldMealPlan, MealPlan updatedMealPlan) {
         //Populate map with recipe contents
         HashMap<String, Object> data = new HashMap<>();
         String mealPlanDate = updatedMealPlan.getMealPlanDate();
@@ -144,7 +144,8 @@ public class MealPlanDB {
                         Log.d("", "Data could not be added");
                     }
                 });
-        mealPlanList.set(oldMealPlanPos, updatedMealPlan);
+        mealPlanList.remove(oldMealPlan);
+        mealPlanList.add(updatedMealPlan);
     }
 
     /**

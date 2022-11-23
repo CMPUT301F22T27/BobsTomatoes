@@ -355,8 +355,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
 
-    public void onEditOkPressed(MealPlan mealPlan) {
-        mealPlanDB.editMealPlan(mealPlanPos, mealPlan);
+    public void onEditOkPressed(MealPlan oldMealPlan, MealPlan updatedMealPlan) {
+        mealPlanDB.editMealPlan(oldMealPlan, updatedMealPlan);
     }
 
 
