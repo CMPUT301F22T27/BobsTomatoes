@@ -309,7 +309,8 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                 String ingredientName = tempIngredient.getIngredientDesc();
 
                 //Get number of that ingredient in recipe
-                int numIngredient = tempIngredient.getIngredientAmount();
+                //int numIngredient = tempIngredient.getIngredientAmount();
+                int numIngredient = 1;
 
                 //Check if we have seen this ingredient before in mealplans
                 if (checkedIngredients.get(ingredientName) == null){
