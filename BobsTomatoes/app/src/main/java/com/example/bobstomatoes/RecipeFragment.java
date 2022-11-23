@@ -48,7 +48,7 @@ import java.util.ArrayList;
  * DialogFragment for adding, editing, and deleting a recipe
  * extends DialogFragment
  */
-public class RecipeFragment extends DialogFragment {
+public class RecipeFragment extends DialogFragment implements RecipeIngredientFragment.OnRecipeFragmentListener {
 
 
     private EditText titleText;
@@ -80,6 +80,9 @@ public class RecipeFragment extends DialogFragment {
     Recipe selectedRecipe;
     Recipe editRecipe;
     int oldRecipePos;
+
+    View globalView;
+
 
     public interface OnRecipeFragmentListener{
 
@@ -259,9 +262,10 @@ public class RecipeFragment extends DialogFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
 
+                globalView = view;
                 Ingredient selectedIngredient = ingredientList.get(pos);
 
-                boolean found = false;
+                boolean ingredientFound = false;
 
                 for (int i = 0; i < selectedIngredients.size(); i ++){
                     // Check if ingredient already selected
@@ -270,20 +274,21 @@ public class RecipeFragment extends DialogFragment {
                         //Unselect ingredient
                         selectedIngredients.remove(i);
 
-                        found = true;
+                        ingredientFound = true;
 
                         view.setActivated(false);
 
                     }
                 }
 
-                if (!found){
+                if (!ingredientFound){
+                    //Open 2nd fragment here
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("selectedIngredient", selectedIngredient);
 
-                    selectedIngredients.add(selectedIngredient);
-
-                    view.setActivated(true);
-
+                    RecipeIngredientFragment fragment = new RecipeIngredientFragment();
                 }
+
             }
         });
     }
@@ -404,6 +409,12 @@ public class RecipeFragment extends DialogFragment {
 
         return encodedImage;
 
+    }
+
+    @Override
+    public void onAddOkPressed(Ingredient ingredient) {
+        selectedIngredients.add(ingredient);
+        globalView.setActivated(true);
     }
 
 }
