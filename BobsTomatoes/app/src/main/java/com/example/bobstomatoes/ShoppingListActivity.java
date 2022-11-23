@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -47,8 +45,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
     private boolean ingredientDataAvailable = false;
     private boolean mealPlanDataAvailable = false;
-    boolean ingredientLoadDone = false;
-    boolean mealPlanLoadDone = false;
 
     ShoppingListRecyclerAdapter shoppingListRecyclerAdapter;
     RecyclerView recyclerView;
@@ -56,7 +52,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
     Context context = this;
 
     private RecyclerViewInterface recyclerViewInterface;
-    Dialog progressBar;
 
 
     /**
@@ -67,10 +62,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(R.layout.progress_dialog);
-        progressBar = builder.create();
 
         // Modify ActionBar
         setTitle("Shopping List");
@@ -356,14 +347,11 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    showDialog(true, ingredientLoadDone, mealPlanLoadDone);
                     mealPlanList.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         MealPlan mealPlan = document.toObject(MealPlan.class);
                         mealPlanList.add(mealPlan);
                     }
-                    mealPlanLoadDone = true;
-                    showDialog(false, ingredientLoadDone, true);
                     callBack.onCallBack(mealPlanList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
@@ -382,13 +370,10 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    showDialog(true, ingredientLoadDone, mealPlanLoadDone);
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Ingredient ingredient = document.toObject(Ingredient.class);
                         ingredientList.add(ingredient);
                     }
-                    ingredientLoadDone = true;
-                    showDialog(false, true, mealPlanLoadDone);
                     callBack.onCallBack(ingredientList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
@@ -415,18 +400,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
      */
     private interface MealPlanFireStoreCallBack {
         void onCallBack(ArrayList<MealPlan> mealPlanList);
-    }
-
-    private void showDialog(boolean isShown, boolean ingredientLoadDone, boolean mealPlanLoadDone){
-        if (isShown == true && (ingredientLoadDone == false || mealPlanLoadDone == false)) {
-            progressBar.setCancelable(false);
-            progressBar.setCanceledOnTouchOutside(false);
-            progressBar.show();
-        } else if (isShown == false && ingredientLoadDone == true && mealPlanLoadDone == true) {
-            progressBar.setCancelable(true);
-            progressBar.setCanceledOnTouchOutside(true);
-            progressBar.dismiss();
-        }
     }
 
 }
