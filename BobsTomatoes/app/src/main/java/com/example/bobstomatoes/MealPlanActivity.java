@@ -193,15 +193,17 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                 for (int i = 0; i <= 40; i++) {
                     for (int j = 0; j < mealPlanList.size(); j++) {
                         View check = calendarRecyclerView.getChildAt(i);
-                        dayOfMonth = check.findViewById(R.id.cellDayText);
-                        String day = (String) dayOfMonth.getText();
+                        if (check != null) {
+                            dayOfMonth = check.findViewById(R.id.cellDayText);
+                            String day = (String) dayOfMonth.getText();
 
-                        String date = selectedDate.toString();
-                        date = date.substring(0,8).concat(day);
+                            String date = selectedDate.toString();
+                            date = date.substring(0, 8).concat(day);
 
-                        if (mealPlanList.get(j).getMealPlanDate().equals(date)){
-                            //check.setBackgroundColor(Color.LTGRAY);
-                            check.setActivated(true);
+                            if (mealPlanList.get(j).getMealPlanDate().equals(date)) {
+                                //check.setBackgroundColor(Color.LTGRAY);
+                                check.setActivated(true);
+                            }
                         }
                     }
                 }
@@ -235,15 +237,17 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                 for (int i = 0; i <= 40; i++) {
                     for (int j = 0; j < mealPlanList.size(); j++) {
                         View check = calendarRecyclerView.getChildAt(i);
-                        dayOfMonth = check.findViewById(R.id.cellDayText);
-                        String day = (String) dayOfMonth.getText();
+                        if(check != null) {
+                            dayOfMonth = check.findViewById(R.id.cellDayText);
+                            String day = (String) dayOfMonth.getText();
 
-                        String date = selectedDate.toString();
-                        date = date.substring(0,8).concat(day);
+                            String date = selectedDate.toString();
+                            date = date.substring(0, 8).concat(day);
 
-                        if (mealPlanList.get(j).getMealPlanDate().equals(date)){
-                            //check.setBackgroundColor(Color.LTGRAY);
-                            check.setActivated(true);
+                            if (mealPlanList.get(j).getMealPlanDate().equals(date)) {
+                                //check.setBackgroundColor(Color.LTGRAY);
+                                check.setActivated(true);
+                            }
                         }
                     }
                 }
@@ -276,36 +280,38 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             for (int i = 0; i <= 40; i++) {
 
                 View check = calendarRecyclerView.getChildAt(i);
-                dayOfMonth = check.findViewById(R.id.cellDayText);
-                String tempDay = (String) dayOfMonth.getText();
+                if(check != null) {
+                    dayOfMonth = check.findViewById(R.id.cellDayText);
+                    String tempDay = (String) dayOfMonth.getText();
 
-                String date = selectedDate.toString();
-                date = date.substring(0,8).concat(tempDay);
+                    String date = selectedDate.toString();
+                    date = date.substring(0, 8).concat(tempDay);
 
-                boolean found = false;
+                    boolean found = false;
 
-                for (int j = 0; j < mealPlanList.size(); j++) {
-                    if (mealPlanList.get(j).getMealPlanDate().equals(date)){
-                        found = true;
+                    for (int j = 0; j < mealPlanList.size(); j++) {
+                        if (mealPlanList.get(j).getMealPlanDate().equals(date)) {
+                            found = true;
+                        }
                     }
-                }
-                Log.d("FOUND:",found + " " + i);
-                if (i != position){
+                    Log.d("FOUND:", found + " " + i);
+                    if (i != position) {
 
-                    check.setSelected(false);
+                        check.setSelected(false);
 
-                    if (found){
-                        check.setActivated(true);
+                        if (found) {
+                            check.setActivated(true);
+
+                        } else {
+                            check.setActivated(false);
+                        }
+
 
                     } else {
-                        check.setActivated(false);
+
+                        check.setSelected(true);
+
                     }
-
-
-                } else {
-
-                    check.setSelected(true);
-
                 }
 
             }
