@@ -170,7 +170,7 @@ public class IngredientStorageFragment extends DialogFragment {
             public void onCheckedChanged(RadioGroup radioGroup, int radioButtonID) {
                 if (radioButtonID == dairyRadioButton.getId()){
                     if(dairyRadioButton.isChecked() == true) {
-                   
+
                         proteinRadioButton.setChecked(false);
                         vegetableRadioButton.setChecked(false);
                         otherRadioButton.setChecked(false);
@@ -180,7 +180,7 @@ public class IngredientStorageFragment extends DialogFragment {
                 }
                 if (radioButtonID == fruitRadioButton.getId()){
                     if(fruitRadioButton.isChecked() == true) {
-                        Log.d("RADIOS1", "FRUIT");
+                        
                         proteinRadioButton.setChecked(false);
                         vegetableRadioButton.setChecked(false);
                         otherRadioButton.setChecked(false);
