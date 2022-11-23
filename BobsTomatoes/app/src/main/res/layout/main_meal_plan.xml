@@ -10,41 +10,50 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp">
+        android:orientation="horizontal">
 
-        <Button
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:onClick="previousMonthAction"
-            android:text="@string/back"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_weight="0.13" />
 
         <TextView
             android:id="@+id/monthYearTV"
             android:layout_width="0dp"
-            android:layout_weight="2"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:text="Feb 2021"
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
             android:textSize="20sp"
-            android:textAlignment="center"
-            android:textColor="@color/black"/>
+            />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@null"
+            android:backgroundTint="#00FFFFFF"
+            android:onClick="previousMonthAction"
+            android:stateListAnimator="@null"
+            android:text="@string/back"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:background="@null"
+            android:backgroundTint="#00FFFFFF"
             android:onClick="nextMonthAction"
+            android:stateListAnimator="@null"
             android:text="@string/forward"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textColor="@android:color/background_dark"
+            android:textSize="25sp" />
 
     </LinearLayout>
 
@@ -133,5 +142,6 @@
         android:id="@+id/navigation_buttons_layout_id"
         layout="@layout/navigation_buttons_layout">
     </include>
+
 
 </LinearLayout>
