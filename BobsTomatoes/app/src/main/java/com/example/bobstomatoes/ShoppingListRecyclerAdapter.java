@@ -39,7 +39,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
         viewHolder.ingredientNameView.setText(ingredientList.get(position).getIngredientDesc());
         viewHolder.ingredientUnitView.setText("Cost: " + ingredientList.get(position).getIngredientUnit());
         viewHolder.ingredientAmountView.setText("Amount: " + ingredientList.get(position).getIngredientAmount());
-        viewHolder.ingredientCategoryView.setText("Catg: " + ingredientList.get(position).getIngredientCategory());
+        viewHolder.ingredientCategoryView.setText("Category: " + ingredientList.get(position).getIngredientCategory());
         //viewHolder.checkBox.setChecked(false);
 
     }
