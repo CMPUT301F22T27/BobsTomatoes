@@ -99,16 +99,18 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                     planExist = false;
                     for (int j = 0; j < mealPlanList.size(); j++) {
                         View check = calendarRecyclerView.getChildAt(i);
-                        dayOfMonth = check.findViewById(R.id.cellDayText);
-                        String day = (String) dayOfMonth.getText();
+                        if(check != null) {
+                            dayOfMonth = check.findViewById(R.id.cellDayText);
+                            String day = (String) dayOfMonth.getText();
 
-                        String date = selectedDate.toString();
-                        date = date.substring(0,8).concat(day);
+                            String date = selectedDate.toString();
+                            date = date.substring(0, 8).concat(day);
 
-                        if (mealPlanList.get(j).getMealPlanDate().equals(date)){
+                            if (mealPlanList.get(j).getMealPlanDate().equals(date)) {
 
-                            //check.setBackgroundColor(Color.LTGRAY);
-                            check.setActivated(true);
+                                //check.setBackgroundColor(Color.LTGRAY);
+                                check.setActivated(true);
+                            }
                         }
                     }
                 }
