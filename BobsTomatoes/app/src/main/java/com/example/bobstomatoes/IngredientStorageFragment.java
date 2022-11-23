@@ -118,9 +118,16 @@ public class IngredientStorageFragment extends DialogFragment {
             descriptionText.setText(selectedIngredient.getIngredientDesc());
 
             // Date
-            int year = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(0,4));
-            int month = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(5,7))-1;
-            int day = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(8,10));
+            int year = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(0, 4));
+            int month;
+            int day;
+            if (selectedIngredient.getIngredientDate().toString().substring(6,7).equals("-")) {
+                month = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(5, 6)) - 1;
+                day = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(7,9));
+            }else{
+                month = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(5, 7)) - 1;
+                day = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(8,10));
+            }
             datePicker.updateDate(year, month, day);
 
             // Location
