@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.drawable.ColorDrawable;
@@ -57,6 +59,8 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     ArrayList<Ingredient> globalIngredientList = new ArrayList<>();
 
+    Dialog progressBar;
+
 
     /**
      * Create instance
@@ -66,6 +70,10 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.progress_dialog);
+        progressBar = builder.create();
 
         // Modify ActionBar
         setTitle("Recipes");
@@ -206,10 +214,12 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    showDialog(true);
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Recipe recipe = document.toObject(Recipe.class);
                         recipeList.add(recipe);
                     }
+                    showDialog(false);
                     callBack.onCallBack(recipeList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
@@ -243,6 +253,18 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
      */
     private interface RecipeFireStoreCallback {
         void onCallBack(ArrayList<Recipe> recipeList);
+    }
+
+    private void showDialog(boolean isShown){
+        if (isShown) {
+            progressBar.setCancelable(false);
+            progressBar.setCanceledOnTouchOutside(false);
+            progressBar.show();
+        } else {
+            progressBar.setCancelable(true);
+            progressBar.setCanceledOnTouchOutside(true);
+            progressBar.dismiss();
+        }
     }
 
 
