@@ -170,10 +170,12 @@ public class IngredientStorageFragment extends DialogFragment {
             public void onCheckedChanged(RadioGroup radioGroup, int radioButtonID) {
                 if (radioButtonID == dairyRadioButton.getId()){
                     if(dairyRadioButton.isChecked() == true) {
-                        Log.d("RADIOS1", "DAIRY");
+                   
                         proteinRadioButton.setChecked(false);
                         vegetableRadioButton.setChecked(false);
                         otherRadioButton.setChecked(false);
+
+                        categoryRadioGroup2.clearCheck();
                     }
                 }
                 if (radioButtonID == fruitRadioButton.getId()){
@@ -182,14 +184,19 @@ public class IngredientStorageFragment extends DialogFragment {
                         proteinRadioButton.setChecked(false);
                         vegetableRadioButton.setChecked(false);
                         otherRadioButton.setChecked(false);
+
+                        categoryRadioGroup2.clearCheck();
+
                     }
                 }
                 if (radioButtonID == grainRadioButton.getId()){
                     if (grainRadioButton.isChecked() == true) {
-                        Log.d("RADIOS1", "GRAIN");
+
                         proteinRadioButton.setChecked(false);
                         vegetableRadioButton.setChecked(false);
                         otherRadioButton.setChecked(false);
+
+                        categoryRadioGroup2.clearCheck();
                     }
                 }
             }
@@ -200,26 +207,32 @@ public class IngredientStorageFragment extends DialogFragment {
             public void onCheckedChanged(RadioGroup radioGroup, int radioButtonID) {
                 if (radioButtonID == otherRadioButton.getId()) {
                     if (otherRadioButton.isChecked() == true) {
-                        Log.d("RADIOS2", "OTHER");
+
                         dairyRadioButton.setChecked(false);
                         fruitRadioButton.setChecked(false);
                         grainRadioButton.setChecked(false);
+
+                        categoryRadioGroup1.clearCheck();
                     }
                 }
                 if (radioButtonID == vegetableRadioButton.getId()) {
                     if (vegetableRadioButton.isChecked() == true) {
-                        Log.d("RADIOS2", "VEGETABLE");
+
                         dairyRadioButton.setChecked(false);
                         fruitRadioButton.setChecked(false);
                         grainRadioButton.setChecked(false);
+
+                        categoryRadioGroup1.clearCheck();
                     }
                 }
                 if (radioButtonID == proteinRadioButton.getId()) {
                     if (proteinRadioButton.isChecked() == true) {
-                        Log.d("RADIOS2", "PROTEIN");
+
                         dairyRadioButton.setChecked(false);
                         fruitRadioButton.setChecked(false);
                         grainRadioButton.setChecked(false);
+
+                        categoryRadioGroup1.clearCheck();
                     }
                 }
             }
