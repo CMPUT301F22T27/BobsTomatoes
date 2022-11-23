@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Class detailing the information of a ShoppingList
@@ -12,86 +13,111 @@ import java.util.Date;
  */
 public class ShoppingList implements Parcelable {
 
-    private ArrayList<Ingredient> ingredients;
-    private ArrayList<MealPlan> mealPlans;
+    private HashMap<String, Boolean> checkedItems;
+    private HashMap<String, Integer> ingredientCount;
+
 
     /**
      * ShoppingList Constructor, takes in ingredients, and meal plans
-     * @param ingredients   ingredients to buy
-     * @param mealPlans     meal plans to guide shopping list
+     * @param checkedItems   tracks if an ingredient is checked
+     * @param ingredientCount     ingredients needed for mealplans
      */
-    public ShoppingList(ArrayList<Ingredient> ingredients, ArrayList<MealPlan> mealPlans){
-        this.ingredients = ingredients;
-        this.mealPlans = mealPlans;
+    public ShoppingList(HashMap<String, Boolean> checkedItems, HashMap<String, Integer> ingredientCount){
+        this.checkedItems = checkedItems;
+        this.ingredientCount = ingredientCount;
     }
 
-    /**
-     * Ingredients list getter
-     * Retrieve list of ingredients to buy, allow for accessibility to other classes
-     * @return      returns the list of ingredients
-     */
-    public ArrayList<Ingredient> getIngredients() {
-        return ingredients;
+
+
+    public HashMap<String, Boolean> getCheckedItems() {
+        return checkedItems;
     }
 
-    /**
-     * Meal plan list getter
-     * Retrieve the meal plans that will guide the shopping, allow for accessibility to other classes
-     * @return      returns the list of meal plans
-     */
-    public ArrayList<MealPlan> getMealPlans() {
-        return mealPlans;
+    public HashMap<String, Integer> getIngredientCount() {
+        return ingredientCount;
     }
 
-    /**
-     * Create bitmask return value
-     * @return      return value
-     */
+    public void setIngredientCount(HashMap<String, Integer> ingredientCount) {
+        this.ingredientCount = ingredientCount;
+    }
+
+    public void setCheckedItems(HashMap<String, Boolean> checkedItems) {
+        this.checkedItems = checkedItems;
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
 
-    /**
-     * ShoppingList constructor, takes in a parcel
-     * @param in    parcel containing shopping list information (list of ingredients, list of meal plans)
-     */
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+    }
+
     protected ShoppingList(Parcel in) {
-        ingredients = in.createTypedArrayList(Ingredient.CREATOR);
-        mealPlans = in.createTypedArrayList(MealPlan.CREATOR);
     }
 
     public static final Creator<ShoppingList> CREATOR = new Creator<ShoppingList>() {
-        /**
-         * Create new instance of the Parcelable Class
-         * @param in    parcel containing shopping list information (list of ingredients, list of meal plans)
-         * @return      returns a new created ShoppingList
-         */
         @Override
         public ShoppingList createFromParcel(Parcel in) {
             return new ShoppingList(in);
         }
 
-        /**
-         * Create a new array of the Parcelable Class
-         * @param size  size of new array
-         * @return      returns a new ShoppingList Array
-         */
         @Override
         public ShoppingList[] newArray(int size) {
             return new ShoppingList[size];
         }
     };
 
-    /**
-     * Parcel writer
-     * Creates parcel with specified object written in
-     * @param parcel    parcel in which object should be written
-     * @param i         addition flags of how object should be written
-     */
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeTypedList(ingredients);
-        parcel.writeTypedList(mealPlans);
-    }
+//    /**
+//     * Create bitmask return value
+//     * @return      return value
+//     */
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    /**
+//     * ShoppingList constructor, takes in a parcel
+//     * @param in    parcel containing shopping list information (list of ingredients, list of meal plans)
+//     */
+//    protected ShoppingList(Parcel in) {
+//        ingredients = in.createTypedArrayList(Ingredient.CREATOR);
+//        mealPlans = in.createTypedArrayList(MealPlan.CREATOR);
+//    }
+//
+//    public static final Creator<ShoppingList> CREATOR = new Creator<ShoppingList>() {
+//        /**
+//         * Create new instance of the Parcelable Class
+//         * @param in    parcel containing shopping list information (list of ingredients, list of meal plans)
+//         * @return      returns a new created ShoppingList
+//         */
+//        @Override
+//        public ShoppingList createFromParcel(Parcel in) {
+//            return new ShoppingList(in);
+//        }
+//
+//        /**
+//         * Create a new array of the Parcelable Class
+//         * @param size  size of new array
+//         * @return      returns a new ShoppingList Array
+//         */
+//        @Override
+//        public ShoppingList[] newArray(int size) {
+//            return new ShoppingList[size];
+//        }
+//    };
+//
+//    /**
+//     * Parcel writer
+//     * Creates parcel with specified object written in
+//     * @param parcel    parcel in which object should be written
+//     * @param i         addition flags of how object should be written
+//     */
+//    @Override
+//    public void writeToParcel(Parcel parcel, int i) {
+//        parcel.writeTypedList(ingredients);
+//        parcel.writeTypedList(mealPlans);
+//    }
 }
