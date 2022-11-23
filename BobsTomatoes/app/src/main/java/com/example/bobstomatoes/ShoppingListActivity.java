@@ -3,6 +3,8 @@ package com.example.bobstomatoes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -27,7 +29,7 @@ import java.util.Set;
 /**
  * ShoppingListActivity, displays shoppingList and extends AbstractNavigationBar
  */
-public class ShoppingListActivity extends AbstractNavigationBar {
+public class ShoppingListActivity extends AbstractNavigationBar implements RecyclerViewInterface {
 
     IngredientDB ingredientDB;
     CollectionReference ingredientReference;
@@ -38,9 +40,13 @@ public class ShoppingListActivity extends AbstractNavigationBar {
     ArrayList<MealPlan> mealPlanList;
 
     ShoppingList shoppingList;
+    ArrayList<Ingredient> neededIngredients;
 
     private boolean ingredientDataAvailable = false;
     private boolean mealPlanDataAvailable = false;
+
+    ShoppingListRecyclerAdapter shoppingListRecyclerAdapter;
+    RecyclerView recyclerView;
 
 
     /**
@@ -60,7 +66,14 @@ public class ShoppingListActivity extends AbstractNavigationBar {
                 new ColorDrawable(Color.parseColor("#9C0902")); // Define ColorDrawable object + parse color
         actionBar.setBackgroundDrawable(colorDrawable); // Set BackgroundDrawable
 
-        setContentView(R.layout.activity_shopping_list);
+        setContentView(R.layout.activity_recycler_shopping_list);
+
+        //RecyclerView
+        recyclerView = findViewById(R.id.recyclerView);
+        shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(this, neededIngredients, this);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(shoppingListRecyclerAdapter);
 
         //Sets up buttons and onClickListeners for navigation bar
         initializeButtons(ShoppingListActivity.this);
@@ -87,6 +100,9 @@ public class ShoppingListActivity extends AbstractNavigationBar {
 
                 if (mealPlanDataAvailable) {
                     createShoppingList();
+                    createNeededIngredients();
+
+                    shoppingListRecyclerAdapter.notifyDataSetChanged();
 
                     //TESTING
                     HashMap<String, Boolean> checkedItems = shoppingList.getCheckedItems();
@@ -119,6 +135,9 @@ public class ShoppingListActivity extends AbstractNavigationBar {
 
                 if (ingredientDataAvailable) {
                     createShoppingList();
+                    createNeededIngredients();
+
+                    shoppingListRecyclerAdapter.notifyDataSetChanged();
 
                     //TESTING
                     HashMap<String, Boolean> checkedItems = shoppingList.getCheckedItems();
@@ -134,6 +153,10 @@ public class ShoppingListActivity extends AbstractNavigationBar {
                     Log.d("TESTING SHOPPING", ingredients2 + "");
                     Log.d("TESTING SHOPPING", values2 + "");
 
+
+
+
+
                 }
 
             }
@@ -141,6 +164,52 @@ public class ShoppingListActivity extends AbstractNavigationBar {
     }
 
 
+
+    @Override
+    public void onItemClick(int position) {
+
+    }
+
+
+    /**
+     * Creates a list of needed ingredient objects
+     */
+    private void createNeededIngredients(){
+
+        neededIngredients = new ArrayList<>();
+
+        //Add ingredient objects present in shopping list
+        for(int i = 0; i < ingredientList.size(); i++){
+
+            Ingredient tempIngredient = ingredientList.get(i);
+
+            String tempIngredientName = tempIngredient.getIngredientDesc();
+
+            //If ingredient needed
+            if(shoppingList.getIngredientCount().get(tempIngredientName) != null){
+
+                int have = tempIngredient.getIngredientAmount();
+                int total = shoppingList.getIngredientCount().get(tempIngredientName);
+                int need = total - have;
+
+                if(need > 0){
+
+                    Ingredient neededIngredient = tempIngredient;
+                    neededIngredient.setIngredientAmount(need);
+                    neededIngredients.add(neededIngredient);
+
+                }
+
+            }
+
+        }
+
+    }
+
+    /**
+     * Handles creation of the shopping list using the current meal plan
+     * be wary
+     */
     private void createShoppingList(){
 
         //Get all recipes and ingredients from all mealplans
@@ -262,6 +331,10 @@ public class ShoppingListActivity extends AbstractNavigationBar {
 
     }
 
+    /**
+     * Populates from data base using callBack
+     * @param callBack  meal plan database
+     */
     public void readMealPlanData(MealPlanFireStoreCallBack callBack) {
         mealPlanReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -282,7 +355,7 @@ public class ShoppingListActivity extends AbstractNavigationBar {
 
 
     /**
-     * Populates data base using callBack
+     * Populates from data base using callBack
      * @param callBack  ingredient database
      */
     public void readIngredientData(IngredientFireStoreCallback callBack) {
