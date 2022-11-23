@@ -30,7 +30,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     @Override
     public ShoppingListRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.activity_recycler_shopping_list_recyclerlist, viewGroup, false);
-        return new ShoppingListRecyclerAdapter.ViewHolder(view, recyclerViewInterface);
+        return new ViewHolder(view, recyclerViewInterface);
     }
 
     @Override

@@ -99,6 +99,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                 ingredientDataAvailable = true;
 
                 if (mealPlanDataAvailable) {
+
                     createShoppingList();
                     createNeededIngredients();
 
@@ -118,6 +119,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     Log.d("TESTING SHOPPING", ingredients2 + "");
                     Log.d("TESTING SHOPPING", values2 + "");
                     Log.d("TESTING SHOPPING", neededIngredients + "");
+                    Log.d("GABE STINKY ASS", "STINKY ASS GABE");
 
                 }
             }
@@ -135,6 +137,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                 mealPlanDataAvailable = true;
 
                 if (ingredientDataAvailable) {
+
                     createShoppingList();
                     createNeededIngredients();
 
@@ -154,15 +157,13 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     Log.d("TESTING SHOPPING", ingredients2 + "");
                     Log.d("TESTING SHOPPING", values2 + "");
                     Log.d("TESTING SHOPPING", neededIngredients + "");
-
-
-
-
+                    Log.d("GABE STINKY ASS", "STINKY ASS GABE");
 
                 }
-
             }
         });
+
+
     }
 
 
