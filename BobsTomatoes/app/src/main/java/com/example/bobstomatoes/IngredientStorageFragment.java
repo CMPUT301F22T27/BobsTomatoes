@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -41,6 +42,7 @@ public class IngredientStorageFragment extends DialogFragment {
     private EditText unitText;
     private EditText categoryText;
     Boolean isEdit = false;
+    DatePicker datePicker;
 
     private OnIngredientFragmentListener listener;
 
@@ -78,7 +80,8 @@ public class IngredientStorageFragment extends DialogFragment {
         String title;
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_ingredient_storage, null);
         descriptionText = view.findViewById(R.id.editTextIngredientDesc);
-        dateText = view.findViewById(R.id.editTextIngredientDate);
+//        dateText = view.findViewById(R.id.editTextIngredientDate);
+        datePicker = view.findViewById(R.id.datePicker);
         locationText = view.findViewById(R.id.editTextIngredientLocation);
         amountText = view.findViewById(R.id.editTextIngredientAmount);
         unitText = view.findViewById(R.id.editTextIngredientUnit);
@@ -92,7 +95,11 @@ public class IngredientStorageFragment extends DialogFragment {
             oldIngredientPos = bundle.getInt("oldIngredientPos");
             isEdit = bundle.getBoolean("isEdit");
             descriptionText.setText(selectedIngredient.getIngredientDesc());
-            dateText.setText(selectedIngredient.getIngredientDate());
+//            dateText.setText(selectedIngredient.getIngredientDate());
+            int year = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(0,4));
+            int month = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(5,7))-1;
+            int day = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(8,10));
+            datePicker.updateDate(year, month, day);
             locationText.setText(selectedIngredient.getIngredientLocation());
             amountText.setText(String.valueOf(selectedIngredient.getIngredientAmount()));
             unitText.setText(String.valueOf(selectedIngredient.getIngredientUnit()));
@@ -107,7 +114,11 @@ public class IngredientStorageFragment extends DialogFragment {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             String newDescription = descriptionText.getText().toString();
-                            String newDate = dateText.getText().toString();
+//                            String newDate = dateText.getText().toString();
+                            int year = datePicker.getYear();
+                            int month = datePicker.getMonth() + 1;
+                            int day = datePicker.getDayOfMonth();
+                            String newDate = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
                             String newLocation = locationText.getText().toString();
                             String tempAmount = amountText.getText().toString();
                             int newAmount = Integer.parseInt(tempAmount);
@@ -135,7 +146,11 @@ public class IngredientStorageFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String newDescription = descriptionText.getText().toString();
-                        String newDate = dateText.getText().toString();
+//                        String newDate = dateText.getText().toString();
+                        int year = datePicker.getYear();
+                        int month = datePicker.getMonth() + 1;
+                        int day = datePicker.getDayOfMonth();
+                        String newDate = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
                         String newLocation = locationText.getText().toString();
                         String tempAmount = amountText.getText().toString();
                         int newAmount = Integer.parseInt(tempAmount);

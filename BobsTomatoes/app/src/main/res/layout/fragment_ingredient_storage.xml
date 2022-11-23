@@ -12,13 +12,27 @@
         android:inputType="textPersonName"
         android:hint="Ingredient Description" />
 
-    <EditText
-        android:id="@+id/editTextIngredientDate"
+<!--    <EditText-->
+<!--        android:id="@+id/editTextIngredientDate"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:ems="10"-->
+<!--        android:inputType="date"-->
+<!--        android:hint="Ingredient Date" />-->
+
+    <DatePicker
+        android:id="@+id/datePicker"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date"
-        android:hint="Ingredient Date" />
+        android:layout_height="83dp"
+        android:background="#FFFFFF"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner" />
+
+<!--    <EditText-->
+<!--        android:id="@+id/editText"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:clickable="false" />-->
 
     <EditText
         android:id="@+id/editTextIngredientLocation"
