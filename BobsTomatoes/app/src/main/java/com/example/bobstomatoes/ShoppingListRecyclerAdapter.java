@@ -18,8 +18,10 @@ import java.util.ArrayList;
 public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingListRecyclerAdapter.ViewHolder>{
 
     private ArrayList<Ingredient> ingredientList = new ArrayList<>();
+    private ArrayList<Ingredient> checkedIngredients = new ArrayList<>();
     private Context context;
     private final RecyclerViewInterface recyclerViewInterface;
+
 
     public ShoppingListRecyclerAdapter(Context context, ArrayList<Ingredient> ingredientList, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
@@ -40,7 +42,19 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
         viewHolder.ingredientUnitView.setText("Cost: " + ingredientList.get(position).getIngredientUnit());
         viewHolder.ingredientAmountView.setText("Amount: " + ingredientList.get(position).getIngredientAmount());
         viewHolder.ingredientCategoryView.setText("Category: " + ingredientList.get(position).getIngredientCategory());
-        //viewHolder.checkBox.setChecked(false);
+        viewHolder.checkBox.setChecked(false);
+
+        viewHolder.setItemClickListener(new ShoppingListItemClickInterface() {
+            @Override
+            public void onItemClick(View v, int pos) {
+                CheckBox checkbox = (CheckBox) v;
+                if(checkbox.isChecked() == true) {
+                    checkedIngredients.add(ingredientList.get(pos));
+                } else if (checkbox.isChecked() == false) {
+                    checkedIngredients.remove(ingredientList.get(pos));
+                }
+            }
+        });
 
     }
 
@@ -49,12 +63,14 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
         return ingredientList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView ingredientNameView;
         TextView ingredientUnitView;
         TextView ingredientAmountView;
         TextView ingredientCategoryView;
         CheckBox checkBox;
+
+        ShoppingListItemClickInterface itemClick;
 
         public ViewHolder(View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
@@ -77,6 +93,17 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
                     }
                 }
             });
+
+            checkBox.setOnClickListener(this);
+        }
+
+        public void setItemClickListener(ShoppingListItemClickInterface itemClick){
+            this.itemClick = itemClick;
+        }
+        
+        @Override
+        public void onClick(View view) {
+            this.itemClick.onItemClick(view, getLayoutPosition());
         }
     }
 
