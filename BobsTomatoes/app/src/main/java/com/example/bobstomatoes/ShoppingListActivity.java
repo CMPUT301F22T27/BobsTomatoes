@@ -87,21 +87,22 @@ public class ShoppingListActivity extends AbstractNavigationBar {
 
                 if (mealPlanDataAvailable) {
                     createShoppingList();
+
+                    //TESTING
+                    HashMap<String, Boolean> checkedItems = shoppingList.getCheckedItems();
+                    HashMap<String, Integer> ingredientCount = shoppingList.getIngredientCount();
+
+                    Set ingredients1 = checkedItems.keySet();
+                    Set ingredients2 = ingredientCount.keySet();
+                    Collection values1 = checkedItems.values();
+                    Collection values2 = checkedItems.values();
+
+                    Log.d("TESTING SHOPPING", ingredients1 + "");
+                    Log.d("TESTING SHOPPING", values1 + "");
+                    Log.d("TESTING SHOPPING", ingredients2 + "");
+                    Log.d("TESTING SHOPPING", values2 + "");
+
                 }
-
-                //TESTING
-                HashMap<String, Boolean> checkedItems = shoppingList.getCheckedItems();
-                HashMap<String, Integer> ingredientCount = shoppingList.getIngredientCount();
-
-                Set ingredients1 = checkedItems.keySet();
-                Set ingredients2 = ingredientCount.keySet();
-                Collection values1 = checkedItems.values();
-                Collection values2 = checkedItems.values();
-
-                Log.d("TESTING SHOPPING", ingredients1 + "");
-                Log.d("TESTING SHOPPING", values1 + "");
-                Log.d("TESTING SHOPPING", ingredients2 + "");
-                Log.d("TESTING SHOPPING", values2 + "");
             }
         });
 
@@ -118,21 +119,22 @@ public class ShoppingListActivity extends AbstractNavigationBar {
 
                 if (ingredientDataAvailable) {
                     createShoppingList();
+
+                    //TESTING
+                    HashMap<String, Boolean> checkedItems = shoppingList.getCheckedItems();
+                    HashMap<String, Integer> ingredientCount = shoppingList.getIngredientCount();
+
+                    Set ingredients1 = checkedItems.keySet();
+                    Set ingredients2 = ingredientCount.keySet();
+                    Collection values1 = checkedItems.values();
+                    Collection values2 = checkedItems.values();
+
+                    Log.d("TESTING SHOPPING", ingredients1 + "");
+                    Log.d("TESTING SHOPPING", values1 + "");
+                    Log.d("TESTING SHOPPING", ingredients2 + "");
+                    Log.d("TESTING SHOPPING", values2 + "");
+
                 }
-
-                //TESTING
-                HashMap<String, Boolean> checkedItems = shoppingList.getCheckedItems();
-                HashMap<String, Integer> ingredientCount = shoppingList.getIngredientCount();
-
-                Set ingredients1 = checkedItems.keySet();
-                Set ingredients2 = ingredientCount.keySet();
-                Collection values1 = checkedItems.values();
-                Collection values2 = checkedItems.values();
-
-                Log.d("TESTING SHOPPING", ingredients1 + "");
-                Log.d("TESTING SHOPPING", values1 + "");
-                Log.d("TESTING SHOPPING", ingredients2 + "");
-                Log.d("TESTING SHOPPING", values2 + "");
 
             }
         });
