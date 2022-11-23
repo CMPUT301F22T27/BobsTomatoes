@@ -63,7 +63,7 @@ public class RecipeIngredientFragment extends DialogFragment {
 
         //Builder for add
         return builder.setView(view)
-                .setTitle("Add Recipe")
+                .setTitle("Input Specified Ingredient Amount")
                 .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
