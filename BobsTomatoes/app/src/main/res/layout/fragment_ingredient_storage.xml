@@ -29,18 +29,40 @@
         android:datePickerMode="spinner" />
 
 <!--    <EditText-->
-<!--        android:id="@+id/editText"-->
+<!--        android:id="@+id/editTextIngredientLocation"-->
 <!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="1dp"-->
-<!--        android:clickable="false" />-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:ems="10"-->
+<!--        android:inputType="textPersonName"-->
+<!--        android:hint="Ingredient Location" />-->
 
-    <EditText
-        android:id="@+id/editTextIngredientLocation"
+    <RadioGroup
+        android:id="@+id/radioGroupLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Ingredient Location" />
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioButtonPantry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Pantry" />
+
+        <RadioButton
+            android:id="@+id/radioButtonFridge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Fridge" />
+
+        <RadioButton
+            android:id="@+id/radioButtonFreezer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Freezer" />
+    </RadioGroup>
 
     <EditText
         android:id="@+id/editTextIngredientAmount"

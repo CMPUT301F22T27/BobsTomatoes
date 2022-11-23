@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,13 +38,17 @@ import java.util.ArrayList;
 public class IngredientStorageFragment extends DialogFragment {
 
     private EditText descriptionText;
-    private EditText dateText;
-    private EditText locationText;
+//    private EditText dateText;
+//    private EditText locationText;
     private EditText amountText;
     private EditText unitText;
     private EditText categoryText;
     Boolean isEdit = false;
     DatePicker datePicker;
+    RadioGroup locationRadioGroup;
+    RadioButton pantryRadioButton;
+    RadioButton fridgeRadioButton;
+    RadioButton freezerRadioButton;
 
     private OnIngredientFragmentListener listener;
 
@@ -82,7 +88,12 @@ public class IngredientStorageFragment extends DialogFragment {
         descriptionText = view.findViewById(R.id.editTextIngredientDesc);
 //        dateText = view.findViewById(R.id.editTextIngredientDate);
         datePicker = view.findViewById(R.id.datePicker);
-        locationText = view.findViewById(R.id.editTextIngredientLocation);
+//        locationText = view.findViewById(R.id.editTextIngredientLocation);
+        locationRadioGroup = view.findViewById(R.id.radioGroupLocation);
+        pantryRadioButton = view.findViewById(R.id.radioButtonPantry);
+        fridgeRadioButton = view.findViewById(R.id.radioButtonFridge);
+        freezerRadioButton = view.findViewById(R.id.radioButtonFreezer);
+
         amountText = view.findViewById(R.id.editTextIngredientAmount);
         unitText = view.findViewById(R.id.editTextIngredientUnit);
         categoryText = view.findViewById(R.id.editTextIngredientCategory);
@@ -100,7 +111,16 @@ public class IngredientStorageFragment extends DialogFragment {
             int month = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(5,7))-1;
             int day = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(8,10));
             datePicker.updateDate(year, month, day);
-            locationText.setText(selectedIngredient.getIngredientLocation());
+//            locationText.setText(selectedIngredient.getIngredientLocation());
+            if(selectedIngredient.getIngredientLocation().toString().equals("Pantry")){
+                locationRadioGroup.check(locationRadioGroup.getChildAt(0).getId());
+            }else if(selectedIngredient.getIngredientLocation().toString().equals("Fridge")){
+                locationRadioGroup.check(locationRadioGroup.getChildAt(1).getId());
+            }else if(selectedIngredient.getIngredientLocation().toString().equals("Freezer")){
+                locationRadioGroup.check(locationRadioGroup.getChildAt(2).getId());
+            }else{
+
+            }
             amountText.setText(String.valueOf(selectedIngredient.getIngredientAmount()));
             unitText.setText(String.valueOf(selectedIngredient.getIngredientUnit()));
             categoryText.setText(selectedIngredient.getIngredientCategory());
@@ -119,7 +139,17 @@ public class IngredientStorageFragment extends DialogFragment {
                             int month = datePicker.getMonth() + 1;
                             int day = datePicker.getDayOfMonth();
                             String newDate = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
-                            String newLocation = locationText.getText().toString();
+//                            String newLocation = locationText.getText().toString();
+                            String newLocation;
+                            if(pantryRadioButton.isChecked()){
+                                newLocation = "Pantry";
+                            }else if(fridgeRadioButton.isChecked()){
+                                newLocation = "Fridge";
+                            }else if(freezerRadioButton.isChecked()){
+                                newLocation = "Freezer";
+                            }else{
+                                newLocation = "";
+                            }
                             String tempAmount = amountText.getText().toString();
                             int newAmount = Integer.parseInt(tempAmount);
                             String tempUnit = unitText.getText().toString();
@@ -151,7 +181,17 @@ public class IngredientStorageFragment extends DialogFragment {
                         int month = datePicker.getMonth() + 1;
                         int day = datePicker.getDayOfMonth();
                         String newDate = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
-                        String newLocation = locationText.getText().toString();
+//                        String newLocation = locationText.getText().toString();
+                        String newLocation;
+                        if(pantryRadioButton.isChecked()){
+                            newLocation = "Pantry";
+                        }else if(fridgeRadioButton.isChecked()){
+                            newLocation = "Fridge";
+                        }else if(freezerRadioButton.isChecked()){
+                            newLocation = "Freezer";
+                        }else{
+                            newLocation = "";
+                        }
                         String tempAmount = amountText.getText().toString();
                         int newAmount = Integer.parseInt(tempAmount);
                         String tempUnit = unitText.getText().toString();
