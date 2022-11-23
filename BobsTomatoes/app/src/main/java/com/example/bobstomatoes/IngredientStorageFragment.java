@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,8 @@ public class IngredientStorageFragment extends DialogFragment {
     RadioButton pantryRadioButton;
     RadioButton fridgeRadioButton;
     RadioButton freezerRadioButton;
-    RadioGroup categoryRadioGroup;
+    RadioGroup categoryRadioGroup1;
+    RadioGroup categoryRadioGroup2;
     RadioButton dairyRadioButton;
     RadioButton fruitRadioButton;
     RadioButton grainRadioButton;
@@ -100,7 +102,8 @@ public class IngredientStorageFragment extends DialogFragment {
         amountText = view.findViewById(R.id.editTextIngredientAmount);
         unitText = view.findViewById(R.id.editTextIngredientUnit);
 
-        categoryRadioGroup = view.findViewById(R.id.radioGroupCategory);
+        categoryRadioGroup1 = view.findViewById(R.id.radioGroupCategory1);
+        categoryRadioGroup1 = view.findViewById(R.id.radioGroupCategory2);
         dairyRadioButton = view.findViewById(R.id.radioButtonDairy);
         fruitRadioButton = view.findViewById(R.id.radioButtonFruit);
         grainRadioButton = view.findViewById(R.id.radioButtonGrain);
@@ -121,23 +124,23 @@ public class IngredientStorageFragment extends DialogFragment {
             int year = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(0, 4));
             int month;
             int day;
-            if (selectedIngredient.getIngredientDate().toString().substring(6,7).equals("-")) {
+            if (selectedIngredient.getIngredientDate().toString().substring(6, 7).equals("-")) {
                 month = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(5, 6)) - 1;
-                day = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(7,9));
-            }else{
+                day = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(7, 9));
+            } else {
                 month = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(5, 7)) - 1;
-                day = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(8,10));
+                day = Integer.parseInt(selectedIngredient.getIngredientDate().toString().substring(8, 10));
             }
             datePicker.updateDate(year, month, day);
 
             // Location
-            if(selectedIngredient.getIngredientLocation().toString().equals("Pantry")){
+            if (selectedIngredient.getIngredientLocation().toString().equals("Pantry")) {
                 locationRadioGroup.check(locationRadioGroup.getChildAt(0).getId());
-            }else if(selectedIngredient.getIngredientLocation().toString().equals("Fridge")){
+            } else if (selectedIngredient.getIngredientLocation().toString().equals("Fridge")) {
                 locationRadioGroup.check(locationRadioGroup.getChildAt(1).getId());
-            }else if(selectedIngredient.getIngredientLocation().toString().equals("Freezer")){
+            } else if (selectedIngredient.getIngredientLocation().toString().equals("Freezer")) {
                 locationRadioGroup.check(locationRadioGroup.getChildAt(2).getId());
-            }else{
+            } else {
 
             }
 
@@ -145,22 +148,34 @@ public class IngredientStorageFragment extends DialogFragment {
             unitText.setText(String.valueOf(selectedIngredient.getIngredientUnit()));
 
             // Category
-            if(selectedIngredient.getIngredientCategory().toString().equals("Dairy")){
-                categoryRadioGroup.check(categoryRadioGroup.getChildAt(0).getId());
-            }else if(selectedIngredient.getIngredientCategory().toString().equals("Fruit")){
-                categoryRadioGroup.check(categoryRadioGroup.getChildAt(1).getId());
-            }else if(selectedIngredient.getIngredientCategory().toString().equals("Dairy")){
-                categoryRadioGroup.check(categoryRadioGroup.getChildAt(2).getId());
-            }else if(selectedIngredient.getIngredientCategory().toString().equals("Protein")){
-                categoryRadioGroup.check(categoryRadioGroup.getChildAt(3).getId());
-            }else if(selectedIngredient.getIngredientCategory().toString().equals("Vegetable")){
-                categoryRadioGroup.check(categoryRadioGroup.getChildAt(4).getId());
-            }else if(selectedIngredient.getIngredientCategory().toString().equals("Other")){
-                categoryRadioGroup.check(categoryRadioGroup.getChildAt(5).getId());
-            }else{
+            if (selectedIngredient.getIngredientCategory().toString().equals("Dairy")) {
+                categoryRadioGroup1.check(R.id.radioButtonDairy);
+            } else if (selectedIngredient.getIngredientCategory().toString().equals("Fruit")) {
+                categoryRadioGroup1.check(R.id.radioButtonFruit);
+            } else if (selectedIngredient.getIngredientCategory().toString().equals("Grain")) {
+                categoryRadioGroup1.check(R.id.radioButtonGrain);
+            } else if (selectedIngredient.getIngredientCategory().toString().equals("Protein")) {
+                categoryRadioGroup2.check(R.id.radioButtonProtein);
+            } else if (selectedIngredient.getIngredientCategory().toString().equals("Vegetable")) {
+                categoryRadioGroup2.check(R.id.radioButtonVegetable);
+            } else if (selectedIngredient.getIngredientCategory().toString().equals("Other")) {
+                categoryRadioGroup2.check(R.id.radioButtonOther);
+            } else {
 
             }
         }
+
+            if(dairyRadioButton.isChecked() || fruitRadioButton.isChecked() || grainRadioButton.isChecked()) {
+                proteinRadioButton.setChecked(false);
+                vegetableRadioButton.setChecked(false);
+                otherRadioButton.setChecked(false);
+
+            } else if (proteinRadioButton.isChecked() || vegetableRadioButton.isChecked() || otherRadioButton.isChecked()) {
+                dairyRadioButton.setChecked(false);
+                fruitRadioButton.setChecked(false);
+                grainRadioButton.setChecked(false);
+            }
+
         // If isEdit is true, then the ingredient was clicked on the ListView so populate the fragment text boxes with its details and make the two buttons Delete and Edit
         if (isEdit == true) {
             return builder
