@@ -46,7 +46,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     @Override
     public void onBindViewHolder(ShoppingListRecyclerAdapter.ViewHolder viewHolder, int position) {
         viewHolder.ingredientNameView.setText(ingredientList.get(position).getIngredientDesc());
-        viewHolder.ingredientUnitView.setText("Cost: " + ingredientList.get(position).getIngredientUnit());
+        viewHolder.ingredientUnitView.setText("Unit: $" + ingredientList.get(position).getIngredientUnit());
         viewHolder.ingredientAmountView.setText("Amount: " + ingredientList.get(position).getIngredientAmount());
         viewHolder.ingredientCategoryView.setText("Category: " + ingredientList.get(position).getIngredientCategory());
         viewHolder.checkBox.setChecked(false);
