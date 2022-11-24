@@ -203,6 +203,7 @@
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
                 android:visibility="gone"
+                android:scrollbarSize="2dp"
                 android:listSelector="@android:color/transparent"
                 tools:visibility="visible" />
 
@@ -214,6 +215,8 @@
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
                 android:visibility="gone"
+                android:scrollbarSize="2dp"
+                android:listSelector="@android:color/transparent"
                 tools:visibility="visible" />
 
         </LinearLayout>
