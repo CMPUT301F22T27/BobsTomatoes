@@ -72,32 +72,6 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textViewIngredientAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:text="Amount:"
-            android:textColor="@color/black"
-            android:textSize="17dp" />
-
-        <EditText
-            android:id="@+id/editTextIngredientAmount"
-            android:layout_width="275dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:ems="10"
-            android:hint="Ingredient Amount"
-            android:inputType="number" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
             android:id="@+id/textViewIngredientUnit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -114,6 +88,32 @@
             android:layout_gravity="right"
             android:ems="10"
             android:hint="Ingredient Unit"
+            android:inputType="number" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewIngredientAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:text="Amount:"
+            android:textColor="@color/black"
+            android:textSize="17dp" />
+
+        <EditText
+            android:id="@+id/editTextIngredientAmount"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:ems="10"
+            android:hint="Ingredient Amount"
             android:inputType="number" />
 
     </LinearLayout>
