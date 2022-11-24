@@ -70,8 +70,9 @@ public class ShoppingListFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        String title;
+        String title = "";
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_shopping_list, null);
+
         locationText = view.findViewById(R.id.editTextShoppingListIngredientLocation);
         amountText = view.findViewById(R.id.editTextShoppingListIngredientAmount);
         unitText = view.findViewById(R.id.editTextShoppingListIngredientUnit);
@@ -82,6 +83,7 @@ public class ShoppingListFragment extends DialogFragment {
         if (bundle != null) {
             selectedIngredient = bundle.getParcelable("selectedIngredient");
             oldIngredientPos = bundle.getInt("oldIngredientPos");
+            title = selectedIngredient.getIngredientDesc();
 
             locationText.setText(selectedIngredient.getIngredientLocation());
             amountText.setText(String.valueOf(selectedIngredient.getIngredientAmount()));
@@ -91,7 +93,7 @@ public class ShoppingListFragment extends DialogFragment {
         // If isEdit is true, then the ingredient was clicked on the ListView so populate the fragment text boxes with its details and make the two buttons Delete and Edit
         return builder
                 .setView(view)
-                .setTitle("Edit Ingredient")
+                .setTitle("Add Details For " + title)
                 .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
