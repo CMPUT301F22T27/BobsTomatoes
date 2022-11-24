@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +71,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     int oldPosition;
     Boolean planExist = false;
 
+    LinearLayout layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +102,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         recipesList = findViewById(R.id.meal_plan_recipe_list_ID);
         ingredientsList = findViewById(R.id.meal_plan_ingredient_list_ID);
         openEdit = findViewById(R.id.meal_plan_edit_ID);
+        layout = findViewById(R.id.mealPlanDetailLayout);
 
         // Populate meal plan list from database, by calling this, we can safely assume the list has been populated from the DataBase
         readData(new MealPlanFireStoreCallBack() {
@@ -160,6 +164,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
         MealPlanCalendarAdapter calendarAdapter = new MealPlanCalendarAdapter(daysInMonth, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
+
+
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
     }
@@ -201,6 +207,10 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     public void previousMonthAction(View view)
     {
         selectedDate = selectedDate.minusMonths(1);
+
+        layout.setVisibility(View.INVISIBLE);
+        openEdit.setVisibility(View.GONE);
+
         setMonthView();
 
         // Populate meal plan list from database, by calling this, we can safely assume the list has been populated from the DataBase
@@ -245,6 +255,10 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     public void nextMonthAction(View view)
     {
         selectedDate = selectedDate.plusMonths(1);
+
+        layout.setVisibility(View.INVISIBLE);
+        openEdit.setVisibility(View.GONE);
+
         setMonthView();
 
         // Populate meal plan list from database, by calling this, we can safely assume the list has been populated from the DataBase
@@ -293,8 +307,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             mealPlanPos = position;
             globalDayText = dayText;
 
-            String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+//            String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
+//            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 
             calendarRecyclerView.getChildAt(position).setActivated(true);
 
@@ -363,13 +377,13 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                 bundle.putString("selectedDate", globalDate);
                 bundle.putParcelable("selectedMealPlan", currentMealPlan);
 
-
                 descTitle.setVisibility(View.VISIBLE);
                 ingredientTitle.setVisibility(View.VISIBLE);
                 recipeTitle.setVisibility(View.VISIBLE);
                 recipesList.setVisibility(View.VISIBLE);
                 ingredientsList.setVisibility(View.VISIBLE);
                 openEdit.setVisibility(View.VISIBLE);
+                layout.setVisibility(View.VISIBLE);
 
                 descTitle.setText(globalDate + " Meal Plan: ");
                 recipeList = currentMealPlan.getMealPlanRecipes();
@@ -382,7 +396,9 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                 recipeAdapter.notifyDataSetChanged();
                 ingredientAdapter.notifyDataSetChanged();
                 planFound = false;
+
             }else{
+                layout.setVisibility(View.INVISIBLE);
                 descTitle.setVisibility(View.GONE);
                 ingredientTitle.setVisibility(View.GONE);
                 recipeTitle.setVisibility(View.GONE);
@@ -403,13 +419,15 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
         String date = selectedDate.toString();
         date = date.substring(0,8).concat(globalDayText);
-
         mealPlanDB.addMealPlan(mealPlan, date);
+
     }
 
 
     public void onEditOkPressed(MealPlan oldMealPlan, MealPlan updatedMealPlan) {
         mealPlanDB.editMealPlan(oldMealPlan, updatedMealPlan);
+        recipeAdapter.notifyDataSetChanged();
+        ingredientAdapter.notifyDataSetChanged();
     }
 
 
@@ -419,14 +437,20 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         check.setSelected(false);
 
         mealPlanDB.removeMealPlan(mealPlan);
+
+
     }
 
-    public void openEditPressed(){
-        MealPlanFragment fragment = new MealPlanFragment();
-        fragment.setArguments(bundle);
-        fragment.show(getSupportFragmentManager(), "EDIT/DELETE MEAL PLAN");
-        planFound = false;
-    }
+//
+//    public void openEditPressed(){
+//        MealPlanFragment fragment = new MealPlanFragment();
+//        fragment.setArguments(bundle);
+//        fragment.show(getSupportFragmentManager(), "EDIT/DELETE MEAL PLAN");
+//        planFound = false;
+//
+//        recipeAdapter.notifyDataSetChanged();
+//        ingredientAdapter.notifyDataSetChanged();
+//    }
 
     public void onCancelPressed(){
 
