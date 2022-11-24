@@ -335,10 +335,14 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                 bundle.putString("selectedDate", globalDate);
                 bundle.putParcelable("selectedMealPlan", currentMealPlan);
 
-                MealPlanFragment fragment = new MealPlanFragment();
+                MealPlanDetailFragment fragment = new MealPlanDetailFragment();
+                fragment.setArguments(bundle);
+                fragment.show(getSupportFragmentManager(), "MEAL PLAN DETAILS");
+                planFound = false;
+                /*MealPlanFragment fragment = new MealPlanFragment();
                 fragment.setArguments(bundle);
                 fragment.show(getSupportFragmentManager(), "EDIT/DELETE MEAL PLAN");
-                planFound = false;
+                planFound = false;*/
             }
         }
     }
@@ -366,6 +370,17 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         check.setSelected(false);
 
         mealPlanDB.removeMealPlan(mealPlan);
+    }
+
+    public void openEditPressed(){
+        MealPlanFragment fragment = new MealPlanFragment();
+        fragment.setArguments(bundle);
+        fragment.show(getSupportFragmentManager(), "EDIT/DELETE MEAL PLAN");
+        planFound = false;
+    }
+
+    public void onCancelPressed(){
+
     }
 
     public void readData(MealPlanFireStoreCallBack callBack) {
