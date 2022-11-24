@@ -29,8 +29,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     int pos;
 
 
-
-    public ShoppingListRecyclerAdapter(Context context, ArrayList<Ingredient> ingredientList, RecyclerViewInterface recyclerViewInterface, FragmentManager fragmentManager) {
+    public ShoppingListRecyclerAdapter(Context context, ArrayList<Ingredient> ingredientList, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.ingredientList = ingredientList;
         this.recyclerViewInterface = recyclerViewInterface;
@@ -79,9 +78,11 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
                 bundle.putParcelable("selectedIngredient", selectedIngredient);
                 bundle.putInt("oldIngredientPos", ingredientPos);
 
+                ShoppingListActivity shoppingListActivity = (ShoppingListActivity) context;
+
                 ShoppingListFragment fragment = new ShoppingListFragment();
                 fragment.setArguments(bundle);
-                fragment.show(fragmentManager, "UPDATE INGREDIENT FOR SHOPPING LIST");
+                fragment.show(shoppingListActivity.getSupportFragmentManager(), "UPDATE INGREDIENT FOR SHOPPING LIST");
             }
 
         });

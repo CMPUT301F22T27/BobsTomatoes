@@ -59,10 +59,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
     private RecyclerViewInterface recyclerViewInterface;
     Dialog progressBar;
 
-    int shoppingListPos;
-    ShoppingListFragment fragment;
-    FragmentManager fragmentManager;
-
 
     /**
      * Create instance
@@ -101,8 +97,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
         //Create a new bundle
         bundle = new Bundle();
-        fragment = new ShoppingListFragment();
-        fragmentManager = getSupportFragmentManager();
 
         //RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
@@ -123,7 +117,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     createShoppingList();
                     createNeededIngredients();
 
-                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, recyclerViewInterface, fragmentManager);
+                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, recyclerViewInterface);
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
                     recyclerView.setAdapter(shoppingListRecyclerAdapter);
@@ -167,7 +161,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     createShoppingList();
                     createNeededIngredients();
 
-                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, recyclerViewInterface, fragmentManager);
+                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, recyclerViewInterface);
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
                     recyclerView.setAdapter(shoppingListRecyclerAdapter);
@@ -199,18 +193,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
     @Override
     public void onItemClick(int position) {
-//        shoppingListPos = position;
-//
-//        Log.d("CLICKING WORKING?", "HELP!");
-//
-//        Ingredient selectedIngredient = neededIngredients.get(position);
-//
-//        bundle.putParcelable("selectedIngredient", selectedIngredient);
-//        bundle.putInt("oldIngredientPos", position);
-//
-//        fragment = new ShoppingListFragment();
-//        fragment.setArguments(bundle);
-//        fragment.show(getSupportFragmentManager(), "UPDATE INGREDIENT FOR SHOPPING LIST");
+
     }
 
 
