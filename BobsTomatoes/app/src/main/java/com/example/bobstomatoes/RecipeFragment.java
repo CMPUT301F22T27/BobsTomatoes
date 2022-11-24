@@ -142,8 +142,31 @@ public class RecipeFragment extends DialogFragment {
         // Ingredients List
         initIngredientList();
 
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         Bundle bundle = this.getArguments();
+
+        ingredientsList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY > oldScrollY) {
+                    Log.d("SCROLL", "SCROLLED DOWN");
+                }
+                if (scrollY < oldScrollY) {
+                    Log.d("SCROLL", "SCROLLED UP");
+                }
+
+                for (int i = 0; i < ingredientAdapter.getCount(); i++) {
+                    View check = ingredientsList.getChildAt(i);
+                    if(check != null) {
+                        TextView name = check.findViewById(R.id.ingredient_name_textview_id);
+                        String s = name.getText().toString();
+                        Log.d("Ingredients Visible on ListView", s);
+                    }
+
+                }
+            }
+        });
 
         // If bundle != null, then a recipe has been passed in to the fragment -> edit/delete
         if (bundle != null) {
@@ -254,23 +277,6 @@ public class RecipeFragment extends DialogFragment {
             @Override
             public void onCallBack(ArrayList<Ingredient> IngredientList) {
                 ingredientAdapter.notifyDataSetChanged();
-
-                for(int i = 0; i < ingredientList.size(); i++){
-                    Log.d("ingredient name JACK1", ingredientList.get(i).getIngredientDesc());
-                }
-                for(int i = 0; i < ingredientList.size(); i++){
-                    Log.d("FIRST VIS:", ingredientsList.getFirstVisiblePosition() + "");
-                    Log.d("LAST VIS:", ingredientsList.getLastVisiblePosition() + "");
-
-                    View check = ingredientsList.getChildAt(i - ingredientsList.getFirstVisiblePosition());
-                    if(check != null) {
-                        TextView name = check.findViewById(R.id.ingredientDescTextView);
-                        String s = name.getText().toString();
-                        Log.d("ingredient name JACK", s);
-                    }
-                    ingredientAdapter.notifyDataSetChanged();
-                }
-
             }
         });
 
@@ -299,13 +305,6 @@ public class RecipeFragment extends DialogFragment {
 
                 if (!ingredientFound){
                     view.setActivated(true);
-
-                    View check = ingredientsList.getChildAt(0);
-                    TextView name = check.findViewById(R.id.ingredientDescTextView);
-                    String s = name.getText().toString();
-                    Log.d("ingredient name JACK", s);
-
-
 
                     //Open 2nd fragment here
                     Bundle bundle = new Bundle();
