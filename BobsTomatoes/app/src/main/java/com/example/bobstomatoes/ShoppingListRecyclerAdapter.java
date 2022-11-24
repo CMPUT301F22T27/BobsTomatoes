@@ -53,6 +53,11 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
                 } else if (checkbox.isChecked() == false) {
                     checkedIngredients.remove(ingredientList.get(pos));
                 }
+
+                for (int i = 0; i < checkedIngredients.size(); i++){
+                    Log.d("CHECKEDINGREDIENTS: ", checkedIngredients.get(i).getIngredientDesc());
+                }
+
             }
         });
 
