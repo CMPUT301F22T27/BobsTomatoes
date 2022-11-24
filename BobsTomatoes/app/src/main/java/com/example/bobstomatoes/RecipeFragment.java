@@ -254,6 +254,23 @@ public class RecipeFragment extends DialogFragment {
             @Override
             public void onCallBack(ArrayList<Ingredient> IngredientList) {
                 ingredientAdapter.notifyDataSetChanged();
+
+                for(int i = 0; i < ingredientList.size(); i++){
+                    Log.d("ingredient name JACK1", ingredientList.get(i).getIngredientDesc());
+                }
+                for(int i = 0; i < ingredientList.size(); i++){
+                    Log.d("FIRST VIS:", ingredientsList.getFirstVisiblePosition() + "");
+                    Log.d("LAST VIS:", ingredientsList.getLastVisiblePosition() + "");
+
+                    View check = ingredientsList.getChildAt(i - ingredientsList.getFirstVisiblePosition());
+                    if(check != null) {
+                        TextView name = check.findViewById(R.id.ingredientDescTextView);
+                        String s = name.getText().toString();
+                        Log.d("ingredient name JACK", s);
+                    }
+                    ingredientAdapter.notifyDataSetChanged();
+                }
+
             }
         });
 
@@ -282,6 +299,13 @@ public class RecipeFragment extends DialogFragment {
 
                 if (!ingredientFound){
                     view.setActivated(true);
+
+                    View check = ingredientsList.getChildAt(0);
+                    TextView name = check.findViewById(R.id.ingredientDescTextView);
+                    String s = name.getText().toString();
+                    Log.d("ingredient name JACK", s);
+
+
 
                     //Open 2nd fragment here
                     Bundle bundle = new Bundle();
