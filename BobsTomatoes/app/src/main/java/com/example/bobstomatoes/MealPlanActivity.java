@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +52,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     ListView recipesList;
     ListView ingredientsList;
     Button openEdit;
+    LinearLayout mealPlanDetailLayout;
+
     String globalDayText;
     MealPlanDB mealPlanDB;
     Boolean planFound = false;
@@ -99,6 +102,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         recipesList = findViewById(R.id.meal_plan_recipe_list_ID);
         ingredientsList = findViewById(R.id.meal_plan_ingredient_list_ID);
         openEdit = findViewById(R.id.meal_plan_edit_ID);
+        mealPlanDetailLayout = findViewById(R.id.mealPlanDetailLayout);
 
         // Populate meal plan list from database, by calling this, we can safely assume the list has been populated from the DataBase
         readData(new MealPlanFireStoreCallBack() {
@@ -201,6 +205,10 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     public void previousMonthAction(View view)
     {
         selectedDate = selectedDate.minusMonths(1);
+
+        mealPlanDetailLayout.setVisibility(View.GONE);
+        openEdit.setVisibility(View.GONE);
+
         setMonthView();
 
         // Populate meal plan list from database, by calling this, we can safely assume the list has been populated from the DataBase
@@ -245,6 +253,10 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     public void nextMonthAction(View view)
     {
         selectedDate = selectedDate.plusMonths(1);
+
+        mealPlanDetailLayout.setVisibility(View.GONE);
+        openEdit.setVisibility(View.GONE);
+
         setMonthView();
 
         // Populate meal plan list from database, by calling this, we can safely assume the list has been populated from the DataBase
@@ -363,7 +375,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                 bundle.putString("selectedDate", globalDate);
                 bundle.putParcelable("selectedMealPlan", currentMealPlan);
 
-
+                mealPlanDetailLayout.setVisibility(View.VISIBLE);
                 descTitle.setVisibility(View.VISIBLE);
                 ingredientTitle.setVisibility(View.VISIBLE);
                 recipeTitle.setVisibility(View.VISIBLE);
@@ -383,6 +395,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                 ingredientAdapter.notifyDataSetChanged();
                 planFound = false;
             }else{
+                mealPlanDetailLayout.setVisibility(View.GONE);
                 descTitle.setVisibility(View.GONE);
                 ingredientTitle.setVisibility(View.GONE);
                 recipeTitle.setVisibility(View.GONE);
