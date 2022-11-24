@@ -363,16 +363,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                 bundle.putString("selectedDate", globalDate);
                 bundle.putParcelable("selectedMealPlan", currentMealPlan);
 
-<<<<<<< HEAD
-                MealPlanDetailFragment fragment = new MealPlanDetailFragment();
-                fragment.setArguments(bundle);
-                fragment.show(getSupportFragmentManager(), "MEAL PLAN DETAILS");
-                planFound = false;
-                /*MealPlanFragment fragment = new MealPlanFragment();
-                fragment.setArguments(bundle);
-                fragment.show(getSupportFragmentManager(), "EDIT/DELETE MEAL PLAN");
-                planFound = false;*/
-=======
+
                 descTitle.setVisibility(View.VISIBLE);
                 ingredientTitle.setVisibility(View.VISIBLE);
                 recipeTitle.setVisibility(View.VISIBLE);
@@ -399,7 +390,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                 ingredientsList.setVisibility(View.GONE);
                 openEdit.setVisibility(View.GONE);
 
->>>>>>> 6f9d67cd9effa083c304058d204d2086027dfbf9
             }
         }
     }
