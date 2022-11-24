@@ -160,6 +160,7 @@ public class RecipeFragment extends DialogFragment {
 
             // Populate selectedIngredients
             selectedIngredients = selectedRecipe.getRecipeIngredients();
+            //updateHighlights();
 
             //Populate ImageView
             encodedImage = selectedRecipe.getRecipeImage();
@@ -232,7 +233,6 @@ public class RecipeFragment extends DialogFragment {
         }
     }
 
-
     /**
      * Initialize and update ingredient list and database
      */
@@ -256,7 +256,6 @@ public class RecipeFragment extends DialogFragment {
                 ingredientAdapter.notifyDataSetChanged();
             }
         });
-
 
         // Handle selection and unselection of items
         ingredientsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
