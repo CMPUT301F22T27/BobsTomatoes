@@ -146,18 +146,38 @@ public class RecipeFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         Bundle bundle = this.getArguments();
 
+
+        //Need to re-highlight items when views are drawn from offscreen
         ingredientsList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
                 for (int i = 0; i < ingredientAdapter.getCount(); i++) {
+
                     View check = ingredientsList.getChildAt(i);
+
                     if(check != null) {
-                        TextView name = check.findViewById(R.id.ingredient_name_textview_id);
-                        String s = name.getText().toString();
-                        Log.d("Ingredients Visible on ListView", s);
+
+                        check.setActivated(false);
+
+                        for(int j = 0; j < selectedIngredients.size(); j++){
+
+                            TextView tempView = check.findViewById(R.id.ingredient_name_textview_id);
+
+                            String name = tempView.getText().toString();
+
+                            if (name.equals(selectedIngredients.get(j).getIngredientDesc())){
+
+                                check.setActivated(true);
+
+                            }
+
+                        }
+
                     }
+
                 }
-                Log.d("", "");
+
             }
         });
 
@@ -176,6 +196,7 @@ public class RecipeFragment extends DialogFragment {
 
             // Populate selectedIngredients
             selectedIngredients = selectedRecipe.getRecipeIngredients();
+            //updateHighlights();
 
             //Populate ImageView
             encodedImage = selectedRecipe.getRecipeImage();
@@ -204,9 +225,6 @@ public class RecipeFragment extends DialogFragment {
                             int newServings = Integer.parseInt(servingsText.getText().toString());
                             String newCategory = categoryText.getText().toString();
                             String newComments = commentsText.getText().toString();
-//                            BitmapDrawable bd = (BitmapDrawable) recipeImageView.getDrawable();
-//                            finalPhoto = bd.getBitmap();
-
 
                             Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
                                     newCategory, newComments, selectedIngredients, encodedImage);
@@ -233,8 +251,6 @@ public class RecipeFragment extends DialogFragment {
                             int newServings = Integer.parseInt(servingsText.getText().toString());
                             String newCategory = categoryText.getText().toString();
                             String newComments = commentsText.getText().toString();
-//                            BitmapDrawable bd = (BitmapDrawable) recipeImageView.getDrawable();
-//                            finalPhoto = bd.getBitmap();
 
                             Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
                                     newCategory, newComments, selectedIngredients, encodedImage);
@@ -247,7 +263,6 @@ public class RecipeFragment extends DialogFragment {
 
         }
     }
-
 
     /**
      * Initialize and update ingredient list and database
@@ -273,16 +288,47 @@ public class RecipeFragment extends DialogFragment {
             }
         });
 
-
         // Handle selection and unselection of items
         ingredientsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+
+
+                //Highlighting
+                for(int i = 0; i < ingredientList.size(); i++) {
+
+                    View check = ingredientsList.getChildAt(i);
+
+                    if (check != null) {
+
+                        check.setActivated(false);
+
+                        for (int j = 0; j < selectedIngredients.size(); j++) {
+
+                            TextView tempView = check.findViewById(R.id.ingredient_name_textview_id);
+
+                            String name = tempView.getText().toString();
+
+                            if (name.equals(selectedIngredients.get(j).getIngredientDesc())) {
+
+                                check.setActivated(true);
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+
+                //Add or remove items to selectedingredients
                 Ingredient selectedIngredient = ingredientList.get(pos);
 
                 boolean ingredientFound = false;
 
                 for (int i = 0; i < selectedIngredients.size(); i ++){
+
                     // Check if ingredient already selected
                     if (selectedIngredient.getIngredientDesc().equals(selectedIngredients.get(i).getIngredientDesc())){
 
@@ -294,11 +340,12 @@ public class RecipeFragment extends DialogFragment {
                         view.setActivated(false);
 
                     }
+
                 }
+
 
                 if (!ingredientFound){
                     view.setActivated(true);
-
                     //Open 2nd fragment here
                     Bundle bundle = new Bundle();
                     bundle.putParcelableArrayList("ingredientList", selectedIngredients);

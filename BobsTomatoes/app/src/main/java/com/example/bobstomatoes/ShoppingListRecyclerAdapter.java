@@ -64,6 +64,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
                 for (int i = 0; i < checkedIngredients.size(); i++){
                     Log.d("CHECKEDINGREDIENTS: ", checkedIngredients.get(i).getIngredientDesc());
                 }
+
             }
         });
 
