@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -102,10 +103,10 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
             checkBox.setOnClickListener(this);
         }
 
-        public void setItemClickListener(ShoppingListItemClickInterface itemClick){
+        public void setItemClickListener(ShoppingListItemClickInterface itemClick) {
             this.itemClick = itemClick;
         }
-        
+
         @Override
         public void onClick(View view) {
             this.itemClick.onItemClick(view, getLayoutPosition());

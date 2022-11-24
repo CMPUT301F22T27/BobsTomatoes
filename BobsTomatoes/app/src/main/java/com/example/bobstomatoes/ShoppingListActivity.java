@@ -32,7 +32,7 @@ import java.util.Set;
 /**
  * ShoppingListActivity, displays shoppingList and extends AbstractNavigationBar
  */
-public class ShoppingListActivity extends AbstractNavigationBar implements RecyclerViewInterface {
+public class ShoppingListActivity extends AbstractNavigationBar implements RecyclerViewInterface, ShoppingListFragment.OnShoppingListFragmentListener {
 
     IngredientDB ingredientDB;
     CollectionReference ingredientReference;
@@ -57,6 +57,8 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
     private RecyclerViewInterface recyclerViewInterface;
     Dialog progressBar;
+
+    int shoppingListPos;
 
 
     /**
@@ -93,6 +95,9 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
         mealPlanDB = new MealPlanDB();
         mealPlanReference = mealPlanDB.getMealPlanReference();
         mealPlanList = mealPlanDB.getMealPlanList();
+
+        //Create a new bundle
+        bundle = new Bundle();
 
         //RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
@@ -189,7 +194,16 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
     @Override
     public void onItemClick(int position) {
+        shoppingListPos = position;
 
+        Ingredient selectedIngredient = neededIngredients.get(position);
+
+        bundle.putParcelable("selectedIngredient", selectedIngredient);
+        bundle.putInt("oldIngredientPos", position);
+
+        ShoppingListFragment fragment = new ShoppingListFragment();
+        fragment.setArguments(bundle);
+        fragment.show(getSupportFragmentManager(), "UPDATE INGREDIENT FOR SHOPPING LIST");
     }
 
 
@@ -395,6 +409,11 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                 }
             }
         });
+    }
+
+    @Override
+    public void onEditOkPressed(Ingredient newIngredient, int oldIngredientPos) {
+        neededIngredients.set(oldIngredientPos, newIngredient);
     }
 
     /**

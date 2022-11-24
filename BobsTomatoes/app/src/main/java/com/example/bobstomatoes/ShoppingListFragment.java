@@ -34,25 +34,19 @@ import java.util.ArrayList;
 
 public class ShoppingListFragment extends DialogFragment {
 
-//    private EditText descriptionText;
-//    private EditText dateText;
     private EditText locationText;
     private EditText amountText;
     private EditText unitText;
-    //    private EditText categoryText;
     Boolean isEdit = false;
 
     private OnShoppingListFragmentListener listener;
 
     Ingredient selectedIngredient;
     Ingredient editIngredient;
-    //    Ingredient addIngredient;
     int oldIngredientPos;
 
     public interface OnShoppingListFragmentListener {
-        public void onEditOkPressed(Ingredient newIngredient, Ingredient oldIngredient);
-//        public void onDeleteOkPressed(Ingredient ingredient);
-//        public void onAddOkPressed(Ingredient ingredient);
+        public void onEditOkPressed(Ingredient newIngredient, int oldIngredientPos);
 
     }
 
@@ -77,13 +71,10 @@ public class ShoppingListFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         String title;
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_ingredient_storage, null);
-//        descriptionText = view.findViewById(R.id.editTextIngredientDesc);
-//        dateText = view.findViewById(R.id.editTextIngredientDate);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_shopping_list, null);
         locationText = view.findViewById(R.id.editTextShoppingListIngredientLocation);
         amountText = view.findViewById(R.id.editTextShoppingListIngredientAmount);
         unitText = view.findViewById(R.id.editTextShoppingListIngredientUnit);
-//        categoryText = view.findViewById(R.id.editTextIngredientCategory);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         Bundle bundle = this.getArguments();
@@ -91,13 +82,11 @@ public class ShoppingListFragment extends DialogFragment {
         if (bundle != null) {
             selectedIngredient = bundle.getParcelable("selectedIngredient");
             oldIngredientPos = bundle.getInt("oldIngredientPos");
-            isEdit = bundle.getBoolean("isEdit");
-//            descriptionText.setText(selectedIngredient.getIngredientDesc());
-//            dateText.setText(selectedIngredient.getIngredientDate());
+
             locationText.setText(selectedIngredient.getIngredientLocation());
             amountText.setText(String.valueOf(selectedIngredient.getIngredientAmount()));
             unitText.setText(String.valueOf(selectedIngredient.getIngredientUnit()));
-//            categoryText.setText(selectedIngredient.getIngredientCategory());
+
         }
         // If isEdit is true, then the ingredient was clicked on the ListView so populate the fragment text boxes with its details and make the two buttons Delete and Edit
         return builder
@@ -106,8 +95,7 @@ public class ShoppingListFragment extends DialogFragment {
                 .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-//                            String newDescription = descriptionText.getText().toString();
-//                            String newDate = dateText.getText().toString();
+
                         String newLocation = locationText.getText().toString();
                         String tempAmount = amountText.getText().toString();
                         int newAmount = Integer.parseInt(tempAmount);
@@ -116,15 +104,10 @@ public class ShoppingListFragment extends DialogFragment {
 //                            String newCategory = categoryText.getText().toString();
                         editIngredient = new Ingredient(selectedIngredient.getIngredientDesc(), selectedIngredient.getIngredientDate(),
                                 newLocation, newAmount, newUnit, selectedIngredient.getIngredientCategory());
-                        listener.onEditOkPressed(editIngredient, selectedIngredient);
+                        listener.onEditOkPressed(editIngredient, oldIngredientPos);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                })
+                .setNegativeButton("Cancel", null)
                 .create();
     }
 }
