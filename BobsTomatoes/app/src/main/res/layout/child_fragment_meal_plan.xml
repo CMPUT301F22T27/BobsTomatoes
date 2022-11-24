@@ -3,6 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:layout_marginHorizontal="20dp"
+    android:layout_marginVertical="20dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="20dp"
     android:orientation="vertical"
     tools:context=".MealPlanFragment">
 
@@ -17,7 +26,8 @@
         android:id="@+id/recipe_listview_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="100" />
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp" />
 
     <TextView
         android:id="@+id/ingredient_textview_id"
@@ -30,8 +40,8 @@
         android:id="@+id/ingredient_listview_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="100" />
-
+        android:layout_weight="100"
+        android:paddingHorizontal="20dp" />
 
 
 </LinearLayout>
