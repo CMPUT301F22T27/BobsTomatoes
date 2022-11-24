@@ -167,7 +167,7 @@
 
             <TextView
                 android:id="@+id/meal_plan_desc_recipe_ID"
-                android:layout_width="169dp"
+                android:layout_width="190dp"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
@@ -198,7 +198,7 @@
 
             <ListView
                 android:id="@+id/meal_plan_recipe_list_ID"
-                android:layout_width="169dp"
+                android:layout_width="190dp"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
