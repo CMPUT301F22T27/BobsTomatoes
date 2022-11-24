@@ -149,13 +149,6 @@ public class RecipeFragment extends DialogFragment {
         ingredientsList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > oldScrollY) {
-                    Log.d("SCROLL", "SCROLLED DOWN");
-                }
-                if (scrollY < oldScrollY) {
-                    Log.d("SCROLL", "SCROLLED UP");
-                }
-
                 for (int i = 0; i < ingredientAdapter.getCount(); i++) {
                     View check = ingredientsList.getChildAt(i);
                     if(check != null) {
@@ -163,8 +156,8 @@ public class RecipeFragment extends DialogFragment {
                         String s = name.getText().toString();
                         Log.d("Ingredients Visible on ListView", s);
                     }
-
                 }
+                Log.d("", "");
             }
         });
 
