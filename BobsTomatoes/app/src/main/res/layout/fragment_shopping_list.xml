@@ -16,19 +16,19 @@
         android:hint="Ingredient Location" />
 
     <EditText
+        android:id="@+id/editTextShoppingListIngredientUnit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Ingredient Unit"
+        android:inputType="number" />
+
+    <EditText
         android:id="@+id/editTextShoppingListIngredientAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number"
         android:hint="Ingredient Amount" />
-
-    <EditText
-        android:id="@+id/editTextShoppingListIngredientUnit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        android:hint="Ingredient Unit" />
 
 </LinearLayout>

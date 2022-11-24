@@ -142,8 +142,24 @@ public class RecipeFragment extends DialogFragment {
         // Ingredients List
         initIngredientList();
 
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         Bundle bundle = this.getArguments();
+
+        ingredientsList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                for (int i = 0; i < ingredientAdapter.getCount(); i++) {
+                    View check = ingredientsList.getChildAt(i);
+                    if(check != null) {
+                        TextView name = check.findViewById(R.id.ingredient_name_textview_id);
+                        String s = name.getText().toString();
+                        Log.d("Ingredients Visible on ListView", s);
+                    }
+                }
+                Log.d("", "");
+            }
+        });
 
         // If bundle != null, then a recipe has been passed in to the fragment -> edit/delete
         if (bundle != null) {
