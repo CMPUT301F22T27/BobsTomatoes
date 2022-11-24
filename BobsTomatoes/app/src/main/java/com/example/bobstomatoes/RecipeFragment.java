@@ -142,8 +142,10 @@ public class RecipeFragment extends DialogFragment {
         // Ingredients List
         initIngredientList();
 
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         Bundle bundle = this.getArguments();
+
 
         //Need to re-highlight items when views are drawn from offscreen
         ingredientsList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
@@ -178,7 +180,6 @@ public class RecipeFragment extends DialogFragment {
 
             }
         });
-
 
         // If bundle != null, then a recipe has been passed in to the fragment -> edit/delete
         if (bundle != null) {
