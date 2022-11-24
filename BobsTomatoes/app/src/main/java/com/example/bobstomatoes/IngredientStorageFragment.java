@@ -267,9 +267,19 @@ public class IngredientStorageFragment extends DialogFragment {
                             }
 
                             String tempAmount = amountText.getText().toString();
-                            int newAmount = Integer.parseInt(tempAmount);
+                            int newAmount;
+                            if (tempAmount.toString().equals("")) {
+                                newAmount = 0;
+                            } else {
+                                newAmount = Integer.parseInt(tempAmount);
+                            }
                             String tempUnit = unitText.getText().toString();
-                            int newUnit = Integer.parseInt(tempUnit);
+                            int newUnit;
+                            if (tempUnit.toString().equals("")) {
+                                newUnit = 1;
+                            } else {
+                                newUnit = Integer.parseInt(tempUnit);
+                            }
 
                             // Category
                             String newCategory;
@@ -330,9 +340,19 @@ public class IngredientStorageFragment extends DialogFragment {
                         }
 
                         String tempAmount = amountText.getText().toString();
-                        int newAmount = Integer.parseInt(tempAmount);
+                        int newAmount;
+                        if (tempAmount.toString().equals("")) {
+                            newAmount = 0;
+                        } else {
+                            newAmount = Integer.parseInt(tempAmount);
+                        }
                         String tempUnit = unitText.getText().toString();
-                        int newUnit = Integer.parseInt(tempUnit);
+                        int newUnit;
+                        if (tempUnit.toString().equals("")) {
+                            newUnit = 0;
+                        } else {
+                            newUnit = Integer.parseInt(tempUnit);
+                        }
 
                         // Category
                         String newCategory;
