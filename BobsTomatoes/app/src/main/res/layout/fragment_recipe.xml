@@ -116,13 +116,13 @@
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:text="Comment:"
+            android:text="Comments:"
             android:textColor="@color/black"
             android:textSize="17dp" />
 
         <EditText
             android:id="@+id/editTextRecipeComment"
-            android:layout_width="261dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Recipe Comments" />
