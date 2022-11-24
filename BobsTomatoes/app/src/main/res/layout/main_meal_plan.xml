@@ -203,6 +203,7 @@
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
                 android:visibility="gone"
+                android:listSelector="@android:color/transparent"
                 tools:visibility="visible" />
 
             <ListView
