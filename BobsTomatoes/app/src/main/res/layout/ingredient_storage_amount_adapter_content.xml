@@ -5,18 +5,23 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/recipe_name_textview_id"
+        android:id="@+id/ingredient_name_textview_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@drawable/ingredient_adapter_background_selector"
         android:layout_weight="1"
+        android:text="Ingredient Name"
         android:textColor="@color/black">
     </TextView>
 
     <TextView
-        android:id="@+id/recipe_serving_textview_id"
+        android:id="@+id/ingredient_amount_textview_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="Serving Size" />
+        android:layout_weight="1.4"
+        android:text="Amount">
+    </TextView>
+
 
 </LinearLayout>
