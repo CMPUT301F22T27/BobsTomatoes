@@ -414,6 +414,12 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         date = date.substring(0,8).concat(globalDayText);
         mealPlanDB.addMealPlan(mealPlan, date);
 
+        mealPlanButtonsLinearLayout.setVisibility(View.VISIBLE);
+        mealPlanDetailsLinearLayout.setVisibility(View.VISIBLE);
+
+        recipeAdapter.notifyDataSetChanged();
+        ingredientAdapter.notifyDataSetChanged();
+
     }
 
 
@@ -432,6 +438,12 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         check.setSelected(false);
 
         mealPlanDB.removeMealPlan(mealPlan);
+
+        mealPlanButtonsLinearLayout.setVisibility(View.GONE);
+        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
+
+        recipeAdapter.notifyDataSetChanged();
+        ingredientAdapter.notifyDataSetChanged();
 
 
     }
