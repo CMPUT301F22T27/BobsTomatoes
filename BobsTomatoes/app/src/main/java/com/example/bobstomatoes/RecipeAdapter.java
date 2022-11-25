@@ -55,7 +55,7 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
 
         TextView servingSize = view.findViewById(R.id.recipe_serving_textview_id);
 
-        servingSize.setText("Size: " + String.valueOf(recipe.getRecipeServings()));
+        servingSize.setText("Serves: " + String.valueOf(recipe.getRecipeServings()));
         recipeName.setText(recipe.getRecipeTitle());
 
         return view;
