@@ -46,6 +46,8 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
     ShoppingList shoppingList;
     ArrayList<Ingredient> neededIngredients = new ArrayList<>();
 
+    int currentIngredientAmount;
+
     private boolean ingredientDataAvailable = false;
     private boolean mealPlanDataAvailable = false;
     boolean ingredientLoadDone = false;
@@ -117,7 +119,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     createShoppingList();
                     createNeededIngredients();
 
-                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, recyclerViewInterface);
+                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, currentIngredientAmount, recyclerViewInterface);
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
                     recyclerView.setAdapter(shoppingListRecyclerAdapter);
@@ -161,7 +163,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     createShoppingList();
                     createNeededIngredients();
 
-                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, recyclerViewInterface);
+                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, currentIngredientAmount, recyclerViewInterface);
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
                     recyclerView.setAdapter(shoppingListRecyclerAdapter);

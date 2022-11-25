@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingListRecyclerAdapter.ViewHolder>{
 
     private ArrayList<Ingredient> ingredientList = new ArrayList<>();
+    private int currentIngredientAmount;
     private ArrayList<Ingredient> checkedIngredients = new ArrayList<>();
     private Context context;
     private final RecyclerViewInterface recyclerViewInterface;
@@ -29,10 +30,11 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     int pos;
 
 
-    public ShoppingListRecyclerAdapter(Context context, ArrayList<Ingredient> ingredientList, RecyclerViewInterface recyclerViewInterface) {
+    public ShoppingListRecyclerAdapter(Context context, ArrayList<Ingredient> ingredientList, int currentIngredientAmount, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.ingredientList = ingredientList;
         this.recyclerViewInterface = recyclerViewInterface;
+        this.currentIngredientAmount = currentIngredientAmount;
         this.fragmentManager = fragmentManager;
     }
 
@@ -47,7 +49,8 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     public void onBindViewHolder(ShoppingListRecyclerAdapter.ViewHolder viewHolder, int position) {
         viewHolder.ingredientNameView.setText(ingredientList.get(position).getIngredientDesc());
         viewHolder.ingredientUnitView.setText("Unit: $" + ingredientList.get(position).getIngredientUnit());
-        viewHolder.ingredientAmountView.setText("Amount: " + ingredientList.get(position).getIngredientAmount());
+        viewHolder.ingredientCurrentAmountView.setText("Current Amount: " + currentIngredientAmount);
+        viewHolder.ingredientAmountNeededView.setText("Amount Needed: " + ingredientList.get(position).getIngredientAmount());
         viewHolder.ingredientCategoryView.setText("Category: " + ingredientList.get(position).getIngredientCategory());
         viewHolder.checkBox.setChecked(false);
 
@@ -97,7 +100,8 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView ingredientNameView;
         TextView ingredientUnitView;
-        TextView ingredientAmountView;
+        TextView ingredientAmountNeededView;
+        TextView ingredientCurrentAmountView;
         TextView ingredientCategoryView;
         CheckBox checkBox;
 
@@ -108,7 +112,8 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
 
             ingredientNameView = itemView.findViewById(R.id.shoppingListIngredientDescTextView);
             ingredientUnitView = itemView.findViewById(R.id.shoppingListIngredientUnitTextView);
-            ingredientAmountView = itemView.findViewById(R.id.shoppingListIngredientAmountTextView);
+            ingredientAmountNeededView = itemView.findViewById(R.id.shoppingListIngredientAmountNeededTextView);
+            ingredientCurrentAmountView = itemView.findViewById(R.id.shoppingListIngredientCurrentAmountTextView);
             ingredientCategoryView = itemView.findViewById(R.id.shoppingListIngredientCategoryTextView);
             checkBox = itemView.findViewById(R.id.checkbox);
 
