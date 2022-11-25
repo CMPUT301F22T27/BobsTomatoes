@@ -15,6 +15,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -45,6 +46,9 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
     ShoppingList shoppingList;
     ArrayList<Ingredient> neededIngredients = new ArrayList<>();
+
+
+    int currentIngredientAmount;
 
     private boolean ingredientDataAvailable = false;
     private boolean mealPlanDataAvailable = false;
@@ -402,9 +406,14 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
     }
 
     @Override
-    public void onEditOkPressed(Ingredient newIngredient, int oldIngredientPos) {
-        neededIngredients.set(oldIngredientPos, newIngredient);
-        shoppingListRecyclerAdapter.notifyDataSetChanged();
+    public void onEditOkPressed(Ingredient newIngredient, int oldIngredientPos, int newAmount)
+    {
+        ShoppingListRecyclerAdapter.ViewHolder view = (ShoppingListRecyclerAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(oldIngredientPos);
+
+        shoppingListRecyclerAdapter.updateInt(view, newAmount);
+
+
+       shoppingListRecyclerAdapter.notifyDataSetChanged();
     }
 
     /**

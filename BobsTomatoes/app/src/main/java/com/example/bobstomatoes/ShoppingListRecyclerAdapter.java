@@ -43,6 +43,10 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
         return new ViewHolder(view, recyclerViewInterface);
     }
 
+    public void updateInt(ShoppingListRecyclerAdapter.ViewHolder viewHolder, int newInt){
+        viewHolder.ingredientCurrentAmountView.setText("Current Amount: " + newInt);
+    }
+
     @Override
     public void onBindViewHolder(ShoppingListRecyclerAdapter.ViewHolder viewHolder, int position) {
         viewHolder.ingredientNameView.setText(ingredientList.get(position).getIngredientDesc());
