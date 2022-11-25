@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="@drawable/recipe_adapter_background_selector"
         android:textColor="@color/black">
     </TextView>
 
@@ -16,7 +17,8 @@
         android:id="@+id/recipe_serving_textview_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="1.5"
+        android:background="@drawable/recipe_adapter_background_selector"
         android:text="Serving Size" />
 
 </LinearLayout>

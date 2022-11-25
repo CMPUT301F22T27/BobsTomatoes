@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 
@@ -211,6 +212,34 @@ public class MealPlanFragment extends DialogFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
 
+                //Highlighting
+                for(int i = 0; i < recipeList.size(); i++) {
+
+                    View check = recipesList.getChildAt(i);
+
+                    if (check != null) {
+
+                        check.setActivated(false);
+
+                        for (int j = 0; j < selectedRecipes.size(); j++) {
+
+                            TextView tempView = check.findViewById(R.id.recipe_name_textview_id);
+
+                            String name = tempView.getText().toString();
+
+                            if (name.equals(selectedRecipes.get(j).getRecipeTitle())) {
+
+                                check.setActivated(true);
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+
                 Recipe selectedRecipe = recipeList.get(pos);
 
                 boolean found = false;
@@ -238,6 +267,41 @@ public class MealPlanFragment extends DialogFragment {
                 }
             }
         });
+
+        //Need to re-highlight items when views are drawn from offscreen
+        recipesList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+                for (int i = 0; i < recipeAdapter.getCount(); i++) {
+
+                    View check = recipesList.getChildAt(i);
+
+                    if(check != null) {
+
+                        check.setActivated(false);
+
+                        for(int j = 0; j < selectedRecipes.size(); j++){
+
+                            TextView tempView = check.findViewById(R.id.recipe_name_textview_id);
+
+                            String name = tempView.getText().toString();
+
+                            if (name.equals(selectedRecipes.get(j).getRecipeTitle())){
+
+                                check.setActivated(true);
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        });
+
     }
 
     /**
@@ -297,6 +361,34 @@ public class MealPlanFragment extends DialogFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
 
+                //Highlighting
+                for(int i = 0; i < ingredientList.size(); i++) {
+
+                    View check = ingredientsList.getChildAt(i);
+
+                    if (check != null) {
+
+                        check.setActivated(false);
+
+                        for (int j = 0; j < selectedIngredients.size(); j++) {
+
+                            TextView tempView = check.findViewById(R.id.ingredient_name_textview_id);
+
+                            String name = tempView.getText().toString();
+
+                            if (name.equals(selectedIngredients.get(j).getIngredientDesc())) {
+
+                                check.setActivated(true);
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+
                 Ingredient selectedIngredient = ingredientList.get(pos);
 
                 boolean found = false;
@@ -317,13 +409,21 @@ public class MealPlanFragment extends DialogFragment {
 
                 if (!found){
 
-                    //selectedIngredients.add(selectedIngredient);
+                    selectedIngredients.add(selectedIngredient);
                     view.setActivated(true);
+
+                    int ingredientPos = -1;
+                    for (int i = 0; i < selectedIngredients.size(); i++){
+                        if (selectedIngredients.get(i).getIngredientDesc() == selectedIngredient.getIngredientDesc()) {
+                            ingredientPos = i;
+                        }
+                    }
 
                     //Open 2nd fragment here
                     Bundle bundle = new Bundle();
                     bundle.putParcelableArrayList("ingredientList", selectedIngredients);
                     bundle.putParcelable("selectedIngredient", selectedIngredient);
+                    bundle.putInt("selectedIngredientPos", ingredientPos);
                     SpecifyIngredientAmountFragment fragment = new SpecifyIngredientAmountFragment();
                     fragment.setArguments(bundle);
                     fragment.setCancelable(false);
@@ -331,6 +431,42 @@ public class MealPlanFragment extends DialogFragment {
                 }
             }
         });
+
+        //Need to re-highlight items when views are drawn from offscreen
+        ingredientsList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+                for (int i = 0; i < ingredientAdapter.getCount(); i++) {
+
+                    View check = ingredientsList.getChildAt(i);
+
+                    if(check != null) {
+
+                        check.setActivated(false);
+
+                        for(int j = 0; j < selectedIngredients.size(); j++){
+
+                            TextView tempView = check.findViewById(R.id.ingredient_name_textview_id);
+
+                            String name = tempView.getText().toString();
+
+                            if (name.equals(selectedIngredients.get(j).getIngredientDesc())){
+
+                                check.setActivated(true);
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        });
+
+
     }
 
     /**
