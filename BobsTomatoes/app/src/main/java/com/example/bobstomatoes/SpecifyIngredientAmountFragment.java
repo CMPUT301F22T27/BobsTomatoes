@@ -59,6 +59,7 @@ public class SpecifyIngredientAmountFragment extends DialogFragment {
 
         Ingredient ingredient = bundle.getParcelable("selectedIngredient");
         ArrayList<Ingredient> ingredientList = bundle.getParcelableArrayList("ingredientList");
+        int ingredientPos = bundle.getInt("selectedIngredientPos");
 
         //Builder for add
         return builder.setView(view)
@@ -67,7 +68,7 @@ public class SpecifyIngredientAmountFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         ingredient.setIngredientAmount(Integer.parseInt(ingredientAmount.getText().toString()));
-                        ingredientList.add(ingredient);
+                        ingredientList.set(ingredientPos, ingredient);
                         listener.onAddIngredientOkPressed(ingredientList);
 
                     }
