@@ -38,10 +38,17 @@
                     android:textColor="@color/black" />
 
                 <TextView
-                    android:id="@+id/shoppingListIngredientAmountTextView"
+                    android:id="@+id/shoppingListIngredientCurrentAmountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ingredient Amount"
+                    android:text="Ingredient Current Amount"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/shoppingListIngredientAmountNeededTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ingredient Amount Needed"
                     android:textColor="@color/black" />
 
                 <TextView
