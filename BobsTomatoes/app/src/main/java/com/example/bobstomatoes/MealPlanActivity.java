@@ -56,8 +56,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     Boolean planFound = false;
 
     ArrayList<MealPlan> mealPlanList;
-    ArrayList<Recipe> recipeList;
-    ArrayList<Ingredient> ingredientList;
+    ArrayList<Recipe> recipeList = new ArrayList<>();
+    ArrayList<Ingredient> ingredientList = new ArrayList<>();
     ArrayAdapter<Recipe> recipeAdapter;
     ArrayAdapter<Ingredient> ingredientAdapter;
 
@@ -392,18 +392,22 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                 mealPlanButtonsLinearLayout.setVisibility(View.VISIBLE);
 
                 descTitle.setText(globalDate + " Meal Plan: ");
+
                 recipeList = currentMealPlan.getMealPlanRecipes();
                 ingredientList = currentMealPlan.getMealPlanIngredients();
+
                 ingredientAdapter = new IngredientStorageMealPlanAdapter(this, ingredientList);
                 recipeAdapter = new RecipeAdapter(this, recipeList);
 
                 recipesList.setAdapter(recipeAdapter);
                 ingredientsList.setAdapter(ingredientAdapter);
+
                 recipeAdapter.notifyDataSetChanged();
                 ingredientAdapter.notifyDataSetChanged();
                 planFound = false;
 
-            }else{
+            }else {
+
                 mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
                 mealPlanButtonsLinearLayout.setVisibility(View.GONE);
 
@@ -420,14 +424,24 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
         String date = selectedDate.toString();
         date = date.substring(0,8).concat(globalDayText);
+
         mealPlanDB.addMealPlan(mealPlan, date);
 
-        mealPlanButtonsLinearLayout.setVisibility(View.VISIBLE);
         mealPlanDetailsLinearLayout.setVisibility(View.VISIBLE);
+        mealPlanButtonsLinearLayout.setVisibility(View.VISIBLE);
+
+        recipeList = mealPlan.getMealPlanRecipes();
+        ingredientList = mealPlan.getMealPlanIngredients();
+
+        ingredientAdapter = new IngredientStorageMealPlanAdapter(this, ingredientList);
+        recipeAdapter = new RecipeAdapter(this, recipeList);
+
+        recipesList.setAdapter(recipeAdapter);
+        ingredientsList.setAdapter(ingredientAdapter);
 
         recipeAdapter.notifyDataSetChanged();
         ingredientAdapter.notifyDataSetChanged();
-
+        
     }
 
 
