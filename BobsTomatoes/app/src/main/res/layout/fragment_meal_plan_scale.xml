@@ -16,13 +16,13 @@
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:text="Recipe Scaler: "
+            android:text="Recipe Scaler:"
             android:textColor="@color/black"
             android:textSize="17dp"/>
 
         <EditText
             android:id="@+id/editTextScale"
-            android:layout_width="249dp"
+            android:layout_width="231dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:ems="10"

@@ -56,6 +56,8 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
 
     Dialog progressBar;
 
+    boolean updatedIngredients = false;
+
 
     /**
      * Create instance
@@ -159,9 +161,12 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
      * @param oldRecipe     old recipe to be removed
      */
     public void onEditOkPressed(Recipe newRecipe, Recipe oldRecipe) {
-        newRecipe.setRecipeIngredients(globalIngredientList);
+        if(updatedIngredients) {
+            newRecipe.setRecipeIngredients(globalIngredientList);
+        }
         recipeDB.editRecipe(recipePos, newRecipe, oldRecipe);
         recipeRecyclerAdapter.notifyDataSetChanged();
+        updatedIngredients = false;
     }
 
     /**
@@ -181,6 +186,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
     @Override
     public void onAddIngredientOkPressed(ArrayList<Ingredient> ingredientList) {
         globalIngredientList = ingredientList;
+        updatedIngredients = true;
     }
 
     /**

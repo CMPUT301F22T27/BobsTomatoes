@@ -46,7 +46,7 @@ public class ShoppingListFragment extends DialogFragment {
     int oldIngredientPos;
 
     public interface OnShoppingListFragmentListener {
-        public void onEditOkPressed(Ingredient newIngredient, int oldIngredientPos);
+        public void onEditOkPressed(Ingredient newIngredient, int oldIngredientPos, int newAmount);
 
     }
 
@@ -86,7 +86,6 @@ public class ShoppingListFragment extends DialogFragment {
             title = selectedIngredient.getIngredientDesc();
 
             locationText.setText(selectedIngredient.getIngredientLocation());
-            amountText.setText(String.valueOf(selectedIngredient.getIngredientAmount()));
             unitText.setText(String.valueOf(selectedIngredient.getIngredientUnit()));
 
         }
@@ -99,14 +98,14 @@ public class ShoppingListFragment extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         String newLocation = locationText.getText().toString();
-                        String tempAmount = amountText.getText().toString();
-                        int newAmount = Integer.parseInt(tempAmount);
+                        String currentAmount = amountText.getText().toString();
+                        int newAmount = Integer.parseInt(currentAmount);
                         String tempUnit = unitText.getText().toString();
                         int newUnit = Integer.parseInt(tempUnit);
 //                            String newCategory = categoryText.getText().toString();
                         editIngredient = new Ingredient(selectedIngredient.getIngredientDesc(), selectedIngredient.getIngredientDate(),
-                                newLocation, newAmount, newUnit, selectedIngredient.getIngredientCategory());
-                        listener.onEditOkPressed(editIngredient, oldIngredientPos);
+                                newLocation, selectedIngredient.getIngredientAmount(), newUnit, selectedIngredient.getIngredientCategory());
+                        listener.onEditOkPressed(editIngredient, oldIngredientPos, newAmount);
                     }
                 })
                 .setNegativeButton("Cancel", null)
