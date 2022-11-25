@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -18,16 +16,12 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -350,7 +344,7 @@ public class RecipeFragment extends DialogFragment {
                     Bundle bundle = new Bundle();
                     bundle.putParcelableArrayList("ingredientList", selectedIngredients);
                     bundle.putParcelable("selectedIngredient", selectedIngredient);
-                    RecipeIngredientFragment fragment = new RecipeIngredientFragment();
+                    SpecifyIngredientAmountFragment fragment = new SpecifyIngredientAmountFragment();
                     fragment.setArguments(bundle);
                     fragment.setCancelable(false);
                     fragment.show(getChildFragmentManager(), "INGREDIENT");

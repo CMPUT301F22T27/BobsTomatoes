@@ -10,7 +10,8 @@
         android:id="@+id/recipe_textview_id"
         android:layout_width="match_parent"
         android:layout_height="39dp"
-        android:text="Recipes"
+        android:text="@string/selectRecipes"
+        android:textColor="@color/black"
         android:textAlignment="center" />
 
     <ListView
@@ -23,7 +24,9 @@
         android:id="@+id/ingredient_textview_id"
         android:layout_width="match_parent"
         android:layout_height="39dp"
-        android:text="Ingredients"
+        android:paddingTop="15dp"
+        android:text="@string/selectIngredients"
+        android:textColor="@color/black"
         android:textAlignment="center" />
 
     <ListView
