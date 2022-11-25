@@ -31,7 +31,7 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.calendar_cell, parent, false);
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.height = (int) (parent.getHeight() * 0.13);
+        layoutParams.height = (int) (parent.getHeight() * 0.16);
         return new MealPlanCalendarViewHolder(view, onItemListener);
     }
 
