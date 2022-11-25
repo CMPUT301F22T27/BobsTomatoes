@@ -76,4 +76,5 @@ public class SpecifyIngredientAmountFragment extends DialogFragment {
     }
 
 
+
 }

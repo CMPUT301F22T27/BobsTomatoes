@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * Class for Meal Plan which displays a calendar showing meal plans
  * extends AbstractNavigator
  */
-public class MealPlanActivity extends AbstractNavigationBar implements MealPlanFragment.OnMealPlanFragmentListener,SpecifyIngredientAmountFragment.OnRecipeIngredientListener, MealPlanCalendarAdapter.OnItemListener {
+public class MealPlanActivity extends AbstractNavigationBar implements MealPlanFragment.OnMealPlanFragmentListener,SpecifyIngredientAmountFragment.OnRecipeIngredientListener, MealPlanScaleFragment.OnMealPlanScaleFragmentListener, MealPlanCalendarAdapter.OnItemListener {
 
     /**
      * Create instance
@@ -62,6 +62,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     CollectionReference mealPlanReference;
     int mealPlanPos;
     Bundle bundle;
+    Bundle scaleBundle;
     MealPlan currentMealPlan;
     String globalDate;
     TextView dayOfMonth;
@@ -108,6 +109,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         mealPlanButtonsLinearLayout = findViewById(R.id.meal_plan_bottom_button_layout);
         mealPlanDetailsLinearLayout = findViewById(R.id.mealPlanDetailLayout);
 
+
         // Populate meal plan list from database, by calling this, we can safely assume the list has been populated from the DataBase
         readData(new MealPlanFireStoreCallBack() {
             /**
@@ -148,9 +150,15 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
         openEdit.setOnClickListener(view -> {
              MealPlanFragment fragment = new MealPlanFragment();
-                fragment.setArguments(bundle);
-                fragment.show(getSupportFragmentManager(), "EDIT/DELETE MEAL PLAN");
-                planFound = false;
+             fragment.setArguments(bundle);
+             fragment.show(getSupportFragmentManager(), "EDIT/DELETE MEAL PLAN");
+             planFound = false;
+        });
+
+        scaleRecipeButton.setOnClickListener(view -> {
+            MealPlanScaleFragment fragment = new MealPlanScaleFragment();
+            fragment.setArguments(scaleBundle);
+            fragment.show(getSupportFragmentManager(), "SCALE RECIPES IN MEAL PLAN");
         });
 
     }
@@ -369,6 +377,9 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                 bundle.putString("selectedDate", globalDate);
                 bundle.putParcelable("selectedMealPlan", currentMealPlan);
 
+                scaleBundle = new Bundle();
+                scaleBundle.putParcelable("selectedMealPlan", currentMealPlan);
+
                 mealPlanDetailsLinearLayout.setVisibility(View.VISIBLE);
                 mealPlanButtonsLinearLayout.setVisibility(View.VISIBLE);
 
@@ -425,9 +436,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
     }
 
-    public void onCancelPressed(){
-
-    }
 
     public void readData(MealPlanFireStoreCallBack callBack) {
         mealPlanReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -451,6 +459,15 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     @Override
     public void onAddIngredientOkPressed(ArrayList<Ingredient> ingredientsList) {
         globalIngredientList = ingredientList;
+    }
+
+    @Override
+    public void onScaleOkPressed(MealPlan oldMealPlan, MealPlan scaledMealPlan) {
+        mealPlanDB.editMealPlan(oldMealPlan, scaledMealPlan);
+
+
+        recipeAdapter.notifyDataSetChanged();
+        ingredientAdapter.notifyDataSetChanged();
     }
 
     /**
