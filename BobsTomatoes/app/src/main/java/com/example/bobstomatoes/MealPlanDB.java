@@ -118,7 +118,7 @@ public class MealPlanDB {
     /**
      * Edit meal plan
      * Update an old meal plan with new recipes, ingredients, date on firebase database
-     * @param oldMealPlanPos    index of original meal plan
+     * @param oldMealPlan    index of original meal plan
      * @param updatedMealPlan   new meal plan with updated information
      */
     public void editMealPlan(MealPlan oldMealPlan, MealPlan updatedMealPlan) {

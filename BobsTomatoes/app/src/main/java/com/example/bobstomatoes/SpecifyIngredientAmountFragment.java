@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -16,9 +15,9 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.ArrayList;
 
-public class RecipeIngredientFragment extends DialogFragment {
+public class SpecifyIngredientAmountFragment extends DialogFragment {
 
-    private RecipeIngredientFragment.OnRecipeIngredientListener listener;
+    private SpecifyIngredientAmountFragment.OnRecipeIngredientListener listener;
 
 
     /**
@@ -35,8 +34,8 @@ public class RecipeIngredientFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof RecipeIngredientFragment.OnRecipeIngredientListener){
-            listener = (RecipeIngredientFragment.OnRecipeIngredientListener) context;
+        if (context instanceof SpecifyIngredientAmountFragment.OnRecipeIngredientListener){
+            listener = (SpecifyIngredientAmountFragment.OnRecipeIngredientListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement the interface method(s)");
