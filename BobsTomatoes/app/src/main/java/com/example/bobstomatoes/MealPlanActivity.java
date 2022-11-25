@@ -446,11 +446,12 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
 
     public void readData(MealPlanFireStoreCallBack callBack) {
+        showDialog(true);
         mealPlanReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    showDialog(true);
+                    //showDialog(true);
                     mealPlanList.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         MealPlan mealPlan = document.toObject(MealPlan.class);
