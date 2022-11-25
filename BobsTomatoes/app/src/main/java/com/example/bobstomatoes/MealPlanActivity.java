@@ -35,7 +35,7 @@ import java.util.Objects;
  * Class for Meal Plan which displays a calendar showing meal plans
  * extends AbstractNavigator
  */
-public class MealPlanActivity extends AbstractNavigationBar implements MealPlanFragment.OnMealPlanFragmentListener, MealPlanCalendarAdapter.OnItemListener {
+public class MealPlanActivity extends AbstractNavigationBar implements MealPlanFragment.OnMealPlanFragmentListener,SpecifyIngredientAmountFragment.OnRecipeIngredientListener, MealPlanCalendarAdapter.OnItemListener {
 
     /**
      * Create instance
@@ -70,6 +70,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     TextView dayOfMonth;
     int oldPosition;
     Boolean planExist = false;
+
+    ArrayList<Ingredient> globalIngredientList;
 
     LinearLayout layout;
 
@@ -425,6 +427,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
 
     public void onEditOkPressed(MealPlan oldMealPlan, MealPlan updatedMealPlan) {
+        updatedMealPlan.setMealPlanIngredients(globalIngredientList);
+
         mealPlanDB.editMealPlan(oldMealPlan, updatedMealPlan);
         recipeAdapter.notifyDataSetChanged();
         ingredientAdapter.notifyDataSetChanged();
@@ -473,6 +477,11 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                 }
             }
         });
+    }
+
+    @Override
+    public void onAddIngredientOkPressed(ArrayList<Ingredient> ingredientsList) {
+        globalIngredientList = ingredientList;
     }
 
     /**
