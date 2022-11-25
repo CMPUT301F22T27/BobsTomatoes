@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingListRecyclerAdapter.ViewHolder>{
 
@@ -28,6 +29,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     private final RecyclerViewInterface recyclerViewInterface;
     private FragmentManager fragmentManager;
     int pos;
+    private HashMap<String, Integer> currentAmounts = new HashMap<>();
 
 
     public ShoppingListRecyclerAdapter(Context context, ArrayList<Ingredient> ingredientList, int currentIngredientAmount, RecyclerViewInterface recyclerViewInterface) {
@@ -36,6 +38,55 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
         this.recyclerViewInterface = recyclerViewInterface;
         this.currentIngredientAmount = currentIngredientAmount;
         this.fragmentManager = fragmentManager;
+    }
+
+    /**
+     * Updates the amount of an ingredient that has been bought
+     * @param viewHolder
+     * @param newInt
+     * @param ingredientName
+     */
+    public void setBoughtAmount(ShoppingListRecyclerAdapter.ViewHolder viewHolder, int newInt, String ingredientName){
+
+        Integer currentNum = currentAmounts.get(ingredientName);
+
+        if(currentNum != null){
+
+            newInt = currentNum + newInt;
+            currentAmounts.put(ingredientName, newInt);
+
+        } else {
+
+            currentAmounts.put(ingredientName, newInt);
+
+        }
+
+        if(viewHolder != null) {
+
+            viewHolder.ingredientCurrentAmountView.setText("Current Amount: " + newInt);
+
+        }
+
+    }
+
+    /**
+     * Returns amount of an ingredient that has been bought
+     * @param ingredientName
+     * @return
+     */
+    public int getBoughtAmount(String ingredientName){
+
+        Integer currentNum = currentAmounts.get(ingredientName);
+
+        if(currentNum != null){
+
+            return currentNum;
+
+        } else {
+
+            return 0;
+        }
+
     }
 
     @NonNull
@@ -53,7 +104,19 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     public void onBindViewHolder(ShoppingListRecyclerAdapter.ViewHolder viewHolder, int position) {
         viewHolder.ingredientNameView.setText(ingredientList.get(position).getIngredientDesc());
         viewHolder.ingredientUnitView.setText("Unit: $" + ingredientList.get(position).getIngredientUnit());
-        viewHolder.ingredientCurrentAmountView.setText("Current Amount: " + currentIngredientAmount);
+
+        Integer tempInt = currentAmounts.get(ingredientList.get(position).getIngredientDesc());
+
+        if(tempInt != null){
+
+            viewHolder.ingredientCurrentAmountView.setText("Current Amount: " + tempInt);
+
+        } else {
+
+            viewHolder.ingredientCurrentAmountView.setText("Current Amount: " + "0");
+
+        }
+
         viewHolder.ingredientAmountNeededView.setText("Amount Needed: " + ingredientList.get(position).getIngredientAmount());
         viewHolder.ingredientCategoryView.setText("Category: " + ingredientList.get(position).getIngredientCategory());
         viewHolder.checkBox.setChecked(false);

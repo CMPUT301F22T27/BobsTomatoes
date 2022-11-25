@@ -47,7 +47,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
     ShoppingList shoppingList;
     ArrayList<Ingredient> neededIngredients = new ArrayList<>();
 
-
     int currentIngredientAmount;
 
     private boolean ingredientDataAvailable = false;
@@ -128,21 +127,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
                     shoppingListRecyclerAdapter.notifyDataSetChanged();
 
-                    //TESTING
-                    HashMap<String, Boolean> checkedItems = shoppingList.getCheckedItems();
-                    HashMap<String, Integer> ingredientCount = shoppingList.getIngredientCount();
-
-                    Set ingredients1 = checkedItems.keySet();
-                    Set ingredients2 = ingredientCount.keySet();
-                    Collection values1 = checkedItems.values();
-                    Collection values2 = ingredientCount.values();
-
-                    Log.d("TESTING SHOPPING", ingredients1 + "");
-                    Log.d("TESTING SHOPPING", values1 + "");
-                    Log.d("TESTING SHOPPING", ingredients2 + "");
-                    Log.d("TESTING SHOPPING", values2 + "");
-                    Log.d("TESTING SHOPPING", neededIngredients + "");
-                    Log.d("TESTING SHOPPING", neededIngredients.get(0).getIngredientDesc());
                     Log.d("GABE STINKY ASS", "STINKY ASS GABE");
 
                 }
@@ -172,26 +156,12 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
                     shoppingListRecyclerAdapter.notifyDataSetChanged();
 
-                    //TESTING
-                    HashMap<String, Boolean> checkedItems = shoppingList.getCheckedItems();
-                    HashMap<String, Integer> ingredientCount = shoppingList.getIngredientCount();
-
-                    Set ingredients1 = checkedItems.keySet();
-                    Set ingredients2 = ingredientCount.keySet();
-                    Collection values1 = checkedItems.values();
-                    Collection values2 = ingredientCount.values();
-
-                    Log.d("TESTING SHOPPING", ingredients1 + "");
-                    Log.d("TESTING SHOPPING", values1 + "");
-                    Log.d("TESTING SHOPPING", ingredients2 + "");
-                    Log.d("TESTING SHOPPING", values2 + "");
-                    Log.d("TESTING SHOPPING", neededIngredients + "");
-                    Log.d("TESTING SHOPPING", neededIngredients.get(0).getIngredientDesc());
                     Log.d("GABE STINKY ASS", "STINKY ASS GABE");
 
                 }
             }
         });
+
     }
 
 
@@ -405,16 +375,18 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
         });
     }
 
+
     @Override
-    public void onEditOkPressed(Ingredient newIngredient, int oldIngredientPos, int newAmount)
-    {
+    public void onEditOkPressed(Ingredient newIngredient, int oldIngredientPos, int newAmount){
+
         ShoppingListRecyclerAdapter.ViewHolder view = (ShoppingListRecyclerAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(oldIngredientPos);
 
-        shoppingListRecyclerAdapter.updateInt(view, newAmount);
+        shoppingListRecyclerAdapter.setBoughtAmount(view, newAmount, newIngredient.getIngredientDesc());
 
+        shoppingListRecyclerAdapter.notifyDataSetChanged();
 
-       shoppingListRecyclerAdapter.notifyDataSetChanged();
     }
+
 
     /**
      * Interface
