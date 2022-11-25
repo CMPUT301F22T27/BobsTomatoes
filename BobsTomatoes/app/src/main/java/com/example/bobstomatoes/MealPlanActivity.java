@@ -75,6 +75,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     LinearLayout mealPlanDetailsLinearLayout;
     LinearLayout mealPlanButtonsLinearLayout;
 
+    boolean ingredientsUpdated = false;
+
     Dialog progressBar;
 
 
@@ -446,11 +448,15 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
 
     public void onEditOkPressed(MealPlan oldMealPlan, MealPlan updatedMealPlan) {
-        updatedMealPlan.setMealPlanIngredients(globalIngredientList);
+        if(ingredientsUpdated) {
+            updatedMealPlan.setMealPlanIngredients(globalIngredientList);
+        }
 
         mealPlanDB.editMealPlan(oldMealPlan, updatedMealPlan);
         recipeAdapter.notifyDataSetChanged();
         ingredientAdapter.notifyDataSetChanged();
+
+        ingredientsUpdated = false;
     }
 
 
@@ -496,6 +502,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     @Override
     public void onAddIngredientOkPressed(ArrayList<Ingredient> ingredientsList) {
         globalIngredientList = ingredientList;
+        ingredientsUpdated = true;
     }
 
     @Override

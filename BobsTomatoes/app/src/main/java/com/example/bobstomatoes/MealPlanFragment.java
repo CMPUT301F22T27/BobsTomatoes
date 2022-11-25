@@ -409,13 +409,21 @@ public class MealPlanFragment extends DialogFragment {
 
                 if (!found){
 
-                    //selectedIngredients.add(selectedIngredient);
+                    selectedIngredients.add(selectedIngredient);
                     view.setActivated(true);
+
+                    int ingredientPos = -1;
+                    for (int i = 0; i < selectedIngredients.size(); i++){
+                        if (selectedIngredients.get(i).getIngredientDesc() == selectedIngredient.getIngredientDesc()) {
+                            ingredientPos = i;
+                        }
+                    }
 
                     //Open 2nd fragment here
                     Bundle bundle = new Bundle();
                     bundle.putParcelableArrayList("ingredientList", selectedIngredients);
                     bundle.putParcelable("selectedIngredient", selectedIngredient);
+                    bundle.putInt("selectedIngredientPos", ingredientPos);
                     SpecifyIngredientAmountFragment fragment = new SpecifyIngredientAmountFragment();
                     fragment.setArguments(bundle);
                     fragment.setCancelable(false);
