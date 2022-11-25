@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -63,6 +64,8 @@ public class IngredientStorageFragment extends DialogFragment {
     Ingredient editIngredient;
     Ingredient addIngredient;
     int oldIngredientPos;
+    Context context;
+    AlertDialog.Builder builder;
 
     public interface OnIngredientFragmentListener{
         public void onEditOkPressed(Ingredient newIngredient, Ingredient oldIngredient);
@@ -73,6 +76,7 @@ public class IngredientStorageFragment extends DialogFragment {
 
     @Override
     public void onAttach(Context context) {
+        this.context = context;
         super.onAttach(context);
         if (context instanceof OnIngredientFragmentListener){
             listener = (OnIngredientFragmentListener) context;
@@ -111,7 +115,8 @@ public class IngredientStorageFragment extends DialogFragment {
         vegetableRadioButton = view.findViewById(R.id.radioButtonVegetable);
         otherRadioButton = view.findViewById(R.id.radioButtonOther);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder = new AlertDialog.Builder(getContext());
+        AlertDialog dialog;
         Bundle bundle = this.getArguments();
 
         if (bundle != null) {
@@ -299,6 +304,10 @@ public class IngredientStorageFragment extends DialogFragment {
                                 newCategory = "";
                             }
 
+                            if (newDescription.equals("")) {
+                                newDescription = selectedIngredient.getIngredientDesc();
+                            }
+
                             editIngredient = new Ingredient(newDescription, newDate, newLocation, newAmount, newUnit, newCategory);
                             listener.onEditOkPressed(editIngredient, selectedIngredient);
                         }
@@ -313,77 +322,92 @@ public class IngredientStorageFragment extends DialogFragment {
         }
         // If its false, then the add button was pressed, so open a fragment with its text boxes empty and make the two buttons Cancel and Add
         else {
-            return builder
+             dialog = builder
                     .setView(view)
                     .setTitle("Add Ingredient")
-                    .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String newDescription = descriptionText.getText().toString();
-
-                        // Date
-                        int year = datePicker.getYear();
-                        int month = datePicker.getMonth() + 1;
-                        int day = datePicker.getDayOfMonth();
-                        String newDate = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
-
-                        // Location
-                        String newLocation;
-                        if(pantryRadioButton.isChecked()){
-                            newLocation = "Pantry";
-                        }else if(fridgeRadioButton.isChecked()){
-                            newLocation = "Fridge";
-                        }else if(freezerRadioButton.isChecked()){
-                            newLocation = "Freezer";
-                        }else{
-                            newLocation = "";
-                        }
-
-                        String tempAmount = amountText.getText().toString();
-                        int newAmount;
-                        if (tempAmount.toString().equals("")) {
-                            newAmount = 0;
-                        } else {
-                            newAmount = Integer.parseInt(tempAmount);
-                        }
-                        String tempUnit = unitText.getText().toString();
-                        int newUnit;
-                        if (tempUnit.toString().equals("")) {
-                            newUnit = 0;
-                        } else {
-                            newUnit = Integer.parseInt(tempUnit);
-                        }
-
-                        // Category
-                        String newCategory;
-                        if(dairyRadioButton.isChecked()){
-                            newCategory = "Dairy";
-                        }else if(fruitRadioButton.isChecked()){
-                            newCategory = "Fruit";
-                        }else if(grainRadioButton.isChecked()){
-                            newCategory = "Grain";
-                        }else if(proteinRadioButton.isChecked()){
-                            newCategory = "Protein";
-                        }else if(vegetableRadioButton.isChecked()) {
-                            newCategory = "Vegetable";
-                        }else if(otherRadioButton.isChecked()){
-                                newCategory = "Other";
-                        }else{
-                            newCategory = "";
-                        }
-                        addIngredient = new Ingredient(newDescription, newDate, newLocation, newAmount, newUnit, newCategory);
-                        listener.onAddOkPressed(addIngredient);
-                    }})
-
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                        }
-                    })
+                    .setPositiveButton("Add", null)
+                    .setNegativeButton("Cancel", null)
                     .create();
+
+             dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                 @Override
+                 public void onShow(DialogInterface dialogInterface) {
+                     Button button = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
+                     button.setOnClickListener(new View.OnClickListener() {
+                         @Override
+                         public void onClick(View view) {
+                             try {
+                                 String newDescription = descriptionText.getText().toString();
+
+                                 // Date
+                                 int year = datePicker.getYear();
+                                 int month = datePicker.getMonth() + 1;
+                                 int day = datePicker.getDayOfMonth();
+                                 String newDate = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
+
+                                 // Location
+                                 String newLocation;
+                                 if(pantryRadioButton.isChecked()){
+                                     newLocation = "Pantry";
+                                 }else if(fridgeRadioButton.isChecked()){
+                                     newLocation = "Fridge";
+                                 }else if(freezerRadioButton.isChecked()){
+                                     newLocation = "Freezer";
+                                 }else{
+                                     newLocation = "";
+                                 }
+
+                                 String tempAmount = amountText.getText().toString();
+                                 int newAmount;
+                                 if (tempAmount.toString().equals("")) {
+                                     newAmount = 0;
+                                 } else {
+                                     newAmount = Integer.parseInt(tempAmount);
+                                 }
+                                 String tempUnit = unitText.getText().toString();
+                                 int newUnit;
+                                 if (tempUnit.toString().equals("")) {
+                                     newUnit = 0;
+                                 } else {
+                                     newUnit = Integer.parseInt(tempUnit);
+                                 }
+
+                                 // Category
+                                 String newCategory;
+                                 if(dairyRadioButton.isChecked()){
+                                     newCategory = "Dairy";
+                                 }else if(fruitRadioButton.isChecked()){
+                                     newCategory = "Fruit";
+                                 }else if(grainRadioButton.isChecked()){
+                                     newCategory = "Grain";
+                                 }else if(proteinRadioButton.isChecked()){
+                                     newCategory = "Protein";
+                                 }else if(vegetableRadioButton.isChecked()) {
+                                     newCategory = "Vegetable";
+                                 }else if(otherRadioButton.isChecked()){
+                                     newCategory = "Other";
+                                 }else{
+                                     newCategory = "";
+                                 }
+                                 addIngredient = new Ingredient(newDescription, newDate, newLocation, newAmount, newUnit, newCategory);
+
+                                 listener.onAddOkPressed(addIngredient);
+
+                                 dialog.dismiss();
+                             } catch (Exception e) {
+                                 Log.d("EXCEPTION HERE", e.toString());
+                                 Toast.makeText(context.getApplicationContext(),"Fill out all fields", Toast.LENGTH_SHORT).show();
+                             }
+                         }
+                     });
+                 }
+             });
+
+             return dialog;
         }
+
     }
+
 
 
 
