@@ -30,6 +30,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 
 /**
@@ -396,7 +398,14 @@ public class IngredientStorageFragment extends DialogFragment {
                                  dialog.dismiss();
                              } catch (Exception e) {
                                  Log.d("EXCEPTION HERE", e.toString());
-                                 Toast.makeText(context.getApplicationContext(),"Fill out all fields", Toast.LENGTH_SHORT).show();
+                                 //Toast errorToast = null;
+
+                                 Snackbar snackbar = null;
+                                 snackbar = snackbar.make(view, "Please fill out all required fields", Snackbar.LENGTH_SHORT);
+                                 snackbar.show();
+
+                                 //errorToast.makeText(context.getApplicationContext(),"Please fill out all required fields", Toast.LENGTH_SHORT).show();
+
                              }
                          }
                      });
