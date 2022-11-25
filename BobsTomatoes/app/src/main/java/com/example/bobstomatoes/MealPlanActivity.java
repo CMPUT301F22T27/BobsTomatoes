@@ -5,6 +5,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -73,10 +75,16 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     LinearLayout mealPlanDetailsLinearLayout;
     LinearLayout mealPlanButtonsLinearLayout;
 
+    Dialog progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.progress_dialog);
+        progressBar = builder.create();
 
         // Modify ActionBar
         setTitle("Meal Plan");
@@ -414,6 +422,12 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         date = date.substring(0,8).concat(globalDayText);
         mealPlanDB.addMealPlan(mealPlan, date);
 
+        mealPlanButtonsLinearLayout.setVisibility(View.VISIBLE);
+        mealPlanDetailsLinearLayout.setVisibility(View.VISIBLE);
+
+        recipeAdapter.notifyDataSetChanged();
+        ingredientAdapter.notifyDataSetChanged();
+
     }
 
 
@@ -433,21 +447,30 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
         mealPlanDB.removeMealPlan(mealPlan);
 
+        mealPlanButtonsLinearLayout.setVisibility(View.GONE);
+        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
+
+        recipeAdapter.notifyDataSetChanged();
+        ingredientAdapter.notifyDataSetChanged();
+
 
     }
 
 
     public void readData(MealPlanFireStoreCallBack callBack) {
+        showDialog(true);
         mealPlanReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    //showDialog(true);
                     mealPlanList.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         MealPlan mealPlan = document.toObject(MealPlan.class);
                         Log.d("IN READ DATA:", mealPlan.getMealPlanDate() + "");
                         mealPlanList.add(mealPlan);
                     }
+                    showDialog(false);
                     callBack.onCallBack(mealPlanList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
@@ -477,6 +500,18 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
      */
     private interface MealPlanFireStoreCallBack {
         void onCallBack(ArrayList<MealPlan> mealPlanList);
+    }
+
+    private void showDialog(boolean isShown){
+        if (isShown) {
+            progressBar.setCancelable(false);
+            progressBar.setCanceledOnTouchOutside(false);
+            progressBar.show();
+        } else {
+            progressBar.setCancelable(true);
+            progressBar.setCanceledOnTouchOutside(true);
+            progressBar.dismiss();
+        }
     }
 
 }
