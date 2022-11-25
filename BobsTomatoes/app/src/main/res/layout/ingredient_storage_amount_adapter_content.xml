@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/ingredient_name_textview_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@drawable/ingredient_adapter_background_selector"
+        android:layout_weight="1"
+        android:text="Ingredient Name"
+        android:textColor="@color/black">
+    </TextView>
+
+    <TextView
+        android:id="@+id/ingredient_amount_textview_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.4"
+        android:text="Amount">
+    </TextView>
+
+
+</LinearLayout>

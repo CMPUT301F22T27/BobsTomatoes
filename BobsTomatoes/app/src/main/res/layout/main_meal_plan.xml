@@ -147,6 +147,7 @@
         android:layout_weight="5"
         android:orientation="vertical"
         android:padding="10dp"
+        android:visibility="invisible"
         android:paddingHorizontal="20dp">
 
         <TextView
@@ -155,7 +156,6 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="10dp"
             android:paddingVertical="5dp"
-            android:visibility="gone"
             android:text="Date"
             android:textColor="@color/black"
             tools:visibility="visible" />
@@ -172,7 +172,6 @@
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
                 android:text="Recipes: "
-                android:visibility="gone"
                 android:textColor="@color/black"
                 tools:visibility="visible" />
 
@@ -185,7 +184,6 @@
                 android:paddingVertical="10dp"
                 android:text="Ingredients: "
                 android:textColor="@color/black"
-                android:visibility="gone"
                 tools:visibility="visible" />
 
 
@@ -202,7 +200,6 @@
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
-                android:visibility="gone"
                 android:scrollbarSize="2dp"
                 android:listSelector="@android:color/transparent"
                 tools:visibility="visible" />
@@ -214,7 +211,6 @@
                 android:layout_weight="1"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
-                android:visibility="gone"
                 android:scrollbarSize="2dp"
                 android:listSelector="@android:color/transparent"
                 tools:visibility="visible" />
@@ -222,17 +218,38 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/meal_plan_edit_ID"
-        android:layout_width="165dp"
+    <LinearLayout
+        android:id="@+id/meal_plan_bottom_button_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:backgroundTint="#00FFFFFF"
-        android:stateListAnimator="@null"
-        android:text="Edit Meal Plan"
-        android:textColor="#3F51B5"
         android:visibility="gone"
-        tools:visibility="visible" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/scale_meal_plan_ID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="#00FFFFFF"
+            android:stateListAnimator="@null"
+            android:text="Scale Recipes"
+            android:textColor="#AB2933"
+            android:layout_weight="1"
+            tools:visibility="visible" />
+
+        <Button
+            android:id="@+id/meal_plan_edit_ID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="#00FFFFFF"
+            android:stateListAnimator="@null"
+            android:text="Edit Meal Plan"
+            android:textColor="#3F51B5"
+            android:layout_weight="1"
+            tools:visibility="visible" />
+
+    </LinearLayout>
 
     <include
         android:layout_height="wrap_content"

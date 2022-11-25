@@ -132,7 +132,8 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="39dp"
-        android:text="Ingredients"
+        android:paddingTop="10dp"
+        android:text="@string/selectIngredients"
         android:textColor="@color/black"
         android:textAlignment="center" />
 
@@ -155,8 +156,8 @@
 
             <ImageView
                 android:id="@+id/recipeImageView"
-                android:layout_width="230dp"
-                android:layout_height="205dp"
+                android:layout_width="210dp"
+                android:layout_height="178dp"
                 android:layout_gravity="center"></ImageView>
 
             <LinearLayout
