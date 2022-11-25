@@ -4,21 +4,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/editTextIngredientDesc"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Ingredient Description" />
+        android:orientation="horizontal">
 
-<!--    <EditText-->
-<!--        android:id="@+id/editTextIngredientDate"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:ems="10"-->
-<!--        android:inputType="date"-->
-<!--        android:hint="Ingredient Date" />-->
+        <TextView
+            android:id="@+id/textViewIngredientDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:text="Description:"
+            android:textColor="@color/black"
+            android:textSize="17dp" />
+
+        <EditText
+            android:id="@+id/editTextIngredientDesc"
+            android:layout_width="249dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:ems="10"
+            android:hint="Ingredient Description"
+            android:inputType="textPersonName" />
+    </LinearLayout>
 
     <DatePicker
         android:id="@+id/datePicker"
@@ -27,14 +36,6 @@
         android:background="#FFFFFF"
         android:calendarViewShown="false"
         android:datePickerMode="spinner" />
-
-<!--    <EditText-->
-<!--        android:id="@+id/editTextIngredientLocation"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:ems="10"-->
-<!--        android:inputType="textPersonName"-->
-<!--        android:hint="Ingredient Location" />-->
 
     <RadioGroup
         android:id="@+id/radioGroupLocation"
@@ -65,29 +66,57 @@
             android:text="Freezer" />
     </RadioGroup>
 
-    <EditText
-        android:id="@+id/editTextIngredientAmount"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        android:hint="Ingredient Amount" />
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/editTextIngredientUnit"
+        <TextView
+            android:id="@+id/textViewIngredientUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:text="Unit:"
+            android:textColor="@color/black"
+            android:textSize="17dp" />
+
+        <EditText
+            android:id="@+id/editTextIngredientUnit"
+            android:layout_width="306dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:ems="10"
+            android:hint="Ingredient Unit"
+            android:inputType="number" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        android:hint="Ingredient Unit" />
+        android:orientation="horizontal">
 
-<!--    <EditText-->
-<!--        android:id="@+id/editTextIngredientCategory"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:ems="10"-->
-<!--        android:inputType="textPersonName"-->
-<!--        android:hint="Ingredient Category" />-->
+        <TextView
+            android:id="@+id/textViewIngredientAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:text="Amount:"
+            android:textColor="@color/black"
+            android:textSize="17dp" />
+
+        <EditText
+            android:id="@+id/editTextIngredientAmount"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:ems="10"
+            android:hint="Ingredient Amount"
+            android:inputType="number" />
+
+    </LinearLayout>
 
     <RadioGroup
         android:id="@+id/radioGroupCategory1"

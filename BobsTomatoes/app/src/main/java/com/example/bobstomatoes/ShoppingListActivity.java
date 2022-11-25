@@ -3,6 +3,7 @@ package com.example.bobstomatoes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,7 +33,7 @@ import java.util.Set;
 /**
  * ShoppingListActivity, displays shoppingList and extends AbstractNavigationBar
  */
-public class ShoppingListActivity extends AbstractNavigationBar implements RecyclerViewInterface {
+public class ShoppingListActivity extends AbstractNavigationBar implements RecyclerViewInterface, ShoppingListFragment.OnShoppingListFragmentListener {
 
     IngredientDB ingredientDB;
     CollectionReference ingredientReference;
@@ -93,6 +94,9 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
         mealPlanDB = new MealPlanDB();
         mealPlanReference = mealPlanDB.getMealPlanReference();
         mealPlanList = mealPlanDB.getMealPlanList();
+
+        //Create a new bundle
+        bundle = new Bundle();
 
         //RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
@@ -395,6 +399,12 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                 }
             }
         });
+    }
+
+    @Override
+    public void onEditOkPressed(Ingredient newIngredient, int oldIngredientPos) {
+        neededIngredients.set(oldIngredientPos, newIngredient);
+        shoppingListRecyclerAdapter.notifyDataSetChanged();
     }
 
     /**

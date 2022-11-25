@@ -2,23 +2,18 @@ package com.example.bobstomatoes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -38,7 +33,7 @@ import java.util.Collections;
  * implements RecipeFragment.OnRecipeFragmentListener
  */
 
-public class RecipeActivity extends AbstractNavigationBar implements RecipeFragment.OnRecipeFragmentListener, RecipeIngredientFragment.OnRecipeIngredientListener, RecyclerViewInterface {
+public class RecipeActivity extends AbstractNavigationBar implements RecipeFragment.OnRecipeFragmentListener, SpecifyIngredientAmountFragment.OnRecipeIngredientListener, RecyclerViewInterface {
 
     ListView RecipeListView;
     ImageButton addButton;

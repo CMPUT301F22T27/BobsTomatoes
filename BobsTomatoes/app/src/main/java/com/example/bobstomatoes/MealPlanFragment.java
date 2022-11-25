@@ -317,10 +317,17 @@ public class MealPlanFragment extends DialogFragment {
 
                 if (!found){
 
-                    selectedIngredients.add(selectedIngredient);
-
+                    //selectedIngredients.add(selectedIngredient);
                     view.setActivated(true);
 
+                    //Open 2nd fragment here
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("ingredientList", selectedIngredients);
+                    bundle.putParcelable("selectedIngredient", selectedIngredient);
+                    SpecifyIngredientAmountFragment fragment = new SpecifyIngredientAmountFragment();
+                    fragment.setArguments(bundle);
+                    fragment.setCancelable(false);
+                    fragment.show(getChildFragmentManager(), "INGREDIENT");
                 }
             }
         });
