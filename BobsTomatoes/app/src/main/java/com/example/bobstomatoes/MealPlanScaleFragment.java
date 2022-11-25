@@ -70,7 +70,7 @@ public class MealPlanScaleFragment extends DialogFragment {
 
         //Builder for add
         return builder.setView(view)
-                .setTitle("Input Specified Ingredient Amount")
+                .setTitle("How Many Servings?")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
