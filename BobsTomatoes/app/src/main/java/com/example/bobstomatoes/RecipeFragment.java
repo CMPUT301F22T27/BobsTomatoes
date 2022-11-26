@@ -219,8 +219,22 @@ public class RecipeFragment extends DialogFragment {
                         public void onClick(DialogInterface dialogInterface, int i) {
 
                             String newTitle = titleText.getText().toString();
-                            int newTime = Integer.parseInt(timeText.getText().toString());
-                            int newServings = Integer.parseInt(servingsText.getText().toString());
+
+                            String tempTime = timeText.getText().toString();
+                            int newTime;
+                            if (tempTime.toString().equals("")) {
+                                newTime = selectedRecipe.getRecipeTime();
+                            } else {
+                                newTime = Integer.parseInt(tempTime);
+                            }
+                            String tempServings = servingsText.getText().toString();
+                            int newServings;
+                            if (tempServings.toString().equals("")) {
+                                newServings = selectedRecipe.getRecipeServings();
+                            } else {
+                                newServings = Integer.parseInt(tempServings);
+                            }
+
                             String newCategory = categoryText.getText().toString();
                             String newComments = commentsText.getText().toString();
 
@@ -234,6 +248,8 @@ public class RecipeFragment extends DialogFragment {
                                 newCategory = selectedRecipe.getRecipeCategory();
                             } else if (newComments.equals("")) {
                                 newComments = selectedRecipe.getRecipeComments();
+                            } else if (selectedIngredients.size() == 0) {
+                                selectedIngredients = selectedRecipe.getRecipeIngredients();
                             }
 
                             Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
@@ -269,10 +285,16 @@ public class RecipeFragment extends DialogFragment {
                                 int newServings = Integer.parseInt(servingsText.getText().toString());
                                 String newCategory = categoryText.getText().toString();
                                 String newComments = commentsText.getText().toString();
+                                Ingredient newIngredient = selectedIngredients.get(0);
+                                if(encodedImage.equals(null)) {
+                                    throw new Exception("Fail");
+                                }
+
                                 Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
                                         newCategory, newComments, selectedIngredients, encodedImage);
 
                                 listener.onAddOkPressed(newRecipe);
+                                dialog.dismiss();
                             } catch (Exception e) {
                                 Log.d("EXCEPTION HERE", e.toString());
                                 //Toast errorToast = null;
