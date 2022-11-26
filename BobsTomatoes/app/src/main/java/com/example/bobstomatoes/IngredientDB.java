@@ -30,8 +30,6 @@ public class IngredientDB {
 
     private ArrayList<Ingredient> ingredientList;
 
-    private ArrayList<Recipe> updatedRecipes;
-
     private final FirebaseFirestore ingredientDatabase = FirebaseFirestore.getInstance();
 
     private final CollectionReference ingredientReference = ingredientDatabase.collection("Ingredients");
@@ -173,7 +171,7 @@ public class IngredientDB {
 
         ingredientList.set(oldIngredientPos, updatedIngredient);
     }
-    
+
 
     /**
      * Ingredient list getter
@@ -191,36 +189,6 @@ public class IngredientDB {
      */
     public CollectionReference getIngredientReference(){
         return ingredientReference;
-    }
-
-    /**
-     * Populates data base using callBack
-     * @param callBack  recipe database
-     */
-    public void readData(CollectionReference recipeReference, IngredientDB.RecipeFireStoreCallback callBack) {
-        recipeReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Recipe recipe = document.toObject(Recipe.class);
-                        updatedRecipes.add(recipe);
-                    }
-                    callBack.onCallBack(updatedRecipes);
-                } else {
-                    Log.d("", "Error getting documents: ", task.getException());
-                }
-            }
-        });
-    }
-
-    /**
-     * Interface
-     * Call back recipeList
-     * Basically allows us to access the recipeList outside of the onComplete and it ensures that the onComplete has fully populated our list
-     */
-    private interface RecipeFireStoreCallback {
-        void onCallBack(ArrayList<Recipe> recipeList);
     }
 
 
