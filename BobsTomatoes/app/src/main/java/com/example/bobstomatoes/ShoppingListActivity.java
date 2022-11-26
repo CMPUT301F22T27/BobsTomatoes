@@ -15,6 +15,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -61,6 +62,8 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
     private RecyclerViewInterface recyclerViewInterface;
     Dialog progressBar;
+
+    CheckBox checkbox;
 
 
     /**
@@ -124,7 +127,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
                     recyclerView.setAdapter(shoppingListRecyclerAdapter);
-
                     shoppingListRecyclerAdapter.notifyDataSetChanged();
 
                     Log.d("GABE STINKY ASS", "STINKY ASS GABE");
@@ -153,7 +155,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
                     recyclerView.setAdapter(shoppingListRecyclerAdapter);
-
                     shoppingListRecyclerAdapter.notifyDataSetChanged();
 
                     Log.d("GABE STINKY ASS", "STINKY ASS GABE");
@@ -296,8 +297,8 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                 String ingredientName = tempIngredient.getIngredientDesc();
 
                 //Get number of that ingredient in recipe
-                //int numIngredient = tempIngredient.getIngredientAmount();
-                int numIngredient = 1;
+                int numIngredient = tempIngredient.getIngredientAmount();
+                //int numIngredient = 1;
 
                 //Check if we have seen this ingredient before in mealplans
                 if (checkedIngredients.get(ingredientName) == null){
@@ -383,7 +384,18 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
         shoppingListRecyclerAdapter.setBoughtAmount(view, newAmount, newIngredient.getIngredientDesc());
 
+        neededIngredients.set(oldIngredientPos, newIngredient);
+
         shoppingListRecyclerAdapter.notifyDataSetChanged();
+
+        IngredientDB ingredientDB = new IngredientDB();
+
+        if (view.checkBox.isChecked() == true) {
+            Log.d("CHECKBOX", newIngredient.getIngredientDesc() + " is checked.");
+            ingredientDB.addIngredient(newIngredient);
+        } else {
+            Log.d("CHECKBOX", newIngredient.getIngredientDesc() + " is NOT checked.");
+        }
 
     }
 
