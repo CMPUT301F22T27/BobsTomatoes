@@ -85,8 +85,8 @@ public class ShoppingListFragment extends DialogFragment {
             oldIngredientPos = bundle.getInt("oldIngredientPos");
             title = selectedIngredient.getIngredientDesc();
 
-            locationText.setText(selectedIngredient.getIngredientLocation());
-            unitText.setText(String.valueOf(selectedIngredient.getIngredientUnit()));
+//            locationText.setText(selectedIngredient.getIngredientLocation());
+//            unitText.setText(String.valueOf(selectedIngredient.getIngredientUnit()));
 
         }
         // If isEdit is true, then the ingredient was clicked on the ListView so populate the fragment text boxes with its details and make the two buttons Delete and Edit
