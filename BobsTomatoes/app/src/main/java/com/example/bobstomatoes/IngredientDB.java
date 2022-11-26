@@ -172,6 +172,7 @@ public class IngredientDB {
         ingredientList.set(oldIngredientPos, updatedIngredient);
     }
 
+
     /**
      * Ingredient list getter
      * Retrieve array list of ingredients, allow for accessibility to other classes
