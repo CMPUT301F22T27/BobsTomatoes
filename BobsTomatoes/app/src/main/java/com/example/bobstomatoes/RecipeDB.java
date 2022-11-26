@@ -190,6 +190,43 @@ public class RecipeDB implements Parcelable {
     }
 
     /**
+     * Edit recipe
+     * Update an old recipe with new title, time, servings, category, comments, ingredients on firebase database
+     * @param oldRecipePos
+     * @param updatedRecipe   new recipe with updated information
+     */
+    public void editRecipeIngredient(int oldRecipePos, Recipe updatedRecipe) {
+        Log.d("HERE IN THE DATABASE","");
+        //Add/Update the current recipe
+        HashMap<String, Object> data2 = new HashMap<>();
+        String recipeName2 = updatedRecipe.getRecipeTitle();
+        data2.put("recipeTitle", updatedRecipe.getRecipeTitle());
+        data2.put("recipeTime", updatedRecipe.getRecipeTime());
+        data2.put("recipeServings", updatedRecipe.getRecipeServings());
+        data2.put("recipeCategory", updatedRecipe.getRecipeCategory());
+        data2.put("recipeComments", updatedRecipe.getRecipeComments());
+        data2.put("recipeIngredients", updatedRecipe.getRecipeIngredients());
+        data2.put("recipeImage", updatedRecipe.getRecipeImage());
+
+        // Overwrite the data in the FireStore Database
+        recipeReference.document(recipeName2)
+                .set(data2)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("", "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("", "Data could not be added");
+                    }
+                });
+        recipeList.set(oldRecipePos, updatedRecipe);
+    }
+
+    /**
      * recipeList getter
      * Retrieve list of recipes, allow accessibility to other classes
      * @return      returns the list of recipes

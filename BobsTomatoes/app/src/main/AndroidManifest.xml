@@ -12,6 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BobsTomatoes"
+        android:largeHeap="true"
+        android:hardwareAccelerated="false"
         tools:targetApi="31">
         <activity
             android:name=".RecipeActivity"
@@ -45,5 +47,5 @@
             </intent-filter>
         </activity>
     </application>
-
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 </manifest>

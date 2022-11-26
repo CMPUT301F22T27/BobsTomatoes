@@ -30,6 +30,8 @@ public class IngredientDB {
 
     private ArrayList<Ingredient> ingredientList;
 
+    private ArrayList<Recipe> updatedRecipes;
+
     private final FirebaseFirestore ingredientDatabase = FirebaseFirestore.getInstance();
 
     private final CollectionReference ingredientReference = ingredientDatabase.collection("Ingredients");
@@ -172,6 +174,38 @@ public class IngredientDB {
         ingredientList.set(oldIngredientPos, updatedIngredient);
     }
 
+    public ArrayList<Recipe> syncRecipe(Ingredient ingredient) {
+        RecipeDB recipeDB = new RecipeDB();
+        CollectionReference recipeReference = recipeDB.getRecipeReference();
+        updatedRecipes = recipeDB.getRecipeList();
+
+        readData(recipeReference, new RecipeFireStoreCallback() {
+            @Override
+            public void onCallBack(ArrayList<Recipe> recipesList) {
+                for (int i = 0; i < recipesList.size(); i++) {
+                    for (int j = 0; j < recipesList.get(i).getRecipeIngredients().size(); j++) {
+//                        Log.d("ingredientDB: RECIPES TITLES", recipesList.get(i).getRecipeTitle());
+//                        Log.d("ingredientDB: SPECIFIC RECIPE TITLE", recipesList.get(i).getRecipeIngredients().get(j).getIngredientDesc());
+//                        Log.d("ingredientDB: SPECIFIC INGREDIENT TITLE", ingredient.getIngredientDesc());
+                        if (recipesList.get(i).getRecipeIngredients().get(j).getIngredientDesc().equals(ingredient.getIngredientDesc())) {
+                            Log.d("GOT HERE 3", "");
+//                            int recipeIngredientAmount = recipesList.get(i).getRecipeIngredients().get(j).getIngredientAmount();
+//                            ingredient.setIngredientAmount(recipeIngredientAmount);
+
+
+//                            Log.d("ingredientDB: RecipeIngredient", recipesList.get(i).getRecipeIngredients().get(j).getIngredientDesc());
+//                            Log.d("ingredientDB: ingredient", ingredient.getIngredientDesc());
+                            recipeDB.editRecipeIngredient(i, recipesList.get(i));
+                        }
+                    }
+                }
+                updatedRecipes = recipesList;
+            }
+        });
+
+        return updatedRecipes;
+    }
+
     /**
      * Ingredient list getter
      * Retrieve array list of ingredients, allow for accessibility to other classes
@@ -188,6 +222,36 @@ public class IngredientDB {
      */
     public CollectionReference getIngredientReference(){
         return ingredientReference;
+    }
+
+    /**
+     * Populates data base using callBack
+     * @param callBack  recipe database
+     */
+    public void readData(CollectionReference recipeReference, IngredientDB.RecipeFireStoreCallback callBack) {
+        recipeReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Recipe recipe = document.toObject(Recipe.class);
+                        updatedRecipes.add(recipe);
+                    }
+                    callBack.onCallBack(updatedRecipes);
+                } else {
+                    Log.d("", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    /**
+     * Interface
+     * Call back recipeList
+     * Basically allows us to access the recipeList outside of the onComplete and it ensures that the onComplete has fully populated our list
+     */
+    private interface RecipeFireStoreCallback {
+        void onCallBack(ArrayList<Recipe> recipeList);
     }
 
 

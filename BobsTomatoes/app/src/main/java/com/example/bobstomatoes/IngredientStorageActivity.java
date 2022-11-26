@@ -163,6 +163,9 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
      */
     public void onEditOkPressed(Ingredient newIngredient, Ingredient oldIngredient) {
         ingredientDB.editIngredient(ingredientPos, newIngredient, oldIngredient);
+
+        ingredientDB.syncRecipe(newIngredient);
+
         ingredientRecyclerAdapter.notifyDataSetChanged();
     }
 
