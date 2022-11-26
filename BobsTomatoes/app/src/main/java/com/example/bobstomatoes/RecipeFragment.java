@@ -73,6 +73,7 @@ public class RecipeFragment extends DialogFragment {
 
     // For ingredient selection
     ArrayList<Ingredient> selectedIngredients;
+    ArrayList<Ingredient> oldSelectedIngredients;
 
     Recipe selectedRecipe;
     Recipe editRecipe;
@@ -124,6 +125,7 @@ public class RecipeFragment extends DialogFragment {
         ingredientsList = view.findViewById(R.id.ingredients_list);
 
         selectedIngredients = new ArrayList<>();
+        oldSelectedIngredients = new ArrayList<>();
 
         //Image View
         recipeImageView = view.findViewById(R.id.recipeImageView);
@@ -194,6 +196,7 @@ public class RecipeFragment extends DialogFragment {
 
             // Populate selectedIngredients
             selectedIngredients = selectedRecipe.getRecipeIngredients();
+
             //updateHighlights();
 
             //Populate ImageView
@@ -240,20 +243,27 @@ public class RecipeFragment extends DialogFragment {
 
                             if (newTitle.equals("")) {
                                 newTitle = selectedRecipe.getRecipeTitle();
-                            } else if (Integer.toString(newTime) == "") {
+                            }
+                            if (Integer.toString(newTime) == "") {
                                 newTime = selectedRecipe.getRecipeTime();
-                            } else if (Integer.toString(newServings) == "") {
+                            }
+                            if (Integer.toString(newServings) == "") {
                                     newServings = selectedRecipe.getRecipeServings();
-                            } else if (newCategory.equals("")) {
+                            }
+                            if (newCategory.equals("")) {
                                 newCategory = selectedRecipe.getRecipeCategory();
-                            } else if (newComments.equals("")) {
+                            }
+                            if (newComments.equals("")) {
                                 newComments = selectedRecipe.getRecipeComments();
-                            } else if (selectedIngredients.size() == 0) {
-                                selectedIngredients = selectedRecipe.getRecipeIngredients();
+                            }
+
+                            Log.d("Size", "" + selectedIngredients.size());
+                            if (selectedIngredients.size() == 0) {
+                                oldSelectedIngredients = selectedRecipe.getRecipeIngredients();
                             }
 
                             Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
-                                    newCategory, newComments, selectedIngredients, encodedImage);
+                                    newCategory, newComments, oldSelectedIngredients, encodedImage);
 
                             listener.onEditOkPressed(newRecipe, selectedRecipe);
 
