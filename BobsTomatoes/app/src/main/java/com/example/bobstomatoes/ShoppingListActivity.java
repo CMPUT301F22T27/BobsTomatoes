@@ -139,7 +139,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     createShoppingList();
                     createNeededIngredients();
 
-                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, currentIngredientAmount, recyclerViewInterface);
+                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, shoppingList.getCheckedItems(), recyclerViewInterface);
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
                     recyclerView.setAdapter(shoppingListRecyclerAdapter);
@@ -177,7 +177,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     createShoppingList();
                     createNeededIngredients();
 
-                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, currentIngredientAmount, recyclerViewInterface);
+                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, shoppingList.getCheckedItems(), recyclerViewInterface);
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
                     recyclerView.setAdapter(shoppingListRecyclerAdapter);
@@ -251,7 +251,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
                 if(need > 0){
 
-                    Ingredient neededIngredient = tempIngredient;
+                    Ingredient neededIngredient = tempIngredient.clone();
                     neededIngredient.setIngredientAmount(need);
                     neededIngredients.add(neededIngredient);
 
@@ -443,104 +443,92 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
         Log.d("Old Ingredient Desc", oldIngredient.getIngredientDesc() + "");
 
 
-        shoppingListRecyclerAdapter.setBoughtAmount(viewHolder, newAmount, newIngredient.getIngredientDesc(), oldIngredient);
+        //Save ingredient info from storage, and ingredient info from list
+        String ingredientName = oldIngredient.getIngredientDesc();
+        Ingredient ingredientFromStorage = null;
+        Ingredient ingredientFromShopping = oldIngredient;
+        int storedIngredientPosition = -1;
 
-        if (newAmount >= neededIngredients.get(oldIngredientPos).getIngredientAmount()) {
-            Log.d("GREATER", "");
-            viewHolder.checkBox.setChecked(true);
+        for(int i = 0; i < ingredientList.size(); i++){
 
-            ingredientDB = new IngredientDB();
-            CollectionReference ingredientRef = ingredientDB.getIngredientReference();
-            DocumentReference ingredientDocumentRef = ingredientDB.getIngredientReference().document(neededIngredients.get(oldIngredientPos).getIngredientDesc());
+            if(ingredientList.get(i).getIngredientDesc().equals(ingredientName)){
 
-            checkedIngredients.add(oldIngredient);
+                ingredientFromStorage = ingredientList.get(i);
+                storedIngredientPosition = i;
 
-            readIngredientData(ingredientDocumentRef, new DocumentIngredientFireStoreCallback() {
-                @Override
-                public void onCallBack(Ingredient databaseIngredient) {
-                    if (isDocument) {
-                        lastIngredientAmountList.add(databaseIngredient.getIngredientAmount());
-                    } else {
-                        lastIngredientAmountList.add(0);
-                    }
-                    isDocument = false;
-                }
-            });
-
-
-            readIngredientData(ingredientDocumentRef, new DocumentIngredientFireStoreCallback() {
-                @Override
-                public void onCallBack(Ingredient databaseIngredient) {
-                    Ingredient newIngredient = null;
-
-                    if (isDocument) { // If ingredient does exist in the database, add the amount you bought + the amount in the ingredient storage
-                        newIngredient = new Ingredient(neededIngredients.get(oldIngredientPos).getIngredientDesc(), neededIngredients.get(oldIngredientPos).getIngredientDate(),
-                                neededIngredients.get(oldIngredientPos).getIngredientLocation(), databaseIngredient.getIngredientAmount() + newAmount,
-                                neededIngredients.get(oldIngredientPos).getIngredientUnit(), neededIngredients.get(oldIngredientPos).getIngredientCategory());
-
-                    } else { // If the ingredient does not exist in the database, then simply add the amount you bought, can not test at the moment however.
-                        newIngredient = new Ingredient(ingredientList.get(oldIngredientPos).getIngredientDesc(), neededIngredients.get(oldIngredientPos).getIngredientDate(),
-                                neededIngredients.get(oldIngredientPos).getIngredientLocation(), newAmount,
-                                neededIngredients.get(oldIngredientPos).getIngredientUnit(), neededIngredients.get(oldIngredientPos).getIngredientCategory());
-                    }
-
-                    isDocument = false;
-                    ingredientDB.addIngredient(newIngredient);
-                }
-            });
-
-        } else {
-            Log.d("LESS", "");
-
-            if (viewHolder.checkBox.isChecked() == true) {
-
-                ingredientDB = new IngredientDB();
-                CollectionReference ingredientRef = ingredientDB.getIngredientReference();
-
-
-                for (int i = 0; i < checkedIngredients.size(); i++) {
-                    if (neededIngredients.get(oldIngredientPos).getIngredientDesc().equals(checkedIngredients.get(i).getIngredientDesc())) {
-                        checkedIndex = i;
-                        Log.d("In For Loop: ", "neededIngredientDesc: " + neededIngredients.get(oldIngredientPos).getIngredientDesc());
-                        Log.d("In For Loop: ", "neededIngredientDesc: " + checkedIngredients.get(i).getIngredientDesc());
-                        Log.d("In For Loop: ", "CheckedIndex: " + checkedIndex + "");
-
-
-                        //oldIngredient = checkedIngredients.get(i);
-                        break;
-                    }
-                }
-
-                DocumentReference ingredientDocumentRef = ingredientDB.getIngredientReference().document(checkedIngredients.get(checkedIndex).getIngredientDesc());
-
-                readIngredientData(ingredientDocumentRef, new DocumentIngredientFireStoreCallback() {
-                    @Override
-                    public void onCallBack(Ingredient databaseIngredient) {
-                        Log.d("IN CALL BACK LESS:", "");
-                        Ingredient newIngredient = null;
-
-                        if (isDocument) { // If ingredient does exist in the database, add the amount you bought + the amount in the ingredient storage
-
-                            newIngredient = new Ingredient(neededIngredients.get(oldIngredientPos).getIngredientDesc(), neededIngredients.get(oldIngredientPos).getIngredientDate(),
-                                    neededIngredients.get(oldIngredientPos).getIngredientLocation(), newAmount + lastIngredientAmountList.get(checkedIndex),
-                                    neededIngredients.get(oldIngredientPos).getIngredientUnit(), neededIngredients.get(oldIngredientPos).getIngredientCategory());
-
-                            isDocument = false;
-                            checkedIngredients.remove(checkedIndex);
-                            lastIngredientAmountList.remove(checkedIndex);
-                            ingredientDB.addIngredient(newIngredient);
-
-                        }
-                    }
-                });
             }
 
-            viewHolder.checkBox.setChecked(false);
         }
 
-        //shoppingListRecyclerAdapter.notifyItemChanged(oldIngredientPos);
-        neededIngredients.set(oldIngredientPos, newIngredient);
+        //Set checkbox
+        if (newAmount >= ingredientFromShopping.getIngredientAmount()){
+
+            //Check off ingredient
+            shoppingListRecyclerAdapter.setChecked(ingredientName);
+
+        } else {
+
+            //Ingredient not checked
+            shoppingListRecyclerAdapter.setUnchecked(ingredientName);
+
+        }
+
+
+        //If number bought increased
+        if(newAmount > shoppingListRecyclerAdapter.getBoughtAmount(ingredientName)) {
+
+            //Update DB to reflect bought ingredient
+            if (ingredientFromStorage != null) {
+
+                int amountStored = ingredientFromStorage.getIngredientAmount();
+
+                int amountBought = newAmount;
+
+                int amountHave = amountStored + amountBought;
+
+
+                Ingredient editedIngredient = ingredientFromShopping.clone();
+
+                editedIngredient.setIngredientAmount(amountHave);
+
+                ingredientDB.editIngredient(storedIngredientPosition, editedIngredient, ingredientFromStorage);
+
+            } else {
+
+                ingredientDB.addIngredient(ingredientFromShopping);
+
+            }
+
+        //If number decreased
+        } else {
+
+            //Update DB to reflect removed ingredients (If changed amount bought from 10 to 7, DB should lower ingredient amount by 3)
+            if (ingredientFromStorage != null) {
+
+                int amountStored = ingredientFromStorage.getIngredientAmount();
+
+                int amountLost = shoppingListRecyclerAdapter.getBoughtAmount(ingredientName) - newAmount;
+
+                int amountHave = amountStored - amountLost;
+
+
+                Ingredient editedIngredient = ingredientFromShopping.clone();
+
+                editedIngredient.setIngredientAmount(amountHave);
+
+                ingredientDB.editIngredient(storedIngredientPosition, editedIngredient, ingredientFromStorage);
+
+            } else {
+
+                ingredientDB.addIngredient(ingredientFromShopping);
+
+            }
+
+        }
+
+        shoppingListRecyclerAdapter.setBoughtAmount(viewHolder, newAmount, newIngredient.getIngredientDesc(), oldIngredient);
         shoppingListRecyclerAdapter.notifyDataSetChanged();
+
     }
 
 

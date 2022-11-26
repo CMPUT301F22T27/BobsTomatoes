@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -39,6 +40,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -491,7 +493,6 @@ public class RecipeFragment extends DialogFragment {
 
                                 finalPhoto = (Bitmap) bundle.get("data");
 
-
                             //Photo is from camera roll, comes back as Uri
                             } else {
 
@@ -501,18 +502,29 @@ public class RecipeFragment extends DialogFragment {
 
                                     finalPhoto = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri);
 
-                                } catch (Exception e) {
+                                    //If first method doesn't work
+                                } catch (Exception error) {
 
-                                    finalPhoto = null;
+                                    try {
+
+                                        finalPhoto = BitmapFactory.decodeStream(getContext().getContentResolver()
+                                                .openInputStream(imageUri));
+
+                                    } catch (FileNotFoundException e) {
+
+                                        finalPhoto = null;
+                                        e.printStackTrace();
+
+                                    }
 
                                 }
 
+                                recipeImageView.setImageBitmap(finalPhoto);
+
+                                //Encode bitmap to Base64
+                                encodedImage = encodeImage(finalPhoto);
+
                             }
-
-                            recipeImageView.setImageBitmap(finalPhoto);
-
-                            //Encode bitmap to Base64
-                            encodedImage = encodeImage(finalPhoto);
 
                         }
 

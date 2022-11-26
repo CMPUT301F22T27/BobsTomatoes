@@ -41,16 +41,38 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     private FragmentManager fragmentManager;
     int pos;
     private HashMap<String, Integer> currentAmounts = new HashMap<>();
+    private HashMap<String, Boolean> checkedItems = new HashMap<>();
 
     private IngredientDB ingredientDB;
 
 
-    public ShoppingListRecyclerAdapter(Context context, ArrayList<Ingredient> ingredientList, int currentIngredientAmount, RecyclerViewInterface recyclerViewInterface) {
+    public ShoppingListRecyclerAdapter(Context context, ArrayList<Ingredient> ingredientList, HashMap<String, Boolean> checkedItems, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.ingredientList = ingredientList;
         this.recyclerViewInterface = recyclerViewInterface;
-        this.currentIngredientAmount = currentIngredientAmount;
+        this.checkedItems = checkedItems;
         this.fragmentManager = fragmentManager;
+    }
+
+
+    /**
+     * Takes an ingredient name and toggles it's checkbox to checked
+     * @param ingredientName
+     */
+    public void setChecked(String ingredientName){
+
+        checkedItems.put(ingredientName, true);
+
+    }
+
+    /**
+     * Takes an ingredient name and toggles it's checkbox to unchecked
+     * @param ingredientName
+     */
+    public void setUnchecked(String ingredientName){
+
+        checkedItems.put(ingredientName, false);
+
     }
 
     /**
@@ -122,7 +144,6 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
         viewHolder.ingredientUnitView.setText("Unit: $" + ingredientList.get(position).getIngredientUnit());
 
         Integer tempInt = currentAmounts.get(ingredientList.get(position).getIngredientDesc());
-
         if (tempInt != null) {
 
             viewHolder.ingredientCurrentAmountView.setText("Current Amount: " + tempInt);
@@ -134,9 +155,18 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
 
         }
 
+        Boolean tempBool = checkedItems.get(ingredientList.get(position).getIngredientDesc());
+
+        if(tempBool != null){
+
+            viewHolder.checkBox.setChecked(tempBool);
+
+        }
+
+
+
         viewHolder.ingredientAmountNeededView.setText("Amount Needed: " + ingredientList.get(position).getIngredientAmount());
         viewHolder.ingredientCategoryView.setText("Category: " + ingredientList.get(position).getIngredientCategory());
-
         viewHolder.checkBox.setClickable(false);
 
 
