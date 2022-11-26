@@ -75,11 +75,14 @@ public class RecipeFragment extends DialogFragment {
     ArrayList<Ingredient> selectedIngredients;
     ArrayList<Ingredient> oldSelectedIngredients;
 
+
     Recipe selectedRecipe;
     Recipe editRecipe;
     int oldRecipePos;
     Context context;
     AlertDialog.Builder builder;
+
+    Recipe newRecipe;
 
 
     public interface OnRecipeFragmentListener{
@@ -125,6 +128,7 @@ public class RecipeFragment extends DialogFragment {
         ingredientsList = view.findViewById(R.id.ingredients_list);
 
         selectedIngredients = new ArrayList<>();
+
         oldSelectedIngredients = new ArrayList<>();
 
         //Image View
@@ -197,6 +201,10 @@ public class RecipeFragment extends DialogFragment {
             // Populate selectedIngredients
             selectedIngredients = selectedRecipe.getRecipeIngredients();
 
+            for (int i = 0; i < selectedIngredients.size(); i++) {
+                oldSelectedIngredients.add(selectedIngredients.get(i));
+            }
+
             //updateHighlights();
 
             //Populate ImageView
@@ -257,13 +265,14 @@ public class RecipeFragment extends DialogFragment {
                                 newComments = selectedRecipe.getRecipeComments();
                             }
 
-                            Log.d("Size", "" + selectedIngredients.size());
-                            if (selectedIngredients.size() == 0) {
-                                oldSelectedIngredients = selectedRecipe.getRecipeIngredients();
-                            }
 
-                            Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
-                                    newCategory, newComments, oldSelectedIngredients, encodedImage);
+                            if (selectedIngredients.size() == 0) {
+                                 newRecipe = new Recipe(newTitle, newTime, newServings,
+                                        newCategory, newComments, oldSelectedIngredients, encodedImage);
+                            } else {
+                                 newRecipe = new Recipe(newTitle, newTime, newServings,
+                                        newCategory, newComments, selectedIngredients, encodedImage);
+                            }
 
                             listener.onEditOkPressed(newRecipe, selectedRecipe);
 
