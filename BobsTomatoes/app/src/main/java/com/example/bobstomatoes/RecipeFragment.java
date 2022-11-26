@@ -29,9 +29,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -75,7 +77,8 @@ public class RecipeFragment extends DialogFragment {
     Recipe selectedRecipe;
     Recipe editRecipe;
     int oldRecipePos;
-
+    Context context;
+    AlertDialog.Builder builder;
 
 
     public interface OnRecipeFragmentListener{
@@ -92,7 +95,7 @@ public class RecipeFragment extends DialogFragment {
      */
     @Override
     public void onAttach(Context context) {
-
+        this.context = context;
         super.onAttach(context);
         if (context instanceof RecipeFragment.OnRecipeFragmentListener){
             listener = (RecipeFragment.OnRecipeFragmentListener) context;
@@ -137,7 +140,8 @@ public class RecipeFragment extends DialogFragment {
         initIngredientList();
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder = new AlertDialog.Builder(getContext());
+        AlertDialog dialog;
         Bundle bundle = this.getArguments();
 
 
@@ -220,6 +224,18 @@ public class RecipeFragment extends DialogFragment {
                             String newCategory = categoryText.getText().toString();
                             String newComments = commentsText.getText().toString();
 
+                            if (newTitle.equals("")) {
+                                newTitle = selectedRecipe.getRecipeTitle();
+                            } else if (Integer.toString(newTime) == "") {
+                                newTime = selectedRecipe.getRecipeTime();
+                            } else if (Integer.toString(newServings) == "") {
+                                    newServings = selectedRecipe.getRecipeServings();
+                            } else if (newCategory.equals("")) {
+                                newCategory = selectedRecipe.getRecipeCategory();
+                            } else if (newComments.equals("")) {
+                                newComments = selectedRecipe.getRecipeComments();
+                            }
+
                             Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
                                     newCategory, newComments, selectedIngredients, encodedImage);
 
@@ -233,29 +249,49 @@ public class RecipeFragment extends DialogFragment {
         } else {  // If bundle = null, then a recipe has not been passed in to the fragment -> add
 
             //Builder for add
-            return builder.setView(view)
+            dialog = builder
+                    .setView(view)
                     .setTitle("Add Recipe")
+                    .setPositiveButton("Add", null)
                     .setNegativeButton("Cancel", null)
-                    .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                            String newTitle = titleText.getText().toString();
-                            int newTime = Integer.parseInt(timeText.getText().toString());
-                            int newServings = Integer.parseInt(servingsText.getText().toString());
-                            String newCategory = categoryText.getText().toString();
-                            String newComments = commentsText.getText().toString();
-
-                            Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
-                                    newCategory, newComments, selectedIngredients, encodedImage);
-
-                            listener.onAddOkPressed(newRecipe);
-
-                        }
-                    })
                     .create();
 
+            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    Button button = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+                                String newTitle = titleText.getText().toString();
+                                int newTime = Integer.parseInt(timeText.getText().toString());
+                                int newServings = Integer.parseInt(servingsText.getText().toString());
+                                String newCategory = categoryText.getText().toString();
+                                String newComments = commentsText.getText().toString();
+                                Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
+                                        newCategory, newComments, selectedIngredients, encodedImage);
+
+                                listener.onAddOkPressed(newRecipe);
+                            } catch (Exception e) {
+                                Log.d("EXCEPTION HERE", e.toString());
+                                //Toast errorToast = null;
+
+                                Snackbar snackbar = null;
+                                snackbar = snackbar.make(view, "Please fill out all required fields", Snackbar.LENGTH_SHORT);
+                                snackbar.show();
+
+                                //Toast.makeText(context.getApplicationContext(), "Fill out all fields", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+                }
+            });
+
+            return dialog;
         }
+
     }
 
     /**
