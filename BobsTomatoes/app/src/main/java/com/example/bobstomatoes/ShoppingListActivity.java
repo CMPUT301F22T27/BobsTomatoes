@@ -15,7 +15,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,6 +33,7 @@ import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -118,6 +122,11 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
         //RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
 
+        //Spinner
+        String [] sortChoices = {"Description", "Category"};
+        ArrayList <String> spinnerOptions = new ArrayList<>();
+        ArrayAdapter<String> spinnerAdapter;
+
         // Populate ingredient list from database
         readIngredientData(new IngredientFireStoreCallback() {
             /**
@@ -146,6 +155,16 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
             }
         });
 
+        // Create and Populate Spinner
+        // Spinner allows users to choose how to sort ingredients
+        Spinner choiceSpinner = (Spinner) findViewById(R.id.sortDropDownID);
+        // Populate Sort Choice Spinner
+        for (int i = 0;  i < sortChoices.length; i++) {
+            spinnerOptions.add(sortChoices[i]);
+        }
+        spinnerAdapter = new ArrayAdapter <> (this, android.R.layout.simple_spinner_dropdown_item, spinnerOptions);
+        choiceSpinner.setAdapter(spinnerAdapter);
+
         // Populate ingredient list from database
         readMealPlanData(new MealPlanFireStoreCallBack() {
             /**
@@ -166,6 +185,25 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
                     recyclerView.setAdapter(shoppingListRecyclerAdapter);
+
+                    // Retrieve user sort choice
+                    choiceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            String sortChoice = (String) choiceSpinner.getSelectedItem();
+                            sortByChoice(sortChoice);
+                            for (int j = 0; j < neededIngredients.size(); j++) {
+                                System.out.println("SORTED: " + neededIngredients.get(i).getIngredientDesc());
+                            }
+
+                            shoppingListRecyclerAdapter.notifyDataSetChanged();
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
                     shoppingListRecyclerAdapter.notifyDataSetChanged();
 
                     Log.d("GABE STINKY ASS", "STINKY ASS GABE");
@@ -182,6 +220,17 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
     }
 
+    /**
+     * Allows the user to sort the list of ingredients by description, location, or best before date
+     * @param choice    user choice of how to sort ingredients
+     */
+    public void sortByChoice(String choice){
+        if(choice.equals("Description")){
+            Collections.sort(neededIngredients, Ingredient::compareToIngredientDesc);
+        }else{
+            Collections.sort(neededIngredients, Ingredient::compareToIngredientCategory);
+        }
+    }
 
     /**
      * Creates a list of needed ingredient objects
