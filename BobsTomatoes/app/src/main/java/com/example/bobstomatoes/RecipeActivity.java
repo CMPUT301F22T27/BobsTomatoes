@@ -164,6 +164,9 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         if(updatedIngredients) {
             newRecipe.setRecipeIngredients(globalIngredientList);
         }
+        Log.d("New Recipe:", newRecipe.getRecipeIngredients().toString());
+        Log.d("Old Recipe:", oldRecipe.getRecipeIngredients().toString());
+
         recipeDB.editRecipe(recipePos, newRecipe, oldRecipe);
         recipeRecyclerAdapter.notifyDataSetChanged();
         updatedIngredients = false;

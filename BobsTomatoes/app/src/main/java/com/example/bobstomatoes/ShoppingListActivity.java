@@ -44,7 +44,6 @@ import java.util.Set;
 public class ShoppingListActivity extends AbstractNavigationBar implements RecyclerViewInterface, ShoppingListFragment.OnShoppingListFragmentListener {
 
     IngredientDB ingredientDB;
-    IngredientDB ingredientDB2;
     CollectionReference ingredientReference;
     ArrayList<Ingredient> ingredientList;
 
@@ -77,9 +76,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
     Ingredient databaseIngredient;
     boolean isDocument;
-
-    CheckBox checkbox;
-
 
     /**
      * Create instance
