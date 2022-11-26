@@ -185,6 +185,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
                     recyclerView.setAdapter(shoppingListRecyclerAdapter);
+
                     // Retrieve user sort choice
                     choiceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -230,7 +231,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
             Collections.sort(neededIngredients, Ingredient::compareToIngredientCategory);
         }
     }
-
 
     /**
      * Creates a list of needed ingredient objects
