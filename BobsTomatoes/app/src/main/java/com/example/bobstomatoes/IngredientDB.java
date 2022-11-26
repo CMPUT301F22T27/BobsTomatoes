@@ -173,39 +173,7 @@ public class IngredientDB {
 
         ingredientList.set(oldIngredientPos, updatedIngredient);
     }
-
-    public ArrayList<Recipe> syncRecipe(Ingredient ingredient) {
-        RecipeDB recipeDB = new RecipeDB();
-        CollectionReference recipeReference = recipeDB.getRecipeReference();
-        updatedRecipes = recipeDB.getRecipeList();
-
-        readData(recipeReference, new RecipeFireStoreCallback() {
-            @Override
-            public void onCallBack(ArrayList<Recipe> recipesList) {
-                for (int i = 0; i < recipesList.size(); i++) {
-                    for (int j = 0; j < recipesList.get(i).getRecipeIngredients().size(); j++) {
-//                        Log.d("ingredientDB: RECIPES TITLES", recipesList.get(i).getRecipeTitle());
-//                        Log.d("ingredientDB: SPECIFIC RECIPE TITLE", recipesList.get(i).getRecipeIngredients().get(j).getIngredientDesc());
-//                        Log.d("ingredientDB: SPECIFIC INGREDIENT TITLE", ingredient.getIngredientDesc());
-                        if (recipesList.get(i).getRecipeIngredients().get(j).getIngredientDesc().equals(ingredient.getIngredientDesc())) {
-                            Log.d("GOT HERE 3", "");
-//                            int recipeIngredientAmount = recipesList.get(i).getRecipeIngredients().get(j).getIngredientAmount();
-//                            ingredient.setIngredientAmount(recipeIngredientAmount);
-
-
-//                            Log.d("ingredientDB: RecipeIngredient", recipesList.get(i).getRecipeIngredients().get(j).getIngredientDesc());
-//                            Log.d("ingredientDB: ingredient", ingredient.getIngredientDesc());
-                            recipeDB.editRecipeIngredient(i, recipesList.get(i));
-                        }
-                    }
-                }
-                updatedRecipes = recipesList;
-            }
-        });
-
-        return updatedRecipes;
-    }
-
+    
     /**
      * Ingredient list getter
      * Retrieve array list of ingredients, allow for accessibility to other classes
