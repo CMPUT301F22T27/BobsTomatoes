@@ -76,7 +76,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     MealPlanFragment editFragment;
 
     ArrayList<Ingredient> globalIngredientList = new ArrayList<>();
-    ArrayList<Ingredient> oldIngredientList = new ArrayList<>();
 
     LinearLayout mealPlanDetailsLinearLayout;
     LinearLayout mealPlanButtonsLinearLayout;
@@ -404,10 +403,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
                 recipeList = currentMealPlan.getMealPlanRecipes();
                 ingredientList = currentMealPlan.getMealPlanIngredients();
-
-                for (int i = 0; i < ingredientList.size(); i++) {
-                    oldIngredientList.add(ingredientList.get(i));
-                }
 
                 ingredientAdapter = new IngredientStorageMealPlanAdapter(this, ingredientList);
                 recipeAdapter = new RecipeAdapter(this, recipeList);
