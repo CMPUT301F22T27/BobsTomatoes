@@ -322,6 +322,7 @@ public class RecipeFragment extends DialogFragment {
                                 //Toast errorToast = null;
 
                                 Snackbar snackbar = null;
+                                snackbar.setDuration(700);
                                 snackbar = snackbar.make(view, "Please fill out all required fields", Snackbar.LENGTH_SHORT);
                                 snackbar.show();
 
