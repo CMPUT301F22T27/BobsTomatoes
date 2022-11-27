@@ -260,7 +260,21 @@ public class IngredientStorageFragment extends DialogFragment {
                             int year = datePicker.getYear();
                             int month = datePicker.getMonth() + 1;
                             int day = datePicker.getDayOfMonth();
-                            String newDate = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
+
+                            String monthStr;
+                            String dayStr;
+                            if (month < 10) {
+                                monthStr = "0" + Integer.toString(month);
+                            } else {
+                                monthStr = Integer.toString(month);
+                            }
+                            if (day < 10) {
+                                dayStr = "0" + Integer.toString(day);
+                            } else {
+                                dayStr = Integer.toString(day);
+                            }
+
+                            String newDate = Integer.toString(year) + "-" + monthStr + "-" + dayStr;
 
                             // Location
                             String newLocation;
@@ -348,7 +362,19 @@ public class IngredientStorageFragment extends DialogFragment {
                                  int year = datePicker.getYear();
                                  int month = datePicker.getMonth() + 1;
                                  int day = datePicker.getDayOfMonth();
-                                 String newDate = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
+                                 String monthStr;
+                                 String dayStr;
+                                 if (month < 10) {
+                                     monthStr = "0" + Integer.toString(month);
+                                 } else {
+                                     monthStr = Integer.toString(month);
+                                 }
+                                 if (day < 10) {
+                                     dayStr = "0" + Integer.toString(day);
+                                 } else {
+                                     dayStr = Integer.toString(day);
+                                 }
+                                 String newDate = Integer.toString(year) + "-" + monthStr + "-" + dayStr;
 
                                  // Location
                                  String newLocation;
