@@ -359,7 +359,7 @@ public class IngredientStorageFragment extends DialogFragment {
                                  }else if(freezerRadioButton.isChecked()){
                                      newLocation = "Freezer";
                                  }else{
-                                     newLocation = "";
+                                     throw new Exception("Fail");
                                  }
 
                                  String tempAmount = amountText.getText().toString();
@@ -392,7 +392,7 @@ public class IngredientStorageFragment extends DialogFragment {
                                  }else if(otherRadioButton.isChecked()){
                                      newCategory = "Other";
                                  }else{
-                                     newCategory = "";
+                                     throw new Exception("Fail");
                                  }
                                  addIngredient = new Ingredient(newDescription, newDate, newLocation, newAmount, newUnit, newCategory);
 
