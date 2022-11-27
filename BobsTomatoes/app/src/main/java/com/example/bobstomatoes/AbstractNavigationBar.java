@@ -18,7 +18,6 @@ import com.example.bobstomatoes.databinding.ActivityRecyclerShoppingListBinding;
 import com.example.bobstomatoes.databinding.MainMealPlanBinding;
 import com.example.bobstomatoes.databinding.NavigationButtonsLayoutBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 
 /**
@@ -58,23 +57,12 @@ public abstract class AbstractNavigationBar extends AppCompatActivity {
                 } else if (itemID == R.id.shopping_list_item){
                     Intent intent = new Intent(activity, ShoppingListActivity.class);
                     activity.startActivity(intent);
-                } else if (itemID == R.id.add_item) {
-                    String date = ((MealPlanActivity) activity).getGlobalDate();
-
-                    if (!date.equals("")) {
-                        new MealPlanFragment().show(getSupportFragmentManager(), "MEAL PLAN ADD FRAGMENT");
-                    } else {
-                        Snackbar snackbar = null;
-                        View view1 = findViewById(R.id.mealPlanDetailLayout);
-                        snackbar = snackbar.make(view1, "Please select a date first!", Snackbar.LENGTH_SHORT);
-                        snackbar.setDuration(800);
-                        snackbar.show();
-
-                    }
+                } else if (itemID == R.id.add_item){
+                    new MealPlanFragment().show(getSupportFragmentManager(), "MEAL PLAN ADD FRAGMENT");
                 }
+
                return false;
             });
-
         } else if (activity instanceof IngredientStorageActivity){
             ActivityRecyclerIngredientBinding binding;
             binding = ActivityRecyclerIngredientBinding.inflate(getLayoutInflater());
