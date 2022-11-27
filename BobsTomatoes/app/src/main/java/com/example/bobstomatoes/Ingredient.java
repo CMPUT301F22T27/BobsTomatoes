@@ -35,6 +35,7 @@ public class Ingredient implements Parcelable {
         this.ingredientCategory = ingredientCategory;
     }
 
+
     /**
      * Ingredient constructor, is an empty constructor, takes in nothing
      * Used for FireStore database
@@ -184,6 +185,17 @@ public class Ingredient implements Parcelable {
      */
     public void setIngredientCategory(String ingredientCategory) {
         this.ingredientCategory = ingredientCategory;
+    }
+
+    public Ingredient clone(){
+
+        return new Ingredient(this.ingredientDesc,
+        this.ingredientDate,
+        this.ingredientLocation,
+        this.ingredientAmount,
+        this.ingredientUnit,
+        this.ingredientCategory);
+
     }
 
     /**

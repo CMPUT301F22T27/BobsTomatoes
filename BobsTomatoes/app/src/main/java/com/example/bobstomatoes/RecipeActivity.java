@@ -164,6 +164,9 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         if(updatedIngredients) {
             newRecipe.setRecipeIngredients(globalIngredientList);
         }
+        Log.d("New Recipe:", newRecipe.getRecipeIngredients().toString());
+        Log.d("Old Recipe:", oldRecipe.getRecipeIngredients().toString());
+
         recipeDB.editRecipe(recipePos, newRecipe, oldRecipe);
         recipeRecyclerAdapter.notifyDataSetChanged();
         updatedIngredients = false;
@@ -211,11 +214,11 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
      * @param callBack  recipe database
      */
     public void readData(RecipeFireStoreCallback callBack) {
+        showDialog(true);
         recipeReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    showDialog(true);
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Recipe recipe = document.toObject(Recipe.class);
                         recipeList.add(recipe);

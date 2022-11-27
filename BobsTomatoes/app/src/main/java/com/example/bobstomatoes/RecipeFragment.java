@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -39,6 +40,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -75,11 +77,14 @@ public class RecipeFragment extends DialogFragment {
     ArrayList<Ingredient> selectedIngredients;
     ArrayList<Ingredient> oldSelectedIngredients;
 
+
     Recipe selectedRecipe;
     Recipe editRecipe;
     int oldRecipePos;
     Context context;
     AlertDialog.Builder builder;
+
+    Recipe newRecipe;
 
 
     public interface OnRecipeFragmentListener{
@@ -125,6 +130,7 @@ public class RecipeFragment extends DialogFragment {
         ingredientsList = view.findViewById(R.id.ingredients_list);
 
         selectedIngredients = new ArrayList<>();
+
         oldSelectedIngredients = new ArrayList<>();
 
         //Image View
@@ -197,6 +203,10 @@ public class RecipeFragment extends DialogFragment {
             // Populate selectedIngredients
             selectedIngredients = selectedRecipe.getRecipeIngredients();
 
+            for (int i = 0; i < selectedIngredients.size(); i++) {
+                oldSelectedIngredients.add(selectedIngredients.get(i));
+            }
+
             //updateHighlights();
 
             //Populate ImageView
@@ -209,6 +219,7 @@ public class RecipeFragment extends DialogFragment {
             // Builder for Edit/delete
             return builder.setView(view)
                     .setTitle("Edit Recipe")
+                    .setNeutralButton("Cancel", null)
                     .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -257,13 +268,14 @@ public class RecipeFragment extends DialogFragment {
                                 newComments = selectedRecipe.getRecipeComments();
                             }
 
-                            Log.d("Size", "" + selectedIngredients.size());
-                            if (selectedIngredients.size() == 0) {
-                                oldSelectedIngredients = selectedRecipe.getRecipeIngredients();
-                            }
 
-                            Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
-                                    newCategory, newComments, oldSelectedIngredients, encodedImage);
+                            if (selectedIngredients.size() == 0) {
+                                 newRecipe = new Recipe(newTitle, newTime, newServings,
+                                        newCategory, newComments, oldSelectedIngredients, encodedImage);
+                            } else {
+                                 newRecipe = new Recipe(newTitle, newTime, newServings,
+                                        newCategory, newComments, selectedIngredients, encodedImage);
+                            }
 
                             listener.onEditOkPressed(newRecipe, selectedRecipe);
 
@@ -279,7 +291,7 @@ public class RecipeFragment extends DialogFragment {
                     .setView(view)
                     .setTitle("Add Recipe")
                     .setPositiveButton("Add", null)
-                    .setNegativeButton("Cancel", null)
+                    .setNeutralButton("Cancel", null)
                     .create();
 
             dialog.setOnShowListener(new DialogInterface.OnShowListener() {
@@ -311,6 +323,7 @@ public class RecipeFragment extends DialogFragment {
 
                                 Snackbar snackbar = null;
                                 snackbar = snackbar.make(view, "Please fill out all required fields", Snackbar.LENGTH_SHORT);
+                                snackbar.setDuration(700);
                                 snackbar.show();
 
                                 //Toast.makeText(context.getApplicationContext(), "Fill out all fields", Toast.LENGTH_SHORT).show();
@@ -473,41 +486,49 @@ public class RecipeFragment extends DialogFragment {
 
                         Intent data = result.getData();
 
-                        if (data != null){
+                        if (data != null) {
 
-                            Bundle bundle = data.getExtras();
-
-                            //Indicates photo was taken
-                            if (bundle != null){
-
-                                finalPhoto = (Bitmap) bundle.get("data");
-
-
-                            //Photo is from camera roll, comes back as Uri
-                            } else {
-
+                                Bundle bundle = data.getExtras();
                                 Uri imageUri = data.getData();
 
                                 try {
 
                                     finalPhoto = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri);
 
-                                } catch (Exception e) {
+                                    //If first method doesn't work
+                                } catch (Exception error) {
 
-                                    finalPhoto = null;
+                                    try {
+
+                                        finalPhoto = BitmapFactory.decodeStream(getContext().getContentResolver()
+                                                .openInputStream(imageUri));
+
+                                    } catch (Exception e) {
+
+//                                        finalPhoto = null;
+//                                        e.printStackTrace();
+
+                                        try {
+                                            finalPhoto = (Bitmap) bundle.get("data");
+
+                                        } catch (Exception t) {
+
+                                            finalPhoto = null;
+                                            t.printStackTrace();
+                                        }
+
+                                    }
 
                                 }
 
-                            }
+                                recipeImageView.setImageBitmap(finalPhoto);
 
-                            recipeImageView.setImageBitmap(finalPhoto);
-
-                            //Encode bitmap to Base64
-                            encodedImage = encodeImage(finalPhoto);
+                                //Encode bitmap to Base64
+                                encodedImage = encodeImage(finalPhoto);
 
                         }
-
                     }
+
                 });
 
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
@@ -544,7 +565,7 @@ public class RecipeFragment extends DialogFragment {
 
         ByteArrayOutputStream baos  = new ByteArrayOutputStream();
 
-        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
 
         String encodedImage = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
 
