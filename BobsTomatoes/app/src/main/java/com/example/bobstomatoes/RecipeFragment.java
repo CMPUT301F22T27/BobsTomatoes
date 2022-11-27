@@ -219,6 +219,7 @@ public class RecipeFragment extends DialogFragment {
             // Builder for Edit/delete
             return builder.setView(view)
                     .setTitle("Edit Recipe")
+                    .setNeutralButton("Cancel", null)
                     .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -290,7 +291,7 @@ public class RecipeFragment extends DialogFragment {
                     .setView(view)
                     .setTitle("Add Recipe")
                     .setPositiveButton("Add", null)
-                    .setNegativeButton("Cancel", null)
+                    .setNeutralButton("Cancel", null)
                     .create();
 
             dialog.setOnShowListener(new DialogInterface.OnShowListener() {
