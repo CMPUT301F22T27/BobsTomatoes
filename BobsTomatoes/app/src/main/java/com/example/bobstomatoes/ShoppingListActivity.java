@@ -387,11 +387,11 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
      * @param callBack  meal plan database
      */
     public void readMealPlanData(MealPlanFireStoreCallBack callBack) {
+        showDialog(true, ingredientLoadDone, mealPlanLoadDone);
         mealPlanReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    showDialog(true, ingredientLoadDone, mealPlanLoadDone);
                     mealPlanList.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         MealPlan mealPlan = document.toObject(MealPlan.class);
@@ -402,6 +402,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     callBack.onCallBack(mealPlanList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
+                    showDialog(false, ingredientLoadDone, true);
                 }
             }
         });
@@ -413,11 +414,11 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
      * @param callBack  ingredient database
      */
     public void readIngredientData(IngredientFireStoreCallback callBack) {
+        showDialog(true, ingredientLoadDone, mealPlanLoadDone);
         ingredientReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    showDialog(true, ingredientLoadDone, mealPlanLoadDone);
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Ingredient ingredient = document.toObject(Ingredient.class);
                         ingredientList.add(ingredient);
@@ -427,6 +428,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     callBack.onCallBack(ingredientList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
+                    showDialog(false, true, mealPlanLoadDone);
                 }
             }
         });
@@ -572,32 +574,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
      */
     private interface DocumentIngredientFireStoreCallback {
         void onCallBack(Ingredient ingredient);
-    }
-
-    /**
-     * Populates from data base using callBack
-     *
-     * @param callBack ingredient database
-     */
-    public void readIngredientData(DocumentReference ingredientReference, ShoppingListActivity.DocumentIngredientFireStoreCallback callBack) {
-        ingredientReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@androidx.annotation.NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()){
-                        databaseIngredient = document.toObject(Ingredient.class);
-                        isDocument = true;
-                    } else {
-                        isDocument = false;
-                    }
-
-                    callBack.onCallBack(databaseIngredient);
-                } else {
-                    Log.d("", "Error getting documents: ", task.getException());
-                }
-            }
-        });
     }
 
 }

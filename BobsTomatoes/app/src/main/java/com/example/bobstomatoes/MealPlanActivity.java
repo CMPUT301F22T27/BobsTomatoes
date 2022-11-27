@@ -525,6 +525,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                     callBack.onCallBack(mealPlanList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
+                    showDialog(false);
                 }
             }
         });
