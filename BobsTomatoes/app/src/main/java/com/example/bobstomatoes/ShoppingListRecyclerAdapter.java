@@ -34,14 +34,15 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     private ArrayList<Ingredient> ingredientList = new ArrayList<>();
     private int currentIngredientAmount;
     private ArrayList<Ingredient> checkedIngredients = new ArrayList<>();
+    private ArrayList<Integer> databaseIngredientAmountList = new ArrayList<>();
+
     private Context context;
     private final RecyclerViewInterface recyclerViewInterface;
     private FragmentManager fragmentManager;
     int pos;
     private HashMap<String, Integer> currentAmounts = new HashMap<>();
-    Ingredient databaseIngredient;
+
     private IngredientDB ingredientDB;
-    boolean isDocument = false;
 
 
     public ShoppingListRecyclerAdapter(Context context, ArrayList<Ingredient> ingredientList, int currentIngredientAmount, RecyclerViewInterface recyclerViewInterface) {
@@ -59,14 +60,12 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
      * @param newInt
      * @param ingredientName
      */
-    public void setBoughtAmount(ShoppingListRecyclerAdapter.ViewHolder viewHolder, int newInt, String ingredientName) {
-
+    public void setBoughtAmount(ShoppingListRecyclerAdapter.ViewHolder viewHolder, int newInt, String ingredientName, Ingredient lastChangedIngredient) {
         Integer currentNum = currentAmounts.get(ingredientName);
 
         if (currentNum != null) {
 
             //newInt = currentNum + newInt;
-            newInt = newInt;
             currentAmounts.put(ingredientName, newInt);
 
         } else {
@@ -117,6 +116,8 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
 
     @Override
     public void onBindViewHolder(ShoppingListRecyclerAdapter.ViewHolder viewHolder, int position) {
+        int ingredientPos = position;
+
         viewHolder.ingredientNameView.setText(ingredientList.get(position).getIngredientDesc());
         viewHolder.ingredientUnitView.setText("Unit: $" + ingredientList.get(position).getIngredientUnit());
 
@@ -126,43 +127,6 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
 
             viewHolder.ingredientCurrentAmountView.setText("Current Amount: " + tempInt);
 
-            if (tempInt >= ingredientList.get(position).getIngredientAmount()) {
-
-                viewHolder.checkBox.setChecked(true);
-                ingredientDB = new IngredientDB();
-                CollectionReference ingredientRef = ingredientDB.getIngredientReference();
-                DocumentReference ingredientDocumentRef = ingredientDB.getIngredientReference().document(ingredientList.get(position).getIngredientDesc());
-
-
-
-                readIngredientData(ingredientDocumentRef, new IngredientFireStoreCallback() {
-                    @Override
-                    public void onCallBack(Ingredient databaseIngredient) {
-                        Ingredient newIngredient = null;
-
-                        if (isDocument) { // If ingredient does exist in the database, add the amount you bought + the amount in the ingredient storage
-                            newIngredient = new Ingredient(ingredientList.get(position).getIngredientDesc(), ingredientList.get(position).getIngredientDate(),
-                                    ingredientList.get(position).getIngredientLocation(), databaseIngredient.getIngredientAmount() + tempInt,
-                                    ingredientList.get(position).getIngredientUnit(), ingredientList.get(position).getIngredientCategory());
-
-                        } else { // If the ingredient does not exist in the database, then simply add the amount you bought, can not test at the moment however.
-                            newIngredient = new Ingredient(ingredientList.get(position).getIngredientDesc(), ingredientList.get(position).getIngredientDate(),
-                                    ingredientList.get(position).getIngredientLocation(), tempInt,
-                                    ingredientList.get(position).getIngredientUnit(), ingredientList.get(position).getIngredientCategory());
-                        }
-
-                        isDocument = false;
-                        ingredientDB.addIngredient(newIngredient);
-                    }
-                });
-
-
-
-
-
-            } else {
-                viewHolder.checkBox.setChecked(false);
-            }
 
         } else {
 
@@ -175,7 +139,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
 
         viewHolder.checkBox.setClickable(false);
 
-        int ingredientPos = position;
+
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -247,40 +211,4 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
         }
     }
 
-    /**
-     * Interface
-     * Call back ingredientList
-     * Allows us to access the ingredientList outside of the onComplete and it
-     * ensures that the onComplete has fully populated our list
-     */
-    private interface IngredientFireStoreCallback {
-        void onCallBack(Ingredient ingredient);
-    }
-
-    /**
-     * Populates from data base using callBack
-     *
-     * @param callBack ingredient database
-     */
-    public void readIngredientData(DocumentReference ingredientReference, ShoppingListRecyclerAdapter.IngredientFireStoreCallback callBack) {
-        ingredientReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@androidx.annotation.NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()){
-                        databaseIngredient = document.toObject(Ingredient.class);
-                        isDocument = true;
-                    } else {
-                        isDocument = false;
-                    }
-
-                    callBack.onCallBack(databaseIngredient);
-                } else {
-                    Log.d("", "Error getting documents: ", task.getException());
-                }
-            }
-        });
-
-    }
 }

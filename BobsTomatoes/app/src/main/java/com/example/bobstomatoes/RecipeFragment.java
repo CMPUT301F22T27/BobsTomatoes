@@ -73,6 +73,7 @@ public class RecipeFragment extends DialogFragment {
 
     // For ingredient selection
     ArrayList<Ingredient> selectedIngredients;
+    ArrayList<Ingredient> oldSelectedIngredients;
 
     Recipe selectedRecipe;
     Recipe editRecipe;
@@ -124,6 +125,7 @@ public class RecipeFragment extends DialogFragment {
         ingredientsList = view.findViewById(R.id.ingredients_list);
 
         selectedIngredients = new ArrayList<>();
+        oldSelectedIngredients = new ArrayList<>();
 
         //Image View
         recipeImageView = view.findViewById(R.id.recipeImageView);
@@ -194,6 +196,7 @@ public class RecipeFragment extends DialogFragment {
 
             // Populate selectedIngredients
             selectedIngredients = selectedRecipe.getRecipeIngredients();
+
             //updateHighlights();
 
             //Populate ImageView
@@ -219,25 +222,48 @@ public class RecipeFragment extends DialogFragment {
                         public void onClick(DialogInterface dialogInterface, int i) {
 
                             String newTitle = titleText.getText().toString();
-                            int newTime = Integer.parseInt(timeText.getText().toString());
-                            int newServings = Integer.parseInt(servingsText.getText().toString());
+
+                            String tempTime = timeText.getText().toString();
+                            int newTime;
+                            if (tempTime.toString().equals("")) {
+                                newTime = selectedRecipe.getRecipeTime();
+                            } else {
+                                newTime = Integer.parseInt(tempTime);
+                            }
+                            String tempServings = servingsText.getText().toString();
+                            int newServings;
+                            if (tempServings.toString().equals("")) {
+                                newServings = selectedRecipe.getRecipeServings();
+                            } else {
+                                newServings = Integer.parseInt(tempServings);
+                            }
+
                             String newCategory = categoryText.getText().toString();
                             String newComments = commentsText.getText().toString();
 
                             if (newTitle.equals("")) {
                                 newTitle = selectedRecipe.getRecipeTitle();
-                            } else if (Integer.toString(newTime) == "") {
+                            }
+                            if (Integer.toString(newTime) == "") {
                                 newTime = selectedRecipe.getRecipeTime();
-                            } else if (Integer.toString(newServings) == "") {
+                            }
+                            if (Integer.toString(newServings) == "") {
                                     newServings = selectedRecipe.getRecipeServings();
-                            } else if (newCategory.equals("")) {
+                            }
+                            if (newCategory.equals("")) {
                                 newCategory = selectedRecipe.getRecipeCategory();
-                            } else if (newComments.equals("")) {
+                            }
+                            if (newComments.equals("")) {
                                 newComments = selectedRecipe.getRecipeComments();
                             }
 
+                            Log.d("Size", "" + selectedIngredients.size());
+                            if (selectedIngredients.size() == 0) {
+                                oldSelectedIngredients = selectedRecipe.getRecipeIngredients();
+                            }
+
                             Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
-                                    newCategory, newComments, selectedIngredients, encodedImage);
+                                    newCategory, newComments, oldSelectedIngredients, encodedImage);
 
                             listener.onEditOkPressed(newRecipe, selectedRecipe);
 
@@ -269,10 +295,16 @@ public class RecipeFragment extends DialogFragment {
                                 int newServings = Integer.parseInt(servingsText.getText().toString());
                                 String newCategory = categoryText.getText().toString();
                                 String newComments = commentsText.getText().toString();
+                                Ingredient newIngredient = selectedIngredients.get(0);
+                                if(encodedImage.equals(null)) {
+                                    throw new Exception("Fail");
+                                }
+
                                 Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
                                         newCategory, newComments, selectedIngredients, encodedImage);
 
                                 listener.onAddOkPressed(newRecipe);
+                                dialog.dismiss();
                             } catch (Exception e) {
                                 Log.d("EXCEPTION HERE", e.toString());
                                 //Toast errorToast = null;
