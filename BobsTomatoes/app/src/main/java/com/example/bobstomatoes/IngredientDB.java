@@ -111,6 +111,8 @@ public class IngredientDB {
                     }
                 });
         ingredientList.remove(ingredient);
+        deleteRecipeIngredientTransaction(ingredient);
+        deleteMealIngredientTransaction(ingredient);
     }
 
     /**
@@ -193,8 +195,6 @@ public class IngredientDB {
 
         ArrayList<Recipe> recipesList = recipeDB.getRecipeList();
 
-
-
         readRecipeData(recipeColRef, recipesList, new RecipeFireStoreCallback() {
             @Override
             public void onCallBack(ArrayList<Recipe> recipeList) {
@@ -209,10 +209,11 @@ public class IngredientDB {
                                 if (currentRecipeIngredientList.get(j).getIngredientDesc().equals(updatedIngredient.getIngredientDesc())) {
                                     currentRecipeIngredientList.set(j, updatedIngredient);
 
+                                    recipeList.get(i).setRecipeIngredients(currentRecipeIngredientList);
+                                    recipeDB.editRecipeMealTransaction(recipeList.get(i));
                                 }
                             }
 
-                            recipeDB.editRecipeMealTransaction(recipeList.get(i));
                             transaction.update(recipeDocRef, "recipeIngredients", currentRecipeIngredientList);
                         }
                         return null;
@@ -221,13 +222,65 @@ public class IngredientDB {
                 }).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Transaction success!");
+                        Log.d(TAG, "In IngredientDB: Edit Recipe Transaction success!");
                     }
 
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Transaction failure.", e);
+                        Log.w(TAG, "In IngredientDB: Edit Recipe Transaction failure.", e);
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * Edit ingredient
+     * Update an old ingredient with new description, date, location, amount, unit, category on firebase database
+     * @param deletedIngredient   new ingredient with updated information
+     */
+    public void deleteRecipeIngredientTransaction(Ingredient deletedIngredient) {
+        RecipeDB recipeDB = new RecipeDB();
+        FirebaseFirestore recipeDatabase = recipeDB.getRecipeDatabase();
+        CollectionReference recipeColRef = recipeDB.getRecipeReference();
+        DocumentReference recipeDocRef = recipeColRef.document();
+
+        ArrayList<Recipe> recipesList = recipeDB.getRecipeList();
+
+        readRecipeData(recipeColRef, recipesList, new RecipeFireStoreCallback() {
+            @Override
+            public void onCallBack(ArrayList<Recipe> recipeList) {
+                recipeDatabase.runTransaction(new Transaction.Function<Void>() {
+                    @Override
+                    public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                        for  (int i = 0; i < recipesList.size(); i++) {
+                            DocumentReference recipeDocRef = recipeColRef.document(recipeList.get(i).getRecipeTitle());
+                            ArrayList<Ingredient> currentRecipeIngredientList = recipeList.get(i).getRecipeIngredients();
+                            for (int j = 0; j < currentRecipeIngredientList.size(); j++) {
+                                if (currentRecipeIngredientList.get(j).getIngredientDesc().equals(deletedIngredient.getIngredientDesc())) {
+                                    currentRecipeIngredientList.remove(j);
+
+                                    recipeList.get(i).setRecipeIngredients(currentRecipeIngredientList);
+                                    recipeDB.editRecipeMealTransaction(recipeList.get(i));
+                                }
+                            }
+
+                            transaction.update(recipeDocRef, "recipeIngredients", currentRecipeIngredientList);
+                        }
+                        return null;
+                    }
+
+                }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "In IngredientDB: Delete Recipe Transaction success!");
+                    }
+
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "In IngredientDB: Delete Recipe Transaction failure.", e);
                     }
                 });
             }
@@ -271,13 +324,62 @@ public class IngredientDB {
                 }).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "In IngredientDB: Meal Plan Transaction success!");
+                        Log.d(TAG, "In IngredientDB: Edit Meal Plan Transaction success!");
                     }
 
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "In IngredientDB: Transaction failure.", e);
+                        Log.w(TAG, "In IngredientDB: Edit Meal Plan Transaction failure.", e);
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     *
+     * @param deletedIngredient
+     */
+    public void deleteMealIngredientTransaction(Ingredient deletedIngredient) {
+        MealPlanDB mealPlanDB = new MealPlanDB();
+        FirebaseFirestore mealPlanDatabase = mealPlanDB.getMealPlanDatabase();
+        CollectionReference mealPlanColRef = mealPlanDB.getMealPlanReference();
+        DocumentReference mealPlanDocRef = mealPlanColRef.document();
+
+        ArrayList<MealPlan> mealPlanList = mealPlanDB.getMealPlanList();
+
+        readMealPlanData(mealPlanColRef, mealPlanList, new MealPlanFireStoreCallback() {
+            @Override
+            public void onCallBack(ArrayList<MealPlan> mealPlanList) {
+                Log.d("MEAL PLAN DATE:", mealPlanList.get(0).getMealPlanDate());
+                mealPlanDatabase.runTransaction(new Transaction.Function<Void>() {
+                    @Override
+                    public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                        for  (int i = 0; i < mealPlanList.size(); i++) {
+                            Log.d("MEAL PLAN DATE:", mealPlanList.get(i).getMealPlanDate());
+                            DocumentReference mealPlanDocRef = mealPlanColRef.document(mealPlanList.get(i).getMealPlanDate());
+                            ArrayList<Ingredient> currentMealPlanIngredientList = mealPlanList.get(i).getMealPlanIngredients();
+                            for (int j = 0; j < currentMealPlanIngredientList.size(); j++) {
+                                if (currentMealPlanIngredientList.get(j).getIngredientDesc().equals(deletedIngredient.getIngredientDesc())) {
+                                    currentMealPlanIngredientList.remove(j);
+                                }
+                            }
+                            transaction.update(mealPlanDocRef, "mealPlanIngredients", currentMealPlanIngredientList);
+                        }
+                        return null;
+                    }
+
+                }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "In IngredientDB: Delete Meal Plan Transaction success!");
+                    }
+
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "In IngredientDB: Delete Meal Plan Transaction failure.", e);
                     }
                 });
             }

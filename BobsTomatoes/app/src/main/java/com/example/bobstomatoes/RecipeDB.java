@@ -122,6 +122,7 @@ public class RecipeDB implements Parcelable {
                     }
                 });
         recipeList.remove(recipe);
+        deleteRecipeMealTransaction(recipe);
     }
 
     /**
@@ -205,6 +206,7 @@ public class RecipeDB implements Parcelable {
 
         ArrayList<MealPlan> mealPlanList = mealPlanDB.getMealPlanList();
 
+
         readMealPlanData(mealPlanColRef, mealPlanList, new RecipeDB.MealPlanFireStoreCallback() {
             @Override
             public void onCallBack(ArrayList<MealPlan> mealPlanList) {
@@ -221,6 +223,57 @@ public class RecipeDB implements Parcelable {
                                     currentMealPlanRecipeList.set(j, updatedRecipe);
                                 }
                             }
+                            transaction.update(mealPlanDocRef, "mealPlanRecipes", currentMealPlanRecipeList);
+                        }
+                        return null;
+                    }
+
+                }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "In RecipeDB: Meal Plan Transaction success!");
+                    }
+
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "In RecipeDB: Transaction failure.", e);
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     *
+     * @param deletedRecipe
+     */
+    public void deleteRecipeMealTransaction(Recipe deletedRecipe) {
+        MealPlanDB mealPlanDB = new MealPlanDB();
+        FirebaseFirestore mealPlanDatabase = mealPlanDB.getMealPlanDatabase();
+        CollectionReference mealPlanColRef = mealPlanDB.getMealPlanReference();
+        DocumentReference mealPlanDocRef = mealPlanColRef.document();
+
+        ArrayList<MealPlan> mealPlanList = mealPlanDB.getMealPlanList();
+
+
+        readMealPlanData(mealPlanColRef, mealPlanList, new RecipeDB.MealPlanFireStoreCallback() {
+            @Override
+            public void onCallBack(ArrayList<MealPlan> mealPlanList) {
+                Log.d("MEAL PLAN DATE:", mealPlanList.get(0).getMealPlanDate());
+                mealPlanDatabase.runTransaction(new Transaction.Function<Void>() {
+                    @Override
+                    public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                        for  (int i = 0; i < mealPlanList.size(); i++) {
+                            Log.d("MEAL PLAN DATE:", mealPlanList.get(i).getMealPlanDate());
+                            DocumentReference mealPlanDocRef = mealPlanColRef.document(mealPlanList.get(i).getMealPlanDate());
+                            ArrayList<Recipe> currentMealPlanRecipeList = mealPlanList.get(i).getMealPlanRecipes();
+                            for (int j = 0; j < currentMealPlanRecipeList.size(); j++) {
+                                if (currentMealPlanRecipeList.get(j).getRecipeTitle().equals(deletedRecipe.getRecipeTitle())) {
+                                    currentMealPlanRecipeList.remove(j);
+                                }
+                            }
+
                             transaction.update(mealPlanDocRef, "mealPlanRecipes", currentMealPlanRecipeList);
                         }
                         return null;
