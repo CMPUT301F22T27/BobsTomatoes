@@ -2,6 +2,7 @@ package com.example.bobstomatoes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,6 +26,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -70,12 +73,14 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     TextView dayOfMonth;
     Boolean planExist = false;
 
-    ArrayList<Ingredient> globalIngredientList;
+    MealPlanFragment editFragment;
+
+    ArrayList<Ingredient> globalIngredientList = new ArrayList<>();
 
     LinearLayout mealPlanDetailsLinearLayout;
     LinearLayout mealPlanButtonsLinearLayout;
 
-    boolean ingredientsUpdated = false;
+    boolean fragmentOpened = false;
 
     Dialog progressBar;
 
@@ -159,10 +164,11 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         });
 
         openEdit.setOnClickListener(view -> {
-             MealPlanFragment fragment = new MealPlanFragment();
-             fragment.setArguments(bundle);
-             fragment.show(getSupportFragmentManager(), "EDIT/DELETE MEAL PLAN");
-             planFound = false;
+            editFragment = new MealPlanFragment();
+            editFragment.setArguments(bundle);
+            editFragment.show(getSupportFragmentManager(), "EDIT/DELETE MEAL PLAN");
+            planFound = false;
+            fragmentOpened = true;
         });
 
         scaleRecipeButton.setOnClickListener(view -> {
@@ -448,15 +454,22 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
 
     public void onEditOkPressed(MealPlan oldMealPlan, MealPlan updatedMealPlan) {
-        if(ingredientsUpdated) {
-            updatedMealPlan.setMealPlanIngredients(globalIngredientList);
+
+        recipeList.clear();
+        ingredientList.clear();
+
+        for (int i = 0; i < updatedMealPlan.getMealPlanIngredients().size(); i++){
+            ingredientList.add(updatedMealPlan.getMealPlanIngredients().get(i));
         }
+
+        for (int i = 0; i < updatedMealPlan.getMealPlanRecipes().size(); i++){
+            recipeList.add(updatedMealPlan.getMealPlanRecipes().get(i));
+        }
+
 
         mealPlanDB.editMealPlan(oldMealPlan, updatedMealPlan);
         recipeAdapter.notifyDataSetChanged();
         ingredientAdapter.notifyDataSetChanged();
-
-        ingredientsUpdated = false;
     }
 
 
@@ -472,10 +485,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
         recipeAdapter.notifyDataSetChanged();
         ingredientAdapter.notifyDataSetChanged();
-
-
     }
-
 
     public void readData(MealPlanFireStoreCallBack callBack) {
         showDialog(true);
@@ -500,16 +510,13 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
     @Override
-    public void onAddIngredientOkPressed(ArrayList<Ingredient> ingredientsList) {
-        globalIngredientList = ingredientList;
-        ingredientsUpdated = true;
+    public void onAddIngredientOkPressed(ArrayList<Ingredient> ingredientList) {
+       // Do nothing
     }
 
     @Override
     public void onScaleOkPressed(MealPlan oldMealPlan, MealPlan scaledMealPlan) {
         mealPlanDB.editMealPlan(oldMealPlan, scaledMealPlan);
-
-
         recipeAdapter.notifyDataSetChanged();
         ingredientAdapter.notifyDataSetChanged();
     }
@@ -534,5 +541,23 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             progressBar.dismiss();
         }
     }
+
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK){
+//            if (fragmentOpened == true) {
+//
+//                ingredientList.clear();
+//                for (int i = 0; i < oldIngredientList.size(); i++) {
+//                    ingredientList.add(oldIngredientList.get(i));
+//                }
+//
+//                globalIngredientList.clear();
+//                fragmentOpened = false;
+//            }
+//            return false;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
 }

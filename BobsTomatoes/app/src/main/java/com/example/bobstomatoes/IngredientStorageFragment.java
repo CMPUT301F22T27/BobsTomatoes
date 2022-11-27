@@ -250,6 +250,7 @@ public class IngredientStorageFragment extends DialogFragment {
             return builder
                     .setView(view)
                     .setTitle("Edit Ingredient")
+                    .setNeutralButton("Cancel", null)
                     .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -276,13 +277,15 @@ public class IngredientStorageFragment extends DialogFragment {
                             String tempAmount = amountText.getText().toString();
                             int newAmount;
                             if (tempAmount.toString().equals("")) {
-                                newAmount = 0;
+                                newAmount = selectedIngredient.getIngredientAmount();
                             } else {
                                 newAmount = Integer.parseInt(tempAmount);
                             }
                             String tempUnit = unitText.getText().toString();
                             int newUnit;
                             if (tempUnit.toString().equals("")) {
+                                newUnit = selectedIngredient.getIngredientUnit();
+                            } else if (tempUnit.toString().equals("0")){
                                 newUnit = 1;
                             } else {
                                 newUnit = Integer.parseInt(tempUnit);
@@ -328,7 +331,7 @@ public class IngredientStorageFragment extends DialogFragment {
                     .setView(view)
                     .setTitle("Add Ingredient")
                     .setPositiveButton("Add", null)
-                    .setNegativeButton("Cancel", null)
+                    .setNeutralButton("Cancel", null)
                     .create();
 
              dialog.setOnShowListener(new DialogInterface.OnShowListener() {

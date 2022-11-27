@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -44,6 +47,8 @@ public class ShoppingListFragment extends DialogFragment {
     Ingredient selectedIngredient;
     Ingredient editIngredient;
     int oldIngredientPos;
+
+    AlertDialog.Builder builder;
 
     public interface OnShoppingListFragmentListener {
         public void onEditOkPressed(Ingredient newIngredient, int oldIngredientPos, int newAmount);
@@ -77,7 +82,8 @@ public class ShoppingListFragment extends DialogFragment {
         amountText = view.findViewById(R.id.editTextShoppingListIngredientAmount);
         unitText = view.findViewById(R.id.editTextShoppingListIngredientUnit);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder = new AlertDialog.Builder(getContext());
+        AlertDialog dialog;
         Bundle bundle = this.getArguments();
 
         if (bundle != null) {
@@ -90,25 +96,84 @@ public class ShoppingListFragment extends DialogFragment {
 
         }
         // If isEdit is true, then the ingredient was clicked on the ListView so populate the fragment text boxes with its details and make the two buttons Delete and Edit
-        return builder
+        dialog = builder
                 .setView(view)
                 .setTitle("Add Details For " + title)
-                .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                .setPositiveButton("Add", null)
+                .setNeutralButton("Cancel", null)
+                .create();
 
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button button = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
+
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
                         String newLocation = locationText.getText().toString();
                         String currentAmount = amountText.getText().toString();
-                        int newAmount = Integer.parseInt(currentAmount);
                         String tempUnit = unitText.getText().toString();
-                        int newUnit = Integer.parseInt(tempUnit);
+
+                        try {
+
+                            String field1 = "";
+                            String field2 = "";
+                            String field3 = "";
+
+                            if (locationText.getText().toString().equals("")) {
+                                field1 = "location ";
+                            }
+
+                            if (amountText.getText().toString().equals("")){
+                                field2 = "amount ";
+                            }
+
+                            if (unitText.getText().toString().equals("")){
+                                field3 = "unit ";
+                            }
+
+                            if (!field1.equals("") || !field2.equals("") || !field3.equals("")) {
+                                throw new Exception("Please fill out the specified fields: \n" + field1 + field2 + field3);
+                            }
+                            
+//                            if (locationText.getText().toString().equals("")){
+//                                throw new Exception("Please fill out the required fields");
+//                            }
+//
+//                            if (amountText.getText().toString().equals("")){
+//                                throw new Exception("Please fill out the required fields");
+//                            }
+//
+//                            if (unitText.getText().toString().equals("")){
+//                                throw new Exception("Please fill out the required fields");
+//                            }
+
+                            int newAmount = Integer.parseInt(currentAmount);
+                            int newUnit = Integer.parseInt(tempUnit);
+
 //                            String newCategory = categoryText.getText().toString();
-                        editIngredient = new Ingredient(selectedIngredient.getIngredientDesc(), selectedIngredient.getIngredientDate(),
-                                newLocation, selectedIngredient.getIngredientAmount(), newUnit, selectedIngredient.getIngredientCategory());
-                        listener.onEditOkPressed(editIngredient, oldIngredientPos, newAmount);
+                            editIngredient = new Ingredient(selectedIngredient.getIngredientDesc(), selectedIngredient.getIngredientDate(),
+                                    newLocation, selectedIngredient.getIngredientAmount(), newUnit, selectedIngredient.getIngredientCategory());
+                            listener.onEditOkPressed(editIngredient, oldIngredientPos, newAmount);
+
+                            dialog.dismiss();
+                        } catch (Exception e) {
+                            Log.d("EXCEPTION HERE", e.toString());
+
+                            Snackbar snackbar = null;
+                            snackbar = snackbar.make(view, e.getMessage(), Snackbar.LENGTH_SHORT);
+                            snackbar.setDuration(700);
+                            snackbar.show();
+                        }
                     }
-                })
-                .setNegativeButton("Cancel", null)
-                .create();
+                });
+
+
+            }
+        });
+
+
+        return dialog;
     }
 }

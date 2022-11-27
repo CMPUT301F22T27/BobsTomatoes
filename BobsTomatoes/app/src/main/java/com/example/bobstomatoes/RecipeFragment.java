@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -29,14 +30,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -71,11 +75,16 @@ public class RecipeFragment extends DialogFragment {
 
     // For ingredient selection
     ArrayList<Ingredient> selectedIngredients;
+    ArrayList<Ingredient> oldSelectedIngredients;
+
 
     Recipe selectedRecipe;
     Recipe editRecipe;
     int oldRecipePos;
+    Context context;
+    AlertDialog.Builder builder;
 
+    Recipe newRecipe;
 
 
     public interface OnRecipeFragmentListener{
@@ -92,7 +101,7 @@ public class RecipeFragment extends DialogFragment {
      */
     @Override
     public void onAttach(Context context) {
-
+        this.context = context;
         super.onAttach(context);
         if (context instanceof RecipeFragment.OnRecipeFragmentListener){
             listener = (RecipeFragment.OnRecipeFragmentListener) context;
@@ -122,6 +131,8 @@ public class RecipeFragment extends DialogFragment {
 
         selectedIngredients = new ArrayList<>();
 
+        oldSelectedIngredients = new ArrayList<>();
+
         //Image View
         recipeImageView = view.findViewById(R.id.recipeImageView);
 
@@ -137,7 +148,8 @@ public class RecipeFragment extends DialogFragment {
         initIngredientList();
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder = new AlertDialog.Builder(getContext());
+        AlertDialog dialog;
         Bundle bundle = this.getArguments();
 
 
@@ -190,6 +202,11 @@ public class RecipeFragment extends DialogFragment {
 
             // Populate selectedIngredients
             selectedIngredients = selectedRecipe.getRecipeIngredients();
+
+            for (int i = 0; i < selectedIngredients.size(); i++) {
+                oldSelectedIngredients.add(selectedIngredients.get(i));
+            }
+
             //updateHighlights();
 
             //Populate ImageView
@@ -202,6 +219,7 @@ public class RecipeFragment extends DialogFragment {
             // Builder for Edit/delete
             return builder.setView(view)
                     .setTitle("Edit Recipe")
+                    .setNeutralButton("Cancel", null)
                     .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -215,13 +233,49 @@ public class RecipeFragment extends DialogFragment {
                         public void onClick(DialogInterface dialogInterface, int i) {
 
                             String newTitle = titleText.getText().toString();
-                            int newTime = Integer.parseInt(timeText.getText().toString());
-                            int newServings = Integer.parseInt(servingsText.getText().toString());
+
+                            String tempTime = timeText.getText().toString();
+                            int newTime;
+                            if (tempTime.toString().equals("")) {
+                                newTime = selectedRecipe.getRecipeTime();
+                            } else {
+                                newTime = Integer.parseInt(tempTime);
+                            }
+                            String tempServings = servingsText.getText().toString();
+                            int newServings;
+                            if (tempServings.toString().equals("")) {
+                                newServings = selectedRecipe.getRecipeServings();
+                            } else {
+                                newServings = Integer.parseInt(tempServings);
+                            }
+
                             String newCategory = categoryText.getText().toString();
                             String newComments = commentsText.getText().toString();
 
-                            Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
-                                    newCategory, newComments, selectedIngredients, encodedImage);
+                            if (newTitle.equals("")) {
+                                newTitle = selectedRecipe.getRecipeTitle();
+                            }
+                            if (Integer.toString(newTime) == "") {
+                                newTime = selectedRecipe.getRecipeTime();
+                            }
+                            if (Integer.toString(newServings) == "") {
+                                    newServings = selectedRecipe.getRecipeServings();
+                            }
+                            if (newCategory.equals("")) {
+                                newCategory = selectedRecipe.getRecipeCategory();
+                            }
+                            if (newComments.equals("")) {
+                                newComments = selectedRecipe.getRecipeComments();
+                            }
+
+
+                            if (selectedIngredients.size() == 0) {
+                                 newRecipe = new Recipe(newTitle, newTime, newServings,
+                                        newCategory, newComments, oldSelectedIngredients, encodedImage);
+                            } else {
+                                 newRecipe = new Recipe(newTitle, newTime, newServings,
+                                        newCategory, newComments, selectedIngredients, encodedImage);
+                            }
 
                             listener.onEditOkPressed(newRecipe, selectedRecipe);
 
@@ -233,29 +287,55 @@ public class RecipeFragment extends DialogFragment {
         } else {  // If bundle = null, then a recipe has not been passed in to the fragment -> add
 
             //Builder for add
-            return builder.setView(view)
+            dialog = builder
+                    .setView(view)
                     .setTitle("Add Recipe")
-                    .setNegativeButton("Cancel", null)
-                    .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                            String newTitle = titleText.getText().toString();
-                            int newTime = Integer.parseInt(timeText.getText().toString());
-                            int newServings = Integer.parseInt(servingsText.getText().toString());
-                            String newCategory = categoryText.getText().toString();
-                            String newComments = commentsText.getText().toString();
-
-                            Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
-                                    newCategory, newComments, selectedIngredients, encodedImage);
-
-                            listener.onAddOkPressed(newRecipe);
-
-                        }
-                    })
+                    .setPositiveButton("Add", null)
+                    .setNeutralButton("Cancel", null)
                     .create();
 
+            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    Button button = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+                                String newTitle = titleText.getText().toString();
+                                int newTime = Integer.parseInt(timeText.getText().toString());
+                                int newServings = Integer.parseInt(servingsText.getText().toString());
+                                String newCategory = categoryText.getText().toString();
+                                String newComments = commentsText.getText().toString();
+                                Ingredient newIngredient = selectedIngredients.get(0);
+                                if(encodedImage.equals(null)) {
+                                    throw new Exception("Fail");
+                                }
+
+                                Recipe newRecipe = new Recipe(newTitle, newTime, newServings,
+                                        newCategory, newComments, selectedIngredients, encodedImage);
+
+                                listener.onAddOkPressed(newRecipe);
+                                dialog.dismiss();
+                            } catch (Exception e) {
+                                Log.d("EXCEPTION HERE", e.toString());
+                                //Toast errorToast = null;
+
+                                Snackbar snackbar = null;
+                                snackbar = snackbar.make(view, "Please fill out all required fields", Snackbar.LENGTH_SHORT);
+                                snackbar.show();
+
+                                //Toast.makeText(context.getApplicationContext(), "Fill out all fields", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+                }
+            });
+
+            return dialog;
         }
+
     }
 
     /**
@@ -405,41 +485,49 @@ public class RecipeFragment extends DialogFragment {
 
                         Intent data = result.getData();
 
-                        if (data != null){
+                        if (data != null) {
 
-                            Bundle bundle = data.getExtras();
-
-                            //Indicates photo was taken
-                            if (bundle != null){
-
-                                finalPhoto = (Bitmap) bundle.get("data");
-
-
-                            //Photo is from camera roll, comes back as Uri
-                            } else {
-
+                                Bundle bundle = data.getExtras();
                                 Uri imageUri = data.getData();
 
                                 try {
 
                                     finalPhoto = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri);
 
-                                } catch (Exception e) {
+                                    //If first method doesn't work
+                                } catch (Exception error) {
 
-                                    finalPhoto = null;
+                                    try {
+
+                                        finalPhoto = BitmapFactory.decodeStream(getContext().getContentResolver()
+                                                .openInputStream(imageUri));
+
+                                    } catch (Exception e) {
+
+//                                        finalPhoto = null;
+//                                        e.printStackTrace();
+
+                                        try {
+                                            finalPhoto = (Bitmap) bundle.get("data");
+
+                                        } catch (Exception t) {
+
+                                            finalPhoto = null;
+                                            t.printStackTrace();
+                                        }
+
+                                    }
 
                                 }
 
-                            }
+                                recipeImageView.setImageBitmap(finalPhoto);
 
-                            recipeImageView.setImageBitmap(finalPhoto);
-
-                            //Encode bitmap to Base64
-                            encodedImage = encodeImage(finalPhoto);
+                                //Encode bitmap to Base64
+                                encodedImage = encodeImage(finalPhoto);
 
                         }
-
                     }
+
                 });
 
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
@@ -476,7 +564,7 @@ public class RecipeFragment extends DialogFragment {
 
         ByteArrayOutputStream baos  = new ByteArrayOutputStream();
 
-        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
 
         String encodedImage = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
 

@@ -15,11 +15,17 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -27,6 +33,7 @@ import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -46,6 +53,8 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
     ShoppingList shoppingList;
     ArrayList<Ingredient> neededIngredients = new ArrayList<>();
+    ArrayList<Ingredient> checkedIngredients = new ArrayList<>();
+    ArrayList<Integer> lastIngredientAmountList = new ArrayList<>();
 
     int currentIngredientAmount;
 
@@ -59,9 +68,14 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
     Context context = this;
 
+    int checkedIndex = -1;
+
+
     private RecyclerViewInterface recyclerViewInterface;
     Dialog progressBar;
 
+    Ingredient databaseIngredient;
+    boolean isDocument;
 
     /**
      * Create instance
@@ -104,6 +118,11 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
         //RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
 
+        //Spinner
+        String [] sortChoices = {"Description", "Category"};
+        ArrayList <String> spinnerOptions = new ArrayList<>();
+        ArrayAdapter<String> spinnerAdapter;
+
         // Populate ingredient list from database
         readIngredientData(new IngredientFireStoreCallback() {
             /**
@@ -120,11 +139,10 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     createShoppingList();
                     createNeededIngredients();
 
-                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, currentIngredientAmount, recyclerViewInterface);
+                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, shoppingList.getCheckedItems(), recyclerViewInterface);
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
                     recyclerView.setAdapter(shoppingListRecyclerAdapter);
-
                     shoppingListRecyclerAdapter.notifyDataSetChanged();
 
                     Log.d("GABE STINKY ASS", "STINKY ASS GABE");
@@ -132,6 +150,16 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                 }
             }
         });
+
+        // Create and Populate Spinner
+        // Spinner allows users to choose how to sort ingredients
+        Spinner choiceSpinner = (Spinner) findViewById(R.id.sortDropDownID);
+        // Populate Sort Choice Spinner
+        for (int i = 0;  i < sortChoices.length; i++) {
+            spinnerOptions.add(sortChoices[i]);
+        }
+        spinnerAdapter = new ArrayAdapter <> (this, android.R.layout.simple_spinner_dropdown_item, spinnerOptions);
+        choiceSpinner.setAdapter(spinnerAdapter);
 
         // Populate ingredient list from database
         readMealPlanData(new MealPlanFireStoreCallBack() {
@@ -149,11 +177,29 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     createShoppingList();
                     createNeededIngredients();
 
-                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, currentIngredientAmount, recyclerViewInterface);
+                    shoppingListRecyclerAdapter = new ShoppingListRecyclerAdapter(context, neededIngredients, shoppingList.getCheckedItems(), recyclerViewInterface);
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
                     recyclerView.setAdapter(shoppingListRecyclerAdapter);
 
+                    // Retrieve user sort choice
+                    choiceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            String sortChoice = (String) choiceSpinner.getSelectedItem();
+                            sortByChoice(sortChoice);
+                            for (int j = 0; j < neededIngredients.size(); j++) {
+                                System.out.println("SORTED: " + neededIngredients.get(i).getIngredientDesc());
+                            }
+
+                            shoppingListRecyclerAdapter.notifyDataSetChanged();
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
                     shoppingListRecyclerAdapter.notifyDataSetChanged();
 
                     Log.d("GABE STINKY ASS", "STINKY ASS GABE");
@@ -170,6 +216,17 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
     }
 
+    /**
+     * Allows the user to sort the list of ingredients by description, location, or best before date
+     * @param choice    user choice of how to sort ingredients
+     */
+    public void sortByChoice(String choice){
+        if(choice.equals("Description")){
+            Collections.sort(neededIngredients, Ingredient::compareToIngredientDesc);
+        }else{
+            Collections.sort(neededIngredients, Ingredient::compareToIngredientCategory);
+        }
+    }
 
     /**
      * Creates a list of needed ingredient objects
@@ -194,7 +251,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
                 if(need > 0){
 
-                    Ingredient neededIngredient = tempIngredient;
+                    Ingredient neededIngredient = tempIngredient.clone();
                     neededIngredient.setIngredientAmount(need);
                     neededIngredients.add(neededIngredient);
 
@@ -296,8 +353,8 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                 String ingredientName = tempIngredient.getIngredientDesc();
 
                 //Get number of that ingredient in recipe
-                //int numIngredient = tempIngredient.getIngredientAmount();
-                int numIngredient = 1;
+                int numIngredient = tempIngredient.getIngredientAmount();
+                //int numIngredient = 1;
 
                 //Check if we have seen this ingredient before in mealplans
                 if (checkedIngredients.get(ingredientName) == null){
@@ -379,10 +436,97 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
     @Override
     public void onEditOkPressed(Ingredient newIngredient, int oldIngredientPos, int newAmount){
 
-        ShoppingListRecyclerAdapter.ViewHolder view = (ShoppingListRecyclerAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(oldIngredientPos);
+        ShoppingListRecyclerAdapter.ViewHolder viewHolder = (ShoppingListRecyclerAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(oldIngredientPos);
 
-        shoppingListRecyclerAdapter.setBoughtAmount(view, newAmount, newIngredient.getIngredientDesc());
+        Log.d("Old Ingredient Position", oldIngredientPos + "");
+        Ingredient oldIngredient = neededIngredients.get(oldIngredientPos);
+        Log.d("Old Ingredient Desc", oldIngredient.getIngredientDesc() + "");
 
+
+        //Save ingredient info from storage, and ingredient info from list
+        String ingredientName = oldIngredient.getIngredientDesc();
+        Ingredient ingredientFromStorage = null;
+        Ingredient ingredientFromShopping = oldIngredient;
+        int storedIngredientPosition = -1;
+
+        for(int i = 0; i < ingredientList.size(); i++){
+
+            if(ingredientList.get(i).getIngredientDesc().equals(ingredientName)){
+
+                ingredientFromStorage = ingredientList.get(i);
+                storedIngredientPosition = i;
+
+            }
+
+        }
+
+        //Set checkbox
+        if (newAmount >= ingredientFromShopping.getIngredientAmount()){
+
+            //Check off ingredient
+            shoppingListRecyclerAdapter.setChecked(ingredientName);
+
+        } else {
+
+            //Ingredient not checked
+            shoppingListRecyclerAdapter.setUnchecked(ingredientName);
+
+        }
+
+
+        //If number bought increased
+        if(newAmount > shoppingListRecyclerAdapter.getBoughtAmount(ingredientName)) {
+
+            //Update DB to reflect bought ingredient
+            if (ingredientFromStorage != null) {
+
+                int amountStored = ingredientFromStorage.getIngredientAmount();
+
+                int amountBought = newAmount;
+
+                int amountHave = amountStored + amountBought;
+
+
+                Ingredient editedIngredient = ingredientFromShopping.clone();
+
+                editedIngredient.setIngredientAmount(amountHave);
+
+                ingredientDB.editIngredient(storedIngredientPosition, editedIngredient, ingredientFromStorage);
+
+            } else {
+
+                ingredientDB.addIngredient(ingredientFromShopping);
+
+            }
+
+        //If number decreased
+        } else {
+
+            //Update DB to reflect removed ingredients (If changed amount bought from 10 to 7, DB should lower ingredient amount by 3)
+            if (ingredientFromStorage != null) {
+
+                int amountStored = ingredientFromStorage.getIngredientAmount();
+
+                int amountLost = shoppingListRecyclerAdapter.getBoughtAmount(ingredientName) - newAmount;
+
+                int amountHave = amountStored - amountLost;
+
+
+                Ingredient editedIngredient = ingredientFromShopping.clone();
+
+                editedIngredient.setIngredientAmount(amountHave);
+
+                ingredientDB.editIngredient(storedIngredientPosition, editedIngredient, ingredientFromStorage);
+
+            } else {
+
+                ingredientDB.addIngredient(ingredientFromShopping);
+
+            }
+
+        }
+
+        shoppingListRecyclerAdapter.setBoughtAmount(viewHolder, newAmount, newIngredient.getIngredientDesc(), oldIngredient);
         shoppingListRecyclerAdapter.notifyDataSetChanged();
 
     }
@@ -418,6 +562,42 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
             progressBar.setCanceledOnTouchOutside(true);
             progressBar.dismiss();
         }
+    }
+
+    /**
+     * Interface
+     * Call back ingredientList
+     * Allows us to access the ingredientList outside of the onComplete and it
+     * ensures that the onComplete has fully populated our list
+     */
+    private interface DocumentIngredientFireStoreCallback {
+        void onCallBack(Ingredient ingredient);
+    }
+
+    /**
+     * Populates from data base using callBack
+     *
+     * @param callBack ingredient database
+     */
+    public void readIngredientData(DocumentReference ingredientReference, ShoppingListActivity.DocumentIngredientFireStoreCallback callBack) {
+        ingredientReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@androidx.annotation.NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()){
+                        databaseIngredient = document.toObject(Ingredient.class);
+                        isDocument = true;
+                    } else {
+                        isDocument = false;
+                    }
+
+                    callBack.onCallBack(databaseIngredient);
+                } else {
+                    Log.d("", "Error getting documents: ", task.getException());
+                }
+            }
+        });
     }
 
 }
