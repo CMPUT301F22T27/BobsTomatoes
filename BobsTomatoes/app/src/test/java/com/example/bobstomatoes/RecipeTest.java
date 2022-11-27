@@ -33,11 +33,11 @@ public class RecipeTest {
     private ArrayList<Recipe> mockRecipeList(){
         ArrayList<Recipe> recipeList= new ArrayList<>();
         recipeList.add(mockRecipe());
-        recipeList.add(new Recipe("Tomato Soup", 20, 5, "Soup","Tasty",mockIngredientList()));
-        recipeList.add(new Recipe("Potato Soup", 15, 3, "Soup","Good Soup",mockIngredientList()));
-        recipeList.add(new Recipe("Caesar Salad", 17, 4, "Salad","Healthy",mockIngredientList()));
-        recipeList.add(new Recipe("Chocolate Fondue", 30, 2, "Fondue","Dessert",mockIngredientList()));
-        recipeList.add(new Recipe("Omelette", 10, 1, "Breakfast","Gourmet",mockIngredientList()));
+        recipeList.add(new Recipe("Tomato Soup", 20, 5, "Soup","Tasty",mockIngredientList(), "Image"));
+        recipeList.add(new Recipe("Potato Soup", 15, 3, "Soup","Good Soup",mockIngredientList(), "Image"));
+        recipeList.add(new Recipe("Caesar Salad", 17, 4, "Salad","Healthy",mockIngredientList(), "Image"));
+        recipeList.add(new Recipe("Chocolate Fondue", 30, 2, "Fondue","Dessert",mockIngredientList(), "Image"));
+        recipeList.add(new Recipe("Omelette", 10, 1, "Breakfast","Gourmet",mockIngredientList(), "Image"));
         return recipeList;
     }
 
@@ -46,7 +46,7 @@ public class RecipeTest {
      * @return      return new recipe
      */
     private Recipe mockRecipe(){
-        return new Recipe("Mushroom Soup", 12, 6, "Soup", "Hot", mockIngredientList());
+        return new Recipe("Mushroom Soup", 12, 6, "Soup", "Hot", mockIngredientList(), "Image");
     }
 
     /**
@@ -85,12 +85,12 @@ public class RecipeTest {
 
         Collections.sort(recipeList, Recipe::compareToRecipeTime);
 
-        assertTrue(recipeList.get(0).getRecipeTime() == 10);
-        assertTrue(recipeList.get(1).getRecipeTime() == 12);
-        assertTrue(recipeList.get(2).getRecipeTime() == 15);
-        assertTrue(recipeList.get(3).getRecipeTime() == 17);
-        assertTrue(recipeList.get(4).getRecipeTime() == 20);
-        assertTrue(recipeList.get(5).getRecipeTime() == 30);
+        assertTrue(recipeList.get(0).getRecipeTime() == 30);
+        assertTrue(recipeList.get(1).getRecipeTime() == 20);
+        assertTrue(recipeList.get(2).getRecipeTime() == 17);
+        assertTrue(recipeList.get(3).getRecipeTime() == 15);
+        assertTrue(recipeList.get(4).getRecipeTime() == 12);
+        assertTrue(recipeList.get(5).getRecipeTime() == 10);
     }
 
     /**
@@ -103,12 +103,12 @@ public class RecipeTest {
 
         Collections.sort(recipeList, Recipe::compareToRecipeServings);
 
-        assertTrue(recipeList.get(0).getRecipeServings() == 1);
-        assertTrue(recipeList.get(1).getRecipeServings() == 2);
-        assertTrue(recipeList.get(2).getRecipeServings() == 3);
-        assertTrue(recipeList.get(3).getRecipeServings() == 4);
-        assertTrue(recipeList.get(4).getRecipeServings() == 5);
-        assertTrue(recipeList.get(5).getRecipeServings() == 6);
+        assertTrue(recipeList.get(0).getRecipeServings() == 6);
+        assertTrue(recipeList.get(1).getRecipeServings() == 5);
+        assertTrue(recipeList.get(2).getRecipeServings() == 4);
+        assertTrue(recipeList.get(3).getRecipeServings() == 3);
+        assertTrue(recipeList.get(4).getRecipeServings() == 2);
+        assertTrue(recipeList.get(5).getRecipeServings() == 1);
     }
 
     /**

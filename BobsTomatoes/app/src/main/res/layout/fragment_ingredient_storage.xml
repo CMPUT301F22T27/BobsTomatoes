@@ -29,42 +29,72 @@
             android:inputType="textPersonName" />
     </LinearLayout>
 
-    <DatePicker
-        android:id="@+id/datePicker"
-        android:layout_width="match_parent"
-        android:layout_height="83dp"
-        android:background="#FFFFFF"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner" />
-
-    <RadioGroup
-        android:id="@+id/radioGroupLocation"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/radioButtonPantry"
+        <TextView
+            android:id="@+id/textViewIngredientDate"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Pantry" />
+            android:text="Date:"
+            android:textColor="@color/black"
+            android:textSize="17dp" />
 
-        <RadioButton
-            android:id="@+id/radioButtonFridge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Fridge" />
+        <DatePicker
+            android:id="@+id/datePicker"
+            android:layout_width="match_parent"
+            android:layout_height="83dp"
+            android:background="#FFFFFF"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner" />
+    </LinearLayout>
 
-        <RadioButton
-            android:id="@+id/radioButtonFreezer"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewIngredientLocation"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Freezer" />
-    </RadioGroup>
+            android:text="Location:"
+            android:textColor="@color/black"
+            android:textSize="17dp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioButtonPantry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Pantry" />
+
+            <RadioButton
+                android:id="@+id/radioButtonFridge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Fridge" />
+
+            <RadioButton
+                android:id="@+id/radioButtonFreezer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Freezer" />
+        </RadioGroup>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -118,34 +148,49 @@
 
     </LinearLayout>
 
-    <RadioGroup
-        android:id="@+id/radioGroupCategory1"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/radioButtonDairy"
+        <TextView
+            android:id="@+id/textViewIngredientCategory"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Dairy" />
+            android:text="Category:"
+            android:textColor="@color/black"
+            android:textSize="17dp" />
 
-        <RadioButton
-            android:id="@+id/radioButtonFruit"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/radioGroupCategory1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Fruit" />
+            android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/radioButtonGrain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Grain" />
+            <RadioButton
+                android:id="@+id/radioButtonDairy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Dairy" />
 
-    </RadioGroup>
+            <RadioButton
+                android:id="@+id/radioButtonFruit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Fruit" />
+
+            <RadioButton
+                android:id="@+id/radioButtonGrain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Grain" />
+
+        </RadioGroup>
+    </LinearLayout>
 
     <RadioGroup
         android:id="@+id/radioGroupCategory2"
