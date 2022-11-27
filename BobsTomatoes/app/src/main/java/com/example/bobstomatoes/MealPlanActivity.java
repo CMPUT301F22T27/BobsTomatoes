@@ -68,7 +68,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     Bundle bundle;
     Bundle scaleBundle;
     MealPlan currentMealPlan;
-    String globalDate;
+    String globalDate = "";
     TextView dayOfMonth;
     Boolean planExist = false;
 
@@ -245,6 +245,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         mealPlanDetailDesc.setVisibility(View.GONE);
         descTitle.setVisibility(View.GONE);
         mealPlanButtonsLinearLayout.setVisibility(View.GONE);
+        globalDate = "";
 
         setMonthView();
 
@@ -299,6 +300,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         mealPlanDetailDesc.setVisibility(View.GONE);
         descTitle.setVisibility(View.GONE);
         mealPlanButtonsLinearLayout.setVisibility(View.GONE);
+        globalDate = "";
 
         setMonthView();
 
@@ -560,6 +562,11 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             progressBar.dismiss();
         }
     }
+
+    public String getGlobalDate() {
+        return globalDate;
+    }
+
 
 //    @Override
 //    public boolean onKeyDown(int keyCode, KeyEvent event) {
