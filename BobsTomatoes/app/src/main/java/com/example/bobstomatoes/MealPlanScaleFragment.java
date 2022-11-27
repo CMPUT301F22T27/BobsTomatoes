@@ -77,7 +77,7 @@ public class MealPlanScaleFragment extends DialogFragment {
         //Builder for add
         dialog = builder.setView(view)
                 .setTitle("How Many Servings?")
-                .setNegativeButton("Cancel", null)
+                .setNeutralButton("Cancel", null)
                 .setPositiveButton("Add", null)
                 .create();
 
