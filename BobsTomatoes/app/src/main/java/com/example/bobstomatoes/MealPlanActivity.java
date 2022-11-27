@@ -68,7 +68,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     Bundle bundle;
     Bundle scaleBundle;
     MealPlan currentMealPlan;
-    String globalDate;
+    String globalDate = "";
     TextView dayOfMonth;
     Boolean planExist = false;
 
@@ -237,8 +237,15 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     {
         selectedDate = selectedDate.minusMonths(1);
 
-        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
+//        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
+//        mealPlanButtonsLinearLayout.setVisibility(View.GONE);
+
+        noMealPlanText.setVisibility(View.VISIBLE);
+        mealPlanDetailSubTitles.setVisibility(View.GONE);
+        mealPlanDetailDesc.setVisibility(View.GONE);
+        descTitle.setVisibility(View.GONE);
         mealPlanButtonsLinearLayout.setVisibility(View.GONE);
+        globalDate = "";
 
         setMonthView();
 
@@ -285,8 +292,15 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     {
         selectedDate = selectedDate.plusMonths(1);
 
-        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
+//        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
+//        mealPlanButtonsLinearLayout.setVisibility(View.GONE);
+
+        noMealPlanText.setVisibility(View.VISIBLE);
+        mealPlanDetailSubTitles.setVisibility(View.GONE);
+        mealPlanDetailDesc.setVisibility(View.GONE);
+        descTitle.setVisibility(View.GONE);
         mealPlanButtonsLinearLayout.setVisibility(View.GONE);
+        globalDate = "";
 
         setMonthView();
 
@@ -511,6 +525,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                     callBack.onCallBack(mealPlanList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
+                    showDialog(false);
                 }
             }
         });
@@ -548,6 +563,11 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             progressBar.dismiss();
         }
     }
+
+    public String getGlobalDate() {
+        return globalDate;
+    }
+
 
 //    @Override
 //    public boolean onKeyDown(int keyCode, KeyEvent event) {

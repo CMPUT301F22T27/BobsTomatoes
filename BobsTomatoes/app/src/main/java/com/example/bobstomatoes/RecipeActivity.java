@@ -227,6 +227,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
                     callBack.onCallBack(recipeList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
+                    showDialog(false);
                 }
             }
         });
