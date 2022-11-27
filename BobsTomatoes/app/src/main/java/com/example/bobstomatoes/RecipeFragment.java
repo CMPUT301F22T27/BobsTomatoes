@@ -484,18 +484,9 @@ public class RecipeFragment extends DialogFragment {
 
                         Intent data = result.getData();
 
-                        if (data != null){
+                        if (data != null) {
 
-                            Bundle bundle = data.getExtras();
-
-                            //Indicates photo was taken
-                            if (bundle != null){
-
-                                finalPhoto = (Bitmap) bundle.get("data");
-
-                            //Photo is from camera roll, comes back as Uri
-                            } else {
-
+                                Bundle bundle = data.getExtras();
                                 Uri imageUri = data.getData();
 
                                 try {
@@ -510,10 +501,19 @@ public class RecipeFragment extends DialogFragment {
                                         finalPhoto = BitmapFactory.decodeStream(getContext().getContentResolver()
                                                 .openInputStream(imageUri));
 
-                                    } catch (FileNotFoundException e) {
+                                    } catch (Exception e) {
 
-                                        finalPhoto = null;
-                                        e.printStackTrace();
+//                                        finalPhoto = null;
+//                                        e.printStackTrace();
+
+                                        try {
+                                            finalPhoto = (Bitmap) bundle.get("data");
+
+                                        } catch (Exception t) {
+
+                                            finalPhoto = null;
+                                            t.printStackTrace();
+                                        }
 
                                     }
 
@@ -524,11 +524,9 @@ public class RecipeFragment extends DialogFragment {
                                 //Encode bitmap to Base64
                                 encodedImage = encodeImage(finalPhoto);
 
-                            }
-
                         }
-
                     }
+
                 });
 
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
@@ -565,7 +563,7 @@ public class RecipeFragment extends DialogFragment {
 
         ByteArrayOutputStream baos  = new ByteArrayOutputStream();
 
-        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
 
         String encodedImage = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
 
