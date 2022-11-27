@@ -10,5 +10,5 @@
         android:layout_weight="1"
         android:ems="10"
         android:hint="Enter ingredient amount"
-        android:inputType="textPersonName" />
+        android:inputType="number" />
 </LinearLayout>
