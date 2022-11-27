@@ -100,7 +100,7 @@ public class ShoppingListFragment extends DialogFragment {
                 .setView(view)
                 .setTitle("Add Details For " + title)
                 .setPositiveButton("Add", null)
-                .setNegativeButton("Cancel", null)
+                .setNeutralButton("Cancel", null)
                 .create();
 
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {

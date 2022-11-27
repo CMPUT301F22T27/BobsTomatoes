@@ -250,6 +250,7 @@ public class IngredientStorageFragment extends DialogFragment {
             return builder
                     .setView(view)
                     .setTitle("Edit Ingredient")
+                    .setNeutralButton("Cancel", null)
                     .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -330,7 +331,7 @@ public class IngredientStorageFragment extends DialogFragment {
                     .setView(view)
                     .setTitle("Add Ingredient")
                     .setPositiveButton("Add", null)
-                    .setNegativeButton("Cancel", null)
+                    .setNeutralButton("Cancel", null)
                     .create();
 
              dialog.setOnShowListener(new DialogInterface.OnShowListener() {
