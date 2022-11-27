@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,7 +83,9 @@ public class RecipeFragment extends DialogFragment {
     Recipe editRecipe;
     int oldRecipePos;
     Context context;
+
     AlertDialog.Builder builder;
+    Dialog progressBar;
 
     Recipe newRecipe;
 
@@ -121,6 +124,10 @@ public class RecipeFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_recipe, null);
+
+        AlertDialog.Builder progressBuilder = new AlertDialog.Builder(getContext());
+        progressBuilder.setView(R.layout.progress_dialog);
+        progressBar = progressBuilder.create();
 
         titleText = view.findViewById(R.id.editTextRecipeName);
         timeText = view.findViewById(R.id.editTextRecipeCookTime);
@@ -456,10 +463,12 @@ public class RecipeFragment extends DialogFragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    showDialog(true);
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Ingredient ingredient = document.toObject(Ingredient.class);
                         ingredientList.add(ingredient);
                     }
+                    showDialog(false);
                     callBack.onCallBack(ingredientList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
@@ -572,4 +581,17 @@ public class RecipeFragment extends DialogFragment {
         return encodedImage;
 
     }
+
+    private void showDialog(boolean isShown){
+        if (isShown) {
+            progressBar.setCancelable(false);
+            progressBar.setCanceledOnTouchOutside(false);
+            progressBar.show();
+        } else {
+            progressBar.setCancelable(true);
+            progressBar.setCanceledOnTouchOutside(true);
+            progressBar.dismiss();
+        }
+    }
+
 }

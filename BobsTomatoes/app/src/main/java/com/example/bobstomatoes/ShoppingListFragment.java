@@ -116,38 +116,38 @@ public class ShoppingListFragment extends DialogFragment {
                         String tempUnit = unitText.getText().toString();
 
                         try {
-
-                            String field1 = "";
-                            String field2 = "";
-                            String field3 = "";
-
-                            if (locationText.getText().toString().equals("")) {
-                                field1 = "location ";
-                            }
-
-                            if (amountText.getText().toString().equals("")){
-                                field2 = "amount ";
-                            }
-
-                            if (unitText.getText().toString().equals("")){
-                                field3 = "unit ";
-                            }
-
-                            if (!field1.equals("") || !field2.equals("") || !field3.equals("")) {
-                                throw new Exception("Please fill out the specified fields: \n" + field1 + field2 + field3);
-                            }
-                            
-//                            if (locationText.getText().toString().equals("")){
-//                                throw new Exception("Please fill out the required fields");
+//
+//                            String field1 = "";
+//                            String field2 = "";
+//                            String field3 = "";
+//
+//                            if (locationText.getText().toString().equals("")) {
+//                                field1 = "location ";
 //                            }
 //
 //                            if (amountText.getText().toString().equals("")){
-//                                throw new Exception("Please fill out the required fields");
+//                                field2 = "amount ";
 //                            }
 //
 //                            if (unitText.getText().toString().equals("")){
-//                                throw new Exception("Please fill out the required fields");
+//                                field3 = "unit ";
 //                            }
+//
+//                            if (!field1.equals("") || !field2.equals("") || !field3.equals("")) {
+//                                throw new Exception("Please fill out the specified fields: \n" + field1 + field2 + field3);
+//                            }
+
+                            if (locationText.getText().toString().equals("")){
+                                throw new Exception("Please fill out the required fields");
+                            }
+
+                            if (amountText.getText().toString().equals("")){
+                                throw new Exception("Please fill out the required fields");
+                            }
+
+                            if (unitText.getText().toString().equals("")){
+                                throw new Exception("Please fill out the required fields");
+                            }
 
                             int newAmount = Integer.parseInt(currentAmount);
                             int newUnit = Integer.parseInt(tempUnit);

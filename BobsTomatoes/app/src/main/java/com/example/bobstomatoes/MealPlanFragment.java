@@ -72,6 +72,10 @@ public class MealPlanFragment extends DialogFragment {
     String selectedDate;
 
     AlertDialog.Builder builder;
+    Dialog progressBar;
+
+    boolean ingredientLoadDone = false;
+    boolean recipeLoadDone = false;
 
 
     public interface OnMealPlanFragmentListener{
@@ -108,6 +112,10 @@ public class MealPlanFragment extends DialogFragment {
 
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_meal_plan, null);
 
+        AlertDialog.Builder progressBuilder = new AlertDialog.Builder(getContext());
+        progressBuilder.setView(R.layout.progress_dialog);
+        progressBar = progressBuilder.create();
+
         recipesList = view.findViewById(R.id.recipe_listview_id);
         ingredientsList = view.findViewById(R.id.ingredient_listview_id);
 
@@ -121,8 +129,6 @@ public class MealPlanFragment extends DialogFragment {
         builder = new AlertDialog.Builder(getContext());
         AlertDialog dialog;
         Bundle bundle = this.getArguments();
-
-
 
         // If bundle != null, then a recipe has been passed in to the fragment -> edit/delete
         if (bundle != null) {
@@ -396,13 +402,17 @@ public class MealPlanFragment extends DialogFragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    showDialog(true, ingredientLoadDone, recipeLoadDone);
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Recipe recipe = document.toObject(Recipe.class);
                         recipeList.add(recipe);
                     }
+                    recipeLoadDone = true;
+                    showDialog(false, ingredientLoadDone, true);
                     callBack.onCallBack(recipeList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
+                    showDialog(false, ingredientLoadDone, true);
                 }
             }
         });
@@ -561,12 +571,16 @@ public class MealPlanFragment extends DialogFragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    showDialog(true, ingredientLoadDone, recipeLoadDone);
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Ingredient ingredient = document.toObject(Ingredient.class);
                         ingredientList.add(ingredient);
                     }
+                    ingredientLoadDone = true;
+                    showDialog(false, true, recipeLoadDone);;
                     callBack.onCallBack(ingredientList);
                 } else {
+                    showDialog(false, true, recipeLoadDone);
                     Log.d("", "Error getting documents: ", task.getException());
                 }
             }
@@ -580,4 +594,17 @@ public class MealPlanFragment extends DialogFragment {
     private interface RecipeFireStoreCallback{
         void onCallBack(ArrayList<Recipe> recipeList);
     }
+
+    private void showDialog(boolean isShown, boolean ingredientLoadDone, boolean recipeLoadDone){
+        if (isShown == true && (ingredientLoadDone == false || recipeLoadDone == false)) {
+            progressBar.setCancelable(false);
+            progressBar.setCanceledOnTouchOutside(false);
+            progressBar.show();
+        } else if (isShown == false && ingredientLoadDone == true && recipeLoadDone == true) {
+            progressBar.setCancelable(true);
+            progressBar.setCanceledOnTouchOutside(true);
+            progressBar.dismiss();
+        }
+    }
+
 }
