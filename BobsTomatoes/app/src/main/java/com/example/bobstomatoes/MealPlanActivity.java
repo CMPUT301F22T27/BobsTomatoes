@@ -2,6 +2,7 @@ package com.example.bobstomatoes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,6 +26,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -45,8 +48,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
     TextView descTitle;
-    TextView ingredientTitle;
-    TextView recipeTitle;
+    TextView noMealPlanText;
     ListView recipesList;
     ListView ingredientsList;
     Button openEdit;
@@ -66,16 +68,20 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     Bundle bundle;
     Bundle scaleBundle;
     MealPlan currentMealPlan;
-    String globalDate;
+    String globalDate = "";
     TextView dayOfMonth;
     Boolean planExist = false;
 
-    ArrayList<Ingredient> globalIngredientList;
+    MealPlanFragment editFragment;
+
+    ArrayList<Ingredient> globalIngredientList = new ArrayList<>();
 
     LinearLayout mealPlanDetailsLinearLayout;
+    LinearLayout mealPlanDetailSubTitles;
+    LinearLayout mealPlanDetailDesc;
     LinearLayout mealPlanButtonsLinearLayout;
 
-    boolean ingredientsUpdated = false;
+    boolean fragmentOpened = false;
 
     Dialog progressBar;
 
@@ -109,8 +115,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         mealPlanReference = mealPlanDB.getMealPlanReference();
 
         descTitle = findViewById(R.id.title_ID);
-        ingredientTitle = findViewById(R.id.meal_plan_desc_ingredient_ID);
-        recipeTitle = findViewById(R.id.meal_plan_desc_recipe_ID);
+        noMealPlanText = findViewById(R.id.no_meal_plan_ID);
         recipesList = findViewById(R.id.meal_plan_recipe_list_ID);
         ingredientsList = findViewById(R.id.meal_plan_ingredient_list_ID);
         openEdit = findViewById(R.id.meal_plan_edit_ID);
@@ -118,7 +123,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
         mealPlanButtonsLinearLayout = findViewById(R.id.meal_plan_bottom_button_layout);
         mealPlanDetailsLinearLayout = findViewById(R.id.mealPlanDetailLayout);
-
+        mealPlanDetailSubTitles = findViewById(R.id.meal_plan_subtitles_layout);
+        mealPlanDetailDesc = findViewById(R.id.meal_plan_lists_layout);
 
         // Populate meal plan list from database, by calling this, we can safely assume the list has been populated from the DataBase
         readData(new MealPlanFireStoreCallBack() {
@@ -159,10 +165,11 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         });
 
         openEdit.setOnClickListener(view -> {
-             MealPlanFragment fragment = new MealPlanFragment();
-             fragment.setArguments(bundle);
-             fragment.show(getSupportFragmentManager(), "EDIT/DELETE MEAL PLAN");
-             planFound = false;
+            editFragment = new MealPlanFragment();
+            editFragment.setArguments(bundle);
+            editFragment.show(getSupportFragmentManager(), "EDIT/DELETE MEAL PLAN");
+            planFound = false;
+            fragmentOpened = true;
         });
 
         scaleRecipeButton.setOnClickListener(view -> {
@@ -230,8 +237,15 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     {
         selectedDate = selectedDate.minusMonths(1);
 
-        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
+//        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
+//        mealPlanButtonsLinearLayout.setVisibility(View.GONE);
+
+        noMealPlanText.setVisibility(View.VISIBLE);
+        mealPlanDetailSubTitles.setVisibility(View.GONE);
+        mealPlanDetailDesc.setVisibility(View.GONE);
+        descTitle.setVisibility(View.GONE);
         mealPlanButtonsLinearLayout.setVisibility(View.GONE);
+        globalDate = "";
 
         setMonthView();
 
@@ -278,8 +292,15 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     {
         selectedDate = selectedDate.plusMonths(1);
 
-        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
+//        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
+//        mealPlanButtonsLinearLayout.setVisibility(View.GONE);
+
+        noMealPlanText.setVisibility(View.VISIBLE);
+        mealPlanDetailSubTitles.setVisibility(View.GONE);
+        mealPlanDetailDesc.setVisibility(View.GONE);
+        descTitle.setVisibility(View.GONE);
         mealPlanButtonsLinearLayout.setVisibility(View.GONE);
+        globalDate = "";
 
         setMonthView();
 
@@ -390,7 +411,10 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                 scaleBundle = new Bundle();
                 scaleBundle.putParcelable("selectedMealPlan", currentMealPlan);
 
-                mealPlanDetailsLinearLayout.setVisibility(View.VISIBLE);
+                noMealPlanText.setVisibility(View.GONE);
+                descTitle.setVisibility(View.VISIBLE);
+                mealPlanDetailSubTitles.setVisibility(View.VISIBLE);
+                mealPlanDetailDesc.setVisibility(View.VISIBLE);
                 mealPlanButtonsLinearLayout.setVisibility(View.VISIBLE);
 
                 descTitle.setText(globalDate + " Meal Plan: ");
@@ -410,7 +434,10 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
             }else {
 
-                mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
+                noMealPlanText.setVisibility(View.VISIBLE);
+                mealPlanDetailSubTitles.setVisibility(View.GONE);
+                mealPlanDetailDesc.setVisibility(View.GONE);
+                descTitle.setVisibility(View.GONE);
                 mealPlanButtonsLinearLayout.setVisibility(View.GONE);
 
             }
@@ -448,15 +475,22 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
 
     public void onEditOkPressed(MealPlan oldMealPlan, MealPlan updatedMealPlan) {
-        if(ingredientsUpdated) {
-            updatedMealPlan.setMealPlanIngredients(globalIngredientList);
+
+        recipeList.clear();
+        ingredientList.clear();
+
+        for (int i = 0; i < updatedMealPlan.getMealPlanIngredients().size(); i++){
+            ingredientList.add(updatedMealPlan.getMealPlanIngredients().get(i));
         }
+
+        for (int i = 0; i < updatedMealPlan.getMealPlanRecipes().size(); i++){
+            recipeList.add(updatedMealPlan.getMealPlanRecipes().get(i));
+        }
+
 
         mealPlanDB.editMealPlan(oldMealPlan, updatedMealPlan);
         recipeAdapter.notifyDataSetChanged();
         ingredientAdapter.notifyDataSetChanged();
-
-        ingredientsUpdated = false;
     }
 
 
@@ -472,10 +506,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
         recipeAdapter.notifyDataSetChanged();
         ingredientAdapter.notifyDataSetChanged();
-
-
     }
-
 
     public void readData(MealPlanFireStoreCallBack callBack) {
         showDialog(true);
@@ -494,22 +525,20 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                     callBack.onCallBack(mealPlanList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
+                    showDialog(false);
                 }
             }
         });
     }
 
     @Override
-    public void onAddIngredientOkPressed(ArrayList<Ingredient> ingredientsList) {
-        globalIngredientList = ingredientList;
-        ingredientsUpdated = true;
+    public void onAddIngredientOkPressed(ArrayList<Ingredient> ingredientList) {
+       // Do nothing
     }
 
     @Override
     public void onScaleOkPressed(MealPlan oldMealPlan, MealPlan scaledMealPlan) {
         mealPlanDB.editMealPlan(oldMealPlan, scaledMealPlan);
-
-
         recipeAdapter.notifyDataSetChanged();
         ingredientAdapter.notifyDataSetChanged();
     }
@@ -534,5 +563,28 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             progressBar.dismiss();
         }
     }
+
+    public String getGlobalDate() {
+        return globalDate;
+    }
+
+
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK){
+//            if (fragmentOpened == true) {
+//
+//                ingredientList.clear();
+//                for (int i = 0; i < oldIngredientList.size(); i++) {
+//                    ingredientList.add(oldIngredientList.get(i));
+//                }
+//
+//                globalIngredientList.clear();
+//                fragmentOpened = false;
+//            }
+//            return false;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
 }

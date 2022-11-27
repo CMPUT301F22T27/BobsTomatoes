@@ -15,11 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -29,6 +31,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -47,7 +50,6 @@ public class MealPlanFragment extends DialogFragment {
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
     private MealPlanFragment.OnMealPlanFragmentListener listener;
-    //private ActivityResultLauncher<Intent> activityResultLauncher;
 
     // Database
     IngredientDB ingredientDB;
@@ -56,27 +58,31 @@ public class MealPlanFragment extends DialogFragment {
     ArrayAdapter<Ingredient> ingredientAdapter;
     RecipeDB recipeDB;
     ArrayList<Recipe> recipeList;
-    ArrayList<String> testList;
     CollectionReference recipeReference;
     ArrayAdapter<Recipe> recipeAdapter;
 
     // For ingredient selection
+    ArrayList<Ingredient> tempSelectedIngredients;
+    ArrayList<Recipe> tempSelectedRecipes;
+
     ArrayList<Ingredient> selectedIngredients;
     ArrayList<Recipe> selectedRecipes;
 
-    Recipe selectedRecipe;
     MealPlan selectedMealPlan;
     String selectedDate;
-    int oldRecipePos;
-    int oldIngredientPos;
-    String date = "0-0-0";
+
+    AlertDialog.Builder builder;
+    Dialog progressBar;
+
+    boolean ingredientLoadDone = false;
+    boolean recipeLoadDone = false;
+
 
     public interface OnMealPlanFragmentListener{
 
         public void onAddOkPressed(MealPlan mealPlan);
         public void onEditOkPressed(MealPlan oldMealPlan, MealPlan updatedMealPlan);
         public void onDeleteOkPressed(MealPlan mealPlan);
-
     }
 
     /**
@@ -106,6 +112,10 @@ public class MealPlanFragment extends DialogFragment {
 
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_meal_plan, null);
 
+        AlertDialog.Builder progressBuilder = new AlertDialog.Builder(getContext());
+        progressBuilder.setView(R.layout.progress_dialog);
+        progressBar = progressBuilder.create();
+
         recipesList = view.findViewById(R.id.recipe_listview_id);
         ingredientsList = view.findViewById(R.id.ingredient_listview_id);
 
@@ -116,7 +126,8 @@ public class MealPlanFragment extends DialogFragment {
         initRecipeList();
         initIngredientList();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder = new AlertDialog.Builder(getContext());
+        AlertDialog dialog;
         Bundle bundle = this.getArguments();
 
         // If bundle != null, then a recipe has been passed in to the fragment -> edit/delete
@@ -126,12 +137,24 @@ public class MealPlanFragment extends DialogFragment {
             selectedDate = bundle.getString("selectedDate");
 
             // Populate selectedIngredients and selectedRecipes
-            selectedRecipes = selectedMealPlan.getMealPlanRecipes();
-            selectedIngredients = selectedMealPlan.getMealPlanIngredients();
+            tempSelectedRecipes = selectedMealPlan.getMealPlanRecipes();
+            tempSelectedIngredients = selectedMealPlan.getMealPlanIngredients();
+
+            for (int i = 0; i < tempSelectedRecipes.size(); i++) {
+                selectedRecipes.add(tempSelectedRecipes.get(i));
+            }
+
+            for (int i = 0; i < tempSelectedIngredients.size(); i++) {
+                selectedIngredients.add(tempSelectedIngredients.get(i));
+            }
+
+//            selectedRecipes = selectedMealPlan.getMealPlanRecipes();
+//            selectedIngredients = selectedMealPlan.getMealPlanIngredients();
 
             // Builder for Edit/delete
-            return builder.setView(view)
+            dialog = builder.setView(view)
                     .setTitle("Edit Meal Plan")
+                    .setNeutralButton("Cancel", null)
                     .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -140,39 +163,105 @@ public class MealPlanFragment extends DialogFragment {
 
                         }
                     })
-                    .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-
-                            MealPlan newMealPlan = new MealPlan(selectedDate, selectedRecipes, selectedIngredients);
-
-                            listener.onEditOkPressed(selectedMealPlan, newMealPlan);
-
-                        }
-                    })
+                    .setPositiveButton("Edit", null)
                     .create();
+
+            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialogInterface) {
+                    dialog.setCanceledOnTouchOutside(false);
+                    Button button = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+                                String field1 = "";
+                                String field2 = "";
+
+                                MealPlan newMealPlan = new MealPlan(selectedDate, selectedRecipes, selectedIngredients);
+
+                                if (newMealPlan.getMealPlanRecipes().size() == 0) {
+                                    field1 = "recipes ";
+                                }
+
+                                if (newMealPlan.getMealPlanIngredients().size() == 0) {
+                                    field2 = "ingredients ";
+                                }
+
+                                if (!field1.equals("") || !field2.equals("")) {
+                                    throw new Exception("Please make sure these lists are filled: \n" + field1 + field2);
+                                }
+
+                                listener.onEditOkPressed(selectedMealPlan, newMealPlan);
+                                dialog.dismiss();
+
+                            } catch (Exception e) {
+                                Log.d("EXCEPTION HERE", e.toString());
+
+                                Snackbar snackbar = null;
+                                snackbar = snackbar.make(view, e.getMessage(), Snackbar.LENGTH_SHORT);
+                                snackbar.setDuration(700);
+                                snackbar.show();
+                            }
+                        }
+                    });
+                }
+            });
+
 
 
         } else {  // If bundle = null, then a recipe has not been passed in to the fragment -> add
 
             //Builder for add
-            return builder.setView(view)
+            dialog = builder.setView(view)
                     .setTitle("Add MealPlan")
-                    .setNegativeButton("Cancel", null)
-                    .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                            MealPlan newMealPlan = new MealPlan("", selectedRecipes, selectedIngredients);
-
-                            listener.onAddOkPressed(newMealPlan);
-
-                        }
-                    })
+                    .setNeutralButton("Cancel", null)
+                    .setPositiveButton("Add", null)
                     .create();
 
+            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialogInterface) {
+                    dialog.setCanceledOnTouchOutside(false);
+                    Button button = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+                                String field1 = "";
+                                String field2 = "";
+
+                                MealPlan newMealPlan = new MealPlan("", selectedRecipes, selectedIngredients);
+
+                                if(newMealPlan.getMealPlanRecipes().size() == 0) {
+                                    field1 = "recipes ";
+                                }
+
+                                if (newMealPlan.getMealPlanIngredients().size() == 0 ) {
+                                    field2 = "ingredients ";
+                                }
+
+                                if (!field1.equals("") || !field2.equals("")) {
+                                    throw new Exception("Please make sure " + field1 + field2 + "are filled");
+                                }
+
+                                listener.onAddOkPressed(newMealPlan);
+                                dialog.dismiss();
+                            } catch (Exception e) {
+                                Log.d("EXCEPTION HERE", e.toString());
+
+                                Snackbar snackbar = null;
+                                snackbar = snackbar.make(view, e.getMessage(), Snackbar.LENGTH_SHORT);
+                                snackbar.setDuration(700);
+                                snackbar.show();
+                            }
+                        }
+                    });
+
+                }
+            });
         }
+        return dialog;
     }
 
 
@@ -313,13 +402,17 @@ public class MealPlanFragment extends DialogFragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    showDialog(true, ingredientLoadDone, recipeLoadDone);
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Recipe recipe = document.toObject(Recipe.class);
                         recipeList.add(recipe);
                     }
+                    recipeLoadDone = true;
+                    showDialog(false, ingredientLoadDone, true);
                     callBack.onCallBack(recipeList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
+                    showDialog(false, ingredientLoadDone, true);
                 }
             }
         });
@@ -478,12 +571,16 @@ public class MealPlanFragment extends DialogFragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    showDialog(true, ingredientLoadDone, recipeLoadDone);
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Ingredient ingredient = document.toObject(Ingredient.class);
                         ingredientList.add(ingredient);
                     }
+                    ingredientLoadDone = true;
+                    showDialog(false, true, recipeLoadDone);;
                     callBack.onCallBack(ingredientList);
                 } else {
+                    showDialog(false, true, recipeLoadDone);
                     Log.d("", "Error getting documents: ", task.getException());
                 }
             }
@@ -496,6 +593,18 @@ public class MealPlanFragment extends DialogFragment {
 
     private interface RecipeFireStoreCallback{
         void onCallBack(ArrayList<Recipe> recipeList);
+    }
+
+    private void showDialog(boolean isShown, boolean ingredientLoadDone, boolean recipeLoadDone){
+        if (isShown == true && (ingredientLoadDone == false || recipeLoadDone == false)) {
+            progressBar.setCancelable(false);
+            progressBar.setCanceledOnTouchOutside(false);
+            progressBar.show();
+        } else if (isShown == false && ingredientLoadDone == true && recipeLoadDone == true) {
+            progressBar.setCancelable(true);
+            progressBar.setCanceledOnTouchOutside(true);
+            progressBar.dismiss();
+        }
     }
 
 }

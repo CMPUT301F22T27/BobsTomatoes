@@ -250,6 +250,7 @@ public class IngredientStorageFragment extends DialogFragment {
             return builder
                     .setView(view)
                     .setTitle("Edit Ingredient")
+                    .setNeutralButton("Cancel", null)
                     .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -259,7 +260,21 @@ public class IngredientStorageFragment extends DialogFragment {
                             int year = datePicker.getYear();
                             int month = datePicker.getMonth() + 1;
                             int day = datePicker.getDayOfMonth();
-                            String newDate = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
+
+                            String monthStr;
+                            String dayStr;
+                            if (month < 10) {
+                                monthStr = "0" + Integer.toString(month);
+                            } else {
+                                monthStr = Integer.toString(month);
+                            }
+                            if (day < 10) {
+                                dayStr = "0" + Integer.toString(day);
+                            } else {
+                                dayStr = Integer.toString(day);
+                            }
+
+                            String newDate = Integer.toString(year) + "-" + monthStr + "-" + dayStr;
 
                             // Location
                             String newLocation;
@@ -330,7 +345,7 @@ public class IngredientStorageFragment extends DialogFragment {
                     .setView(view)
                     .setTitle("Add Ingredient")
                     .setPositiveButton("Add", null)
-                    .setNegativeButton("Cancel", null)
+                    .setNeutralButton("Cancel", null)
                     .create();
 
              dialog.setOnShowListener(new DialogInterface.OnShowListener() {
@@ -347,7 +362,19 @@ public class IngredientStorageFragment extends DialogFragment {
                                  int year = datePicker.getYear();
                                  int month = datePicker.getMonth() + 1;
                                  int day = datePicker.getDayOfMonth();
-                                 String newDate = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
+                                 String monthStr;
+                                 String dayStr;
+                                 if (month < 10) {
+                                     monthStr = "0" + Integer.toString(month);
+                                 } else {
+                                     monthStr = Integer.toString(month);
+                                 }
+                                 if (day < 10) {
+                                     dayStr = "0" + Integer.toString(day);
+                                 } else {
+                                     dayStr = Integer.toString(day);
+                                 }
+                                 String newDate = Integer.toString(year) + "-" + monthStr + "-" + dayStr;
 
                                  // Location
                                  String newLocation;
@@ -358,7 +385,7 @@ public class IngredientStorageFragment extends DialogFragment {
                                  }else if(freezerRadioButton.isChecked()){
                                      newLocation = "Freezer";
                                  }else{
-                                     newLocation = "";
+                                     throw new Exception("Fail");
                                  }
 
                                  String tempAmount = amountText.getText().toString();
@@ -391,7 +418,7 @@ public class IngredientStorageFragment extends DialogFragment {
                                  }else if(otherRadioButton.isChecked()){
                                      newCategory = "Other";
                                  }else{
-                                     newCategory = "";
+                                     throw new Exception("Fail");
                                  }
                                  addIngredient = new Ingredient(newDescription, newDate, newLocation, newAmount, newUnit, newCategory);
 
@@ -404,6 +431,7 @@ public class IngredientStorageFragment extends DialogFragment {
 
                                  Snackbar snackbar = null;
                                  snackbar = snackbar.make(view, "Please fill out all required fields", Snackbar.LENGTH_SHORT);
+                                 snackbar.setDuration(700);
                                  snackbar.show();
 
                                  //errorToast.makeText(context.getApplicationContext(),"Please fill out all required fields", Toast.LENGTH_SHORT).show();

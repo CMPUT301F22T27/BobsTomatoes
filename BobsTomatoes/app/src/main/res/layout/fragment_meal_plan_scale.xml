@@ -27,7 +27,7 @@
             android:layout_gravity="right"
             android:ems="10"
             android:hint="Number of servings"
-            android:inputType="textPersonName" />
+            android:inputType="numberDecimal"/>
     </LinearLayout>
 
 </LinearLayout>

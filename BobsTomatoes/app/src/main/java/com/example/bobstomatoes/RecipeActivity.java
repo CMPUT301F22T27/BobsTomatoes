@@ -214,11 +214,11 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
      * @param callBack  recipe database
      */
     public void readData(RecipeFireStoreCallback callBack) {
+        showDialog(true);
         recipeReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    showDialog(true);
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Recipe recipe = document.toObject(Recipe.class);
                         recipeList.add(recipe);
@@ -227,6 +227,7 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
                     callBack.onCallBack(recipeList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
+                    showDialog(false);
                 }
             }
         });

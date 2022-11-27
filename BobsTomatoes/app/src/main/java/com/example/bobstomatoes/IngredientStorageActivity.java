@@ -197,6 +197,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
      * @param callBack  ingredient database
      */
     public void readData(IngredientFireStoreCallback callBack) {
+        showDialog(true);
         ingredientReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -210,6 +211,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
                     callBack.onCallBack(ingredientList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
+                    showDialog(false);
                 }
             }
         });

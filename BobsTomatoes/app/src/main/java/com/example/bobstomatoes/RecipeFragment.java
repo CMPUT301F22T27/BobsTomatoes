@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,7 +83,9 @@ public class RecipeFragment extends DialogFragment {
     Recipe editRecipe;
     int oldRecipePos;
     Context context;
+
     AlertDialog.Builder builder;
+    Dialog progressBar;
 
     Recipe newRecipe;
 
@@ -121,6 +124,10 @@ public class RecipeFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_recipe, null);
+
+        AlertDialog.Builder progressBuilder = new AlertDialog.Builder(getContext());
+        progressBuilder.setView(R.layout.progress_dialog);
+        progressBar = progressBuilder.create();
 
         titleText = view.findViewById(R.id.editTextRecipeName);
         timeText = view.findViewById(R.id.editTextRecipeCookTime);
@@ -219,6 +226,7 @@ public class RecipeFragment extends DialogFragment {
             // Builder for Edit/delete
             return builder.setView(view)
                     .setTitle("Edit Recipe")
+                    .setNeutralButton("Cancel", null)
                     .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -290,7 +298,7 @@ public class RecipeFragment extends DialogFragment {
                     .setView(view)
                     .setTitle("Add Recipe")
                     .setPositiveButton("Add", null)
-                    .setNegativeButton("Cancel", null)
+                    .setNeutralButton("Cancel", null)
                     .create();
 
             dialog.setOnShowListener(new DialogInterface.OnShowListener() {
@@ -322,6 +330,7 @@ public class RecipeFragment extends DialogFragment {
 
                                 Snackbar snackbar = null;
                                 snackbar = snackbar.make(view, "Please fill out all required fields", Snackbar.LENGTH_SHORT);
+                                snackbar.setDuration(700);
                                 snackbar.show();
 
                                 //Toast.makeText(context.getApplicationContext(), "Fill out all fields", Toast.LENGTH_SHORT).show();
@@ -454,10 +463,12 @@ public class RecipeFragment extends DialogFragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    showDialog(true);
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Ingredient ingredient = document.toObject(Ingredient.class);
                         ingredientList.add(ingredient);
                     }
+                    showDialog(false);
                     callBack.onCallBack(ingredientList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
@@ -484,18 +495,9 @@ public class RecipeFragment extends DialogFragment {
 
                         Intent data = result.getData();
 
-                        if (data != null){
+                        if (data != null) {
 
-                            Bundle bundle = data.getExtras();
-
-                            //Indicates photo was taken
-                            if (bundle != null){
-
-                                finalPhoto = (Bitmap) bundle.get("data");
-
-                            //Photo is from camera roll, comes back as Uri
-                            } else {
-
+                                Bundle bundle = data.getExtras();
                                 Uri imageUri = data.getData();
 
                                 try {
@@ -510,10 +512,19 @@ public class RecipeFragment extends DialogFragment {
                                         finalPhoto = BitmapFactory.decodeStream(getContext().getContentResolver()
                                                 .openInputStream(imageUri));
 
-                                    } catch (FileNotFoundException e) {
+                                    } catch (Exception e) {
 
-                                        finalPhoto = null;
-                                        e.printStackTrace();
+//                                        finalPhoto = null;
+//                                        e.printStackTrace();
+
+                                        try {
+                                            finalPhoto = (Bitmap) bundle.get("data");
+
+                                        } catch (Exception t) {
+
+                                            finalPhoto = null;
+                                            t.printStackTrace();
+                                        }
 
                                     }
 
@@ -524,11 +535,9 @@ public class RecipeFragment extends DialogFragment {
                                 //Encode bitmap to Base64
                                 encodedImage = encodeImage(finalPhoto);
 
-                            }
-
                         }
-
                     }
+
                 });
 
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
@@ -565,11 +574,24 @@ public class RecipeFragment extends DialogFragment {
 
         ByteArrayOutputStream baos  = new ByteArrayOutputStream();
 
-        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
 
         String encodedImage = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
 
         return encodedImage;
 
     }
+
+    private void showDialog(boolean isShown){
+        if (isShown) {
+            progressBar.setCancelable(false);
+            progressBar.setCanceledOnTouchOutside(false);
+            progressBar.show();
+        } else {
+            progressBar.setCancelable(true);
+            progressBar.setCanceledOnTouchOutside(true);
+            progressBar.dismiss();
+        }
+    }
+
 }
