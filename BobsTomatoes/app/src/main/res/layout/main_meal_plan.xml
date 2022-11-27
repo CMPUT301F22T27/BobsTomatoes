@@ -147,8 +147,19 @@
         android:layout_weight="5"
         android:orientation="vertical"
         android:padding="13dp"
-        android:visibility="invisible"
-        android:paddingHorizontal="20dp">
+        android:paddingHorizontal="20dp"
+        android:visibility="visible"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/no_meal_plan_ID"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:gravity="center|center_horizontal"
+            android:text="No Meal Plan Created On This Date"
+            android:textAlignment="center"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/title_ID"
@@ -158,12 +169,16 @@
             android:paddingVertical="5dp"
             android:text="Date"
             android:textColor="@color/black"
-            tools:visibility="visible" />
+            android:visibility="gone"
+            tools:visibility="gone" />
 
         <LinearLayout
+            android:id="@+id/meal_plan_subtitles_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="gone">
 
             <TextView
                 android:id="@+id/meal_plan_desc_recipe_ID"
@@ -190,18 +205,21 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/meal_plan_lists_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="gone">
 
             <ListView
                 android:id="@+id/meal_plan_recipe_list_ID"
                 android:layout_width="190dp"
                 android:layout_height="wrap_content"
+                android:listSelector="@android:color/transparent"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
                 android:scrollbarSize="2dp"
-                android:listSelector="@android:color/transparent"
                 tools:visibility="visible" />
 
             <ListView
@@ -209,10 +227,10 @@
                 android:layout_width="169dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:listSelector="@android:color/transparent"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
                 android:scrollbarSize="2dp"
-                android:listSelector="@android:color/transparent"
                 tools:visibility="visible" />
 
         </LinearLayout>
