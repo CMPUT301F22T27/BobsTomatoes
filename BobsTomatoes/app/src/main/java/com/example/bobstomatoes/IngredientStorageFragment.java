@@ -405,6 +405,7 @@ public class IngredientStorageFragment extends DialogFragment {
 
                                  Snackbar snackbar = null;
                                  snackbar = snackbar.make(view, "Please fill out all required fields", Snackbar.LENGTH_SHORT);
+                                 snackbar.setDuration(700);
                                  snackbar.show();
 
                                  //errorToast.makeText(context.getApplicationContext(),"Please fill out all required fields", Toast.LENGTH_SHORT).show();
