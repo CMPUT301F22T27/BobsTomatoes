@@ -1,5 +1,7 @@
 package com.example.bobstomatoes;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -12,11 +14,14 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Transaction;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -170,6 +175,113 @@ public class IngredientDB {
                 });
 
         ingredientList.set(oldIngredientPos, updatedIngredient);
+
+        editRecipeIngredientTransaction(updatedIngredient);
+        editMealIngredientTransaction(updatedIngredient);
+    }
+
+    /**
+     * Edit ingredient
+     * Update an old ingredient with new description, date, location, amount, unit, category on firebase database
+     * @param updatedIngredient   new ingredient with updated information
+     */
+    public void editRecipeIngredientTransaction(Ingredient updatedIngredient) {
+        RecipeDB recipeDB = new RecipeDB();
+        FirebaseFirestore recipeDatabase = recipeDB.getRecipeDatabase();
+        CollectionReference recipeColRef = recipeDB.getRecipeReference();
+        DocumentReference recipeDocRef = recipeColRef.document();
+
+        ArrayList<Recipe> recipesList = recipeDB.getRecipeList();
+
+
+
+        readRecipeData(recipeColRef, recipesList, new RecipeFireStoreCallback() {
+            @Override
+            public void onCallBack(ArrayList<Recipe> recipeList) {
+                recipeDatabase.runTransaction(new Transaction.Function<Void>() {
+                    @Override
+                    public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                        for  (int i = 0; i < recipesList.size(); i++) {
+                            DocumentReference recipeDocRef = recipeColRef.document(recipeList.get(i).getRecipeTitle());
+                            ArrayList<Ingredient> currentRecipeIngredientList = recipeList.get(i).getRecipeIngredients();
+                            for (int j = 0; j < currentRecipeIngredientList.size(); j++) {
+                                updatedIngredient.setIngredientAmount(currentRecipeIngredientList.get(j).getIngredientAmount());
+                                if (currentRecipeIngredientList.get(j).getIngredientDesc().equals(updatedIngredient.getIngredientDesc())) {
+                                    currentRecipeIngredientList.set(j, updatedIngredient);
+
+                                }
+                            }
+
+                            recipeDB.editRecipeMealTransaction(recipeList.get(i));
+                            transaction.update(recipeDocRef, "recipeIngredients", currentRecipeIngredientList);
+                        }
+                        return null;
+                    }
+
+                }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Transaction success!");
+                    }
+
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Transaction failure.", e);
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     *
+     * @param updatedIngredient
+     */
+    public void editMealIngredientTransaction(Ingredient updatedIngredient) {
+        MealPlanDB mealPlanDB = new MealPlanDB();
+        FirebaseFirestore mealPlanDatabase = mealPlanDB.getMealPlanDatabase();
+        CollectionReference mealPlanColRef = mealPlanDB.getMealPlanReference();
+        DocumentReference mealPlanDocRef = mealPlanColRef.document();
+
+        ArrayList<MealPlan> mealPlanList = mealPlanDB.getMealPlanList();
+
+        readMealPlanData(mealPlanColRef, mealPlanList, new MealPlanFireStoreCallback() {
+            @Override
+            public void onCallBack(ArrayList<MealPlan> mealPlanList) {
+                Log.d("MEAL PLAN DATE:", mealPlanList.get(0).getMealPlanDate());
+                mealPlanDatabase.runTransaction(new Transaction.Function<Void>() {
+                    @Override
+                    public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                        for  (int i = 0; i < mealPlanList.size(); i++) {
+                            Log.d("MEAL PLAN DATE:", mealPlanList.get(i).getMealPlanDate());
+                            DocumentReference mealPlanDocRef = mealPlanColRef.document(mealPlanList.get(i).getMealPlanDate());
+                            ArrayList<Ingredient> currentMealPlanIngredientList = mealPlanList.get(i).getMealPlanIngredients();
+                            for (int j = 0; j < currentMealPlanIngredientList.size(); j++) {
+                                updatedIngredient.setIngredientAmount(currentMealPlanIngredientList.get(j).getIngredientAmount());
+                                if (currentMealPlanIngredientList.get(j).getIngredientDesc().equals(updatedIngredient.getIngredientDesc())) {
+                                    currentMealPlanIngredientList.set(j, updatedIngredient);
+                                }
+                            }
+                            transaction.update(mealPlanDocRef, "mealPlanIngredients", currentMealPlanIngredientList);
+                        }
+                        return null;
+                    }
+
+                }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "In IngredientDB: Meal Plan Transaction success!");
+                    }
+
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "In IngredientDB: Transaction failure.", e);
+                    }
+                });
+            }
+        });
     }
 
 
@@ -189,6 +301,57 @@ public class IngredientDB {
      */
     public CollectionReference getIngredientReference(){
         return ingredientReference;
+    }
+
+    /**
+     * Populates data base using callBack
+     * @param callBack  recipe database
+     */
+    public void readRecipeData(CollectionReference recipeReference, ArrayList<Recipe> recipeList, RecipeFireStoreCallback callBack) {
+        recipeReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Recipe recipe = document.toObject(Recipe.class);
+                        recipeList.add(recipe);
+                    }
+                    callBack.onCallBack(recipeList);
+                } else {
+                    Log.d("", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    private interface RecipeFireStoreCallback {
+        void onCallBack(ArrayList<Recipe> recipeList);
+    }
+
+    /**
+     * Populates data base using callBack
+     * @param callBack  recipe database
+     */
+    public void readMealPlanData(CollectionReference mealPlanReference, ArrayList<MealPlan> mealPlanList, MealPlanFireStoreCallback callBack) {
+        mealPlanReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        MealPlan mealPlan = document.toObject(MealPlan.class);
+                        Log.d("mealPlan DATE: ", mealPlan.getMealPlanDate());
+                        mealPlanList.add(mealPlan);
+                    }
+                    callBack.onCallBack(mealPlanList);
+                } else {
+                    Log.d("", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    private interface MealPlanFireStoreCallback {
+        void onCallBack(ArrayList<MealPlan> MealPlanList);
     }
 
 
