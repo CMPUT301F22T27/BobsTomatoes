@@ -237,7 +237,13 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     {
         selectedDate = selectedDate.minusMonths(1);
 
-        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
+//        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
+//        mealPlanButtonsLinearLayout.setVisibility(View.GONE);
+
+        noMealPlanText.setVisibility(View.VISIBLE);
+        mealPlanDetailSubTitles.setVisibility(View.GONE);
+        mealPlanDetailDesc.setVisibility(View.GONE);
+        descTitle.setVisibility(View.GONE);
         mealPlanButtonsLinearLayout.setVisibility(View.GONE);
 
         setMonthView();
@@ -285,7 +291,13 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     {
         selectedDate = selectedDate.plusMonths(1);
 
-        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
+//        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
+//        mealPlanButtonsLinearLayout.setVisibility(View.GONE);
+
+        noMealPlanText.setVisibility(View.VISIBLE);
+        mealPlanDetailSubTitles.setVisibility(View.GONE);
+        mealPlanDetailDesc.setVisibility(View.GONE);
+        descTitle.setVisibility(View.GONE);
         mealPlanButtonsLinearLayout.setVisibility(View.GONE);
 
         setMonthView();

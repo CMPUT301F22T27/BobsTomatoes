@@ -49,7 +49,7 @@ public class RecipeDBTest {
         CollectionReference recipeReference = recipeDB.getRecipeReference();
 
         ArrayList<Recipe> recipeList = recipeDB.getRecipeList();
-        Recipe recipe = new Recipe("Mushroom Soup", 12, 6, "Soup", "Hot", mockIngredientList());
+        Recipe recipe = new Recipe("Mushroom Soup", 12, 6, "Soup", "Hot", mockIngredientList(), "Image");
 
         DocumentReference recipeRef = recipeReference.document(recipe.getRecipeTitle());
 
@@ -87,7 +87,7 @@ public class RecipeDBTest {
         CollectionReference recipeReference = recipeDB.getRecipeReference();
 
         ArrayList<Recipe> recipeList = recipeDB.getRecipeList();
-        Recipe recipe = new Recipe("Mushroom Soup", 12, 6, "Soup", "Hot", mockIngredientList());
+        Recipe recipe = new Recipe("Mushroom Soup", 12, 6, "Soup", "Hot", mockIngredientList(), "Image");
 
         DocumentReference recipeRef = recipeReference.document(recipe.getRecipeTitle());
 
@@ -123,8 +123,8 @@ public class RecipeDBTest {
         CollectionReference recipeReference = recipeDB.getRecipeReference();
 
         ArrayList<Recipe> recipeList = recipeDB.getRecipeList();
-        Recipe recipe = new Recipe("Mushroom Soup", 12, 6, "Soup", "Hot", mockIngredientList());
-        Recipe recipe2 = new Recipe("Spaghetti", 25, 9, "Pasta", "Gourmet", mockIngredientList());
+        Recipe recipe = new Recipe("Mushroom Soup", 12, 6, "Soup", "Hot", mockIngredientList(),"Image");
+        Recipe recipe2 = new Recipe("Spaghetti", 25, 9, "Pasta", "Gourmet", mockIngredientList(), "Image");
 
         DocumentReference recipe1Ref = recipeReference.document(recipe.getRecipeTitle());
 
@@ -150,7 +150,8 @@ public class RecipeDBTest {
             }
         });
 
-        recipeDB.editRecipe(0,recipe2);
+        Recipe oldRecipe = recipeList.get(0);
+        recipeDB.editRecipe(0,recipe2, oldRecipe);
 
         recipe1Ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
