@@ -48,8 +48,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
     TextView descTitle;
-    TextView ingredientTitle;
-    TextView recipeTitle;
+    TextView noMealPlanText;
     ListView recipesList;
     ListView ingredientsList;
     Button openEdit;
@@ -78,6 +77,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     ArrayList<Ingredient> globalIngredientList = new ArrayList<>();
 
     LinearLayout mealPlanDetailsLinearLayout;
+    LinearLayout mealPlanDetailSubTitles;
+    LinearLayout mealPlanDetailDesc;
     LinearLayout mealPlanButtonsLinearLayout;
 
     boolean fragmentOpened = false;
@@ -114,8 +115,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         mealPlanReference = mealPlanDB.getMealPlanReference();
 
         descTitle = findViewById(R.id.title_ID);
-        ingredientTitle = findViewById(R.id.meal_plan_desc_ingredient_ID);
-        recipeTitle = findViewById(R.id.meal_plan_desc_recipe_ID);
+        noMealPlanText = findViewById(R.id.no_meal_plan_ID);
         recipesList = findViewById(R.id.meal_plan_recipe_list_ID);
         ingredientsList = findViewById(R.id.meal_plan_ingredient_list_ID);
         openEdit = findViewById(R.id.meal_plan_edit_ID);
@@ -123,7 +123,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
         mealPlanButtonsLinearLayout = findViewById(R.id.meal_plan_bottom_button_layout);
         mealPlanDetailsLinearLayout = findViewById(R.id.mealPlanDetailLayout);
-
+        mealPlanDetailSubTitles = findViewById(R.id.meal_plan_subtitles_layout);
+        mealPlanDetailDesc = findViewById(R.id.meal_plan_lists_layout);
 
         // Populate meal plan list from database, by calling this, we can safely assume the list has been populated from the DataBase
         readData(new MealPlanFireStoreCallBack() {
@@ -396,7 +397,10 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                 scaleBundle = new Bundle();
                 scaleBundle.putParcelable("selectedMealPlan", currentMealPlan);
 
-                mealPlanDetailsLinearLayout.setVisibility(View.VISIBLE);
+                noMealPlanText.setVisibility(View.GONE);
+                descTitle.setVisibility(View.VISIBLE);
+                mealPlanDetailSubTitles.setVisibility(View.VISIBLE);
+                mealPlanDetailDesc.setVisibility(View.VISIBLE);
                 mealPlanButtonsLinearLayout.setVisibility(View.VISIBLE);
 
                 descTitle.setText(globalDate + " Meal Plan: ");
@@ -416,7 +420,10 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
             }else {
 
-                mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
+                noMealPlanText.setVisibility(View.VISIBLE);
+                mealPlanDetailSubTitles.setVisibility(View.GONE);
+                mealPlanDetailDesc.setVisibility(View.GONE);
+                descTitle.setVisibility(View.GONE);
                 mealPlanButtonsLinearLayout.setVisibility(View.GONE);
 
             }
