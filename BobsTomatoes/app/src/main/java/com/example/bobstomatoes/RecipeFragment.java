@@ -29,9 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,7 +39,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -56,7 +53,7 @@ public class RecipeFragment extends DialogFragment {
     private EditText servingsText;
     private EditText categoryText;
     private EditText commentsText;
-    private ListView ingredientsList;
+    private ListView ingredientsListView;
     private Button takePhotoButton;
     private Button choosePhotoButton;
     private ImageView recipeImageView;
@@ -137,7 +134,7 @@ public class RecipeFragment extends DialogFragment {
         servingsText = view.findViewById(R.id.editTextRecipeServingSize);
         categoryText = view.findViewById(R.id.editTextRecipeCategory);
         commentsText = view.findViewById(R.id.editTextRecipeComment);
-        ingredientsList = view.findViewById(R.id.ingredients_list);
+        ingredientsListView = view.findViewById(R.id.ingredients_list);
 
         selectedIngredients = new ArrayList<>();
 
@@ -164,13 +161,13 @@ public class RecipeFragment extends DialogFragment {
 
 
         //Need to re-highlight items when views are drawn from offscreen
-        ingredientsList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+        ingredientsListView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 
                 for (int i = 0; i < ingredientAdapter.getCount(); i++) {
 
-                    View check = ingredientsList.getChildAt(i);
+                    View check = ingredientsListView.getChildAt(i);
 
                     if(check != null) {
 
@@ -362,9 +359,9 @@ public class RecipeFragment extends DialogFragment {
 
         ingredientAdapter = new IngredientStorageAdapter(getContext(), ingredientList);
 
-        ingredientsList.setAdapter(ingredientAdapter);
+        ingredientsListView.setAdapter(ingredientAdapter);
 
-        ingredientsList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        ingredientsListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         readData(new IngredientFireStoreCallback() {
             @Override
@@ -374,7 +371,7 @@ public class RecipeFragment extends DialogFragment {
         });
 
         // Handle selection and unselection of items
-        ingredientsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ingredientsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
 
@@ -382,7 +379,7 @@ public class RecipeFragment extends DialogFragment {
                 //Highlighting
                 for(int i = 0; i < ingredientList.size(); i++) {
 
-                    View check = ingredientsList.getChildAt(i);
+                    View check = ingredientsListView.getChildAt(i);
 
                     if (check != null) {
 

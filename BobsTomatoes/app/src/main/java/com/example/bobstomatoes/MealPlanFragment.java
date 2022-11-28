@@ -5,11 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,11 +17,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -36,16 +28,12 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.checkerframework.checker.units.qual.A;
-
-import java.io.ByteArrayOutputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MealPlanFragment extends DialogFragment {
 
-    private ListView recipesList;
-    private ListView ingredientsList;
+    private ListView recipesListView;
+    private ListView ingredientsListView;
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
@@ -116,8 +104,8 @@ public class MealPlanFragment extends DialogFragment {
         progressBuilder.setView(R.layout.progress_dialog);
         progressBar = progressBuilder.create();
 
-        recipesList = view.findViewById(R.id.recipe_listview_id);
-        ingredientsList = view.findViewById(R.id.ingredient_listview_id);
+        recipesListView = view.findViewById(R.id.recipe_listview_id);
+        ingredientsListView = view.findViewById(R.id.ingredient_listview_id);
 
         selectedIngredients = new ArrayList<>();
         selectedRecipes = new ArrayList<>();
@@ -278,9 +266,9 @@ public class MealPlanFragment extends DialogFragment {
 
         recipeAdapter = new RecipeAdapter(getContext(), recipeList);
 
-        recipesList.setAdapter(recipeAdapter);
+        recipesListView.setAdapter(recipeAdapter);
 
-        recipesList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        recipesListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         // Populate recipe list from database, by calling this, we can safely assume the list has been populated from the DataBase
         readData(new RecipeFireStoreCallback() {
@@ -297,14 +285,14 @@ public class MealPlanFragment extends DialogFragment {
 
 
         // Handle selection and unselection of items
-        recipesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        recipesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
 
                 //Highlighting
                 for(int i = 0; i < recipeList.size(); i++) {
 
-                    View check = recipesList.getChildAt(i);
+                    View check = recipesListView.getChildAt(i);
 
                     if (check != null) {
 
@@ -358,13 +346,13 @@ public class MealPlanFragment extends DialogFragment {
         });
 
         //Need to re-highlight items when views are drawn from offscreen
-        recipesList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+        recipesListView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 
                 for (int i = 0; i < recipeAdapter.getCount(); i++) {
 
-                    View check = recipesList.getChildAt(i);
+                    View check = recipesListView.getChildAt(i);
 
                     if(check != null) {
 
@@ -431,9 +419,9 @@ public class MealPlanFragment extends DialogFragment {
 
         ingredientAdapter = new IngredientStorageAdapter(getContext(), ingredientList);
 
-        ingredientsList.setAdapter(ingredientAdapter);
+        ingredientsListView.setAdapter(ingredientAdapter);
 
-        ingredientsList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        ingredientsListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         // Populate recipe list from database, by calling this, we can safely assume the list has been populated from the DataBase
         readData(new IngredientFireStoreCallback() {
@@ -450,14 +438,14 @@ public class MealPlanFragment extends DialogFragment {
 
 
         // Handle selection and unselection of items
-        ingredientsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ingredientsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
 
                 //Highlighting
                 for(int i = 0; i < ingredientList.size(); i++) {
 
-                    View check = ingredientsList.getChildAt(i);
+                    View check = ingredientsListView.getChildAt(i);
 
                     if (check != null) {
 
@@ -526,13 +514,13 @@ public class MealPlanFragment extends DialogFragment {
         });
 
         //Need to re-highlight items when views are drawn from offscreen
-        ingredientsList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+        ingredientsListView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 
                 for (int i = 0; i < ingredientAdapter.getCount(); i++) {
 
-                    View check = ingredientsList.getChildAt(i);
+                    View check = ingredientsListView.getChildAt(i);
 
                     if(check != null) {
 
@@ -587,14 +575,26 @@ public class MealPlanFragment extends DialogFragment {
         });
     }
 
+    /**
+     *
+     */
     private interface IngredientFireStoreCallback {
         void onCallBack(ArrayList<Ingredient> IngredientList);
     }
 
+    /**
+     *
+     */
     private interface RecipeFireStoreCallback{
         void onCallBack(ArrayList<Recipe> recipeList);
     }
 
+    /**
+     *
+     * @param isShown
+     * @param ingredientLoadDone
+     * @param recipeLoadDone
+     */
     private void showDialog(boolean isShown, boolean ingredientLoadDone, boolean recipeLoadDone){
         if (isShown == true && (ingredientLoadDone == false || recipeLoadDone == false)) {
             progressBar.setCancelable(false);

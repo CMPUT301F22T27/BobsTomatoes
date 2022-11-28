@@ -2,7 +2,6 @@ package com.example.bobstomatoes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,7 +25,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -44,8 +41,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     private LocalDate selectedDate;
     private TextView descTitle;
     private TextView noMealPlanText;
-    private ListView recipesList;
-    private ListView ingredientsList;
+    private ListView recipesListView;
+    private ListView ingredientsListView;
     private Button openEdit;
     private Button scaleRecipeButton;
     private String globalDayText;
@@ -113,8 +110,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         descTitle = findViewById(R.id.title_ID);
         noMealPlanText = findViewById(R.id.no_meal_plan_ID);
         noMealPlanText.setText("Please Select a Date");
-        recipesList = findViewById(R.id.meal_plan_recipe_list_ID);
-        ingredientsList = findViewById(R.id.meal_plan_ingredient_list_ID);
+        recipesListView = findViewById(R.id.meal_plan_recipe_list_ID);
+        ingredientsListView = findViewById(R.id.meal_plan_ingredient_list_ID);
         openEdit = findViewById(R.id.meal_plan_edit_ID);
         scaleRecipeButton = findViewById(R.id.scale_meal_plan_ID);
 
@@ -171,7 +168,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             fragment.show(getSupportFragmentManager(), "SCALE RECIPES IN MEAL PLAN");
         });
 
-        recipesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        recipesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 MealPlanScaleFragment fragment = new MealPlanScaleFragment();
@@ -451,8 +448,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                 ingredientAdapter = new IngredientStorageMealPlanAdapter(this, ingredientList);
                 recipeAdapter = new RecipeAdapter(this, recipeList);
 
-                recipesList.setAdapter(recipeAdapter);
-                ingredientsList.setAdapter(ingredientAdapter);
+                recipesListView.setAdapter(recipeAdapter);
+                ingredientsListView.setAdapter(ingredientAdapter);
 
                 recipeAdapter.notifyDataSetChanged();
                 ingredientAdapter.notifyDataSetChanged();
@@ -498,8 +495,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         ingredientAdapter = new IngredientStorageMealPlanAdapter(this, ingredientList);
         recipeAdapter = new RecipeAdapter(this, recipeList);
 
-        recipesList.setAdapter(recipeAdapter);
-        ingredientsList.setAdapter(ingredientAdapter);
+        recipesListView.setAdapter(recipeAdapter);
+        ingredientsListView.setAdapter(ingredientAdapter);
 
         recipeAdapter.notifyDataSetChanged();
         ingredientAdapter.notifyDataSetChanged();
