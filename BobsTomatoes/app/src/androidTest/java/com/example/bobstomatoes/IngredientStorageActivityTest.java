@@ -65,6 +65,14 @@ public class IngredientStorageActivityTest{
 
         addTestIngredient();
 
+        onView(withText("Description"))
+                .perform(click());
+
+        onView(withText("Description"))
+                .perform(click());
+
+        Thread.sleep(100);
+
         deleteTestIngredient();
 
     }
@@ -76,6 +84,14 @@ public class IngredientStorageActivityTest{
         try { onView(withId(R.id.progressBar)).perform(WaitUntilGone(R.id.progressBar, 15000)); } catch (Exception e){}
 
         addTestIngredient();
+
+        onView(withText("Description"))
+                .perform(click());
+
+        onView(withText("Description"))
+                .perform(click());
+
+        Thread.sleep(100);
 
         editTestIngredient();
 
