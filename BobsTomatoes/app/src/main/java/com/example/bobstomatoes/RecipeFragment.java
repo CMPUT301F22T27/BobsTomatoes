@@ -574,7 +574,7 @@ public class RecipeFragment extends DialogFragment {
 
         ByteArrayOutputStream baos  = new ByteArrayOutputStream();
 
-        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);
 
         String encodedImage = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
 
