@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 public class IngredientStorageFragment extends DialogFragment {
 
     private EditText descriptionText;
+    private TextView textViewDescriptionText;
     private EditText amountText;
     private EditText unitText;
     private Boolean isEdit = false;
@@ -99,6 +101,7 @@ public class IngredientStorageFragment extends DialogFragment {
         String title;
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_ingredient_storage, null);
         descriptionText = view.findViewById(R.id.editTextIngredientDesc);
+        textViewDescriptionText = view.findViewById(R.id.textViewIngredientDesc);
         datePicker = view.findViewById(R.id.datePicker);
         locationRadioGroup = view.findViewById(R.id.radioGroupLocation);
         pantryRadioButton = view.findViewById(R.id.radioButtonPantry);
@@ -247,14 +250,18 @@ public class IngredientStorageFragment extends DialogFragment {
 
         // If isEdit is true, then the ingredient was clicked on the ListView so populate the fragment text boxes with its details and make the two buttons Delete and Edit
         if (isEdit == true) {
+
+            descriptionText.setVisibility(View.GONE);
+            textViewDescriptionText.setVisibility(View.GONE);
+
             return builder
                     .setView(view)
-                    .setTitle("Edit Ingredient")
+                    .setTitle("Edit " + selectedIngredient.getIngredientDesc())
                     .setNeutralButton("Cancel", null)
                     .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            String newDescription = descriptionText.getText().toString();
+                            //String newDescription = descriptionText.getText().toString();
 
                             // Date
                             int year = datePicker.getYear();
@@ -323,11 +330,11 @@ public class IngredientStorageFragment extends DialogFragment {
                                 newCategory = "";
                             }
 
-                            if (newDescription.equals("")) {
-                                newDescription = selectedIngredient.getIngredientDesc();
-                            }
+//                            if (newDescription.equals("")) {
+//                                newDescription = selectedIngredient.getIngredientDesc();
+//                            }
 
-                            editIngredient = new Ingredient(newDescription, newDate, newLocation, newAmount, newUnit, newCategory);
+                            editIngredient = new Ingredient(selectedIngredient.getIngredientDesc(), newDate, newLocation, newAmount, newUnit, newCategory);
                             listener.onEditOkPressed(editIngredient, selectedIngredient);
                         }
                     })
