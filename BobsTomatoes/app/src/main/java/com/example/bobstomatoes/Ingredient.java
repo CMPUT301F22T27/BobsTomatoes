@@ -57,6 +57,9 @@ public class Ingredient implements Parcelable {
         ingredientCategory = in.readString();
     }
 
+    /**
+     * Creator for implementation of parcelable class
+     */
     public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
         /**
          * Create new instance of the Parcelable Class
@@ -187,6 +190,10 @@ public class Ingredient implements Parcelable {
         this.ingredientCategory = ingredientCategory;
     }
 
+    /**
+     * Allows for cloning of an ingredient, returns new ingredient with identical fields
+     * @return
+     */
     public Ingredient clone(){
 
         return new Ingredient(this.ingredientDesc,

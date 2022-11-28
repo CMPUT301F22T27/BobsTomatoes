@@ -19,6 +19,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
+/**
+ * Fragment for inputting ingredient amount to add
+ */
 public class SpecifyIngredientAmountFragment extends DialogFragment {
 
     private SpecifyIngredientAmountFragment.OnRecipeIngredientListener listener;

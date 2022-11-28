@@ -24,7 +24,7 @@ import com.google.android.material.snackbar.Snackbar;
 /**
  * Abstract class specifying logic for navigation bar buttons at bottom of app
  * extends AppCompatActivity
- * @author Jack
+ * @author Jack, Gabe, Jake
  * @see AppCompatActivity
  */
 public abstract class AbstractNavigationBar extends AppCompatActivity {

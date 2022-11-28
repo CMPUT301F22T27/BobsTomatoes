@@ -210,7 +210,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     }
 
     /**
-     *
+     * Opens fragment when user clicks item in storage
      * @param position
      */
     @Override
@@ -234,7 +234,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
     }
 
     /**
-     *
+     * Displays progress bar while database is loading
      * @param isShown
      */
     private void showDialog(boolean isShown){

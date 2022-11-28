@@ -257,6 +257,10 @@ public class RecipeActivity extends AbstractNavigationBar implements RecipeFragm
         void onCallBack(ArrayList<Recipe> recipeList);
     }
 
+    /**
+     * Displays progress bar while database is loading
+     * @param isShown
+     */
     private void showDialog(boolean isShown){
         if (isShown) {
             progressBar.setCancelable(false);

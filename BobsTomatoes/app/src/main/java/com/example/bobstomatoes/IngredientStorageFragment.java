@@ -71,6 +71,9 @@ public class IngredientStorageFragment extends DialogFragment {
     private Context context;
     private AlertDialog.Builder builder;
 
+    /**
+     * Interface containing methods to be called on various dialog conclusions (add button pressed, etc)
+     */
     public interface OnIngredientFragmentListener{
         public void onEditOkPressed(Ingredient newIngredient, Ingredient oldIngredient);
         public void onDeleteOkPressed(Ingredient ingredient);
@@ -78,6 +81,10 @@ public class IngredientStorageFragment extends DialogFragment {
 
     }
 
+    /**
+     * Initializes dialog
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         this.context = context;
@@ -98,6 +105,8 @@ public class IngredientStorageFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+
+        //Initialize views and values
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_ingredient_storage, null);
         descriptionText = view.findViewById(R.id.editTextIngredientDesc);
         textViewDescriptionText = view.findViewById(R.id.textViewIngredientDesc);
@@ -123,6 +132,7 @@ public class IngredientStorageFragment extends DialogFragment {
         AlertDialog dialog;
         Bundle bundle = this.getArguments();
 
+        //Populate views with passed in ingredient
         if (bundle != null) {
             selectedIngredient = bundle.getParcelable("selectedIngredient");
             oldIngredientPos = bundle.getInt("oldIngredientPos");

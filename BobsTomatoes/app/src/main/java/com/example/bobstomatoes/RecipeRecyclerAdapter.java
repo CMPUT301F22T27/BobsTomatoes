@@ -14,6 +14,9 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
 
+/**
+ * Custom recycler adapter intended for use with RecipeActivity
+ */
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.RecipeViewHolder> {
     private ArrayList<Recipe> recipeList = new ArrayList<>();
     private Context context;
@@ -21,9 +24,9 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
     private final RecyclerViewInterface recyclerViewInterface;
 
     /**
-     *
+     * Constructor for RecipeRecyclerAdapter
      * @param context
-     * @param recipeList
+     * @param recipeList recipes to display
      * @param recyclerViewInterface
      */
     public RecipeRecyclerAdapter(Context context, ArrayList<Recipe> recipeList, RecyclerViewInterface recyclerViewInterface) {
@@ -33,7 +36,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
     }
 
     /**
-     *
+     * Inflates custom ViewHolder to display in recycler view
      * @param viewGroup
      * @param i
      * @return
@@ -46,7 +49,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
     }
 
     /**
-     *
+     * Populates custom viewholder with recipe info
      * @param viewHolder
      * @param position
      */
@@ -62,7 +65,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
     }
 
     /**
-     *
+     * Returns number of items in adapter
      * @return
      */
     @Override
@@ -70,6 +73,10 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         return recipeList.size();
     }
 
+    /**
+     * Custom view holder class for use with RecipeRecyclerAdapter
+     * Creates viewholder from xml template
+     */
     public class RecipeViewHolder extends RecyclerView.ViewHolder {
         TextView recipeNameView;
         TextView recipeCookTimeView;
@@ -77,6 +84,12 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         TextView recipeCategoryView;
         TextView recipeCommentViews;
         ImageView recipeImageView;
+
+        /**
+         * RecipeViewHolder constructor
+         * @param itemView
+         * @param recyclerViewInterface
+         */
         public RecipeViewHolder(View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             recipeNameView = itemView.findViewById(R.id.recipeNameTextView);

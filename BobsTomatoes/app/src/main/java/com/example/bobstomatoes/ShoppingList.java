@@ -28,7 +28,8 @@ public class ShoppingList implements Parcelable {
     }
 
     /**
-     *
+     * getCheckedItems getter
+     * Contains hashmap mapping String ingredient name -> boolean isChecked()
      * @return
      */
     public HashMap<String, Boolean> getCheckedItems() {
@@ -36,7 +37,8 @@ public class ShoppingList implements Parcelable {
     }
 
     /**
-     *
+     * getIngredientCount getter
+     * Contains hashmap mapping String ingredient name -> int number of ingredient in meal plans
      * @return
      */
     public HashMap<String, Integer> getIngredientCount() {
@@ -44,7 +46,7 @@ public class ShoppingList implements Parcelable {
     }
 
     /**
-     *
+     * IngredientCount setter
      * @param ingredientCount
      */
     public void setIngredientCount(HashMap<String, Integer> ingredientCount) {
@@ -52,7 +54,7 @@ public class ShoppingList implements Parcelable {
     }
 
     /**
-     *
+     * CheckedItems setter
      * @param checkedItems
      */
     public void setCheckedItems(HashMap<String, Boolean> checkedItems) {
@@ -60,8 +62,8 @@ public class ShoppingList implements Parcelable {
     }
 
     /**
-     *
-     * @return
+     * Create bitmask return value
+     * @return      return value
      */
     @Override
     public int describeContents() {
@@ -69,7 +71,8 @@ public class ShoppingList implements Parcelable {
     }
 
     /**
-     *
+     * Write shoppingList to parcel
+     * (Not implemented)
      * @param parcel
      * @param i
      */
@@ -78,21 +81,33 @@ public class ShoppingList implements Parcelable {
     }
 
     /**
-     *
+     * Create shopping list from parcel
+     * (Not implemented)
      * @param in
      */
     protected ShoppingList(Parcel in) {
     }
 
     /**
-     *
+     * CREATOR for parcelable implementation
      */
     public static final Creator<ShoppingList> CREATOR = new Creator<ShoppingList>() {
+
+        /**
+         * Create shopping list from parcel
+         * @param in
+         * @return
+         */
         @Override
         public ShoppingList createFromParcel(Parcel in) {
             return new ShoppingList(in);
         }
 
+        /**
+         * Create array of shoppingList
+         * @param size
+         * @return
+         */
         @Override
         public ShoppingList[] newArray(int size) {
             return new ShoppingList[size];

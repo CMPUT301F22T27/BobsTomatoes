@@ -54,6 +54,10 @@ public class Recipe implements Parcelable {
 
     }
 
+    /**
+     * Recipe constructor, creates recipe from parcel
+     * @param in
+     */
     protected Recipe(Parcel in) {
         recipeTitle = in.readString();
         recipeTime = in.readInt();
@@ -82,12 +86,26 @@ public class Recipe implements Parcelable {
     }
 
 
+    /**
+     * CREATOR needed for parcelable implementation
+     */
     public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
+
+        /**
+         * Create recipe from parcel
+         * @param in
+         * @return
+         */
         @Override
         public Recipe createFromParcel(Parcel in) {
             return new Recipe(in);
         }
 
+        /**
+         * Create recipe array
+         * @param size
+         * @return
+         */
         @Override
         public Recipe[] newArray(int size) {
             return new Recipe[size];
@@ -259,20 +277,20 @@ public class Recipe implements Parcelable {
     }
 
     /**
-     //     * Create bitmask return value
-     //     * @return      return value
-     //     */
+     * Create bitmask return value
+     * @return      return value
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
     /**
-     //     * Parcel writer
-     //     * Creates parcel with specified object written in
-     //     * @param parcel    parcel in which object should be written
-     //     * @param i         addition flags of how object should be written
-     //     */
+     * Parcel writer
+     * Creates parcel with specified object written in
+     * @param parcel    parcel in which object should be written
+     * @param i         addition flags of how object should be written
+     */
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(recipeTitle);
@@ -284,61 +302,4 @@ public class Recipe implements Parcelable {
         parcel.writeString(recipeImage);
     }
 
-//    /**
-//     * Recipe constructor, takes in a parcel
-//     * @param in    parcel containing a recipe information (title, time, servings, category, comments, ingredients)
-//     */
-//    protected Recipe(Parcel in) {
-//        recipeTitle = in.readString();
-//        recipeTime = in.readInt();
-//        recipeServings = in.readInt();
-//        recipeCategory = in.readString();
-//        recipeComments = in.readString();
-//    }
-//
-//    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
-//        /**
-//         * Create new instance of the Parcelable Class
-//         * @param in    parcel containing a recipe's information (title, time, servings, category, comments, ingredients)
-//         * @return      returns a new created Recipe
-//         */
-//        @Override
-//        public Recipe createFromParcel(Parcel in) {
-//            return new Recipe(in);
-//        }
-//
-//        /**
-//         * Create a new array of the Parcelable Class
-//         * @param size  size of new array
-//         * @return      returns a new Recipe Array
-//         */
-//        @Override
-//        public Recipe[] newArray(int size) {
-//            return new Recipe[size];
-//        }
-//    };
-//
-//    /**
-//     * Create bitmask return value
-//     * @return      return value
-//     */
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    /**
-//     * Parcel writer
-//     * Creates parcel with specified object written in
-//     * @param parcel    parcel in which object should be written
-//     * @param i         addition flags of how object should be written
-//     */
-//    @Override
-//    public void writeToParcel(Parcel parcel, int i) {
-//        parcel.writeString(recipeTitle);
-//        parcel.writeInt(recipeTime);
-//        parcel.writeInt(recipeServings);
-//        parcel.writeString(recipeCategory);
-//        parcel.writeString(recipeComments);
-//    }
 }

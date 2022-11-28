@@ -31,7 +31,8 @@ public class MealPlan implements Parcelable {
     }
 
     /**
-     *
+     * Creates empty mealplan
+     * Intended to be used automatically only by database reading functions
      */
     public MealPlan(){
         // For callback
@@ -39,7 +40,7 @@ public class MealPlan implements Parcelable {
 
 
     /**
-     *
+     * Meal plan recipe list getter
      * @return
      */
     public ArrayList<Recipe> getMealPlanRecipes() {
@@ -51,7 +52,7 @@ public class MealPlan implements Parcelable {
     }
 
     /**
-     *
+     * Meal plan ingredient list getter
      * @return
      */
     public ArrayList<Ingredient> getMealPlanIngredients() {
@@ -59,7 +60,7 @@ public class MealPlan implements Parcelable {
     }
 
     /**
-     *
+     * Meal Plan ingredient list setter
      * @param mealPlanIngredients
      */
     public void setMealPlanIngredients(ArrayList<Ingredient> mealPlanIngredients) {
@@ -67,7 +68,7 @@ public class MealPlan implements Parcelable {
     }
 
     /**
-     *
+     * Meal Plan date getter
      * @return
      */
     public String getMealPlanDate() {
@@ -75,7 +76,7 @@ public class MealPlan implements Parcelable {
     }
 
     /**
-     *
+     * Meal plan date setter
      * @param mealPlanDate
      */
     public void setMealPlanDate(String mealPlanDate) {
@@ -92,7 +93,7 @@ public class MealPlan implements Parcelable {
     }
 
     /**
-     *
+     * Creator for implementation of parcelable class
      */
     public static final Creator<MealPlan> CREATOR = new Creator<MealPlan>() {
 

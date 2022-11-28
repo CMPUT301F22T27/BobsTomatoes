@@ -251,7 +251,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
     /**
      * Handles creation of the shopping list using the current meal plan
-     * be wary
      */
     private void createShoppingList(){
 
@@ -322,13 +321,8 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
             //Add ingredients in mealplan
 
-
             //Get list of ingredients in meal plan
             ArrayList<Ingredient> ingredientsInTempMealPlan = tempMealPlan.getMealPlanIngredients();
-
-            //Get hashmap of number of ingredients in meal plan
-            //HashMap<String, Integer> ingredientCountsMP = tempMealPlan.getIngredientCounts();
-            //not implemented
 
             //Iterate over ingredients in that recipe
             for(int k = 0; k < ingredientsInTempMealPlan.size(); k++){
@@ -341,7 +335,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
                 //Get number of that ingredient in recipe
                 int numIngredient = tempIngredient.getIngredientAmount();
-                //int numIngredient = 1;
 
                 //Check if we have seen this ingredient before in mealplans
                 if (checkedIngredients.get(ingredientName) == null){
@@ -423,6 +416,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
     /**
      * Adds necessary details in accordance to user edit
+     * Celled when fragment ends by ADD button
      * @param newIngredient
      * @param oldIngredientPos
      * @param newAmount

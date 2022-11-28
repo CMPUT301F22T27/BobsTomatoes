@@ -146,7 +146,7 @@ public class MealPlanDB {
     }
 
     /**
-     *
+     * Meal plan database getter
      * @return
      */
     public FirebaseFirestore getMealPlanDatabase() {
