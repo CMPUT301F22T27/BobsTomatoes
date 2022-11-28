@@ -39,30 +39,32 @@ import java.util.ArrayList;
 
 public class ShoppingListFragment extends DialogFragment {
 
-    private EditText locationText;
     private EditText amountText;
     private EditText unitText;
-    Boolean isEdit = false;
 
     private OnShoppingListFragmentListener listener;
 
-    Ingredient selectedIngredient;
-    Ingredient editIngredient;
-    int oldIngredientPos;
+    private Ingredient selectedIngredient;
+    private Ingredient editIngredient;
+    private int oldIngredientPos;
 
-    RadioGroup locationShoppingListRadioGroup;
-    RadioButton pantryShoppingListRadioButton;
-    RadioButton fridgeShoppingListRadioButton;
-    RadioButton freezerShoppingListRadioButton;
+    private RadioGroup locationShoppingListRadioGroup;
+    private RadioButton pantryShoppingListRadioButton;
+    private RadioButton fridgeShoppingListRadioButton;
+    private RadioButton freezerShoppingListRadioButton;
 
-    AlertDialog.Builder builder;
-    AlertDialog dialog = null;
+    private AlertDialog.Builder builder;
+    private AlertDialog dialog = null;
 
     public interface OnShoppingListFragmentListener {
         public void onEditOkPressed(Ingredient newIngredient, int oldIngredientPos, int newAmount);
 
     }
 
+    /**
+     * Attaches context fragment to ShoppingListFragment
+     * @param context       fragment object that will be attached
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -110,9 +112,6 @@ public class ShoppingListFragment extends DialogFragment {
             } else if (selectedIngredient.getIngredientLocation().toString().equals("Freezer")) {
                 locationShoppingListRadioGroup.check(locationShoppingListRadioGroup.getChildAt(2).getId());
             }
-
-//            locationText.setText(selectedIngredient.getIngredientLocation());
-//            unitText.setText(String.valueOf(selectedIngredient.getIngredientUnit()));
 
 
             // If isEdit is true, then the ingredient was clicked on the ListView so populate the fragment text boxes with its details and make the two buttons Delete and Edit

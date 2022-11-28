@@ -43,39 +43,30 @@ import java.util.Set;
  */
 public class ShoppingListActivity extends AbstractNavigationBar implements RecyclerViewInterface, ShoppingListFragment.OnShoppingListFragmentListener {
 
-    IngredientDB ingredientDB;
-    CollectionReference ingredientReference;
-    ArrayList<Ingredient> ingredientList;
+    private IngredientDB ingredientDB;
+    private CollectionReference ingredientReference;
+    private ArrayList<Ingredient> ingredientList;
 
-    MealPlanDB mealPlanDB;
-    CollectionReference mealPlanReference;
-    ArrayList<MealPlan> mealPlanList;
+    private MealPlanDB mealPlanDB;
+    private CollectionReference mealPlanReference;
+    private ArrayList<MealPlan> mealPlanList;
 
-    ShoppingList shoppingList;
-    ArrayList<Ingredient> neededIngredients = new ArrayList<>();
-    ArrayList<Ingredient> checkedIngredients = new ArrayList<>();
-    ArrayList<Integer> lastIngredientAmountList = new ArrayList<>();
-
-    int currentIngredientAmount;
+    private ShoppingList shoppingList;
+    private ArrayList<Ingredient> neededIngredients = new ArrayList<>();
 
     private boolean ingredientDataAvailable = false;
     private boolean mealPlanDataAvailable = false;
-    boolean ingredientLoadDone = false;
-    boolean mealPlanLoadDone = false;
+    private boolean ingredientLoadDone = false;
+    private boolean mealPlanLoadDone = false;
 
-    ShoppingListRecyclerAdapter shoppingListRecyclerAdapter;
-    RecyclerView recyclerView;
+    private ShoppingListRecyclerAdapter shoppingListRecyclerAdapter;
+    private RecyclerView recyclerView;
 
-    Context context = this;
-
-    int checkedIndex = -1;
+    private Context context = this;
 
 
     private RecyclerViewInterface recyclerViewInterface;
-    Dialog progressBar;
-
-    Ingredient databaseIngredient;
-    boolean isDocument;
+    private Dialog progressBar;
 
     /**
      * Create instance
@@ -189,9 +180,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                             String sortChoice = (String) choiceSpinner.getSelectedItem();
                             sortByChoice(sortChoice);
-                            for (int j = 0; j < neededIngredients.size(); j++) {
-                                System.out.println("SORTED: " + neededIngredients.get(i).getIngredientDesc());
-                            }
 
                             shoppingListRecyclerAdapter.notifyDataSetChanged();
                         }
@@ -202,22 +190,23 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     });
                     shoppingListRecyclerAdapter.notifyDataSetChanged();
 
-                    Log.d("GABE STINKY ASS", "STINKY ASS GABE");
-
                 }
             }
         });
 
     }
 
-
+    /**
+     * Needed to implement for interface
+     * @param position
+     */
     @Override
     public void onItemClick(int position) {
 
     }
 
     /**
-     * Allows the user to sort the list of ingredients by description, location, or best before date
+     * Allows the user to sort the list of ingredients by description or category
      * @param choice    user choice of how to sort ingredients
      */
     public void sortByChoice(String choice){
@@ -434,16 +423,18 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
         });
     }
 
-
+    /**
+     * Adds necessary details in accordance to user edit
+     * @param newIngredient
+     * @param oldIngredientPos
+     * @param newAmount
+     */
     @Override
     public void onEditOkPressed(Ingredient newIngredient, int oldIngredientPos, int newAmount){
 
         ShoppingListRecyclerAdapter.ViewHolder viewHolder = (ShoppingListRecyclerAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(oldIngredientPos);
 
-        Log.d("Old Ingredient Position", oldIngredientPos + "");
         Ingredient oldIngredient = neededIngredients.get(oldIngredientPos);
-        Log.d("Old Ingredient Desc", oldIngredient.getIngredientDesc() + "");
-
 
         //Save ingredient info from storage, and ingredient info from list
         String ingredientName = oldIngredient.getIngredientDesc();
@@ -487,7 +478,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                 int amountBought = newAmount;
 
                 int amountHave = amountStored + amountBought;
-
 
                 Ingredient editedIngredient = ingredientFromShopping.clone();
 
@@ -554,6 +544,12 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
         void onCallBack(ArrayList<MealPlan> mealPlanList);
     }
 
+    /**
+     * Determines if progress bar is shown
+     * @param isShown
+     * @param ingredientLoadDone
+     * @param mealPlanLoadDone
+     */
     private void showDialog(boolean isShown, boolean ingredientLoadDone, boolean mealPlanLoadDone){
         if (isShown == true && (ingredientLoadDone == false || mealPlanLoadDone == false)) {
             progressBar.setCancelable(false);
@@ -564,16 +560,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
             progressBar.setCanceledOnTouchOutside(true);
             progressBar.dismiss();
         }
-    }
-
-    /**
-     * Interface
-     * Call back ingredientList
-     * Allows us to access the ingredientList outside of the onComplete and it
-     * ensures that the onComplete has fully populated our list
-     */
-    private interface DocumentIngredientFireStoreCallback {
-        void onCallBack(Ingredient ingredient);
     }
 
 }

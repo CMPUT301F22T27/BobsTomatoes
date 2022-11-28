@@ -47,43 +47,43 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
-    TextView descTitle;
-    TextView noMealPlanText;
-    ListView recipesList;
-    ListView ingredientsList;
-    Button openEdit;
-    Button scaleRecipeButton;
-    String globalDayText;
-    MealPlanDB mealPlanDB;
-    Boolean planFound = false;
+    private TextView descTitle;
+    private TextView noMealPlanText;
+    private ListView recipesList;
+    private ListView ingredientsList;
+    private Button openEdit;
+    private Button scaleRecipeButton;
+    private String globalDayText;
+    private MealPlanDB mealPlanDB;
+    private Boolean planFound = false;
 
-    ArrayList<MealPlan> mealPlanList;
-    ArrayList<Recipe> recipeList = new ArrayList<>();
-    ArrayList<Ingredient> ingredientList = new ArrayList<>();
-    ArrayAdapter<Recipe> recipeAdapter;
-    ArrayAdapter<Ingredient> ingredientAdapter;
+    private ArrayList<MealPlan> mealPlanList;
+    private ArrayList<Recipe> recipeList = new ArrayList<>();
+    private ArrayList<Ingredient> ingredientList = new ArrayList<>();
+    private ArrayAdapter<Recipe> recipeAdapter;
+    private ArrayAdapter<Ingredient> ingredientAdapter;
 
-    CollectionReference mealPlanReference;
-    int mealPlanPos;
-    Bundle bundle;
-    Bundle scaleBundle;
-    MealPlan currentMealPlan;
-    String globalDate = "";
-    TextView dayOfMonth;
-    Boolean planExist = false;
+    private CollectionReference mealPlanReference;
+    private int mealPlanPos;
+    private Bundle bundle;
+    private Bundle scaleBundle;
+    private MealPlan currentMealPlan;
+    private String globalDate = "";
+    private TextView dayOfMonth;
+    private Boolean planExist = false;
 
-    MealPlanFragment editFragment;
+    private MealPlanFragment editFragment;
 
-    ArrayList<Ingredient> globalIngredientList = new ArrayList<>();
+    private ArrayList<Ingredient> globalIngredientList = new ArrayList<>();
 
-    LinearLayout mealPlanDetailsLinearLayout;
-    LinearLayout mealPlanDetailSubTitles;
-    LinearLayout mealPlanDetailDesc;
-    LinearLayout mealPlanButtonsLinearLayout;
+    private LinearLayout mealPlanDetailsLinearLayout;
+    private LinearLayout mealPlanDetailSubTitles;
+    private LinearLayout mealPlanDetailDesc;
+    private LinearLayout mealPlanButtonsLinearLayout;
 
-    boolean fragmentOpened = false;
+    private boolean fragmentOpened = false;
 
-    Dialog progressBar;
+    private Dialog progressBar;
 
 
     @Override
@@ -578,23 +578,5 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         return globalDate;
     }
 
-
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK){
-//            if (fragmentOpened == true) {
-//
-//                ingredientList.clear();
-//                for (int i = 0; i < oldIngredientList.size(); i++) {
-//                    ingredientList.add(oldIngredientList.get(i));
-//                }
-//
-//                globalIngredientList.clear();
-//                fragmentOpened = false;
-//            }
-//            return false;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
 
 }

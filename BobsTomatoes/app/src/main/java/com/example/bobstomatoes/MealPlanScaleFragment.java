@@ -37,8 +37,8 @@ public class MealPlanScaleFragment extends DialogFragment {
 
     private MealPlanScaleFragment.OnMealPlanScaleFragmentListener listener;
     private EditText scaleText;
-    MealPlan oldMealPlan;
-    AlertDialog.Builder builder;
+    private MealPlan oldMealPlan;
+    private AlertDialog.Builder builder;
 
     public interface OnMealPlanScaleFragmentListener {
         public void onScaleOkPressed(MealPlan oldMealPlan, MealPlan scaledMealPlan);

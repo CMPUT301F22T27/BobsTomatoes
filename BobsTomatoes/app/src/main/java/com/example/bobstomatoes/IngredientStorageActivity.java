@@ -43,22 +43,20 @@ import java.util.Collections;
  */
 
 public class IngredientStorageActivity extends AbstractNavigationBar implements IngredientStorageFragment.OnIngredientFragmentListener, RecyclerViewInterface {
-    ListView ingredientsListView;
-    int ingredientPos;
-    Bundle bundle;
-    IngredientStorageFragment fragment = new IngredientStorageFragment();
-    ImageButton addButton;
-    ArrayAdapter<Ingredient> ingredientAdapter;
-    IngredientStorageRecyclerAdapter ingredientRecyclerAdapter;
-    IngredientDB ingredientDB;
-    RecyclerView recyclerView;
-    ArrayList<Ingredient> ingredientList;
-    CollectionReference ingredientReference;
-    String [] sortChoices = {"Description", "Location", "Best Before Date", "Category"};
-    ArrayList <String> spinnerOptions = new ArrayList<>();
-    ArrayAdapter <String> spinnerAdapter;
 
-    Dialog progressBar;
+    private int ingredientPos;
+    private Bundle bundle;
+    private IngredientStorageFragment fragment = new IngredientStorageFragment();
+    private IngredientStorageRecyclerAdapter ingredientRecyclerAdapter;
+    private IngredientDB ingredientDB;
+    private RecyclerView recyclerView;
+    private ArrayList<Ingredient> ingredientList;
+    private CollectionReference ingredientReference;
+    private String [] sortChoices = {"Description", "Location", "Best Before Date", "Category"};
+    private ArrayList <String> spinnerOptions = new ArrayList<>();
+    private ArrayAdapter <String> spinnerAdapter;
+
+    private Dialog progressBar;
 
     /**
      * Create instance
@@ -89,10 +87,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         // Sets up buttons and onClickListeners for navigation bar
         initializeButtons(IngredientStorageActivity.this);
 
-
-        //ingredientsListView = findViewById(R.id.ingredients_list);
         recyclerView = findViewById(R.id.recyclerView);
-       //recyclerView = new RecyclerView(IngredientStorageActivity.this);
 
         ingredientDB = new IngredientDB();
 
