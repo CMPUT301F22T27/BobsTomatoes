@@ -151,13 +151,13 @@ public class MealPlanActivityTest {
                 .check(matches(withText(containsString("111TEST INGREDIENT"))))
                 .perform(click());
 
-        onView(isRoot()).perform(waitId(R.id.ingredient_name_textview_id, 20000));
-
-        try {
-            onView(withText("111TEST INGREDIENT"))
-                    .check(matches(withText(containsString("111TEST INGREDIENT"))))
-                    .perform(click());
-        } catch (Exception help) {}
+//        onView(isRoot()).perform(waitId(R.id.ingredient_name_textview_id, 20000));
+//
+//        try {
+//            onView(withText("111TEST INGREDIENT"))
+//                    .check(matches(withText(containsString("111TEST INGREDIENT"))))
+//                    .perform(click());
+//        } catch (Exception help) {}
 
 
         onView((withId(R.id.ingredientAmount)))
