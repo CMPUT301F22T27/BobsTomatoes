@@ -190,14 +190,20 @@ public class RecipeActivityTest {
         onView(withId(R.id.editTextIngredientDesc))
                 .perform(click(), typeText("111TEST INGREDIENT"));
 
+        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+
         onView(withId(R.id.radioButtonFreezer))
                 .perform(click());
 
         onView(withId(R.id.editTextIngredientAmount))
                 .perform(click(), typeText("1"));
 
+        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+
         onView(withId(R.id.editTextIngredientUnit))
                 .perform(click(), typeText("5"));
+
+        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
 
         onView(withId(R.id.radioButtonDairy))
                 .perform(click());
@@ -253,17 +259,27 @@ public class RecipeActivityTest {
         onView(withId(R.id.editTextRecipeName))
                 .perform(click(), typeText("111TEST RECIPE"));
 
+        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+
         onView(withId(R.id.editTextRecipeCookTime))
                 .perform(click(), typeText("10"));
+
+        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
 
         onView(withId(R.id.editTextRecipeServingSize))
                 .perform(click(), typeText("10"));
 
+        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+
         onView(withId(R.id.editTextRecipeCategory))
                 .perform(click(), typeText("TEST"));
 
+        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+
         onView(withId(R.id.editTextRecipeComment))
                 .perform(click(), typeText("TEST"));
+
+        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
 
 
         onView(isRoot()).perform(waitId(R.id.ingredient_name_textview_id, 15000));
