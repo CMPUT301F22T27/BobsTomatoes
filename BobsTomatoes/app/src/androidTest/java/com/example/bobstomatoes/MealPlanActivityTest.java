@@ -219,13 +219,11 @@ public class MealPlanActivityTest {
         onView(withId(R.id.add_item))
                 .perform(click());
 
-        try {
-            onView(isRoot()).perform(waitId(R.id.ingredient_name_textview_id, 15000));
-        } catch (Exception e) {}
+        onView(isRoot()).perform(waitId(R.id.ingredient_name_textview_id, 15000));
 
         Thread.sleep(500);
 
-        onView(withId(R.id.ingredient_name_textview_id))
+        onView(withText("111TEST INGREDIENT"))
                 .check(matches(withText(containsString("111TEST INGREDIENT"))))
                 .perform(click());
 
@@ -235,16 +233,14 @@ public class MealPlanActivityTest {
         onView(withText("ADD"))
                 .perform(click());
 
-        try {
-            onView(isRoot()).perform(waitId(R.id.recipe_name_textview_id, 15000));
-        } catch (Exception e) {}
+
+        onView(isRoot()).perform(waitId(R.id.recipe_name_textview_id, 15000));
 
         Thread.sleep(50);
 
-        onView(withId(R.id.recipe_name_textview_id))
+        onView(withText("111TEST RECIPE"))
                 .check(matches(withText(containsString("111TEST RECIPE"))))
                 .perform(click());
-
 
         onView((withText("ADD")))
                 .perform(click());
@@ -344,9 +340,9 @@ public class MealPlanActivityTest {
         onView(withId(R.id.editTextRecipeComment))
                 .perform(click(), typeText("TEST"));
 
-        try {
-            onView(isRoot()).perform(waitId(R.id.ingredient_name_textview_id, 15000));
-        } catch (Exception e) {}
+
+        onView(isRoot()).perform(waitId(R.id.ingredient_name_textview_id, 15000));
+
 
         onView(withText("111TEST INGREDIENT"))
                 .perform(click());
