@@ -195,6 +195,8 @@ public class IngredientStorageActivityTest{
         onView(withText("111TEST INGREDIENT"))
                 .perform(click());
 
+        Thread.sleep(100);
+
         onView(withText("DELETE"))
                 .perform(click());
 

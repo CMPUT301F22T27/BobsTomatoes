@@ -211,6 +211,8 @@ public class RecipeActivityTest {
         onView(withText("111TEST INGREDIENT"))
                 .perform(click());
 
+        Thread.sleep(100);
+
         onView(withText("DELETE"))
                 .perform(click());
 
@@ -305,6 +307,8 @@ public class RecipeActivityTest {
 
         onView(withText("111TEST RECIPE"))
                 .perform(click());
+
+        Thread.sleep(100);
 
         onView(withText("DELETE"))
                 .perform(click());
