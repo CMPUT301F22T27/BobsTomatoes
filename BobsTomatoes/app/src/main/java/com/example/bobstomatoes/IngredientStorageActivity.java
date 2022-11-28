@@ -211,6 +211,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
                     callBack.onCallBack(ingredientList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
+                    showDialog(false);
                 }
             }
         });

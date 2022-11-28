@@ -116,6 +116,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
         descTitle = findViewById(R.id.title_ID);
         noMealPlanText = findViewById(R.id.no_meal_plan_ID);
+        noMealPlanText.setText("Please Select a Date");
         recipesList = findViewById(R.id.meal_plan_recipe_list_ID);
         ingredientsList = findViewById(R.id.meal_plan_ingredient_list_ID);
         openEdit = findViewById(R.id.meal_plan_edit_ID);
@@ -239,7 +240,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
 //        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
 //        mealPlanButtonsLinearLayout.setVisibility(View.GONE);
-
+        noMealPlanText.setText("Please Select a Date");
         noMealPlanText.setVisibility(View.VISIBLE);
         mealPlanDetailSubTitles.setVisibility(View.GONE);
         mealPlanDetailDesc.setVisibility(View.GONE);
@@ -295,6 +296,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 //        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
 //        mealPlanButtonsLinearLayout.setVisibility(View.GONE);
 
+        noMealPlanText.setText("Please Select a Date");
         noMealPlanText.setVisibility(View.VISIBLE);
         mealPlanDetailSubTitles.setVisibility(View.GONE);
         mealPlanDetailDesc.setVisibility(View.GONE);
@@ -434,6 +436,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
             }else {
 
+                noMealPlanText.setText("No Meal Plan On This Date");
                 noMealPlanText.setVisibility(View.VISIBLE);
                 mealPlanDetailSubTitles.setVisibility(View.GONE);
                 mealPlanDetailDesc.setVisibility(View.GONE);
@@ -456,7 +459,11 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
         mealPlanDB.addMealPlan(mealPlan, date);
 
-        mealPlanDetailsLinearLayout.setVisibility(View.VISIBLE);
+        descTitle.setVisibility(View.VISIBLE);
+        mealPlanDetailSubTitles.setVisibility(View.VISIBLE);
+        mealPlanDetailDesc.setVisibility(View.VISIBLE);
+        //mealPlanDetailsLinearLayout.setVisibility(View.VISIBLE);
+
         mealPlanButtonsLinearLayout.setVisibility(View.VISIBLE);
 
         recipeList = mealPlan.getMealPlanRecipes();
@@ -470,7 +477,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
         recipeAdapter.notifyDataSetChanged();
         ingredientAdapter.notifyDataSetChanged();
-        
+
     }
 
 
@@ -502,7 +509,10 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         mealPlanDB.removeMealPlan(mealPlan);
 
         mealPlanButtonsLinearLayout.setVisibility(View.GONE);
-        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
+        descTitle.setVisibility(View.GONE);
+        mealPlanDetailSubTitles.setVisibility(View.GONE);
+        mealPlanDetailDesc.setVisibility(View.GONE);
+        //mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
 
         recipeAdapter.notifyDataSetChanged();
         ingredientAdapter.notifyDataSetChanged();
@@ -525,6 +535,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                     callBack.onCallBack(mealPlanList);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
+                    showDialog(false);
                 }
             }
         });
@@ -532,7 +543,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
     @Override
     public void onAddIngredientOkPressed(ArrayList<Ingredient> ingredientList) {
-       // Do nothing
+        // Do nothing
     }
 
     @Override
