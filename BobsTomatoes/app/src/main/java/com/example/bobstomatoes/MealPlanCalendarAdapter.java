@@ -62,6 +62,7 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
     {
         public final TextView dayOfMonth;
         public Boolean hasMealPlan = false;
+
         private MealPlanCalendarAdapter.OnItemListener onItemListener;
         public MealPlanCalendarViewHolder(@NonNull View itemView, MealPlanCalendarAdapter.OnItemListener onItemListener) {
             super(itemView);

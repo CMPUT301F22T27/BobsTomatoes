@@ -14,7 +14,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
 
-public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.ViewHolder> {
+public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.RecipeViewHolder> {
     private ArrayList<Recipe> recipeList = new ArrayList<>();
     private Context context;
 
@@ -28,13 +28,13 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
 
     @NonNull
     @Override
-    public RecipeRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecipeRecyclerAdapter.RecipeViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.activity_recycler_recipe_list, viewGroup, false);
-        return new ViewHolder(view, recyclerViewInterface);
+        return new RecipeViewHolder(view, recyclerViewInterface);
     }
 
     @Override
-    public void onBindViewHolder(RecipeRecyclerAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(RecipeRecyclerAdapter.RecipeViewHolder viewHolder, int position) {
         viewHolder.recipeNameView.setText(recipeList.get(position).getRecipeTitle());
         viewHolder.recipeCookTimeView.setText("Prep Time: " + recipeList.get(position).getRecipeTime());
         viewHolder.recipeServingSizeView.setText("Serving Size: " + recipeList.get(position).getRecipeServings());
@@ -49,14 +49,14 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         return recipeList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class RecipeViewHolder extends RecyclerView.ViewHolder {
         TextView recipeNameView;
         TextView recipeCookTimeView;
         TextView recipeServingSizeView;
         TextView recipeCategoryView;
         TextView recipeCommentViews;
         ImageView recipeImageView;
-        public ViewHolder(View itemView, RecyclerViewInterface recyclerViewInterface) {
+        public RecipeViewHolder(View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             recipeNameView = itemView.findViewById(R.id.recipeNameTextView);
             recipeCookTimeView = itemView.findViewById(R.id.recipeTimeTextView);
