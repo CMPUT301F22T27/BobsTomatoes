@@ -88,7 +88,8 @@ public class RecipeFragment extends DialogFragment {
 
 
     /**
-     *
+     * Interface implemented by classes using fragment
+     * Contains methods for handling various fragment conclusions
      */
     public interface OnRecipeFragmentListener{
 
@@ -477,16 +478,21 @@ public class RecipeFragment extends DialogFragment {
         });
     }
 
+    /**
+     * Interface containing method called when ingredient database read returns its callback
+     */
     private interface IngredientFireStoreCallback {
         void onCallBack(ArrayList<Ingredient> IngredientList);
     }
 
+    /**
+     * Retrieve info from camera activity
+     * Defines an activity result launcher which launches an intent as an activity
+     * and returns the results of the activity into OnActivityResult, where it can be handled
+     * @param view
+     */
     private void initializeCamera(View view){
 
-
-        //Retrieve info from camera activity
-        //Defines an activity result launcher which launches an intent as an activity
-        //and returns the results of the activity into OnActivityResult, where it can be handled
         activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -582,6 +588,10 @@ public class RecipeFragment extends DialogFragment {
 
     }
 
+    /**
+     * Displays progress bar while database is loading
+     * @param isShown
+     */
     private void showDialog(boolean isShown){
         if (isShown) {
             progressBar.setCancelable(false);

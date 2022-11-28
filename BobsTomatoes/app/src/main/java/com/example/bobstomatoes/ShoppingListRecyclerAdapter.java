@@ -45,7 +45,13 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     private HashMap<String, Integer> currentAmounts = new HashMap<>();
     private HashMap<String, Boolean> checkedItems = new HashMap<>();
 
-
+    /**
+     * Constructor for ShoppingListRecyclerAdapter
+     * @param context
+     * @param ingredientList list of ingredients to display
+     * @param checkedItems hashmap of ingredient names -> boolean isChecked()
+     * @param recyclerViewInterface
+     */
     public ShoppingListRecyclerAdapter(Context context, ArrayList<Ingredient> ingredientList, HashMap<String, Boolean> checkedItems, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.ingredientList = ingredientList;
@@ -87,7 +93,6 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
 
         if (currentNum != null) {
 
-            //newInt = currentNum + newInt;
             currentAmounts.put(ingredientName, newInt);
 
         } else {
@@ -126,7 +131,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     }
 
     /**
-     *
+     * Inflates custom viewholder from xml
      * @param viewGroup
      * @param i
      * @return
@@ -139,7 +144,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     }
 
     /**
-     *
+     * Populates viewholder with information
      * @param viewHolder
      * @param position
      */
@@ -198,7 +203,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     }
 
     /**
-     *
+     * Returns number of items in adapter
      * @return
      */
     @Override
@@ -207,6 +212,9 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     }
 
 
+    /**
+     * Custom ViewHolder for use with ShoppingListRecyclerAdapter
+     */
     public class ShoppingListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView ingredientNameView;
         TextView ingredientUnitView;
@@ -218,7 +226,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
         ShoppingListItemClickInterface itemClick;
 
         /**
-         *
+         * Initializes views in custom viewholder from xml
          * @param itemView
          * @param recyclerViewInterface
          */
@@ -249,7 +257,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
         }
 
         /**
-         *
+         * On item click method
          * @param view
          */
         @Override

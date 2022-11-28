@@ -12,6 +12,10 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
 
+
+/**
+ * Custom recycler adapter class used in IngredientStorageActivity
+ */
 public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<IngredientStorageRecyclerAdapter.IngredientViewHolder> {
     private ArrayList<Ingredient> ingredientList = new ArrayList<>();
     private Context context;
@@ -19,7 +23,7 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
     private final RecyclerViewInterface recyclerViewInterface;
 
     /**
-     *
+     * Creates new instance of the adapter. IngredientList contains ingredients to be displayed
      * @param context
      * @param ingredientList
      * @param recyclerViewInterface
@@ -31,7 +35,8 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
     }
 
     /**
-     *
+     * Occurs when a new ViewHolder is created to display an ingredient
+     * Inflates viewholder
      * @param viewGroup
      * @param i
      * @return
@@ -44,7 +49,7 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
     }
 
     /**
-     *
+     * Sets displayed information within a viewholder
      * @param viewHolder
      * @param position
      */
@@ -60,7 +65,7 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
     }
 
     /**
-     *
+     * Returns number of items adapter holds
      * @return
      */
     @Override
@@ -69,7 +74,8 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
     }
 
     /**
-     *
+     * Class for creating an IngredientViewHolder
+     * Custom ViewHolder intended for use with ingredients
      */
     public class IngredientViewHolder extends RecyclerView.ViewHolder {
         TextView ingredientView;
@@ -80,7 +86,7 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
         TextView categoryView;
 
         /**
-         *
+         * Constructor for IngredientViewHolder
          * @param itemView
          * @param recyclerViewInterface
          */

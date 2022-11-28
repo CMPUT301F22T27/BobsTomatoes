@@ -65,7 +65,9 @@ public class MealPlanFragment extends DialogFragment {
     boolean ingredientLoadDone = false;
     boolean recipeLoadDone = false;
 
-
+    /**
+     * Interface to be implemented by classes using fragment
+     */
     public interface OnMealPlanFragmentListener{
 
         public void onAddOkPressed(MealPlan mealPlan);
@@ -576,21 +578,21 @@ public class MealPlanFragment extends DialogFragment {
     }
 
     /**
-     *
+     * Interface containing method to be called when ingredient database read returns its callback
      */
     private interface IngredientFireStoreCallback {
         void onCallBack(ArrayList<Ingredient> IngredientList);
     }
 
     /**
-     *
+     * Interface containing method to be called when recipe database read returns its callback
      */
     private interface RecipeFireStoreCallback{
         void onCallBack(ArrayList<Recipe> recipeList);
     }
 
     /**
-     *
+     * Show progress bar while database is loading
      * @param isShown
      * @param ingredientLoadDone
      * @param recipeLoadDone

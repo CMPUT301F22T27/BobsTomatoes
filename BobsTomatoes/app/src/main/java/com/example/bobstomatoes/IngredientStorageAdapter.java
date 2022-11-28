@@ -46,7 +46,6 @@ public class IngredientStorageAdapter extends ArrayAdapter<Ingredient> {
      * @param parent        parent view
      * @return              returns new view representation
      */
-    @SuppressLint("ResourceAsColor")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup
