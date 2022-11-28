@@ -54,6 +54,7 @@ import java.util.concurrent.TimeoutException;
 
 /**
  * Test class for RecipeActivity. All the UI tests are written here. Espresso test framework is used
+ * Assumes ingredient storage is working
  */
 @RunWith(AndroidJUnit4.class)
 public class RecipeActivityTest {
@@ -260,27 +261,27 @@ public class RecipeActivityTest {
         onView(withId(R.id.editTextRecipeName))
                 .perform(click(), typeText("111TEST RECIPE"));
 
-        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+        //onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
 
         onView(withId(R.id.editTextRecipeCookTime))
                 .perform(click(), typeText("10"));
 
-        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+        //onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
 
         onView(withId(R.id.editTextRecipeServingSize))
                 .perform(click(), typeText("10"));
 
-        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+        //onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
 
         onView(withId(R.id.editTextRecipeCategory))
                 .perform(click(), typeText("TEST"));
 
-        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+        //onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
 
         onView(withId(R.id.editTextRecipeComment))
                 .perform(click(), typeText("TEST"));
 
-        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+        //onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
 
 
         onView(isRoot()).perform(waitId(R.id.ingredient_name_textview_id, 15000));
