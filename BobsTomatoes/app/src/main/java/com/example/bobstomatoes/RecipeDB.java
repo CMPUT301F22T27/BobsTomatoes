@@ -191,7 +191,13 @@ public class RecipeDB implements Parcelable {
                 });
 
         recipeList.set(oldRecipePos, updatedRecipe);
-        editRecipeMealTransaction(updatedRecipe);
+
+        if(updatedRecipe.getRecipeTitle().equals(oldRecipe.getRecipeTitle())){
+            editRecipeMealTransaction(updatedRecipe);
+        } else if (!updatedRecipe.getRecipeTitle().equals(oldRecipe.getRecipeImage())) {
+            editDiffNameMealTransaction(updatedRecipe, oldRecipe);
+        }
+
     }
 
     /**
@@ -248,6 +254,58 @@ public class RecipeDB implements Parcelable {
 
     /**
      *
+     * @param updatedRecipe
+     */
+    public void editDiffNameMealTransaction(Recipe updatedRecipe, Recipe oldRecipe) {
+        MealPlanDB mealPlanDB = new MealPlanDB();
+        FirebaseFirestore mealPlanDatabase = mealPlanDB.getMealPlanDatabase();
+        CollectionReference mealPlanColRef = mealPlanDB.getMealPlanReference();
+        DocumentReference mealPlanDocRef = mealPlanColRef.document();
+
+        ArrayList<MealPlan> mealPlanList = mealPlanDB.getMealPlanList();
+
+
+        readMealPlanData(mealPlanColRef, mealPlanList, new RecipeDB.MealPlanFireStoreCallback() {
+            @Override
+            public void onCallBack(ArrayList<MealPlan> mealPlanList) {
+                Log.d("MEAL PLAN DATE:", mealPlanList.get(0).getMealPlanDate());
+                mealPlanDatabase.runTransaction(new Transaction.Function<Void>() {
+                    @Override
+                    public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                        for  (int i = 0; i < mealPlanList.size(); i++) {
+                            Log.d("MEAL PLAN DATE:", mealPlanList.get(i).getMealPlanDate());
+                            DocumentReference mealPlanDocRef = mealPlanColRef.document(mealPlanList.get(i).getMealPlanDate());
+                            ArrayList<Recipe> currentMealPlanRecipeList = mealPlanList.get(i).getMealPlanRecipes();
+                            for (int j = 0; j < currentMealPlanRecipeList.size(); j++) {
+                                if (currentMealPlanRecipeList.get(j).getRecipeTitle().equals(oldRecipe.getRecipeTitle())) {
+                                    currentMealPlanRecipeList.set(j, updatedRecipe);
+                                    mealPlanList.get(i).setMealPlanRecipes(currentMealPlanRecipeList);
+                                }
+                            }
+
+                            transaction.update(mealPlanDocRef, "mealPlanRecipes", currentMealPlanRecipeList);
+                        }
+                        return null;
+                    }
+
+                }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "In RecipeDB: Meal Plan Transaction success!");
+                    }
+
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "In RecipeDB: Transaction failure.", e);
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     *
      * @param deletedRecipe
      */
     public void deleteRecipeMealTransaction(Recipe deletedRecipe) {
@@ -257,7 +315,6 @@ public class RecipeDB implements Parcelable {
         DocumentReference mealPlanDocRef = mealPlanColRef.document();
 
         ArrayList<MealPlan> mealPlanList = mealPlanDB.getMealPlanList();
-
 
         readMealPlanData(mealPlanColRef, mealPlanList, new RecipeDB.MealPlanFireStoreCallback() {
             @Override
