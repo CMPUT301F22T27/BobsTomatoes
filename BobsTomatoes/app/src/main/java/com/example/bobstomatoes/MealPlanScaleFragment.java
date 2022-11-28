@@ -39,6 +39,7 @@ public class MealPlanScaleFragment extends DialogFragment {
     private EditText scaleText;
     private MealPlan oldMealPlan;
     private AlertDialog.Builder builder;
+    private boolean recipeClicked = false;
 
     public interface OnMealPlanScaleFragmentListener {
         public void onScaleOkPressed(MealPlan oldMealPlan, MealPlan scaledMealPlan);
@@ -61,7 +62,7 @@ public class MealPlanScaleFragment extends DialogFragment {
         }
     }
 
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState){
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_meal_plan_scale, null);
         scaleText = view.findViewById(R.id.editTextScale);
 
@@ -70,59 +71,119 @@ public class MealPlanScaleFragment extends DialogFragment {
         Bundle bundle = this.getArguments();
 
         oldMealPlan = bundle.getParcelable("selectedMealPlan");
+        recipeClicked = bundle.getBoolean("recipeClicked");
         ArrayList<Recipe> recipesList = oldMealPlan.getMealPlanRecipes();
         ArrayList<Ingredient> originalIngredientsList = oldMealPlan.getMealPlanIngredients();
         String originalDate = oldMealPlan.getMealPlanDate();
 
-        //Builder for add
-        dialog = builder.setView(view)
-                .setTitle("How Many Servings?")
-                .setNeutralButton("Cancel", null)
-                .setPositiveButton("Add", null)
-                .create();
+        if (recipeClicked == false) {
+            //Builder for add
+            dialog = builder.setView(view)
+                    .setTitle("How Many Servings?")
+                    .setNeutralButton("Cancel", null)
+                    .setPositiveButton("Add", null)
+                    .create();
 
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                Button button = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        try {
-                            double recipeScale = Double.parseDouble(scaleText.getText().toString());
+            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialogInterface) {
+                    Button button = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+                                double recipeScale = Double.parseDouble(scaleText.getText().toString());
 
-                            if (recipeScale == 0) {
-                                throw new Exception("No scaling by 0");
-                            }
-
-                            for (int index = 0; index < recipesList.size(); index++) {
-
-                                recipesList.get(index).setRecipeServings((int) Math.ceil(recipesList.get(index).getRecipeServings() * recipeScale));
-                                ArrayList<Ingredient> ingredientsList = recipesList.get(index).getRecipeIngredients();
-
-                                for (int j = 0; j < ingredientsList.size(); j++) {
-                                    ingredientsList.get(j).setIngredientAmount((int) Math.round(ingredientsList.get(j).getIngredientAmount() * recipeScale));
+                                if (recipeScale == 0) {
+                                    throw new Exception("No scaling by 0");
                                 }
 
-                                recipesList.get(index).setRecipeIngredients(ingredientsList);
+                                for (int index = 0; index < recipesList.size(); index++) {
+
+                                    recipesList.get(index).setRecipeServings((int) Math.ceil(recipesList.get(index).getRecipeServings() * recipeScale));
+                                    ArrayList<Ingredient> ingredientsList = recipesList.get(index).getRecipeIngredients();
+
+                                    for (int j = 0; j < ingredientsList.size(); j++) {
+                                        ingredientsList.get(j).setIngredientAmount((int) Math.round(ingredientsList.get(j).getIngredientAmount() * recipeScale));
+                                    }
+
+                                    recipesList.get(index).setRecipeIngredients(ingredientsList);
+                                }
+
+                                MealPlan scaledMealPlan = new MealPlan(originalDate, recipesList, originalIngredientsList);
+                                listener.onScaleOkPressed(oldMealPlan, scaledMealPlan);
+                                dialog.dismiss();
+                            } catch (Exception e) {
+                                Log.d("Exception", e.toString());
+
+                                Snackbar snackbar = null;
+                                snackbar = snackbar.make(view, "No scaling by 0", Snackbar.LENGTH_SHORT);
+                                snackbar.setDuration(700);
+                                snackbar.show();
                             }
-
-                            MealPlan scaledMealPlan = new MealPlan(originalDate, recipesList, originalIngredientsList);
-                            listener.onScaleOkPressed(oldMealPlan, scaledMealPlan);
-                            dialog.dismiss();
-                        } catch (Exception e) {
-                            Log.d("Exception", e.toString());
-
-                            Snackbar snackbar = null;
-                            snackbar = snackbar.make(view, "No scaling by 0", Snackbar.LENGTH_SHORT);
-                            snackbar.setDuration(700);
-                            snackbar.show();
                         }
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
 
-        return dialog;
+            return dialog;
+
+        } else {
+
+            Recipe selectedRecipe = bundle.getParcelable("selectedRecipe");
+            ArrayList<Recipe> selectedMealPlanRecipes = oldMealPlan.getMealPlanRecipes();
+
+            dialog = builder.setView(view)
+                    .setTitle("How Many Servings?")
+                    .setNeutralButton("Cancel", null)
+                    .setPositiveButton("Add", null)
+                    .create();
+
+            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialogInterface) {
+                    Button button = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+                                double recipeScale = Double.parseDouble(scaleText.getText().toString());
+
+                                if (recipeScale == 0) {
+                                    throw new Exception("No scaling by 0");
+                                }
+
+                                for (int index = 0; index < recipesList.size(); index++) {
+                                    if (recipesList.get(index).getRecipeTitle().equals(selectedRecipe.getRecipeTitle())) {
+
+                                        recipesList.get(index).setRecipeServings((int) Math.ceil(recipesList.get(index).getRecipeServings() * recipeScale));
+                                        ArrayList<Ingredient> ingredientsList = recipesList.get(index).getRecipeIngredients();
+
+                                        for (int j = 0; j < ingredientsList.size(); j++) {
+                                            ingredientsList.get(j).setIngredientAmount((int) Math.round(ingredientsList.get(j).getIngredientAmount() * recipeScale));
+                                        }
+
+                                        recipesList.get(index).setRecipeIngredients(ingredientsList);
+                                    }
+
+                                }
+
+                                MealPlan scaledMealPlan = new MealPlan(originalDate, recipesList, originalIngredientsList);
+                                listener.onScaleOkPressed(oldMealPlan, scaledMealPlan);
+                                dialog.dismiss();
+                            } catch (Exception e) {
+                                Log.d("Exception", e.toString());
+
+                                Snackbar snackbar = null;
+                                snackbar = snackbar.make(view, "No scaling by 0", Snackbar.LENGTH_SHORT);
+                                snackbar.setDuration(700);
+                                snackbar.show();
+                            }
+                        }
+                    });
+                }
+            });
+            return dialog;
+        }
     }
 }

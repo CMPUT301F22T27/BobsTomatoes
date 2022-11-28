@@ -217,10 +217,11 @@
                 android:id="@+id/meal_plan_recipe_list_ID"
                 android:layout_width="190dp"
                 android:layout_height="wrap_content"
-                android:listSelector="@android:color/transparent"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
                 android:scrollbarSize="2dp"
+                android:choiceMode="singleChoice"
+                android:listSelector="#00000000"
                 tools:visibility="visible" />
 
             <ListView
@@ -252,7 +253,7 @@
             android:layout_gravity="center"
             android:backgroundTint="#00FFFFFF"
             android:stateListAnimator="@null"
-            android:text="Scale Recipes"
+            android:text="Scale All Recipes"
             android:textColor="#AB2933"
             android:layout_weight="1"
             tools:visibility="visible" />
