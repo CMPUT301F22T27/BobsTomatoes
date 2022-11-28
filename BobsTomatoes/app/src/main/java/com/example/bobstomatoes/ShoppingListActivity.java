@@ -67,6 +67,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
     private RecyclerViewInterface recyclerViewInterface;
     private Dialog progressBar;
+    private Bundle bundle;
 
     /**
      * Create instance
@@ -135,9 +136,6 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
                     recyclerView.setAdapter(shoppingListRecyclerAdapter);
                     shoppingListRecyclerAdapter.notifyDataSetChanged();
-
-                    Log.d("GABE STINKY ASS", "STINKY ASS GABE");
-
                 }
             }
         });

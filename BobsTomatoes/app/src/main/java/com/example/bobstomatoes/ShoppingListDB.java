@@ -57,19 +57,6 @@ public class ShoppingListDB {
                 });
         this.shoppingList.add(shoppingList);
     }
-
-    //public void removeIngredient(ingredient) {
-    //remove from both arrayList and DB
-
-    // Use ingredient to find its position in arrayList
-    //ingredientList.remove(ingredientPos)
-    //}
-
-    //public void editIngredient(oldIngredient, updatedIngredient) {
-    //Find oldIngredientPos
-    //ingredientList.set(oldIngredientPos, updatedIngredient)
-    //}
-
 }
 
 

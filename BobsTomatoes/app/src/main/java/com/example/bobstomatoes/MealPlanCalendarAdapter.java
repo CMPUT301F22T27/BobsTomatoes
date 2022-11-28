@@ -17,12 +17,23 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
     private final OnItemListener onItemListener;
 
 
+    /**
+     *
+     * @param daysOfMonth
+     * @param onItemListener
+     */
     public MealPlanCalendarAdapter(ArrayList<String> daysOfMonth, OnItemListener onItemListener)
     {
         this.daysOfMonth = daysOfMonth;
         this.onItemListener = onItemListener;
     }
 
+    /**
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public MealPlanCalendarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
@@ -34,6 +45,10 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
         return new MealPlanCalendarViewHolder(view, onItemListener);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getItemCount()
     {
@@ -41,6 +56,9 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
     }
 
 
+    /**
+     *
+     */
     public interface OnItemListener
     {
         void onItemClick(int position, String dayText, TextView day);
@@ -49,6 +67,11 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
     }
 
 
+    /**
+     *
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull MealPlanCalendarViewHolder holder, @SuppressLint("RecyclerView") int position)
     {
@@ -58,12 +81,20 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
     }
 
 
+    /**
+     *
+     */
     public class MealPlanCalendarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         public final TextView dayOfMonth;
         public Boolean hasMealPlan = false;
-
         private MealPlanCalendarAdapter.OnItemListener onItemListener;
+
+        /**
+         *
+         * @param itemView
+         * @param onItemListener
+         */
         public MealPlanCalendarViewHolder(@NonNull View itemView, MealPlanCalendarAdapter.OnItemListener onItemListener) {
             super(itemView);
             dayOfMonth = itemView.findViewById(R.id.cellDayText);
@@ -71,13 +102,14 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
             itemView.setOnClickListener(this);
         }
 
+        /**
+         *
+         * @param view
+         */
         @Override
         public void onClick(View view)
         {
             onItemListener.onItemClick(getAbsoluteAdapterPosition(), (String) dayOfMonth.getText(), dayOfMonth);
-
-
-
 
         }
     }

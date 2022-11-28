@@ -18,12 +18,24 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
 
     private final RecyclerViewInterface recyclerViewInterface;
 
+    /**
+     *
+     * @param context
+     * @param ingredientList
+     * @param recyclerViewInterface
+     */
     public IngredientStorageRecyclerAdapter(Context context, ArrayList<Ingredient> ingredientList, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.ingredientList = ingredientList;
         this.recyclerViewInterface = recyclerViewInterface;
     }
 
+    /**
+     *
+     * @param viewGroup
+     * @param i
+     * @return
+     */
     @NonNull
     @Override
     public IngredientStorageRecyclerAdapter.IngredientViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -31,6 +43,11 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
         return new IngredientViewHolder(view, recyclerViewInterface);
     }
 
+    /**
+     *
+     * @param viewHolder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(IngredientStorageRecyclerAdapter.IngredientViewHolder viewHolder, int position) {
         viewHolder.ingredientView.setText(ingredientList.get(position).getIngredientDesc());
@@ -42,11 +59,18 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
 
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return ingredientList.size();
     }
 
+    /**
+     *
+     */
     public class IngredientViewHolder extends RecyclerView.ViewHolder {
         TextView ingredientView;
         TextView locationView;
@@ -54,6 +78,12 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
         TextView dateView;
         TextView unitView;
         TextView categoryView;
+
+        /**
+         *
+         * @param itemView
+         * @param recyclerViewInterface
+         */
         public IngredientViewHolder(View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             ingredientView = itemView.findViewById(R.id.ingredientDescTextView);

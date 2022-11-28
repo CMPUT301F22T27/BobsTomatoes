@@ -35,7 +35,6 @@ import java.util.HashMap;
 public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingListRecyclerAdapter.ShoppingListViewHolder> {
 
     private ArrayList<Ingredient> ingredientList = new ArrayList<>();
-    private int currentIngredientAmount;
     private ArrayList<Ingredient> checkedIngredients = new ArrayList<>();
     private ArrayList<Integer> databaseIngredientAmountList = new ArrayList<>();
 
@@ -45,8 +44,6 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     private int pos;
     private HashMap<String, Integer> currentAmounts = new HashMap<>();
     private HashMap<String, Boolean> checkedItems = new HashMap<>();
-
-    private IngredientDB ingredientDB;
 
 
     public ShoppingListRecyclerAdapter(Context context, ArrayList<Ingredient> ingredientList, HashMap<String, Boolean> checkedItems, RecyclerViewInterface recyclerViewInterface) {

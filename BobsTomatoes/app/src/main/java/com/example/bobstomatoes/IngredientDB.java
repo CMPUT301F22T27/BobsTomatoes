@@ -303,12 +303,10 @@ public class IngredientDB {
         readMealPlanData(mealPlanColRef, mealPlanList, new MealPlanFireStoreCallback() {
             @Override
             public void onCallBack(ArrayList<MealPlan> mealPlanList) {
-                Log.d("MEAL PLAN DATE:", mealPlanList.get(0).getMealPlanDate());
                 mealPlanDatabase.runTransaction(new Transaction.Function<Void>() {
                     @Override
                     public Void apply(Transaction transaction) throws FirebaseFirestoreException {
                         for  (int i = 0; i < mealPlanList.size(); i++) {
-                            Log.d("MEAL PLAN DATE:", mealPlanList.get(i).getMealPlanDate());
                             DocumentReference mealPlanDocRef = mealPlanColRef.document(mealPlanList.get(i).getMealPlanDate());
                             ArrayList<Ingredient> currentMealPlanIngredientList = mealPlanList.get(i).getMealPlanIngredients();
                             for (int j = 0; j < currentMealPlanIngredientList.size(); j++) {
@@ -353,12 +351,10 @@ public class IngredientDB {
         readMealPlanData(mealPlanColRef, mealPlanList, new MealPlanFireStoreCallback() {
             @Override
             public void onCallBack(ArrayList<MealPlan> mealPlanList) {
-                Log.d("MEAL PLAN DATE:", mealPlanList.get(0).getMealPlanDate());
                 mealPlanDatabase.runTransaction(new Transaction.Function<Void>() {
                     @Override
                     public Void apply(Transaction transaction) throws FirebaseFirestoreException {
                         for  (int i = 0; i < mealPlanList.size(); i++) {
-                            Log.d("MEAL PLAN DATE:", mealPlanList.get(i).getMealPlanDate());
                             DocumentReference mealPlanDocRef = mealPlanColRef.document(mealPlanList.get(i).getMealPlanDate());
                             ArrayList<Ingredient> currentMealPlanIngredientList = mealPlanList.get(i).getMealPlanIngredients();
                             for (int j = 0; j < currentMealPlanIngredientList.size(); j++) {
@@ -427,6 +423,9 @@ public class IngredientDB {
         });
     }
 
+    /**
+     *
+     */
     private interface RecipeFireStoreCallback {
         void onCallBack(ArrayList<Recipe> recipeList);
     }
@@ -442,7 +441,6 @@ public class IngredientDB {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         MealPlan mealPlan = document.toObject(MealPlan.class);
-                        Log.d("mealPlan DATE: ", mealPlan.getMealPlanDate());
                         mealPlanList.add(mealPlan);
                     }
                     callBack.onCallBack(mealPlanList);
@@ -453,6 +451,9 @@ public class IngredientDB {
         });
     }
 
+    /**
+     *
+     */
     private interface MealPlanFireStoreCallback {
         void onCallBack(ArrayList<MealPlan> MealPlanList);
     }
