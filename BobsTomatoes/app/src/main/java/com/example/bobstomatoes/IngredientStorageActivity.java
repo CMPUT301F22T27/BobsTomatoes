@@ -43,12 +43,10 @@ import java.util.Collections;
  */
 
 public class IngredientStorageActivity extends AbstractNavigationBar implements IngredientStorageFragment.OnIngredientFragmentListener, RecyclerViewInterface {
-    ListView ingredientsListView;
+
     int ingredientPos;
     Bundle bundle;
     IngredientStorageFragment fragment = new IngredientStorageFragment();
-    ImageButton addButton;
-    ArrayAdapter<Ingredient> ingredientAdapter;
     IngredientStorageRecyclerAdapter ingredientRecyclerAdapter;
     IngredientDB ingredientDB;
     RecyclerView recyclerView;
@@ -89,10 +87,7 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         // Sets up buttons and onClickListeners for navigation bar
         initializeButtons(IngredientStorageActivity.this);
 
-
-        //ingredientsListView = findViewById(R.id.ingredients_list);
         recyclerView = findViewById(R.id.recyclerView);
-       //recyclerView = new RecyclerView(IngredientStorageActivity.this);
 
         ingredientDB = new IngredientDB();
 
