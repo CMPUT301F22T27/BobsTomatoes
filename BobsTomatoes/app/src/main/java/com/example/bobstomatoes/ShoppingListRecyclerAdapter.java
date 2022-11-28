@@ -32,7 +32,7 @@ import java.util.HashMap;
 /**
  * Recycler adapter for shopping list
  */
-public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingListRecyclerAdapter.ViewHolder> {
+public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingListRecyclerAdapter.ShoppingListViewHolder> {
 
     private ArrayList<Ingredient> ingredientList = new ArrayList<>();
     private int currentIngredientAmount;
@@ -85,7 +85,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
      * @param newInt
      * @param ingredientName
      */
-    public void setBoughtAmount(ShoppingListRecyclerAdapter.ViewHolder viewHolder, int newInt, String ingredientName, Ingredient lastChangedIngredient) {
+    public void setBoughtAmount(ShoppingListRecyclerAdapter.ShoppingListViewHolder viewHolder, int newInt, String ingredientName, Ingredient lastChangedIngredient) {
         Integer currentNum = currentAmounts.get(ingredientName);
 
         if (currentNum != null) {
@@ -136,9 +136,9 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
      */
     @NonNull
     @Override
-    public ShoppingListRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public ShoppingListRecyclerAdapter.ShoppingListViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.activity_recycler_shopping_list_recyclerlist, viewGroup, false);
-        return new ViewHolder(view, recyclerViewInterface);
+        return new ShoppingListViewHolder(view, recyclerViewInterface);
     }
 
     /**
@@ -147,7 +147,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
      * @param position
      */
     @Override
-    public void onBindViewHolder(ShoppingListRecyclerAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(ShoppingListRecyclerAdapter.ShoppingListViewHolder viewHolder, int position) {
         int ingredientPos = position;
 
         viewHolder.ingredientNameView.setText(ingredientList.get(position).getIngredientDesc());
@@ -210,7 +210,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ShoppingListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView ingredientNameView;
         TextView ingredientUnitView;
         TextView ingredientAmountNeededView;
@@ -225,7 +225,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
          * @param itemView
          * @param recyclerViewInterface
          */
-        public ViewHolder(View itemView, RecyclerViewInterface recyclerViewInterface) {
+        public ShoppingListViewHolder(View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
             ingredientNameView = itemView.findViewById(R.id.shoppingListIngredientDescTextView);

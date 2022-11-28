@@ -432,7 +432,7 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
     @Override
     public void onEditOkPressed(Ingredient newIngredient, int oldIngredientPos, int newAmount){
 
-        ShoppingListRecyclerAdapter.ViewHolder viewHolder = (ShoppingListRecyclerAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(oldIngredientPos);
+        ShoppingListRecyclerAdapter.ShoppingListViewHolder viewHolder = (ShoppingListRecyclerAdapter.ShoppingListViewHolder) recyclerView.findViewHolderForAdapterPosition(oldIngredientPos);
 
         Ingredient oldIngredient = neededIngredients.get(oldIngredientPos);
 
