@@ -156,12 +156,12 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
         Integer tempInt = currentAmounts.get(ingredientList.get(position).getIngredientDesc());
         if (tempInt != null) {
 
-            viewHolder.ingredientCurrentAmountView.setText("Current Amount: " + tempInt);
+            viewHolder.ingredientCurrentAmountView.setText("Amount Bought: " + tempInt);
 
 
         } else {
 
-            viewHolder.ingredientCurrentAmountView.setText("Current Amount: " + "0");
+            viewHolder.ingredientCurrentAmountView.setText("Amount Bought: " + "0");
 
         }
 
