@@ -35,28 +35,25 @@ import java.util.Collections;
 
 public class RecipeActivity extends AbstractNavigationBar implements RecipeFragment.OnRecipeFragmentListener, SpecifyIngredientAmountFragment.OnRecipeIngredientListener, RecyclerViewInterface {
 
-    ListView RecipeListView;
-    ImageButton addButton;
+    private Bundle bundle;
+    private int recipePos;
 
-    Bundle bundle;
-    int recipePos;
+    private RecipeDB recipeDB;
+    private ArrayList<Recipe> recipeList;
+    private CollectionReference recipeReference;
 
-    RecipeDB recipeDB;
-    ArrayList<Recipe> recipeList;
-    CollectionReference recipeReference;
+    private String [] sortChoices = {"Title", "Preparation Time", "Number of servings", "Category"};
+    private ArrayList <String> spinnerOptions = new ArrayList<>();
+    private ArrayAdapter <String> spinnerAdapter;
 
-    String [] sortChoices = {"Title", "Preparation Time", "Number of servings", "Category"};
-    ArrayList <String> spinnerOptions = new ArrayList<>();
-    ArrayAdapter <String> spinnerAdapter;
+    private RecipeRecyclerAdapter recipeRecyclerAdapter;
+    private RecyclerView recyclerView;
 
-    RecipeRecyclerAdapter recipeRecyclerAdapter;
-    RecyclerView recyclerView;
+    private ArrayList<Ingredient> globalIngredientList = new ArrayList<>();
 
-    ArrayList<Ingredient> globalIngredientList = new ArrayList<>();
+    private Dialog progressBar;
 
-    Dialog progressBar;
-
-    boolean updatedIngredients = false;
+    private boolean updatedIngredients = false;
 
 
     /**

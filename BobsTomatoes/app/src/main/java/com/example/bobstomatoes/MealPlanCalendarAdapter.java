@@ -1,7 +1,6 @@
 package com.example.bobstomatoes;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +33,6 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
         layoutParams.height = (int) (parent.getHeight() * 0.16);
         return new MealPlanCalendarViewHolder(view, onItemListener);
     }
-
-
 
     @Override
     public int getItemCount()

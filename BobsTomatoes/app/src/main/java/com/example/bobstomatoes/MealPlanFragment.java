@@ -52,27 +52,27 @@ public class MealPlanFragment extends DialogFragment {
     private MealPlanFragment.OnMealPlanFragmentListener listener;
 
     // Database
-    IngredientDB ingredientDB;
-    ArrayList<Ingredient> ingredientList;
-    CollectionReference ingredientReference;
-    ArrayAdapter<Ingredient> ingredientAdapter;
-    RecipeDB recipeDB;
-    ArrayList<Recipe> recipeList;
-    CollectionReference recipeReference;
-    ArrayAdapter<Recipe> recipeAdapter;
+    private IngredientDB ingredientDB;
+    private ArrayList<Ingredient> ingredientList;
+    private CollectionReference ingredientReference;
+    private ArrayAdapter<Ingredient> ingredientAdapter;
+    private RecipeDB recipeDB;
+    private ArrayList<Recipe> recipeList;
+    private CollectionReference recipeReference;
+    private ArrayAdapter<Recipe> recipeAdapter;
 
     // For ingredient selection
-    ArrayList<Ingredient> tempSelectedIngredients;
-    ArrayList<Recipe> tempSelectedRecipes;
+    private ArrayList<Ingredient> tempSelectedIngredients;
+    private ArrayList<Recipe> tempSelectedRecipes;
 
-    ArrayList<Ingredient> selectedIngredients;
-    ArrayList<Recipe> selectedRecipes;
+    private ArrayList<Ingredient> selectedIngredients;
+    private ArrayList<Recipe> selectedRecipes;
 
-    MealPlan selectedMealPlan;
-    String selectedDate;
+    private MealPlan selectedMealPlan;
+    private String selectedDate;
 
-    AlertDialog.Builder builder;
-    Dialog progressBar;
+    private AlertDialog.Builder builder;
+    private Dialog progressBar;
 
     boolean ingredientLoadDone = false;
     boolean recipeLoadDone = false;

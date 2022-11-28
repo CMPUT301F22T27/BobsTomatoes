@@ -44,30 +44,30 @@ public class IngredientStorageFragment extends DialogFragment {
     private EditText descriptionText;
     private EditText amountText;
     private EditText unitText;
-    Boolean isEdit = false;
-    DatePicker datePicker;
+    private Boolean isEdit = false;
+    private DatePicker datePicker;
 
-    RadioGroup locationRadioGroup;
-    RadioButton pantryRadioButton;
-    RadioButton fridgeRadioButton;
-    RadioButton freezerRadioButton;
-    RadioGroup categoryRadioGroup1;
-    RadioGroup categoryRadioGroup2;
-    RadioButton dairyRadioButton;
-    RadioButton fruitRadioButton;
-    RadioButton grainRadioButton;
-    RadioButton proteinRadioButton;
-    RadioButton vegetableRadioButton;
-    RadioButton otherRadioButton;
+    private RadioGroup locationRadioGroup;
+    private RadioButton pantryRadioButton;
+    private RadioButton fridgeRadioButton;
+    private RadioButton freezerRadioButton;
+    private RadioGroup categoryRadioGroup1;
+    private RadioGroup categoryRadioGroup2;
+    private RadioButton dairyRadioButton;
+    private RadioButton fruitRadioButton;
+    private RadioButton grainRadioButton;
+    private RadioButton proteinRadioButton;
+    private RadioButton vegetableRadioButton;
+    private RadioButton otherRadioButton;
 
     private OnIngredientFragmentListener listener;
 
-    Ingredient selectedIngredient;
-    Ingredient editIngredient;
-    Ingredient addIngredient;
-    int oldIngredientPos;
-    Context context;
-    AlertDialog.Builder builder;
+    private Ingredient selectedIngredient;
+    private Ingredient editIngredient;
+    private Ingredient addIngredient;
+    private int oldIngredientPos;
+    private Context context;
+    private AlertDialog.Builder builder;
 
     public interface OnIngredientFragmentListener{
         public void onEditOkPressed(Ingredient newIngredient, Ingredient oldIngredient);

@@ -43,30 +43,30 @@ import java.util.Set;
  */
 public class ShoppingListActivity extends AbstractNavigationBar implements RecyclerViewInterface, ShoppingListFragment.OnShoppingListFragmentListener {
 
-    IngredientDB ingredientDB;
-    CollectionReference ingredientReference;
-    ArrayList<Ingredient> ingredientList;
+    private IngredientDB ingredientDB;
+    private CollectionReference ingredientReference;
+    private ArrayList<Ingredient> ingredientList;
 
-    MealPlanDB mealPlanDB;
-    CollectionReference mealPlanReference;
-    ArrayList<MealPlan> mealPlanList;
+    private MealPlanDB mealPlanDB;
+    private CollectionReference mealPlanReference;
+    private ArrayList<MealPlan> mealPlanList;
 
-    ShoppingList shoppingList;
-    ArrayList<Ingredient> neededIngredients = new ArrayList<>();
+    private ShoppingList shoppingList;
+    private ArrayList<Ingredient> neededIngredients = new ArrayList<>();
 
     private boolean ingredientDataAvailable = false;
     private boolean mealPlanDataAvailable = false;
-    boolean ingredientLoadDone = false;
-    boolean mealPlanLoadDone = false;
+    private boolean ingredientLoadDone = false;
+    private boolean mealPlanLoadDone = false;
 
-    ShoppingListRecyclerAdapter shoppingListRecyclerAdapter;
-    RecyclerView recyclerView;
+    private ShoppingListRecyclerAdapter shoppingListRecyclerAdapter;
+    private RecyclerView recyclerView;
 
-    Context context = this;
+    private Context context = this;
 
 
     private RecyclerViewInterface recyclerViewInterface;
-    Dialog progressBar;
+    private Dialog progressBar;
 
     /**
      * Create instance
