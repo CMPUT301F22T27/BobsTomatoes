@@ -39,10 +39,8 @@ import java.util.ArrayList;
 
 public class ShoppingListFragment extends DialogFragment {
 
-    private EditText locationText;
     private EditText amountText;
     private EditText unitText;
-    Boolean isEdit = false;
 
     private OnShoppingListFragmentListener listener;
 
@@ -63,6 +61,10 @@ public class ShoppingListFragment extends DialogFragment {
 
     }
 
+    /**
+     * Attaches context fragment to ShoppingListFragment
+     * @param context       fragment object that will be attached
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -110,9 +112,6 @@ public class ShoppingListFragment extends DialogFragment {
             } else if (selectedIngredient.getIngredientLocation().toString().equals("Freezer")) {
                 locationShoppingListRadioGroup.check(locationShoppingListRadioGroup.getChildAt(2).getId());
             }
-
-//            locationText.setText(selectedIngredient.getIngredientLocation());
-//            unitText.setText(String.valueOf(selectedIngredient.getIngredientUnit()));
 
 
             // If isEdit is true, then the ingredient was clicked on the ListView so populate the fragment text boxes with its details and make the two buttons Delete and Edit

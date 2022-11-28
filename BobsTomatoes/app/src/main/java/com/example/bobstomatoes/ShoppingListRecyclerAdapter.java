@@ -29,6 +29,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+/**
+ * Recycler adapter for shopping list
+ */
 public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingListRecyclerAdapter.ViewHolder> {
 
     private ArrayList<Ingredient> ingredientList = new ArrayList<>();
@@ -125,6 +128,12 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
 
     }
 
+    /**
+     *
+     * @param viewGroup
+     * @param i
+     * @return
+     */
     @NonNull
     @Override
     public ShoppingListRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -132,10 +141,11 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
         return new ViewHolder(view, recyclerViewInterface);
     }
 
-    public void updateInt(ShoppingListRecyclerAdapter.ViewHolder viewHolder, int newInt) {
-        viewHolder.ingredientCurrentAmountView.setText("Current Amount: " + newInt);
-    }
-
+    /**
+     *
+     * @param viewHolder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(ShoppingListRecyclerAdapter.ViewHolder viewHolder, int position) {
         int ingredientPos = position;
@@ -190,10 +200,15 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
         });
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return ingredientList.size();
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView ingredientNameView;
@@ -205,6 +220,11 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
 
         ShoppingListItemClickInterface itemClick;
 
+        /**
+         *
+         * @param itemView
+         * @param recyclerViewInterface
+         */
         public ViewHolder(View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
@@ -231,10 +251,10 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
             checkBox.setOnClickListener(this);
         }
 
-        public void setItemClickListener(ShoppingListItemClickInterface itemClick) {
-            this.itemClick = itemClick;
-        }
-
+        /**
+         *
+         * @param view
+         */
         @Override
         public void onClick(View view) {
             this.itemClick.OnCheckBoxClick(view, getLayoutPosition());
