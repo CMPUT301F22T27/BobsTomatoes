@@ -28,13 +28,13 @@ import com.google.android.material.snackbar.Snackbar;
  * @see AppCompatActivity
  */
 public abstract class AbstractNavigationBar extends AppCompatActivity {
+    private Bundle bundle;
+
     /**
      * Initialize buttons from layout by id
      * Set onClickListeners to navigate between activities
      * @param activity, instance of current activity
      */
-
-    private Bundle bundle;
     public void initializeButtons(AbstractNavigationBar activity){
         if (activity instanceof MealPlanActivity){
             MainMealPlanBinding binding;
