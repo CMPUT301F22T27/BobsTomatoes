@@ -105,6 +105,7 @@ public class MealPlanActivityTest {
      * @throws UiObjectNotFoundException
      */
     @Test
+    @Exclude
     public void testEditMealPlan() throws InterruptedException, UiObjectNotFoundException {
 
         //Wait for data to load
@@ -124,6 +125,69 @@ public class MealPlanActivityTest {
         deleteTestRecipe();
 
         deleteTestIngredient();
+
+    }
+
+    /**
+     * Test scaling recipes in a meal plan
+     * @throws InterruptedException
+     * @throws UiObjectNotFoundException
+     */
+    @Test
+    public void testScalingRecipes() throws InterruptedException, UiObjectNotFoundException {
+
+        //Wait for data to load
+        try { onView(withId(R.id.progressBar)).perform(WaitUntilGone(R.id.progressBar, 15000)); } catch (Exception e){}
+
+        //Add ingredient and recipe to db
+        addTestIngredient();
+
+        addTestRecipe();
+
+        addTestMealPlan();
+
+        scaleMealPlanRecipes();
+
+        deleteTestMealPlan();
+
+        deleteTestRecipe();
+
+        deleteTestIngredient();
+
+    }
+
+
+    /**
+     * Scales recipes in a meal plan using both methods
+     */
+    private void scaleMealPlanRecipes(){
+
+        onView(withText("20"))
+                .perform(click());
+
+        onView(withText("111TEST RECIPE"))
+                .perform(click());
+
+        onView(withId(R.id.editTextScale))
+                .perform(click(), typeText("10"));
+
+        onView(withText("ADD"))
+                .perform(click());
+
+        onView(withId(R.id.meal_plan_recipe_list_ID))
+                .check(matches(hasDescendant(withText("Serves: 100"))));
+
+        onView(withId(R.id.scale_meal_plan_ID))
+                .perform(click());
+
+        onView(withId(R.id.editTextScale))
+                .perform(click(), typeText("0.1"));
+
+        onView(withText("ADD"))
+                .perform(click());
+
+        onView(withId(R.id.meal_plan_recipe_list_ID))
+                .check(matches(hasDescendant(withText("Serves: 10"))));
 
     }
 
@@ -485,32 +549,6 @@ public class MealPlanActivityTest {
             }
         };
 
-    }
-
-    /**
-     * Perform action of clicking specific coordinates on view
-     * @param x x coordinate of view
-     * @param y y coordinate of view
-     * @return
-     */
-    public static ViewAction clickXY(final int x, final int y){
-        return new GeneralClickAction(
-                Tap.SINGLE,
-                new CoordinatesProvider() {
-                    @Override
-                    public float[] calculateCoordinates(View view) {
-
-                        final int[] screenPos = new int[2];
-                        view.getLocationOnScreen(screenPos);
-
-                        final float screenX = screenPos[0] + x;
-                        final float screenY = screenPos[1] + y;
-                        float[] coordinates = {screenX, screenY};
-
-                        return coordinates;
-                    }
-                },
-                Press.FINGER);
     }
 
     /**
