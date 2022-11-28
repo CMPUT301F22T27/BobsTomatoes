@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 /**
  * Custom array adapter class designed to work with ingredient objects
+ * Intended for use within meal plan activity
  */
 public class IngredientStorageMealPlanAdapter extends ArrayAdapter<Ingredient> {
 
@@ -29,7 +30,7 @@ public class IngredientStorageMealPlanAdapter extends ArrayAdapter<Ingredient> {
     private Context context;
 
     /**
-     * IngredientStorageAdapter constructor. Takes in context of activity and arraylist of recipes
+     * IngredientStorageMealPlanAdapter constructor. Takes in context of activity and arraylist of recipes
      * @param context       activity context
      * @param ingredients   array list of ingredients
      */
@@ -46,7 +47,6 @@ public class IngredientStorageMealPlanAdapter extends ArrayAdapter<Ingredient> {
      * @param parent        parent view
      * @return              returns new view representation
      */
-    @SuppressLint("ResourceAsColor")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup

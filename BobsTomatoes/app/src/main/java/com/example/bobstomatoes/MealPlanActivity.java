@@ -183,7 +183,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
     /**
-     *
+     * Initializes calendar recyclerView and text displaying date of calendar
      */
     private void initWidgets()
     {
@@ -192,7 +192,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
     /**
-     *
+     *  Sets up calendar recyclerView and populates date of calendar view
      */
     private void setMonthView()
     {
@@ -208,7 +208,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
     /**
-     *
+     * Calculates calendar for the given date
      * @param date
      * @return
      */
@@ -241,7 +241,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
     /**
-     *
+     * Returns date in MMMM yyyy format
      * @param date
      * @return
      */
@@ -252,7 +252,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
     /**
-     *
+     * Handles moving to a previous month on calendar
      * @param view
      */
     public void previousMonthAction(View view)
@@ -308,7 +308,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
     /**
-     *
+     * Handles moving to the next month on calendar
      * @param view
      */
     public void nextMonthAction(View view)
@@ -363,7 +363,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
     /**
-     *
+     * Handles clicking a day within the calendar
      * @param position
      * @param dayText
      * @param day
@@ -470,7 +470,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
 
     /**
-     *
+     * Inherited method from fragment interface
+     * Handles fragment closed by ADD button
      * @param mealPlan
      */
     public void onAddOkPressed(MealPlan mealPlan) {
@@ -505,7 +506,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
 
     /**
-     *
+     * Inherited method from fragment interface
+     * Handles fragment closed by EDIT button
      * @param oldMealPlan
      * @param updatedMealPlan
      */
@@ -530,7 +532,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
 
     /**
-     *
+     * Inherited method from fragment interface
+     * Handles fragment closed by DELETE button
      * @param mealPlan
      */
     public void onDeleteOkPressed(MealPlan mealPlan) {
@@ -551,7 +554,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
     /**
-     *
+     * Reads data from Meal Plan database, sends callback when finished
      * @param callBack
      */
     public void readData(MealPlanFireStoreCallBack callBack) {
@@ -560,7 +563,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    //showDialog(true);
                     mealPlanList.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         MealPlan mealPlan = document.toObject(MealPlan.class);
@@ -577,7 +579,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
     /**
-     *
+     * Inherited method from child fragment interface of main meal plan fragment
+     * Called when select ingredient amount fragment closed by ADD button
      * @param ingredientList
      */
     @Override
@@ -586,7 +589,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
     /**
-     *
+     * Inherited method from scale recipes fragment
+     * Called when fragment closed by ADD button
      * @param oldMealPlan
      * @param scaledMealPlan
      */
@@ -607,7 +611,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
     /**
-     *
+     * Displays progress bar while database is loading
      * @param isShown
      */
     private void showDialog(boolean isShown){
@@ -623,7 +627,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
     /**
-     *
+     * Returns current date
      * @return
      */
     public String getGlobalDate() {

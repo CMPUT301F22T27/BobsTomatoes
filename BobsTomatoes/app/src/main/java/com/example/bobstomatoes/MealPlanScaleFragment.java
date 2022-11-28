@@ -62,6 +62,11 @@ public class MealPlanScaleFragment extends DialogFragment {
         }
     }
 
+    /**
+     * Handles creation of scale dialog
+     * @param savedInstanceState
+     * @return
+     */
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_meal_plan_scale, null);
         scaleText = view.findViewById(R.id.editTextScale);

@@ -36,7 +36,6 @@ import java.util.ArrayList;
  * Class for the Shopping List Fragment which allows the user to edit ingredients
  * extends DialogFragment
  */
-
 public class ShoppingListFragment extends DialogFragment {
 
     private EditText amountText;
@@ -56,6 +55,10 @@ public class ShoppingListFragment extends DialogFragment {
     private AlertDialog.Builder builder;
     private AlertDialog dialog = null;
 
+    /**
+     * Interface for classes using this fragment
+     * Contains method to run when dialog ends by ADD button
+     */
     public interface OnShoppingListFragmentListener {
         public void onEditOkPressed(Ingredient newIngredient, int oldIngredientPos, int newAmount);
 

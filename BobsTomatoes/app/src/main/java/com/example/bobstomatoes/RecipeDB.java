@@ -201,7 +201,7 @@ public class RecipeDB implements Parcelable {
     }
 
     /**
-     *
+     * Handles syncing all databases when a recipe is edited
      * @param updatedRecipe
      */
     public void editRecipeMealTransaction(Recipe updatedRecipe) {
@@ -253,7 +253,7 @@ public class RecipeDB implements Parcelable {
     }
 
     /**
-     *
+     * Handles syncing all databases when a recipe name is edited
      * @param updatedRecipe
      */
     public void editDiffNameMealTransaction(Recipe updatedRecipe, Recipe oldRecipe) {
@@ -305,7 +305,7 @@ public class RecipeDB implements Parcelable {
     }
 
     /**
-     *
+     * Handles syncing all databases when a recipe is deleted
      * @param deletedRecipe
      */
     public void deleteRecipeMealTransaction(Recipe deletedRecipe) {
@@ -376,6 +376,9 @@ public class RecipeDB implements Parcelable {
         });
     }
 
+    /**
+     * Interface containing method called when meal plan database read returns its callback
+     */
     private interface MealPlanFireStoreCallback {
         void onCallBack(ArrayList<MealPlan> MealPlanList);
     }
@@ -398,7 +401,10 @@ public class RecipeDB implements Parcelable {
         return this.recipeReference;
     }
 
-
+    /**
+     * Recipe database getter
+     * @return
+     */
     public FirebaseFirestore getRecipeDatabase() {
         return recipeDatabase;
     }
@@ -413,6 +419,9 @@ public class RecipeDB implements Parcelable {
     }
 
 
+    /**
+     * CREATOR used for parcelable implementation
+     */
     public static final Creator<RecipeDB> CREATOR = new Creator<RecipeDB>() {
         /**
          * Create new instance of the Parcelable Class

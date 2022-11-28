@@ -289,7 +289,7 @@ public class IngredientDB {
     }
 
     /**
-     *
+     * Updates database when an ingredient is edited, all instances of ingredient are replaced with edited ingredient
      * @param updatedIngredient
      */
     public void editMealIngredientTransaction(Ingredient updatedIngredient) {
@@ -337,7 +337,7 @@ public class IngredientDB {
     }
 
     /**
-     *
+     * Updates database when an ingredient is deleted
      * @param deletedIngredient
      */
     public void deleteMealIngredientTransaction(Ingredient deletedIngredient) {
@@ -424,7 +424,7 @@ public class IngredientDB {
     }
 
     /**
-     *
+     * Interface for callback on Recipe Database Load
      */
     private interface RecipeFireStoreCallback {
         void onCallBack(ArrayList<Recipe> recipeList);
@@ -452,7 +452,7 @@ public class IngredientDB {
     }
 
     /**
-     *
+     * Interface for callback on Meal Plan Database Load
      */
     private interface MealPlanFireStoreCallback {
         void onCallBack(ArrayList<MealPlan> MealPlanList);

@@ -11,6 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+/**
+ * Custom recycler view adapter
+ * Intended for use with the MealPlanActivity calendar
+ */
 class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapter.MealPlanCalendarViewHolder>
 {
     private final ArrayList<String> daysOfMonth;
@@ -18,7 +22,7 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
 
 
     /**
-     *
+     * Create new adapter from list of days in the month
      * @param daysOfMonth
      * @param onItemListener
      */
@@ -29,7 +33,7 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
     }
 
     /**
-     *
+     * Inflate ViewHolder for calendar cell
      * @param parent
      * @param viewType
      * @return
@@ -46,7 +50,7 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
     }
 
     /**
-     *
+     * Returns number of items in adapter
      * @return
      */
     @Override
@@ -57,18 +61,16 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
 
 
     /**
-     *
+     * Interface to be implemented by class using adapter
      */
     public interface OnItemListener
     {
         void onItemClick(int position, String dayText, TextView day);
-
-
     }
 
 
     /**
-     *
+     * Populate view holder with calendar cell day
      * @param holder
      * @param position
      */
@@ -82,7 +84,7 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
 
 
     /**
-     *
+     * Declare custom viewholder to represent a calendar cell
      */
     public class MealPlanCalendarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
@@ -91,7 +93,7 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
         private MealPlanCalendarAdapter.OnItemListener onItemListener;
 
         /**
-         *
+         * MealPlanCalendarViewHolder constructor
          * @param itemView
          * @param onItemListener
          */
@@ -103,7 +105,7 @@ class MealPlanCalendarAdapter extends RecyclerView.Adapter<MealPlanCalendarAdapt
         }
 
         /**
-         *
+         * onClick method which occurs when calendar cell is clicked
          * @param view
          */
         @Override

@@ -59,7 +59,7 @@ public class RecipeTest {
 
     /**
      * Test the comparing of recipe title
-     * Allow for sorting of ingredients by titles
+     * Allow for sorting of recipes by titles
      */
     @Test
     void testCompareToRecipeTitle(){
@@ -95,7 +95,7 @@ public class RecipeTest {
 
     /**
      * Test the comparing of recipe serving size
-     * Allow for sorting of ingredients by serving size
+     * Allow for sorting of recipes by serving size
      */
     @Test
     void testCompareToRecipeServings(){
@@ -113,7 +113,7 @@ public class RecipeTest {
 
     /**
      * Test the comparing of recipe category
-     * Allow for sorting of ingredients by categories
+     * Allow for sorting of recipes by categories
      */
     @Test
     void testCompareToRecipeCategory(){

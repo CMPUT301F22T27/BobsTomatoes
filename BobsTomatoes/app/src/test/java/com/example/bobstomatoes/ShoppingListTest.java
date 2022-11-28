@@ -64,6 +64,10 @@ public class ShoppingListTest {
         return ingredientList;
     }
 
+    /**
+     * Create third ingredient list
+     * @return
+     */
     private ArrayList<Ingredient> mockIngredientList3() {
         ArrayList<Ingredient> ingredientList = new ArrayList<>();
         ingredientList.add(new Ingredient("Orange", "2022-07-25", "Pantry", 4, 2, "Dairy"));
