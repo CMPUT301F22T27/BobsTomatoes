@@ -175,7 +175,6 @@ public class MealPlanActivityTest {
 
         }
 
-
         Thread.sleep(100);
 
         onView(withText("EDIT"))

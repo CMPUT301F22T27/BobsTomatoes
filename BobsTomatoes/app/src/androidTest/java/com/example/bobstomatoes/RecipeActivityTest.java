@@ -66,6 +66,11 @@ public class RecipeActivityTest {
             new ActivityScenarioRule<>(RecipeActivity.class);
 
 
+    /**
+     * test adding and deleting a recipe
+     * @throws InterruptedException
+     * @throws UiObjectNotFoundException
+     */
     @Test
     public void testAddDeleteRecipe() throws InterruptedException, UiObjectNotFoundException {
 
@@ -97,6 +102,11 @@ public class RecipeActivityTest {
 
     }
 
+    /**
+     * Test editing a recipe
+     * @throws InterruptedException
+     * @throws UiObjectNotFoundException
+     */
     @Test
     public void testEditRecipe() throws InterruptedException, UiObjectNotFoundException {
 
@@ -131,6 +141,10 @@ public class RecipeActivityTest {
     }
 
 
+    /**
+     * Edit the test recipe
+     * @throws InterruptedException
+     */
     private void editTestRecipe() throws InterruptedException {
 
         onView(isRoot()).perform(waitId(R.id.recipes_item, 15000));

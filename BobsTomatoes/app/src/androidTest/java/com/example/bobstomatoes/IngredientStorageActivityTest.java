@@ -57,6 +57,10 @@ public class IngredientStorageActivityTest{
     public ActivityScenarioRule<IngredientStorageActivity> rule =
             new ActivityScenarioRule<>(IngredientStorageActivity.class);
 
+    /**
+     * Test adding and deleting an ingredient
+     * @throws InterruptedException
+     */
     @Test
     public void testAddDeleteIngredient() throws InterruptedException {
 
@@ -85,6 +89,10 @@ public class IngredientStorageActivityTest{
 
     }
 
+    /**
+     * Test editing an ingredient
+     * @throws InterruptedException
+     */
     @Test
     public void testEditIngredient() throws InterruptedException {
 
