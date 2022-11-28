@@ -42,7 +42,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
     private Context context;
     private final RecyclerViewInterface recyclerViewInterface;
     private FragmentManager fragmentManager;
-    int pos;
+    private int pos;
     private HashMap<String, Integer> currentAmounts = new HashMap<>();
     private HashMap<String, Boolean> checkedItems = new HashMap<>();
 

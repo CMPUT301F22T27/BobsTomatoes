@@ -44,19 +44,19 @@ import java.util.Collections;
 
 public class IngredientStorageActivity extends AbstractNavigationBar implements IngredientStorageFragment.OnIngredientFragmentListener, RecyclerViewInterface {
 
-    int ingredientPos;
-    Bundle bundle;
-    IngredientStorageFragment fragment = new IngredientStorageFragment();
-    IngredientStorageRecyclerAdapter ingredientRecyclerAdapter;
-    IngredientDB ingredientDB;
-    RecyclerView recyclerView;
-    ArrayList<Ingredient> ingredientList;
-    CollectionReference ingredientReference;
-    String [] sortChoices = {"Description", "Location", "Best Before Date", "Category"};
-    ArrayList <String> spinnerOptions = new ArrayList<>();
-    ArrayAdapter <String> spinnerAdapter;
+    private int ingredientPos;
+    private Bundle bundle;
+    private IngredientStorageFragment fragment = new IngredientStorageFragment();
+    private IngredientStorageRecyclerAdapter ingredientRecyclerAdapter;
+    private IngredientDB ingredientDB;
+    private RecyclerView recyclerView;
+    private ArrayList<Ingredient> ingredientList;
+    private CollectionReference ingredientReference;
+    private String [] sortChoices = {"Description", "Location", "Best Before Date", "Category"};
+    private ArrayList <String> spinnerOptions = new ArrayList<>();
+    private ArrayAdapter <String> spinnerAdapter;
 
-    Dialog progressBar;
+    private Dialog progressBar;
 
     /**
      * Create instance
