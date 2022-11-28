@@ -77,6 +77,8 @@ public class IngredientStorageActivityTest{
         onView(withText("Description"))
                 .perform(click());
 
+        Thread.sleep(200);
+
         deleteTestIngredient();
 
     }
@@ -100,6 +102,8 @@ public class IngredientStorageActivityTest{
 
         onView(withText("Description"))
                 .perform(click());
+
+        Thread.sleep(200);
 
         editTestIngredient();
 
