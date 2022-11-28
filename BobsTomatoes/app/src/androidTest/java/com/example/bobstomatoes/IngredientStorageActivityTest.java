@@ -71,6 +71,8 @@ public class IngredientStorageActivityTest{
         onView(withText("Category"))
                 .perform(click());
 
+        Thread.sleep(200);
+
         onView(withText("Description"))
                 .perform(click());
 
@@ -96,6 +98,8 @@ public class IngredientStorageActivityTest{
 
         onView(withText("Category"))
                 .perform(click());
+
+        Thread.sleep(200);
 
         onView(withText("Description"))
                 .perform(click());
