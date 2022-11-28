@@ -40,7 +40,6 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
 
     private Context context;
     private final RecyclerViewInterface recyclerViewInterface;
-    private FragmentManager fragmentManager;
     private int pos;
     private HashMap<String, Integer> currentAmounts = new HashMap<>();
     private HashMap<String, Boolean> checkedItems = new HashMap<>();
@@ -57,7 +56,6 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
         this.ingredientList = ingredientList;
         this.recyclerViewInterface = recyclerViewInterface;
         this.checkedItems = checkedItems;
-        this.fragmentManager = fragmentManager;
     }
 
 
@@ -158,12 +156,12 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
         Integer tempInt = currentAmounts.get(ingredientList.get(position).getIngredientDesc());
         if (tempInt != null) {
 
-            viewHolder.ingredientCurrentAmountView.setText("Current Amount: " + tempInt);
+            viewHolder.ingredientCurrentAmountView.setText("Amount Bought: " + tempInt);
 
 
         } else {
 
-            viewHolder.ingredientCurrentAmountView.setText("Current Amount: " + "0");
+            viewHolder.ingredientCurrentAmountView.setText("Amount Bought: " + "0");
 
         }
 
