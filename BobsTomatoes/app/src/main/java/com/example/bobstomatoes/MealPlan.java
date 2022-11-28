@@ -59,45 +59,6 @@ public class MealPlan implements Parcelable {
         this.mealPlanDate = mealPlanDate;
     }
 
-//    /**
-//     * Recipes getter
-//     * Retrieve list of recipes used in meal plan, allow accessibility to other classes
-//     * @return      returns the list of recipes
-//     */
-//    public ArrayList<Recipe> getRecipes() {
-//        return recipes;
-//    }
-//
-//    /**
-//     * Ingredients getter
-//     * Retrieve list of ingredients used in meal plan, allow accessibility to other classes
-//     * @return      returns the list of ingredients
-//     */
-//    public ArrayList<Ingredient> getIngredients() {
-//        return ingredients;
-//    }
-//
-//    /**
-//     * Date getter
-//     * Retrieve date of meal plan, allow accessibility to other classes
-//     * @return      returns the meal plan date
-//     */
-//    public String getDate() {
-//        return date;
-//    }
-//
-//    public void setRecipes(ArrayList<Recipe> recipes) {
-//        this.recipes = recipes;
-//    }
-//
-//    public void setIngredients(ArrayList<Ingredient> ingredients) {
-//        this.ingredients = ingredients;
-//    }
-//
-//    public void setDate(String date) {
-//        this.date = date;
-//    }
-
     /**
      * MealPlan constructor, takes in a parcel
      * @param in    parcel containing an meal plan's information (recipes, ingredients, etc)

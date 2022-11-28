@@ -579,22 +579,4 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
 
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK){
-//            if (fragmentOpened == true) {
-//
-//                ingredientList.clear();
-//                for (int i = 0; i < oldIngredientList.size(); i++) {
-//                    ingredientList.add(oldIngredientList.get(i));
-//                }
-//
-//                globalIngredientList.clear();
-//                fragmentOpened = false;
-//            }
-//            return false;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
-
 }
