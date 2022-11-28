@@ -27,7 +27,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 /**
- * ShoppingList test, test sorting of ingredients in shopping list by description & category, test will execute on android device
+ * ShoppingList test, test sorting of ingredients in shopping list by description, category, test will execute on android device
  */
 public class ShoppingListTest {
 
