@@ -75,6 +75,22 @@ public class RecipeActivityTest {
 
         addTestRecipe();
 
+        onView(withText("Title"))
+                .perform(click());
+
+        onView(withText("Category"))
+                .perform(click());
+
+        Thread.sleep(200);
+
+        onView(withText("Category"))
+                .perform(click());
+
+        onView(withText("Title"))
+                .perform(click());
+
+        Thread.sleep(200);
+
         deleteTestRecipe();
 
         deleteTestIngredient();
@@ -89,6 +105,22 @@ public class RecipeActivityTest {
         addTestIngredient();
 
         addTestRecipe();
+
+        onView(withText("Title"))
+                .perform(click());
+
+        onView(withText("Category"))
+                .perform(click());
+
+        Thread.sleep(200);
+
+        onView(withText("Category"))
+                .perform(click());
+
+        onView(withText("Title"))
+                .perform(click());
+
+        Thread.sleep(200);
 
         editTestRecipe();
 
