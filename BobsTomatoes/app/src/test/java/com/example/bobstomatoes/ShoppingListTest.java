@@ -1,5 +1,6 @@
 package com.example.bobstomatoes;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -42,7 +43,7 @@ public class ShoppingListTest {
         ingredientList.add(new Ingredient("Egg", "2022-11-05", "Fridge", 3,3,"Protein"));
         ingredientList.add(new Ingredient("Milk", "2021-01-28", "Fridge", 4,4,"Dairy"));
         ingredientList.add(new Ingredient("Bread", "2023-06-30", "Freezer", 5,5,"Grain"));
-        ingredientList.add(new Ingredient("Corn", "2025-06-30", "Pantry", 100,3,"Vegetable"));
+        ingredientList.add(new Ingredient("Ice Cream", "2025-06-30", "Pantry", 100,3,"Vegetable"));
         return ingredientList;
     }
 
@@ -59,7 +60,7 @@ public class ShoppingListTest {
         ingredientList.add(new Ingredient("Egg", "2022-11-05", "Fridge", 7,3,"Protein"));
         ingredientList.add(new Ingredient("Milk", "2021-01-28", "Fridge", 8,4,"Dairy"));
         ingredientList.add(new Ingredient("Bread", "2023-06-30", "Freezer", 1,5,"Grain"));
-        ingredientList.add(new Ingredient("Corn", "2025-06-30", "Pantry", 2,3,"Vegetable"));
+        ingredientList.add(new Ingredient("Ice Cream", "2025-06-30", "Pantry", 2,3,"Dairy"));
         return ingredientList;
     }
 
@@ -112,7 +113,7 @@ public class ShoppingListTest {
      * @return      return new recipe
      */
     private Recipe mockRecipe(){
-        return new Recipe("Mushroom Soup", 12, 6, "Soup", "Hot", mockIngredientList1(), "Image");
+        return new Recipe("Mushroom Soup", 12, 6, "Soup", "Hot", mockIngredientList2(), "Image");
     }
 
     /**
@@ -316,11 +317,11 @@ public class ShoppingListTest {
 
         assertTrue(neededIngredients.get(0).getIngredientDesc().equals("Bread"));
         assertTrue(neededIngredients.get(1).getIngredientDesc().equals("Cantaloupe"));
-        assertTrue(neededIngredients.get(2).getIngredientDesc().equals("Corn"));
-        assertTrue(neededIngredients.get(3).getIngredientDesc().equals("Egg"));
-        assertTrue(neededIngredients.get(4).getIngredientDesc().equals("Honeydew"));
-        assertTrue(neededIngredients.get(5).getIngredientDesc().equals("Mango"));
-        assertTrue(neededIngredients.get(6).getIngredientDesc().equals("Milk"));
+        assertTrue(neededIngredients.get(2).getIngredientDesc().equals("Egg"));
+        assertTrue(neededIngredients.get(3).getIngredientDesc().equals("Honeydew"));
+        assertFalse(neededIngredients.get(4).getIngredientDesc().equals("Ice Cream"));
+        assertTrue(neededIngredients.get(4).getIngredientDesc().equals("Mango"));
+        assertTrue(neededIngredients.get(5).getIngredientDesc().equals("Milk"));
     }
 
     /**
@@ -335,6 +336,7 @@ public class ShoppingListTest {
         Collections.sort(neededIngredients, Ingredient::compareToIngredientCategory);
 
         assertTrue(neededIngredients.get(0).getIngredientCategory().equals("Dairy"));
+        assertFalse(neededIngredients.get(1).getIngredientCategory().equals("Dairy"));
         assertTrue(neededIngredients.get(1).getIngredientCategory().equals("Fruit"));
         assertTrue(neededIngredients.get(2).getIngredientCategory().equals("Fruit"));
         assertTrue(neededIngredients.get(3).getIngredientCategory().equals("Fruit"));
