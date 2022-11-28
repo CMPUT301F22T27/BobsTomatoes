@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -74,9 +75,7 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     private LinearLayout mealPlanDetailDesc;
     private LinearLayout mealPlanButtonsLinearLayout;
 
-
     private Dialog progressBar;
-
 
     /**
      * Create instance
@@ -150,8 +149,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                             date = date.substring(0, 8).concat(day);
 
                             if (mealPlanList.get(j).getMealPlanDate().equals(date)) {
-
-                                //check.setBackgroundColor(Color.LTGRAY);
                                 check.setActivated(true);
                             }
                         }
@@ -169,8 +166,21 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
         scaleRecipeButton.setOnClickListener(view -> {
             MealPlanScaleFragment fragment = new MealPlanScaleFragment();
+            scaleBundle.putBoolean("recipeClicked", false);
             fragment.setArguments(scaleBundle);
             fragment.show(getSupportFragmentManager(), "SCALE RECIPES IN MEAL PLAN");
+        });
+
+        recipesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                MealPlanScaleFragment fragment = new MealPlanScaleFragment();
+                Recipe recipe = recipeList.get(i);
+                scaleBundle.putParcelable("selectedRecipe", recipe);
+                scaleBundle.putBoolean("recipeClicked", true);
+                fragment.setArguments(scaleBundle);
+                fragment.show(getSupportFragmentManager(), "SCALE RECIPES IN MEAL PLAN");
+            }
         });
 
     }
