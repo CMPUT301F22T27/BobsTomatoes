@@ -27,36 +27,66 @@ public class ShoppingList implements Parcelable {
         this.ingredientCount = ingredientCount;
     }
 
-
-
+    /**
+     *
+     * @return
+     */
     public HashMap<String, Boolean> getCheckedItems() {
         return checkedItems;
     }
 
+    /**
+     *
+     * @return
+     */
     public HashMap<String, Integer> getIngredientCount() {
         return ingredientCount;
     }
 
+    /**
+     *
+     * @param ingredientCount
+     */
     public void setIngredientCount(HashMap<String, Integer> ingredientCount) {
         this.ingredientCount = ingredientCount;
     }
 
+    /**
+     *
+     * @param checkedItems
+     */
     public void setCheckedItems(HashMap<String, Boolean> checkedItems) {
         this.checkedItems = checkedItems;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     *
+     * @param parcel
+     * @param i
+     */
     @Override
     public void writeToParcel(Parcel parcel, int i) {
     }
 
+    /**
+     *
+     * @param in
+     */
     protected ShoppingList(Parcel in) {
     }
 
+    /**
+     *
+     */
     public static final Creator<ShoppingList> CREATOR = new Creator<ShoppingList>() {
         @Override
         public ShoppingList createFromParcel(Parcel in) {
@@ -68,56 +98,4 @@ public class ShoppingList implements Parcelable {
             return new ShoppingList[size];
         }
     };
-
-//    /**
-//     * Create bitmask return value
-//     * @return      return value
-//     */
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    /**
-//     * ShoppingList constructor, takes in a parcel
-//     * @param in    parcel containing shopping list information (list of ingredients, list of meal plans)
-//     */
-//    protected ShoppingList(Parcel in) {
-//        ingredients = in.createTypedArrayList(Ingredient.CREATOR);
-//        mealPlans = in.createTypedArrayList(MealPlan.CREATOR);
-//    }
-//
-//    public static final Creator<ShoppingList> CREATOR = new Creator<ShoppingList>() {
-//        /**
-//         * Create new instance of the Parcelable Class
-//         * @param in    parcel containing shopping list information (list of ingredients, list of meal plans)
-//         * @return      returns a new created ShoppingList
-//         */
-//        @Override
-//        public ShoppingList createFromParcel(Parcel in) {
-//            return new ShoppingList(in);
-//        }
-//
-//        /**
-//         * Create a new array of the Parcelable Class
-//         * @param size  size of new array
-//         * @return      returns a new ShoppingList Array
-//         */
-//        @Override
-//        public ShoppingList[] newArray(int size) {
-//            return new ShoppingList[size];
-//        }
-//    };
-//
-//    /**
-//     * Parcel writer
-//     * Creates parcel with specified object written in
-//     * @param parcel    parcel in which object should be written
-//     * @param i         addition flags of how object should be written
-//     */
-//    @Override
-//    public void writeToParcel(Parcel parcel, int i) {
-//        parcel.writeTypedList(ingredients);
-//        parcel.writeTypedList(mealPlans);
-//    }
 }

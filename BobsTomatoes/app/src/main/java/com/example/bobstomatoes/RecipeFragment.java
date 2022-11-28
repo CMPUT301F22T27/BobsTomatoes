@@ -90,6 +90,9 @@ public class RecipeFragment extends DialogFragment {
     private Recipe newRecipe;
 
 
+    /**
+     *
+     */
     public interface OnRecipeFragmentListener{
 
         public void onAddOkPressed(Recipe recipe);

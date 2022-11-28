@@ -98,7 +98,6 @@ public class IngredientStorageFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        String title;
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_ingredient_storage, null);
         descriptionText = view.findViewById(R.id.editTextIngredientDesc);
         textViewDescriptionText = view.findViewById(R.id.textViewIngredientDesc);
@@ -261,7 +260,6 @@ public class IngredientStorageFragment extends DialogFragment {
                     .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            //String newDescription = descriptionText.getText().toString();
 
                             // Date
                             int year = datePicker.getYear();
@@ -330,9 +328,6 @@ public class IngredientStorageFragment extends DialogFragment {
                                 newCategory = "";
                             }
 
-//                            if (newDescription.equals("")) {
-//                                newDescription = selectedIngredient.getIngredientDesc();
-//                            }
 
                             editIngredient = new Ingredient(selectedIngredient.getIngredientDesc(), newDate, newLocation, newAmount, newUnit, newCategory);
                             listener.onEditOkPressed(editIngredient, selectedIngredient);
@@ -434,14 +429,11 @@ public class IngredientStorageFragment extends DialogFragment {
                                  dialog.dismiss();
                              } catch (Exception e) {
                                  Log.d("EXCEPTION HERE", e.toString());
-                                 //Toast errorToast = null;
 
                                  Snackbar snackbar = null;
                                  snackbar = snackbar.make(view, "Please fill out all required fields", Snackbar.LENGTH_SHORT);
                                  snackbar.setDuration(700);
                                  snackbar.show();
-
-                                 //errorToast.makeText(context.getApplicationContext(),"Please fill out all required fields", Toast.LENGTH_SHORT).show();
 
                              }
                          }

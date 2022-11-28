@@ -110,9 +110,6 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
             @Override
             public void onCallBack(ArrayList<Ingredient> ingredientList) {
                 ingredientRecyclerAdapter.notifyDataSetChanged();
-                for(int i = 0; i < ingredientList.size(); i++){
-                    Log.d("arraylist", ingredientList.get(i).getIngredientDesc() + " " + ingredientList.get(i).getIngredientAmount());
-                }
             }
         });
 
@@ -212,6 +209,10 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         });
     }
 
+    /**
+     *
+     * @param position
+     */
     @Override
     public void onItemClick(int position) {
         Ingredient selectedIngredient = ingredientList.get(position);
@@ -232,6 +233,10 @@ public class IngredientStorageActivity extends AbstractNavigationBar implements 
         void onCallBack(ArrayList<Ingredient> ingredientList);
     }
 
+    /**
+     *
+     * @param isShown
+     */
     private void showDialog(boolean isShown){
         if (isShown) {
             progressBar.setCancelable(false);

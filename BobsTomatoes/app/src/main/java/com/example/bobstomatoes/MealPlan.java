@@ -30,11 +30,18 @@ public class MealPlan implements Parcelable {
 
     }
 
+    /**
+     *
+     */
     public MealPlan(){
         // For callback
     }
 
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Recipe> getMealPlanRecipes() {
         return mealPlanRecipes;
     }
@@ -43,18 +50,34 @@ public class MealPlan implements Parcelable {
         this.mealPlanRecipes = mealPlanRecipes;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Ingredient> getMealPlanIngredients() {
         return mealPlanIngredients;
     }
 
+    /**
+     *
+     * @param mealPlanIngredients
+     */
     public void setMealPlanIngredients(ArrayList<Ingredient> mealPlanIngredients) {
         this.mealPlanIngredients = mealPlanIngredients;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getMealPlanDate() {
         return mealPlanDate;
     }
 
+    /**
+     *
+     * @param mealPlanDate
+     */
     public void setMealPlanDate(String mealPlanDate) {
         this.mealPlanDate = mealPlanDate;
     }
@@ -68,7 +91,11 @@ public class MealPlan implements Parcelable {
         mealPlanIngredients = in.createTypedArrayList(Ingredient.CREATOR);
     }
 
+    /**
+     *
+     */
     public static final Creator<MealPlan> CREATOR = new Creator<MealPlan>() {
+
         /**
          * Create new instance of the Parcelable Class
          * @param in    parcel containing an meal plan's information (recipes, ingredients, etc)

@@ -20,12 +20,24 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
 
     private final RecyclerViewInterface recyclerViewInterface;
 
+    /**
+     *
+     * @param context
+     * @param recipeList
+     * @param recyclerViewInterface
+     */
     public RecipeRecyclerAdapter(Context context, ArrayList<Recipe> recipeList, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.recipeList = recipeList;
         this.recyclerViewInterface = recyclerViewInterface;
     }
 
+    /**
+     *
+     * @param viewGroup
+     * @param i
+     * @return
+     */
     @NonNull
     @Override
     public RecipeRecyclerAdapter.RecipeViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -33,6 +45,11 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         return new RecipeViewHolder(view, recyclerViewInterface);
     }
 
+    /**
+     *
+     * @param viewHolder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(RecipeRecyclerAdapter.RecipeViewHolder viewHolder, int position) {
         viewHolder.recipeNameView.setText(recipeList.get(position).getRecipeTitle());
@@ -44,6 +61,10 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
 
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return recipeList.size();

@@ -38,12 +38,6 @@ import java.util.ArrayList;
  */
 public class MealPlanActivity extends AbstractNavigationBar implements MealPlanFragment.OnMealPlanFragmentListener,SpecifyIngredientAmountFragment.OnRecipeIngredientListener, MealPlanScaleFragment.OnMealPlanScaleFragmentListener, MealPlanCalendarAdapter.OnItemListener {
 
-    /**
-     * Create instance
-     * Display meal plan activity
-     * @param savedInstanceState    interface container containing savedInstanceState
-     */
-
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
@@ -70,7 +64,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     private MealPlan currentMealPlan;
     private String globalDate = "";
     private TextView dayOfMonth;
-    private Boolean planExist = false;
 
     private MealPlanFragment editFragment;
 
@@ -81,11 +74,15 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     private LinearLayout mealPlanDetailDesc;
     private LinearLayout mealPlanButtonsLinearLayout;
 
-    private boolean fragmentOpened = false;
 
     private Dialog progressBar;
 
 
+    /**
+     * Create instance
+     * Display meal plan activity
+     * @param savedInstanceState    interface container containing savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,14 +134,12 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             public void onCallBack(ArrayList<MealPlan> mealPlanList) {
 
                 for (int i = 0; i < mealPlanList.size(); i++){
-                    Log.d("TESTING:", mealPlanList + "");
                     if (mealPlanList.get(i).getMealPlanDate().equals(globalDate)) {
                         currentMealPlan = mealPlanList.get(i);
                     }
                 }
 
                 for (int i = 0; i <= 40; i++) {
-                    planExist = false;
                     for (int j = 0; j < mealPlanList.size(); j++) {
                         View check = calendarRecyclerView.getChildAt(i);
                         if(check != null) {
@@ -170,7 +165,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
             editFragment.setArguments(bundle);
             editFragment.show(getSupportFragmentManager(), "EDIT/DELETE MEAL PLAN");
             planFound = false;
-            fragmentOpened = true;
         });
 
         scaleRecipeButton.setOnClickListener(view -> {
@@ -181,12 +175,18 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
     }
 
+    /**
+     *
+     */
     private void initWidgets()
     {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         monthYearText = findViewById(R.id.monthYearTV);
     }
 
+    /**
+     *
+     */
     private void setMonthView()
     {
         monthYearText.setText(monthYearFromDate(selectedDate));
@@ -200,6 +200,11 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         calendarRecyclerView.setAdapter(calendarAdapter);
     }
 
+    /**
+     *
+     * @param date
+     * @return
+     */
     private ArrayList<String> daysInMonthArray(LocalDate date)
     {
         ArrayList<String> daysInMonthArray = new ArrayList<>();
@@ -228,18 +233,25 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         return  daysInMonthArray;
     }
 
+    /**
+     *
+     * @param date
+     * @return
+     */
     private String monthYearFromDate(LocalDate date)
     {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
         return date.format(formatter);
     }
 
+    /**
+     *
+     * @param view
+     */
     public void previousMonthAction(View view)
     {
         selectedDate = selectedDate.minusMonths(1);
 
-//        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
-//        mealPlanButtonsLinearLayout.setVisibility(View.GONE);
         noMealPlanText.setText("Please Select a Date");
         noMealPlanText.setVisibility(View.VISIBLE);
         mealPlanDetailSubTitles.setVisibility(View.GONE);
@@ -261,7 +273,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
 
                 for (int i = 0; i < mealPlanList.size(); i++){
-                    Log.d("TESTING:", mealPlanList + "");
                     if (mealPlanList.get(i).getMealPlanDate().equals(globalDate)) {
                         currentMealPlan = mealPlanList.get(i);
                     }
@@ -289,12 +300,13 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
     }
 
+    /**
+     *
+     * @param view
+     */
     public void nextMonthAction(View view)
     {
         selectedDate = selectedDate.plusMonths(1);
-
-//        mealPlanDetailsLinearLayout.setVisibility(View.INVISIBLE);
-//        mealPlanButtonsLinearLayout.setVisibility(View.GONE);
 
         noMealPlanText.setText("Please Select a Date");
         noMealPlanText.setVisibility(View.VISIBLE);
@@ -317,7 +329,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
 
                 for (int i = 0; i < mealPlanList.size(); i++){
-                    Log.d("TESTING:", mealPlanList + "");
                     if (mealPlanList.get(i).getMealPlanDate().equals(globalDate)) {
                         currentMealPlan = mealPlanList.get(i);
                     }
@@ -344,6 +355,12 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         });
     }
 
+    /**
+     *
+     * @param position
+     * @param dayText
+     * @param day
+     */
     @Override
     public void onItemClick(int position, String dayText, TextView day)
     {
@@ -371,7 +388,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                             found = true;
                         }
                     }
-                    Log.d("FOUND:", found + " " + i);
                     if (i != position) {
 
                         check.setSelected(false);
@@ -395,10 +411,8 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
 
             String date = selectedDate.toString();
             globalDate = date.substring(0,8).concat(globalDayText);
-            //Log.d("TESTING", date);
 
             for (int i = 0; i < mealPlanList.size(); i++) {
-                Log.d("DATES:", mealPlanList.get(i).getMealPlanDate() + "");
                 if (mealPlanList.get(i).getMealPlanDate().equals(globalDate)) {
                     currentMealPlan = mealPlanList.get(i);
                     planFound = true;
@@ -448,8 +462,10 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
 
-
-
+    /**
+     *
+     * @param mealPlan
+     */
     public void onAddOkPressed(MealPlan mealPlan) {
         View check = calendarRecyclerView.getChildAt(mealPlanPos);
         check.setActivated(true);
@@ -481,6 +497,11 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
 
+    /**
+     *
+     * @param oldMealPlan
+     * @param updatedMealPlan
+     */
     public void onEditOkPressed(MealPlan oldMealPlan, MealPlan updatedMealPlan) {
 
         recipeList.clear();
@@ -501,6 +522,10 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
     }
 
 
+    /**
+     *
+     * @param mealPlan
+     */
     public void onDeleteOkPressed(MealPlan mealPlan) {
         View check = calendarRecyclerView.getChildAt(mealPlanPos);
         check.setActivated(false);
@@ -518,6 +543,10 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         ingredientAdapter.notifyDataSetChanged();
     }
 
+    /**
+     *
+     * @param callBack
+     */
     public void readData(MealPlanFireStoreCallBack callBack) {
         showDialog(true);
         mealPlanReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -528,7 +557,6 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
                     mealPlanList.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         MealPlan mealPlan = document.toObject(MealPlan.class);
-                        Log.d("IN READ DATA:", mealPlan.getMealPlanDate() + "");
                         mealPlanList.add(mealPlan);
                     }
                     showDialog(false);
@@ -541,11 +569,20 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         });
     }
 
+    /**
+     *
+     * @param ingredientList
+     */
     @Override
     public void onAddIngredientOkPressed(ArrayList<Ingredient> ingredientList) {
         // Do nothing
     }
 
+    /**
+     *
+     * @param oldMealPlan
+     * @param scaledMealPlan
+     */
     @Override
     public void onScaleOkPressed(MealPlan oldMealPlan, MealPlan scaledMealPlan) {
         mealPlanDB.editMealPlan(oldMealPlan, scaledMealPlan);
@@ -562,6 +599,10 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         void onCallBack(ArrayList<MealPlan> mealPlanList);
     }
 
+    /**
+     *
+     * @param isShown
+     */
     private void showDialog(boolean isShown){
         if (isShown) {
             progressBar.setCancelable(false);
@@ -574,6 +615,10 @@ public class MealPlanActivity extends AbstractNavigationBar implements MealPlanF
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String getGlobalDate() {
         return globalDate;
     }

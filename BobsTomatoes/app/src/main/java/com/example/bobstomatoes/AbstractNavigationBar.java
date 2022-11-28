@@ -34,7 +34,7 @@ public abstract class AbstractNavigationBar extends AppCompatActivity {
      * @param activity, instance of current activity
      */
 
-    Bundle bundle;
+    private Bundle bundle;
     public void initializeButtons(AbstractNavigationBar activity){
         if (activity instanceof MealPlanActivity){
             MainMealPlanBinding binding;
