@@ -42,6 +42,7 @@ public class ShoppingListTest {
         ingredientList.add(new Ingredient("Egg", "2022-11-05", "Fridge", 3,3,"Protein"));
         ingredientList.add(new Ingredient("Milk", "2021-01-28", "Fridge", 4,4,"Dairy"));
         ingredientList.add(new Ingredient("Bread", "2023-06-30", "Freezer", 5,5,"Grain"));
+        ingredientList.add(new Ingredient("Corn", "2025-06-30", "Pantry", 100,3,"Vegetable"));
         return ingredientList;
     }
 
@@ -58,7 +59,13 @@ public class ShoppingListTest {
         ingredientList.add(new Ingredient("Egg", "2022-11-05", "Fridge", 7,3,"Protein"));
         ingredientList.add(new Ingredient("Milk", "2021-01-28", "Fridge", 8,4,"Dairy"));
         ingredientList.add(new Ingredient("Bread", "2023-06-30", "Freezer", 1,5,"Grain"));
-        ingredientList.add(new Ingredient("Potato", "2025-06-30", "Pantry", 2,3,"Vegetable"));
+        ingredientList.add(new Ingredient("Corn", "2025-06-30", "Pantry", 2,3,"Vegetable"));
+        return ingredientList;
+    }
+
+    private ArrayList<Ingredient> mockIngredientList3() {
+        ArrayList<Ingredient> ingredientList = new ArrayList<>();
+        ingredientList.add(new Ingredient("Orange", "2022-07-25", "Pantry", 4, 2, "Dairy"));
         return ingredientList;
     }
 
@@ -84,11 +91,11 @@ public class ShoppingListTest {
     private ArrayList<MealPlan> mockMealPlanList(){
         ArrayList<MealPlan> mealPlanList= new ArrayList<>();
         mealPlanList.add(mockMealPlan());
-        mealPlanList.add(new MealPlan("2022-01-05", mockRecipeList(), mockIngredientList1()));
-        mealPlanList.add(new MealPlan("2022-03-07", mockRecipeList(), mockIngredientList1()));
-        mealPlanList.add(new MealPlan("2020-10-23", mockRecipeList(), mockIngredientList1()));
-        mealPlanList.add(new MealPlan("2024-05-16", mockRecipeList(), mockIngredientList1()));
-        mealPlanList.add(new MealPlan("2023-11-09", mockRecipeList(), mockIngredientList1()));
+        mealPlanList.add(new MealPlan("2022-01-05", mockRecipeList(), mockIngredientList3()));
+        mealPlanList.add(new MealPlan("2022-03-07", mockRecipeList(), mockIngredientList3()));
+        mealPlanList.add(new MealPlan("2020-10-23", mockRecipeList(), mockIngredientList3()));
+        mealPlanList.add(new MealPlan("2024-05-16", mockRecipeList(), mockIngredientList3()));
+        mealPlanList.add(new MealPlan("2023-11-09", mockRecipeList(), mockIngredientList3()));
         return mealPlanList;
     }
 
@@ -144,7 +151,8 @@ public class ShoppingListTest {
     ArrayList<Ingredient> neededIngredients = new ArrayList<>();
 
     /**
-     * Creates a list of needed ingredient objects
+     * Creates a list of needed ingredient objects (needed to create list
+     * of differing ingredients in storage and meal plans)
      */
     private void mockCreateNeededIngredients(){
 
@@ -177,7 +185,6 @@ public class ShoppingListTest {
 
     /**
      * Handles creation of the shopping list using the current meal plan
-     * be wary
      */
     private void mockCreateShoppingList(){
 
@@ -309,10 +316,11 @@ public class ShoppingListTest {
 
         assertTrue(neededIngredients.get(0).getIngredientDesc().equals("Bread"));
         assertTrue(neededIngredients.get(1).getIngredientDesc().equals("Cantaloupe"));
-        assertTrue(neededIngredients.get(2).getIngredientDesc().equals("Egg"));
-        assertTrue(neededIngredients.get(3).getIngredientDesc().equals("Honeydew"));
-        assertTrue(neededIngredients.get(4).getIngredientDesc().equals("Mango"));
-        assertTrue(neededIngredients.get(5).getIngredientDesc().equals("Milk"));
+        assertTrue(neededIngredients.get(2).getIngredientDesc().equals("Corn"));
+        assertTrue(neededIngredients.get(3).getIngredientDesc().equals("Egg"));
+        assertTrue(neededIngredients.get(4).getIngredientDesc().equals("Honeydew"));
+        assertTrue(neededIngredients.get(5).getIngredientDesc().equals("Mango"));
+        assertTrue(neededIngredients.get(6).getIngredientDesc().equals("Milk"));
     }
 
     /**
