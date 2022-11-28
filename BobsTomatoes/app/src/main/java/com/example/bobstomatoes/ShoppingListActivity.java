@@ -475,6 +475,9 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
                 ingredientFromStorage.setIngredientUnit(newIngredient.getIngredientUnit());
                 ingredientFromStorage.setIngredientLocation(newIngredient.getIngredientLocation());
 
+                ingredientFromShopping.setIngredientUnit(newIngredient.getIngredientUnit());
+                ingredientFromShopping.setIngredientLocation(newIngredient.getIngredientLocation());
+
                 editedIngredient.setIngredientAmount(amountHave);
 
                 ingredientDB.editIngredient(storedIngredientPosition, editedIngredient, ingredientFromStorage);
@@ -499,8 +502,12 @@ public class ShoppingListActivity extends AbstractNavigationBar implements Recyc
 
 
                 Ingredient editedIngredient = newIngredient.clone();
+
                 ingredientFromStorage.setIngredientUnit(newIngredient.getIngredientUnit());
                 ingredientFromStorage.setIngredientLocation(newIngredient.getIngredientLocation());
+
+                ingredientFromShopping.setIngredientUnit(newIngredient.getIngredientUnit());
+                ingredientFromShopping.setIngredientLocation(newIngredient.getIngredientLocation());
 
                 editedIngredient.setIngredientAmount(amountHave);
 
