@@ -157,6 +157,9 @@ public class MealPlanActivityTest {
     }
 
 
+    /**
+     * Scales recipes in a meal plan using both methods
+     */
     private void scaleMealPlanRecipes(){
 
         onView(withText("20"))
@@ -546,32 +549,6 @@ public class MealPlanActivityTest {
             }
         };
 
-    }
-
-    /**
-     * Perform action of clicking specific coordinates on view
-     * @param x x coordinate of view
-     * @param y y coordinate of view
-     * @return
-     */
-    public static ViewAction clickXY(final int x, final int y){
-        return new GeneralClickAction(
-                Tap.SINGLE,
-                new CoordinatesProvider() {
-                    @Override
-                    public float[] calculateCoordinates(View view) {
-
-                        final int[] screenPos = new int[2];
-                        view.getLocationOnScreen(screenPos);
-
-                        final float screenX = screenPos[0] + x;
-                        final float screenY = screenPos[1] + y;
-                        float[] coordinates = {screenX, screenY};
-
-                        return coordinates;
-                    }
-                },
-                Press.FINGER);
     }
 
     /**

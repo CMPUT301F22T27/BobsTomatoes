@@ -399,32 +399,6 @@ public class RecipeActivityTest {
     }
 
     /**
-     * Perform action of clicking specific coordinates on view
-     * @param x x coordinate of view
-     * @param y y coordinate of view
-     * @return
-     */
-    public static ViewAction clickXY(final int x, final int y){
-        return new GeneralClickAction(
-                Tap.SINGLE,
-                new CoordinatesProvider() {
-                    @Override
-                    public float[] calculateCoordinates(View view) {
-
-                        final int[] screenPos = new int[2];
-                        view.getLocationOnScreen(screenPos);
-
-                        final float screenX = screenPos[0] + x;
-                        final float screenY = screenPos[1] + y;
-                        float[] coordinates = {screenX, screenY};
-
-                        return coordinates;
-                    }
-                },
-                Press.FINGER);
-    }
-
-    /**
      * Perform action of waiting for a specific view id.
      * @param viewId The id of the view to wait for.
      * @param millis The timeout of until when to wait for.
