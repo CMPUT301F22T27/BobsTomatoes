@@ -69,25 +69,25 @@ public class RecipeFragment extends DialogFragment {
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
     // Database
-    IngredientDB ingredientDB;
-    ArrayList<Ingredient> ingredientList;
-    CollectionReference ingredientReference;
-    ArrayAdapter<Ingredient> ingredientAdapter;
+    private IngredientDB ingredientDB;
+    private ArrayList<Ingredient> ingredientList;
+    private CollectionReference ingredientReference;
+    private ArrayAdapter<Ingredient> ingredientAdapter;
 
     // For ingredient selection
-    ArrayList<Ingredient> selectedIngredients;
-    ArrayList<Ingredient> oldSelectedIngredients;
+    private ArrayList<Ingredient> selectedIngredients;
+    private ArrayList<Ingredient> oldSelectedIngredients;
 
 
-    Recipe selectedRecipe;
-    Recipe editRecipe;
-    int oldRecipePos;
-    Context context;
+    private Recipe selectedRecipe;
+    private Recipe editRecipe;
+    private int oldRecipePos;
+    private Context context;
 
-    AlertDialog.Builder builder;
-    Dialog progressBar;
+    private AlertDialog.Builder builder;
+    private Dialog progressBar;
 
-    Recipe newRecipe;
+    private Recipe newRecipe;
 
 
     public interface OnRecipeFragmentListener{
