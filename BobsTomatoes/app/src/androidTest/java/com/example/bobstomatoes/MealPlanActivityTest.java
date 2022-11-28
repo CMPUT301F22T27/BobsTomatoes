@@ -151,6 +151,7 @@ public class MealPlanActivityTest {
                 .check(matches(withText(containsString("111TEST INGREDIENT"))))
                 .perform(click());
 
+
 //        onView(isRoot()).perform(waitId(R.id.ingredient_name_textview_id, 20000));
 //
 //        try {
@@ -166,6 +167,7 @@ public class MealPlanActivityTest {
         onView(withText("ADD"))
                 .perform(click());
 
+        Thread.sleep(100);
 
         onView(withText("EDIT"))
                 .perform(click());
@@ -175,7 +177,7 @@ public class MealPlanActivityTest {
     /**
      * Deletes meal plan used for testing
      */
-    private void deleteTestMealPlan(){
+    private void deleteTestMealPlan() throws InterruptedException {
 
         onView(isRoot()).perform(waitId(R.id.meal_plan_item, 15000));
 
@@ -189,6 +191,8 @@ public class MealPlanActivityTest {
 
         onView(withText("EDIT MEAL PLAN"))
                 .perform(click());
+
+        Thread.sleep(100);
 
         onView(withText("DELETE"))
                 .perform(click());
