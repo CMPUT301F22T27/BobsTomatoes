@@ -178,6 +178,7 @@ public class IngredientDB {
 
         ingredientList.set(oldIngredientPos, updatedIngredient);
 
+        updatedIngredient = updatedIngredient.clone();
         editRecipeIngredientTransaction(updatedIngredient);
         editMealIngredientTransaction(updatedIngredient);
     }
@@ -205,8 +206,8 @@ public class IngredientDB {
                             DocumentReference recipeDocRef = recipeColRef.document(recipeList.get(i).getRecipeTitle());
                             ArrayList<Ingredient> currentRecipeIngredientList = recipeList.get(i).getRecipeIngredients();
                             for (int j = 0; j < currentRecipeIngredientList.size(); j++) {
-                                updatedIngredient.setIngredientAmount(currentRecipeIngredientList.get(j).getIngredientAmount());
                                 if (currentRecipeIngredientList.get(j).getIngredientDesc().equals(updatedIngredient.getIngredientDesc())) {
+                                    updatedIngredient.setIngredientAmount(currentRecipeIngredientList.get(j).getIngredientAmount());
                                     currentRecipeIngredientList.set(j, updatedIngredient);
 
                                     recipeList.get(i).setRecipeIngredients(currentRecipeIngredientList);
@@ -311,8 +312,8 @@ public class IngredientDB {
                             DocumentReference mealPlanDocRef = mealPlanColRef.document(mealPlanList.get(i).getMealPlanDate());
                             ArrayList<Ingredient> currentMealPlanIngredientList = mealPlanList.get(i).getMealPlanIngredients();
                             for (int j = 0; j < currentMealPlanIngredientList.size(); j++) {
-                                updatedIngredient.setIngredientAmount(currentMealPlanIngredientList.get(j).getIngredientAmount());
                                 if (currentMealPlanIngredientList.get(j).getIngredientDesc().equals(updatedIngredient.getIngredientDesc())) {
+                                    updatedIngredient.setIngredientAmount(currentMealPlanIngredientList.get(j).getIngredientAmount());
                                     currentMealPlanIngredientList.set(j, updatedIngredient);
                                 }
                             }

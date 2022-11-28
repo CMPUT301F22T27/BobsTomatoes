@@ -221,8 +221,10 @@ public class RecipeDB implements Parcelable {
                             for (int j = 0; j < currentMealPlanRecipeList.size(); j++) {
                                 if (currentMealPlanRecipeList.get(j).getRecipeTitle().equals(updatedRecipe.getRecipeTitle())) {
                                     currentMealPlanRecipeList.set(j, updatedRecipe);
+                                    mealPlanList.get(i).setMealPlanRecipes(currentMealPlanRecipeList);
                                 }
                             }
+
                             transaction.update(mealPlanDocRef, "mealPlanRecipes", currentMealPlanRecipeList);
                         }
                         return null;
