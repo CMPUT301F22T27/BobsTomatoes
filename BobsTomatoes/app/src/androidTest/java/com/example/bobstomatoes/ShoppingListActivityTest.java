@@ -13,11 +13,16 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
@@ -27,6 +32,7 @@ import androidx.test.espresso.action.GeneralClickAction;
 import androidx.test.espresso.action.Press;
 import androidx.test.espresso.action.Tap;
 import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.espresso.util.HumanReadables;
 import androidx.test.espresso.util.TreeIterables;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -37,6 +43,7 @@ import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -53,27 +60,26 @@ import static org.hamcrest.CoreMatchers.not;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Test class for RecipeActivity. All the UI tests are written here. Espresso test framework is used
- * Assumes ingredient storage is working
+ * Test class for ShoppingListActivity. All the UI tests are written here. Espresso test framework is used
+ * Assumes IngredientStorageActivity, RecipeActivity, and MealPlanActivity are working
  */
 @RunWith(AndroidJUnit4.class)
-public class RecipeActivityTest {
+public class ShoppingListActivityTest {
 
     private String CAMERA_BUTTON_SHUTTER_ACTION_ID = "com.android.camera2:id/shutter_button";
     private String CAMERA_BUTTON_DONE_ACTION_ID = "com.android.camera2:id/done_button";
 
     @Rule
-    public ActivityScenarioRule<RecipeActivity> rule =
-            new ActivityScenarioRule<>(RecipeActivity.class);
-
+    public ActivityScenarioRule<ShoppingListActivity> rule =
+            new ActivityScenarioRule<>(ShoppingListActivity.class);
 
     /**
-     * test adding and deleting a recipe
+     * Tests completing a shopping list item
      * @throws InterruptedException
      * @throws UiObjectNotFoundException
      */
     @Test
-    public void testAddDeleteRecipe() throws InterruptedException, UiObjectNotFoundException {
+    public void shoppingListTest() throws InterruptedException, UiObjectNotFoundException {
 
         try { onView(withId(R.id.progressBar)).perform(WaitUntilGone(R.id.progressBar, 15000)); } catch (Exception e){}
 
@@ -81,21 +87,16 @@ public class RecipeActivityTest {
 
         addTestRecipe();
 
-        onView(withText("Title"))
-                .perform(click());
+        addTestMealPlan();
 
-        onView(withText("Category"))
-                .perform(click());
+        //Meal plan has 2 test ingredients, 1 is in storage -> shopping list should have 1 needed testingredient
+        addToShoppingList();
 
-        Thread.sleep(200);
+        checkIngredientChecked();
 
-        onView(withText("Category"))
-                .perform(click());
+        checkStorageAfterAdd();
 
-        onView(withText("Title"))
-                .perform(click());
-
-        Thread.sleep(200);
+        deleteTestMealPlan();
 
         deleteTestRecipe();
 
@@ -104,69 +105,148 @@ public class RecipeActivityTest {
     }
 
     /**
-     * Test editing a recipe
-     * @throws InterruptedException
-     * @throws UiObjectNotFoundException
+     * Checks storage after ingredient added in shopping list
      */
-    @Test
-    public void testEditRecipe() throws InterruptedException, UiObjectNotFoundException {
+    private void checkStorageAfterAdd(){
 
-        try { onView(withId(R.id.progressBar)).perform(WaitUntilGone(R.id.progressBar, 15000)); } catch (Exception e){}
+        onView(isRoot()).perform(waitId(R.id.ingredients_item, 15000));
 
-        addTestIngredient();
-
-        addTestRecipe();
-
-        onView(withText("Title"))
+        onView(withId(R.id.ingredients_item))
                 .perform(click());
 
-        onView(withText("Category"))
+        try { onView(withId(R.id.progressBar)).perform(WaitUntilGone(R.id.progressBar, 20000)); } catch (Exception e){}
+
+        onView(withText("111TEST INGREDIENT"))
                 .perform(click());
 
-        Thread.sleep(200);
+        onView(withId(R.id.editTextIngredientAmount))
+                .check(matches(withText("2")));
 
-        onView(withText("Category"))
+        onView(withText("EDIT"))
                 .perform(click());
-
-        onView(withText("Title"))
-                .perform(click());
-
-        Thread.sleep(200);
-
-        editTestRecipe();
-
-        deleteTestRecipe();
-
-        deleteTestIngredient();
 
     }
 
+    /**
+     * Checks if test ingredient checkbox is checked
+     */
+    private void checkIngredientChecked(){
+
+        onView(withId(R.id.recyclerView))
+                .check(matches(hasDescendant(isChecked())));
+
+    }
 
     /**
-     * Edit the test recipe
+     * Buys item from shopping list
      * @throws InterruptedException
      */
-    private void editTestRecipe() throws InterruptedException {
+    private void addToShoppingList() throws InterruptedException {
 
-        onView(isRoot()).perform(waitId(R.id.recipes_item, 15000));
+        onView(isRoot()).perform(waitId(R.id.shopping_list_item, 15000));
 
-        onView((withId(R.id.recipes_item)))
+        onView(withId(R.id.shopping_list_item))
                 .perform(click());
 
-        //Thread.sleep(1000);
-        try { onView(withId(R.id.progressBar)).perform(WaitUntilGone(R.id.progressBar, 15000)); } catch (Exception e){}
+        try { onView(withId(R.id.progressBar)).perform(WaitUntilGone(R.id.progressBar, 20000)); } catch (Exception e){}
 
-        onView(withText("111TEST RECIPE"))
+        onView(withText("111TEST INGREDIENT"))
                 .perform(click());
 
-        onView(withId(R.id.editTextRecipeComment))
-                .perform(click(), clearText(), typeText("Test 2"));
+        Thread.sleep(50);
+
+        onView(withId(R.id.editTextShoppingListIngredientUnit))
+                .perform(click(), typeText("1"));
+
+        onView(withId(R.id.editTextShoppingListIngredientAmount))
+                .perform(click(), typeText("1"));
 
         onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
 
-        Thread.sleep(1000);
+        onView(withText("ADD"))
+                .perform(click());
 
-        onView(withText("EDIT"))
+    }
+
+
+    /**
+     * Deletes meal plan used for testing
+     */
+    private void deleteTestMealPlan() throws InterruptedException {
+
+        onView(isRoot()).perform(waitId(R.id.meal_plan_item, 15000));
+
+        onView(withId(R.id.meal_plan_item))
+                .perform(click());
+
+        try { onView(withId(R.id.progressBar)).perform(WaitUntilGone(R.id.progressBar, 20000)); } catch (Exception e){}
+
+        onView(withText(">"))
+                .perform(click());
+
+        try { onView(withId(R.id.progressBar)).perform(WaitUntilGone(R.id.progressBar, 20000)); } catch (Exception e){}
+
+        onView(withText("20"))
+                .perform(click());
+
+        onView(withText("EDIT MEAL PLAN"))
+                .perform(click());
+
+        Thread.sleep(100);
+
+        onView(withText("DELETE"))
+                .perform(click());
+
+    }
+
+    /**
+     * Adds a meal plan used for testing (December 20th)
+     * @throws InterruptedException
+     */
+    private void addTestMealPlan() throws InterruptedException {
+
+        onView(isRoot()).perform(waitId(R.id.meal_plan_item, 15000));
+
+        onView(withId(R.id.meal_plan_item))
+                .perform(click());
+
+        try { onView(withId(R.id.progressBar)).perform(WaitUntilGone(R.id.progressBar, 20000)); } catch (Exception e){}
+
+        onView(withText(">"))
+                .perform(click());
+
+        try { onView(withId(R.id.progressBar)).perform(WaitUntilGone(R.id.progressBar, 20000)); } catch (Exception e){}
+
+        onView(withText("20"))
+                .perform(click());
+
+        onView(withId(R.id.add_item))
+                .perform(click());
+
+        onView(isRoot()).perform(waitId(R.id.ingredient_name_textview_id, 15000));
+
+        Thread.sleep(500);
+
+        onView(withText("111TEST INGREDIENT"))
+                .check(matches(withText(containsString("111TEST INGREDIENT"))))
+                .perform(click());
+
+        onView((withId(R.id.ingredientAmount)))
+                .perform(click(), typeText("1"));
+
+        onView(withText("ADD"))
+                .perform(click());
+
+
+        onView(isRoot()).perform(waitId(R.id.recipe_name_textview_id, 15000));
+
+        Thread.sleep(50);
+
+        onView(withText("111TEST RECIPE"))
+                .check(matches(withText(containsString("111TEST RECIPE"))))
+                .perform(click());
+
+        onView((withText("ADD")))
                 .perform(click());
 
     }
@@ -262,26 +342,31 @@ public class RecipeActivityTest {
                 .perform(click(), typeText("111TEST RECIPE"));
 
         //onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+        Thread.sleep(100);
 
         onView(withId(R.id.editTextRecipeCookTime))
                 .perform(click(), typeText("10"));
 
         //onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+        Thread.sleep(100);
 
         onView(withId(R.id.editTextRecipeServingSize))
                 .perform(click(), typeText("10"));
 
         //onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+        Thread.sleep(100);
 
         onView(withId(R.id.editTextRecipeCategory))
                 .perform(click(), typeText("TEST"));
 
         //onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+        Thread.sleep(100);
 
         onView(withId(R.id.editTextRecipeComment))
                 .perform(click(), typeText("TEST"));
 
         //onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+        Thread.sleep(100);
 
 
         onView(isRoot()).perform(waitId(R.id.ingredient_name_textview_id, 15000));

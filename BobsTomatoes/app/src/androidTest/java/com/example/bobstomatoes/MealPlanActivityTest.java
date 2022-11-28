@@ -2,23 +2,26 @@ package com.example.bobstomatoes;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.bluetooth.BluetoothClass;
 import android.util.Log;
 import android.view.View;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
-import androidx.test.espresso.Espresso;
+import androidx.fragment.app.FragmentManager;
+import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.IdlingResource;
 import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -39,9 +42,6 @@ import androidx.test.uiautomator.UiSelector;
 
 import org.hamcrest.Matcher;
 import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,53 +49,49 @@ import org.junit.runner.RunWith;
 import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.startsWith;
+import static org.hamcrest.Matchers.hasToString;
+
+import com.google.firebase.firestore.Exclude;
 
 import java.util.concurrent.TimeoutException;
 
+
 /**
- * Test class for RecipeActivity. All the UI tests are written here. Espresso test framework is used
- * Assumes ingredient storage is working
+ * Test class for MealPlanActivity. All the UI tests are written here. Espresso test framework is used
+ * Assumes Ingredient storage activity and Recipe Activity are working
  */
 @RunWith(AndroidJUnit4.class)
-public class RecipeActivityTest {
+public class MealPlanActivityTest {
 
     private String CAMERA_BUTTON_SHUTTER_ACTION_ID = "com.android.camera2:id/shutter_button";
     private String CAMERA_BUTTON_DONE_ACTION_ID = "com.android.camera2:id/done_button";
 
     @Rule
-    public ActivityScenarioRule<RecipeActivity> rule =
-            new ActivityScenarioRule<>(RecipeActivity.class);
+    public ActivityScenarioRule<MealPlanActivity> rule =
+            new ActivityScenarioRule<>(MealPlanActivity.class);
 
 
     /**
-     * test adding and deleting a recipe
+     * Tests adding and deleting a meal plan
+     * Includes moving between months
      * @throws InterruptedException
      * @throws UiObjectNotFoundException
      */
     @Test
-    public void testAddDeleteRecipe() throws InterruptedException, UiObjectNotFoundException {
+    public void testAddDeleteMealPlan() throws InterruptedException, UiObjectNotFoundException {
 
+        //Wait for data to load
         try { onView(withId(R.id.progressBar)).perform(WaitUntilGone(R.id.progressBar, 15000)); } catch (Exception e){}
 
+        //Add ingredient and recipe to db
         addTestIngredient();
 
         addTestRecipe();
 
-        onView(withText("Title"))
-                .perform(click());
+        addTestMealPlan();
 
-        onView(withText("Category"))
-                .perform(click());
-
-        Thread.sleep(200);
-
-        onView(withText("Category"))
-                .perform(click());
-
-        onView(withText("Title"))
-                .perform(click());
-
-        Thread.sleep(200);
+        deleteTestMealPlan();
 
         deleteTestRecipe();
 
@@ -104,36 +100,26 @@ public class RecipeActivityTest {
     }
 
     /**
-     * Test editing a recipe
+     * Test editing a meal plan
      * @throws InterruptedException
      * @throws UiObjectNotFoundException
      */
     @Test
-    public void testEditRecipe() throws InterruptedException, UiObjectNotFoundException {
+    public void testEditMealPlan() throws InterruptedException, UiObjectNotFoundException {
 
+        //Wait for data to load
         try { onView(withId(R.id.progressBar)).perform(WaitUntilGone(R.id.progressBar, 15000)); } catch (Exception e){}
 
+        //Add ingredient and recipe to db
         addTestIngredient();
 
         addTestRecipe();
 
-        onView(withText("Title"))
-                .perform(click());
+        addTestMealPlan();
 
-        onView(withText("Category"))
-                .perform(click());
+        editTestMealPlan();
 
-        Thread.sleep(200);
-
-        onView(withText("Category"))
-                .perform(click());
-
-        onView(withText("Title"))
-                .perform(click());
-
-        Thread.sleep(200);
-
-        editTestRecipe();
+        deleteTestMealPlan();
 
         deleteTestRecipe();
 
@@ -143,30 +129,133 @@ public class RecipeActivityTest {
 
 
     /**
-     * Edit the test recipe
+     * Edits a meal plan
      * @throws InterruptedException
      */
-    private void editTestRecipe() throws InterruptedException {
+    private void editTestMealPlan() throws InterruptedException {
 
-        onView(isRoot()).perform(waitId(R.id.recipes_item, 15000));
-
-        onView((withId(R.id.recipes_item)))
+        onView(withText("20"))
                 .perform(click());
 
-        //Thread.sleep(1000);
-        try { onView(withId(R.id.progressBar)).perform(WaitUntilGone(R.id.progressBar, 15000)); } catch (Exception e){}
-
-        onView(withText("111TEST RECIPE"))
+        onView(withText("EDIT MEAL PLAN"))
                 .perform(click());
 
-        onView(withId(R.id.editTextRecipeComment))
-                .perform(click(), clearText(), typeText("Test 2"));
+        onView(isRoot()).perform(waitId(R.id.ingredient_name_textview_id, 20000));
 
-        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+        onView(withText("111TEST INGREDIENT"))
+                .check(matches(withText(containsString("111TEST INGREDIENT"))))
+                .perform(click());
 
-        Thread.sleep(1000);
+        onView(isRoot()).perform(waitId(R.id.ingredient_name_textview_id, 20000));
+
+        onView(withText("111TEST INGREDIENT"))
+                .check(matches(withText(containsString("111TEST INGREDIENT"))))
+                .perform(click());
+
+        try {
+
+            onView((withId(R.id.ingredientAmount)))
+                    .perform(click(), typeText("5"));
+
+            onView(withText("ADD"))
+                    .perform(click());
+
+        } catch (Exception e){
+
+            onView(isRoot()).perform(waitId(R.id.ingredient_name_textview_id, 20000));
+
+            onView(withText("111TEST INGREDIENT"))
+                    .check(matches(withText(containsString("111TEST INGREDIENT"))))
+                    .perform(click());
+
+            onView((withId(R.id.ingredientAmount)))
+                    .perform(click(), typeText("5"));
+
+            onView(withText("ADD"))
+                    .perform(click());
+
+        }
+
+        Thread.sleep(100);
 
         onView(withText("EDIT"))
+                .perform(click());
+
+    }
+
+    /**
+     * Deletes meal plan used for testing
+     */
+    private void deleteTestMealPlan() throws InterruptedException {
+
+        onView(isRoot()).perform(waitId(R.id.meal_plan_item, 15000));
+
+        onView(withId(R.id.meal_plan_item))
+                .perform(click());
+
+        try { onView(withId(R.id.progressBar)).perform(WaitUntilGone(R.id.progressBar, 15000)); } catch (Exception e){}
+
+        onView(withText("20"))
+                .perform(click());
+
+        onView(withText("EDIT MEAL PLAN"))
+                .perform(click());
+
+        Thread.sleep(100);
+
+        onView(withText("DELETE"))
+                .perform(click());
+
+    }
+
+    /**
+     * Adds a meal plan used for testing (December 20th)
+     * @throws InterruptedException
+     */
+    private void addTestMealPlan() throws InterruptedException {
+
+        onView(isRoot()).perform(waitId(R.id.meal_plan_item, 15000));
+
+        onView(withId(R.id.meal_plan_item))
+                .perform(click());
+
+        try { onView(withId(R.id.progressBar)).perform(WaitUntilGone(R.id.progressBar, 20000)); } catch (Exception e){}
+
+        onView(withText(">"))
+                .perform(click());
+
+        try { onView(withId(R.id.progressBar)).perform(WaitUntilGone(R.id.progressBar, 20000)); } catch (Exception e){}
+
+        onView(withText("20"))
+                .perform(click());
+
+        onView(withId(R.id.add_item))
+                .perform(click());
+
+        onView(isRoot()).perform(waitId(R.id.ingredient_name_textview_id, 15000));
+
+        Thread.sleep(500);
+
+        onView(withText("111TEST INGREDIENT"))
+                .check(matches(withText(containsString("111TEST INGREDIENT"))))
+                .perform(click());
+
+        onView((withId(R.id.ingredientAmount)))
+                .perform(click(), typeText("1"));
+
+        onView(withText("ADD"))
+                .perform(click());
+
+
+        onView(isRoot()).perform(waitId(R.id.recipe_name_textview_id, 15000));
+
+        Thread.sleep(50);
+
+        onView(withText("111TEST RECIPE"))
+                .check(matches(withText(containsString("111TEST RECIPE"))))
+                .perform(click());
+
+        onView((withText("ADD")))
                 .perform(click());
 
     }
@@ -469,5 +558,4 @@ public class RecipeActivityTest {
             }
         };
     }
-
 }
