@@ -330,6 +330,7 @@ public class MealPlanActivityTest {
 
     /**
      * Adds a recipe used for testing
+     * If not on emulator, Robot CANNOT take picture. Taking picture manually will allow it to continue
      * @throws InterruptedException
      * @throws UiObjectNotFoundException
      */
