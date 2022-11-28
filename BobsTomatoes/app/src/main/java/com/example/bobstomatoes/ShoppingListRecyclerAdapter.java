@@ -49,7 +49,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<ShoppingLi
      * Constructor for ShoppingListRecyclerAdapter
      * @param context
      * @param ingredientList list of ingredients to display
-     * @param checkedItems hashmap of ingredient names -> boolean isChecked()
+     * @param checkedItems hashmap of ingredient names - boolean isChecked()
      * @param recyclerViewInterface
      */
     public ShoppingListRecyclerAdapter(Context context, ArrayList<Ingredient> ingredientList, HashMap<String, Boolean> checkedItems, RecyclerViewInterface recyclerViewInterface) {

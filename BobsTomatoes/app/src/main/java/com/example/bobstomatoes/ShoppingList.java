@@ -29,7 +29,7 @@ public class ShoppingList implements Parcelable {
 
     /**
      * getCheckedItems getter
-     * Contains hashmap mapping String ingredient name -> boolean isChecked()
+     * Contains hashmap mapping String ingredient name - boolean isChecked()
      * @return
      */
     public HashMap<String, Boolean> getCheckedItems() {
@@ -38,7 +38,7 @@ public class ShoppingList implements Parcelable {
 
     /**
      * getIngredientCount getter
-     * Contains hashmap mapping String ingredient name -> int number of ingredient in meal plans
+     * Contains hashmap mapping String ingredient name - int number of ingredient in meal plans
      * @return
      */
     public HashMap<String, Integer> getIngredientCount() {
