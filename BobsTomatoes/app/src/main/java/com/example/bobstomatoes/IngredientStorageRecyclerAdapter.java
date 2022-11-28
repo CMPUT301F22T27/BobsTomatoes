@@ -12,7 +12,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
 
-public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<IngredientStorageRecyclerAdapter.ViewHolder> {
+public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<IngredientStorageRecyclerAdapter.IngredientViewHolder> {
     private ArrayList<Ingredient> ingredientList = new ArrayList<>();
     private Context context;
 
@@ -26,13 +26,13 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
 
     @NonNull
     @Override
-    public IngredientStorageRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public IngredientStorageRecyclerAdapter.IngredientViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.activity_recycler_ingredient_list, viewGroup, false);
-        return new ViewHolder(view, recyclerViewInterface);
+        return new IngredientViewHolder(view, recyclerViewInterface);
     }
 
     @Override
-    public void onBindViewHolder(IngredientStorageRecyclerAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(IngredientStorageRecyclerAdapter.IngredientViewHolder viewHolder, int position) {
         viewHolder.ingredientView.setText(ingredientList.get(position).getIngredientDesc());
         viewHolder.locationView.setText(ingredientList.get(position).getIngredientLocation());
         viewHolder.amountView.setText("Amount: " + ingredientList.get(position).getIngredientAmount());
@@ -47,14 +47,14 @@ public class IngredientStorageRecyclerAdapter extends RecyclerView.Adapter<Ingre
         return ingredientList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class IngredientViewHolder extends RecyclerView.ViewHolder {
         TextView ingredientView;
         TextView locationView;
         TextView amountView;
         TextView dateView;
         TextView unitView;
         TextView categoryView;
-        public ViewHolder(View itemView, RecyclerViewInterface recyclerViewInterface) {
+        public IngredientViewHolder(View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             ingredientView = itemView.findViewById(R.id.ingredientDescTextView);
             locationView = itemView.findViewById(R.id.ingredientLocationTextView);
