@@ -6,4 +6,6 @@
     <string name="forward"><![CDATA[>]]></string>
     <string name="selectIngredients"><u>Select Ingredients</u></string>
     <string name="selectRecipes"><u>Select Recipes</u></string>
+    <string name ="Recipes"><u>Recipes</u></string>
+    <string name ="Ingredients"><u>Ingredients</u></string>
 </resources>

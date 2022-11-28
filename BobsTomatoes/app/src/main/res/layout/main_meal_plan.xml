@@ -189,7 +189,7 @@
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
-                android:text="Recipes: "
+                android:text="@string/Recipes"
                 android:textColor="@color/black"
                 tools:visibility="visible" />
 
@@ -200,7 +200,7 @@
                 android:layout_weight="1"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
-                android:text="Ingredients: "
+                android:text="@string/Ingredients"
                 android:textColor="@color/black"
                 tools:visibility="visible" />
 
