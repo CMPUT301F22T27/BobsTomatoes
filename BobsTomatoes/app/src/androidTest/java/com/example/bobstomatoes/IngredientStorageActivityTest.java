@@ -65,11 +65,15 @@ public class IngredientStorageActivityTest{
 
         addTestIngredient();
 
+        Thread.sleep(2000);
+
         onView(withText("Description"))
                 .perform(click());
 
         onView(withText("Description"))
                 .perform(click());
+
+        Thread.sleep(2000);
 
         Thread.sleep(100);
 
@@ -85,11 +89,15 @@ public class IngredientStorageActivityTest{
 
         addTestIngredient();
 
+        Thread.sleep(2000);
+
         onView(withText("Description"))
                 .perform(click());
 
         onView(withText("Description"))
                 .perform(click());
+
+        Thread.sleep(2000);
 
         Thread.sleep(100);
 
