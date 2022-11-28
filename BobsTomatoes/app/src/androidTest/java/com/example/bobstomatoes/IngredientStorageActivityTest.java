@@ -24,6 +24,7 @@ import androidx.test.espresso.action.CoordinatesProvider;
 import androidx.test.espresso.action.GeneralClickAction;
 import androidx.test.espresso.action.Press;
 import androidx.test.espresso.action.Tap;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.util.HumanReadables;
 import androidx.test.espresso.util.TreeIterables;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -143,6 +144,8 @@ public class IngredientStorageActivityTest{
         onView(withId(R.id.editTextIngredientUnit))
                 .perform(click(), typeText("100"));
 
+        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+
         onView(withText("EDIT"))
                 .perform(click());
 
@@ -168,14 +171,20 @@ public class IngredientStorageActivityTest{
         onView(withId(R.id.editTextIngredientDesc))
                 .perform(click(), typeText("111TEST INGREDIENT"));
 
+        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+
         onView(withId(R.id.radioButtonFreezer))
                 .perform(click());
 
         onView(withId(R.id.editTextIngredientAmount))
                 .perform(click(), typeText("1"));
 
+        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
+
         onView(withId(R.id.editTextIngredientUnit))
                 .perform(click(), typeText("5"));
+
+        onView(isRoot()).perform(ViewActions.closeSoftKeyboard());
 
         onView(withId(R.id.radioButtonDairy))
                 .perform(click());
